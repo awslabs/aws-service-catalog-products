@@ -9,8 +9,8 @@ launches:
     product: account-vending-account-creation-shared
     version: v1
     parameters:
-      AssumableRoleInRootAccountParam:
-        default: arn:aws:iam::account-id:role/role-name
+      AssumableRoleInRootAccountArn:
+        default: arn:aws:iam::0123456789010:role/servicecatalog-puppet/AssumableRoleInRootAccount
     outputs:
       ssm:
         - param_name: /account-vending/account-custom-resource-arn
@@ -24,6 +24,9 @@ launches:
     portfolio: demo-central-it-team-portfolio
     product: account-vending-account-bootstrap-shared
     version: v1
+    parameters:
+      AssumableRoleInRootAccountArn:
+        default: arn:aws:iam::0123456789010:role/servicecatalog-puppet/AssumableRoleInRootAccount
     outputs:
       ssm:
         - param_name: /account-vending/bootstrapper-project-custom-resource-arn
