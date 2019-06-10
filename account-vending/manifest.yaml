@@ -37,6 +37,9 @@ launches:
     portfolio: demo-central-it-team-portfolio
     product: account-vending-account-creation
     version: v1
+    depends_on:
+      - account-vending-account-creation-shared
+      - account-vending-account-bootstrap-shared
     parameters:
       Email:
         default: "mailing-list+account-001@somewhere.com"
