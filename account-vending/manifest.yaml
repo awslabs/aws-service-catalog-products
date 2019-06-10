@@ -1,0 +1,60 @@
+# Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+schema: puppet-2019-04-01
+
+launches:
+  account-vending-account-creation-shared:
+    portfolio: demo-central-it-team-portfolio
+    product: account-vending-account-creation-shared
+    version: v1
+    parameters:
+      AssumableRoleInRootAccountParam:
+        default: arn:aws:iam::account-id:role/role-name
+    outputs:
+      ssm:
+        - param_name: /account-vending/account-custom-resource-arn
+          stack_output: AccountCustomResourceArn
+    deploy_to:
+      tags:
+        - tag: scope:puppet-hub
+          regions: default_region
+
+  account-vending-account-bootstrap-shared:
+    portfolio: demo-central-it-team-portfolio
+    product: account-vending-account-bootstrap-shared
+    version: v1
+    outputs:
+      ssm:
+        - param_name: /account-vending/bootstrapper-project-custom-resource-arn
+          stack_output: BootstrapperProjectCustomResourceArn
+    deploy_to:
+      tags:
+        - tag: scope:puppet-hub
+          regions: default_region
+
+  account-vending-account-001:
+    portfolio: demo-central-it-team-portfolio
+    product: account-vending-account-creation
+    version: v1
+    parameters:
+      Email:
+        default: "mailing-list+account-001@somewhere.com"
+      AccountName:
+        default: "account-001"
+      OrganizationAccountAccessRole:
+        default: "OrganizationAccountAccessRole"
+      IamUserAccessToBilling:
+        default: "ALLOW"
+      TargetOU:
+        default: /
+      AccountVendingCreationLambdaArn:
+        ssm:
+          name: /account-vending/account-custom-resource-arn
+      AccountVendingBootstrapperLambdaArn:
+        ssm:
+          name: /account-vending/bootstrapper-project-custom-resource-arn
+    deploy_to:
+      tags:
+        - tag: scope:puppet-hub
+          regions: default_region
