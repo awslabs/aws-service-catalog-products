@@ -22,15 +22,15 @@ aws-service-catalog-factory account.  The template exports the ARN for the role 
 ```bash
 aws codecommit create-repository --repository-name account-vending-account-creation-shared
 git clone --config 'credential.helper=!aws codecommit credential-helper $@' --config 'credential.UseHttpPath=true' https://git-codecommit.eu-west-1.amazonaws.com/v1/repos/account-vending-account-creation-shared
-svn export https://github.com/eamonnfaherty/cloudformation-templates/trunk/account-vending/account-creation-shared/v1 account-vending-account-creation-shared --force
+svn export https://github.com/awslabs/aws-service-catalog-products/trunk/account-vending/account-creation-shared/v1 account-vending-account-creation-shared --force
 
 aws codecommit create-repository --repository-name account-vending-account-bootstrap-shared
 git clone --config 'credential.helper=!aws codecommit credential-helper $@' --config 'credential.UseHttpPath=true' https://git-codecommit.eu-west-1.amazonaws.com/v1/repos/account-vending-account-bootstrap-shared
-svn export https://github.com/eamonnfaherty/cloudformation-templates/trunk/account-vending/account-bootstrap-shared/v1 account-vending-account-bootstrap-shared --force
+svn export https://github.com/awslabs/aws-service-catalog-products/trunk/account-vending/account-bootstrap-shared/v1 account-vending-account-bootstrap-shared --force
 
 aws codecommit create-repository --repository-name account-vending-account-creation
 git clone --config 'credential.helper=!aws codecommit credential-helper $@' --config 'credential.UseHttpPath=true' https://git-codecommit.eu-west-1.amazonaws.com/v1/repos/account-vending-account-creation
-svn export https://github.com/eamonnfaherty/cloudformation-templates/trunk/account-vending/account-creation/v1 account-vending-account-creation --force
+svn export https://github.com/awslabs/aws-service-catalog-products/trunk/account-vending/account-creation/v1 account-vending-account-creation --force
 ```
 
 ## Usage instructions
