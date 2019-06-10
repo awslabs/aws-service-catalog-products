@@ -8,12 +8,12 @@ Portfolios:
       Owner: central-it@customer.com
       Description: lambda to used to back custom resources that create an AWS account and move it to an ou
       Distributor: central-it-team
-      SupportDescription: Contact us on Chime for help #central-it-team
+      SupportDescription: Contact us on Chime for help
       SupportEmail: central-it-team@customer.com
       SupportUrl: https://wiki.customer.com/central-it-team/self-service/account-iam
       Tags:
-        - Key: product-type
-          Value: iam
+        - Key: product-set
+          Value: account-vending
       Versions:
         - Name: v1
           Description: lambda to used to back custom resources that create an AWS account and move it to an ou
@@ -41,12 +41,12 @@ Portfolios:
       Owner: central-it@customer.com
       Description: Lambda and codebuild project needed to run servicecatalog-puppet bootstrap-spoke-as
       Distributor: central-it-team
-      SupportDescription: Contact us on Chime for help #central-it-team
+      SupportDescription: Contact us on Chime for help
       SupportEmail: central-it-team@customer.com
       SupportUrl: https://wiki.customer.com/central-it-team/self-service/account-iam
       Tags:
-        - Key: product-type
-          Value: iam
+        - Key: product-set
+          Value: account-vending
       Versions:
         - Name: v1
           Description: Lambda and codebuild project needed to run servicecatalog-puppet bootstrap-spoke-as
@@ -74,12 +74,12 @@ Portfolios:
       Owner: central-it@customer.com
       Description: template used to interact with custom resources in the shared projects
       Distributor: central-it-team
-      SupportDescription: Contact us on Chime for help #central-it-team
+      SupportDescription: Contact us on Chime for help
       SupportEmail: central-it-team@customer.com
       SupportUrl: https://wiki.customer.com/central-it-team/self-service/account-iam
       Tags:
-        - Key: product-type
-          Value: iam
+        - Key: product-set
+          Value: account-vending
       Versions:
         - Name: v1
           Description: template used to interact with custom resources in the shared projects.
