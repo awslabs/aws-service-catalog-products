@@ -8,6 +8,11 @@ Description: |
    - codebuild project that can be run to bootstrap an account
    - lambda function that can be used to back a custom resource so the codebuild project can be started from CloudFormation
 
+Parameters:
+  AssumableRoleInRootAccountArn:
+    Description: The Arn of the assumable role from the root account
+    Type: String
+
 Resources:
   BootstrapperRole:
     Type: AWS::IAM::Role
@@ -114,6 +119,7 @@ Resources:
       Environment:
         Variables:
           BOOTSTRAPPER_PROJECT_NAME: !Ref BootstrapperProject
+          ASSUMABLE_ROLE_IN_ROOT_ACCOUNT_ARN: !Ref AssumableRoleInRootAccountArn
 
 Outputs:
   BootstrapperProjectCustomResourceArn:
