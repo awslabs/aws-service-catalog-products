@@ -33,3 +33,7 @@ git clone --config 'credential.helper=!aws codecommit credential-helper $@' --co
 svn export https://github.com/eamonnfaherty/cloudformation-templates/trunk/account-vending/account-creation/v1 account-vending-account-creation --force
 ```
 
+## Usage instructions
+Copy the config from ```manifest.yaml```.  ```account-vending-account-creation-shared``` and 
+```account-vending-account-bootstrap-shared``` should appear in your manifest only once.  You should add a modified 
+version of ```account-vending-account-001``` for every account you want to create using aws-service-catalog-puppet.
