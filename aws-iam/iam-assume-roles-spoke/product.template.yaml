@@ -1,0 +1,231 @@
+# Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+AWSTemplateFormatVersion: 2010-09-09
+Description: |
+  Creates IAM Roles in the Account which can be assumed by Users coming from Security Account
+
+Parameters:
+  SecurityAccountId:
+    Type: String
+    Description: 12 Digit Account Number of the Security Account
+
+Resources:
+  opsadminrole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      RoleName: oss-opsadminrole
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action: 'sts:AssumeRole'
+            Principal:
+              AWS: !Ref SecurityAccountId
+            Condition: !Ref 'AWS::NoValue'
+  breakglassrole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      RoleName: oss-breakglassrole
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action: 'sts:AssumeRole'
+            Principal:
+              AWS: !Ref SecurityAccountId
+            Condition: !Ref 'AWS::NoValue'
+  enforcerrole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      RoleName: oss-enforcerrole
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action: 'sts:AssumeRole'
+            Principal:
+              AWS: !Ref SecurityAccountId
+            Condition: !Ref 'AWS::NoValue'
+  developerrole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      RoleName: oss-developerrole
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action: 'sts:AssumeRole'
+            Principal:
+              AWS: !Ref SecurityAccountId
+            Condition: !Ref 'AWS::NoValue'
+  policyForAdmins:
+    Type: 'AWS::IAM::Policy'
+    Properties:
+      PolicyName: "customGuardrailPolicyForAdmins"
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Deny
+            Action: 'ec2:RunInstances'
+            NotResource:
+              - 'arn:aws:ec2:*:*:subnet/*'
+              - 'arn:aws:ec2:*::image/ami-0a55219cd56aa5473'
+              - 'arn:aws:ec2:*::image/ami-d264f1ab'
+              - 'arn:aws:ec2:*:*:volume/*'
+              - 'arn:aws:ec2:*:*:instance/*'
+              - 'arn:aws:ec2:*:*:network-interface/*'
+              - 'arn:aws:ec2:*:*:security-group/*'
+          - Effect: Deny
+            Action: 'rds:CreateDBInstance'
+            Resource:
+              - 'arn:aws:rds:*:*:db:*'
+              - 'arn:aws:rds:*:*:secgrp:*'
+              - 'arn:aws:rds:*:*:subgrp:*'
+              - 'arn:aws:rds:*:*:og:*'
+              - 'arn:aws:rds:*:*:pg:*'
+            Condition:
+              StringLike:
+                'rds:DatabaseEngine':
+                  - oracle*
+                  - sqlserver*
+          - Effect: Allow
+            Action: '*'
+            Resource: '*'
+      Roles:
+        - !Ref opsadminrole
+        - !Ref breakglassrole
+        - !Ref enforcerrole
+        - !Ref developerrole
+  customPolicyForRestrictingServiceCatalog:
+    Type: "AWS::IAM::ManagedPolicy"
+    Properties:
+      ManagedPolicyName: "customPolicyForRestrictingServiceCatalog"
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Deny"
+            Action:
+              - "servicecatalog:AssociateProductWithPortfolio"
+              - "servicecatalog:CreatePortfolio"
+              - "servicecatalog:CreateProduct"
+              - "servicecatalog:UpdateServiceAction"
+              - "servicecatalog:AssociatePrincipalWithPortfolio"
+              - "servicecatalog:CreatePortfolioShare"
+              - "servicecatalog:CreateProvisioningArtifact"
+              - "servicecatalog:DeletePortfolio"
+              - "servicecatalog:BatchAssociateServiceActionWithProvisioningArtifact"
+              - "servicecatalog:AcceptPortfolioShare"
+              - "servicecatalog:DisassociateProductFromPortfolio"
+              - "servicecatalog:DeleteProvisioningArtifact"
+              - "servicecatalog:CreateProvisionedProductPlan"
+              - "servicecatalog:UpdateProvisionedProduct"
+              - "servicecatalog:DeletePortfolioShare"
+              - "servicecatalog:DisassociateTagOptionFromResource"
+              - "servicecatalog:DisassociateServiceActionFromProvisioningArtifact"
+              - "servicecatalog:ExecuteProvisionedProductPlan"
+              - "servicecatalog:UpdateProvisioningArtifact"
+              - "servicecatalog:AssociateTagOptionWithResource"
+              - "servicecatalog:UpdateTagOption"
+              - "servicecatalog:DeleteServiceAction"
+              - "servicecatalog:CreateTagOption"
+              - "servicecatalog:DisassociatePrincipalFromPortfolio"
+              - "servicecatalog:CreateServiceAction"
+              - "servicecatalog:EnableAWSOrganizationsAccess"
+              - "servicecatalog:CopyProduct"
+              - "servicecatalog:UpdatePortfolio"
+              - "servicecatalog:RejectPortfolioShare"
+              - "servicecatalog:AssociateServiceActionWithProvisioningArtifact"
+              - "servicecatalog:DeleteProvisionedProductPlan"
+              - "servicecatalog:TerminateProvisionedProduct"
+              - "servicecatalog:DeleteProduct"
+              - "servicecatalog:UpdateConstraint"
+              - "servicecatalog:CreateConstraint"
+              - "servicecatalog:ExecuteProvisionedProductServiceAction"
+              - "servicecatalog:ProvisionProduct"
+              - "servicecatalog:UpdateProduct"
+              - "servicecatalog:DisableAWSOrganizationsAccess"
+              - "servicecatalog:DeleteConstraint"
+              - "servicecatalog:BatchDisassociateServiceActionFromProvisioningArtifact"
+              - "servicecatalog:DeleteTagOption"
+            Resource: "*"
+      Roles:
+        - !Ref developerrole
+  accountownerrole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      RoleName: oss-accountownerrole
+      ManagedPolicyArns:
+        - "arn:aws:iam::aws:policy/SecurityAudit"
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action: 'sts:AssumeRole'
+            Principal:
+              AWS: !Ref SecurityAccountId
+            Condition: !Ref 'AWS::NoValue'
+  policyForAppOwner:
+    Type: 'AWS::IAM::Policy'
+    Properties:
+      PolicyName: "customPolicyForAppOwner"
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          -
+            Sid: "Stmt1553105579127"
+            Action:
+              - "aws-portal:ViewAccount"
+              - "aws-portal:ViewBilling"
+              - "aws-portal:ViewPaymentMethods"
+              - "aws-portal:ViewUsage"
+            Effect: "Allow"
+            Resource: "*"
+      Roles:
+        - !Ref accountownerrole
+  finopsrole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      RoleName: oss-finopsrole
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action: 'sts:AssumeRole'
+            Principal:
+              AWS: !Ref SecurityAccountId
+            Condition: !Ref 'AWS::NoValue'
+  policyForFinops:
+    Type: 'AWS::IAM::Policy'
+    Properties:
+      PolicyName: "customPolicyForFinops"
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          -
+            Sid: "Stmt1553105579127"
+            Action:
+              - "aws-portal:ModifyBilling"
+              - "aws-portal:ModifyPaymentMethods"
+              - "aws-portal:ViewAccount"
+              - "aws-portal:ViewBilling"
+              - "aws-portal:ViewPaymentMethods"
+              - "aws-portal:ViewUsage"
+            Effect: "Allow"
+            Resource: "*"
+      Roles:
+        - !Ref finopsrole
+  securityrole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      RoleName: oss-securityrole
+      ManagedPolicyArns:
+        - "arn:aws:iam::aws:policy/SecurityAudit"
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action: 'sts:AssumeRole'
+            Principal:
+              AWS: !Ref SecurityAccountId
+            Condition: !Ref 'AWS::NoValue'
