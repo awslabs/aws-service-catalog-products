@@ -1,0 +1,285 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: |
+  This template creates a Config Recorder, an Amazon S3 bucket where logs are published.
+  You can optionally change the behaviour:
+    - which encryption to use for your buckets
+
+Parameters:
+  LoggingAccountID:
+    Type: String
+    Description: |
+      This is the account where the S3 buckets should be stored. If this is the account where the template is deployed
+      the bucket will be created
+
+  SecurityAccountID:
+    Type: String
+    Description: |
+      AccountID for the secrity account to deploy to aggregated SNS
+
+  SSEAlgorithm:
+    Type: 'String'
+    Default: 'AES256'
+    Description: Which S3 bucket SSE Algorithm to use for the bucket.
+    AllowedValues:
+    - 'AES256'
+    - 'aws:kms'
+
+  KMSMasterKeyID:
+    Type: 'String'
+    Description: KMS key ID required if ```SSEAlgorithm``` is aws:kms.
+
+  ConfigBucketName:
+    Type: 'String'
+    Description: The name of S3 Bucket to use for config logs
+
+  EmailAddress:
+    Description: The Email Address to forward Notifications to
+    Type: String
+
+  ORGID:
+    Description: PrincipalOrgID to enable within the topic policy
+    Type: String
+
+Conditions:
+  UseKMS: !Equals
+    - !Ref SSEAlgorithm
+    - 'aws:kms'
+  UseAES256: !Equals
+    - !Ref SSEAlgorithm
+    - 'AES256'
+  AccountMatch: !Equals
+    - !Ref AWS::AccountId
+    - !Ref LoggingAccountID
+  KMSDeploy: !And
+    - !Condition AccountMatch
+    - !Condition UseKMS
+  AES256Deploy: !And
+    - !Condition AccountMatch
+    - !Condition UseAES256
+  SecurityDeploy: !Equals
+    - !Ref AWS::AccountId
+    - !Ref SecurityAccountID
+
+Resources:
+  ConfigRecorder:
+    Type: 'AWS::Config::ConfigurationRecorder'
+    Properties:
+      Name: default
+      RoleARN: !GetAtt
+        - ConfigRole
+        - Arn
+
+  DeliveryChannel:
+    Type: 'AWS::Config::DeliveryChannel'
+    Properties:
+      ConfigSnapshotDeliveryProperties:
+        DeliveryFrequency: Six_Hours
+      S3BucketName: !Ref ConfigBucketName
+      SnsTopicARN: !Sub 'arn:aws:sns:${AWS::Region}:${SecurityAccountID}:Aggregated-Config-Notifications'
+
+  ConfigRole:
+    Type: 'AWS::IAM::Role'
+    Description: The IAM role used to configure AWS Config
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - config.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSConfigRole
+      Policies:
+        - PolicyName: root
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action: 's3:GetBucketAcl'
+                Resource: !Sub arn:aws:s3:::${ConfigBucketName}
+              - Effect: Allow
+                Action: 's3:PutObject'
+                Resource: !Sub arn:aws:s3:::${ConfigBucketName}/AWSLogs/${AWS::AccountId}/${AWS::Region}
+                Condition:
+                  StringEquals:
+                    's3:x-amz-acl': bucket-owner-full-control
+              - Effect: Allow
+                Action: 'config:Put*'
+                Resource: '*'
+
+  AggregatedTopic:
+    Condition: SecurityDeploy
+    Type: AWS::SNS::Topic
+    Description: SNS Topic that the org can use to send emails
+    Properties:
+      Subscription:
+      - Endpoint: !Ref EmailAddress
+        Protocol: email
+      TopicName: Aggregated-Config-Notifications
+
+  SNSPolicy:
+    Condition: SecurityDeploy
+    Type: AWS::SNS::TopicPolicy
+    Description: Allow the org to post to the topic
+    Properties:
+      PolicyDocument:
+        {
+         "Version":"2012-10-17",
+         "Id":"AWSAccountTopicAccess",
+          "Statement" :[
+            {
+                "Effect":"Allow",
+                "Principal" : { "AWS" : "*" },
+                "Action":["sns:Publish"],
+                "Resource":"*",
+                "Condition": {"StringEquals":
+                               {"aws:PrincipalOrgID": !Ref ORGID}
+                           }
+            }
+        ]
+      }
+      Topics:
+       - !Ref AggregatedTopic
+
+  S3KmsLoggingBucket:
+    DeletionPolicy: Retain
+    Condition: KMSDeploy
+    Description: S3 bucket to use for logging the logging bucket when KMS encryption is used
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub centralised-config-s3-access-logs-${AWS::AccountId}-${AWS::Region}
+      AccessControl: LogDeliveryWrite
+      VersioningConfiguration:
+        Status: Enabled
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              KMSMasterKeyID: !Ref KMSMasterKeyID
+              SSEAlgorithm: !Ref SSEAlgorithm
+
+  S3KmsBucket:
+    DeletionPolicy: Retain
+    Condition: KMSDeploy
+    Description: S3 bucket to use when KMS encryption is used for logging
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Ref ConfigBucketName
+      VersioningConfiguration:
+        Status: Enabled
+      LoggingConfiguration:
+        DestinationBucketName: !Ref S3KmsLoggingBucket
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              KMSMasterKeyID: !Ref KMSMasterKeyID
+              SSEAlgorithm: !Ref SSEAlgorithm
+
+  S3KmsBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Condition: KMSDeploy
+    Description: S3 bucket policy to use when KMS encryption is used for logging
+    Properties:
+      Bucket: !Ref S3KmsBucket
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Sid: AWSBucketPermissionsCheck
+            Effect: Allow
+            Principal:
+              Service:
+                - config.amazonaws.com
+            Action: s3:GetBucketAcl
+            Resource:
+              - !Sub "arn:aws:s3:::${S3Bucket}"
+          - Sid: AWSBucketDelivery
+            Effect: Allow
+            Principal:
+              Service:
+                - config.amazonaws.com
+            Action: s3:PutObject
+            Resource:
+                    - Fn::Join:
+                        - ""
+                        -
+                          - "arn:aws:s3:::"
+                          - !Ref "S3Bucket"
+                          - "/AWSLogs/*/*"
+
+  # Create buckets using S3-SSE keys for default encryption
+  S3LoggingBucket:
+    DeletionPolicy: Retain
+    Condition: AES256Deploy
+    Description: S3 bucket to use for logging the logging bucket when AES256 encryption is used
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub centralised-config-s3-access-logs-${AWS::AccountId}-${AWS::Region}
+      AccessControl: LogDeliveryWrite
+      VersioningConfiguration:
+        Status: Enabled
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: !Ref SSEAlgorithm
+
+  S3Bucket:
+    DeletionPolicy: Retain
+    Condition: AES256Deploy
+    Description: S3 bucket to use when KMS encryption is used for logging
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Ref ConfigBucketName
+      VersioningConfiguration:
+        Status: Enabled
+      LoggingConfiguration:
+        DestinationBucketName: !Ref S3LoggingBucket
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: !Ref SSEAlgorithm
+
+  S3BucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Condition: AES256Deploy
+    Description: S3 bucket policy to use when AES256 encryption is used for logging
+    Properties:
+      Bucket: !Ref S3Bucket
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Sid: AWSBucketPermissionsCheck
+            Effect: Allow
+            Principal:
+              Service:
+                - config.amazonaws.com
+            Action: s3:GetBucketAcl
+            Resource:
+              - !Sub "arn:aws:s3:::${S3Bucket}"
+          - Sid: AWSBucketDelivery
+            Effect: Allow
+            Principal:
+              Service:
+                - config.amazonaws.com
+            Action: s3:PutObject
+            Resource:
+                    - Fn::Join:
+                        - ""
+                        -
+                          - "arn:aws:s3:::"
+                          - !Ref "S3Bucket"
+                          - "/AWSLogs/*/*"
+          - Sid: AWSBucketRead
+            Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action: s3:GetObject
+            Resource:
+                    - Fn::Join:
+                        - ""
+                        -
+                          - "arn:aws:s3:::"
+                          - !Ref "S3Bucket"
+                          - "/AWSLogs/*/*"

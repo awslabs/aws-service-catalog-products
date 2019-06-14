@@ -1,0 +1,16 @@
+# Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+schema: puppet-2019-04-01
+
+launches:
+  aws-config-enable:
+    portfolio: demo-central-it-team-portfolio
+    product: aws-config-enable
+    version: v1
+  aws-config-rules:
+    portfolio: demo-central-it-team-portfolio
+    product: aws-config-rules
+    version: v1
+    depends_on:
+      - aws-config-enable

@@ -1,0 +1,183 @@
+# Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+AWSTemplateFormatVersion: 2010-09-09
+Description: Set the Config Rules
+
+Parameters:
+  ApprovedAMIS:
+    Type: String
+    Description: List Of approved ami's
+
+Resources:
+  configRuleCompute1:
+    Type: 'AWS::Config::ConfigRule'
+    Properties:
+      ConfigRuleName: approved-amis-by-id
+      Description: |
+        Checks whether running instances are using specified AMIs. Specify a list of approved AMI IDs. Running instances
+        with AMIs that are not on this list are NON_COMPLIANT: https://docs.aws.amazon.com/config/latest/developerguide/approved-amis-by-id.html
+      InputParameters:
+        amiIds: !Ref ApprovedAMIS
+      Scope:
+        ComplianceResourceTypes:
+          - 'AWS::EC2::Instance'
+      Source:
+        Owner: AWS
+        SourceIdentifier: APPROVED_AMIS_BY_ID
+
+  configRuleCompute2:
+     Type: 'AWS::Config::ConfigRule'
+     Properties:
+       ConfigRuleName: lambda-function-settings-check
+       Description: |
+         Checks that the lambda function settings for runtime, role, timeout, and memory size match the expected values:
+         https://docs.aws.amazon.com/config/latest/developerguide/lambda-function-settings-check.html
+       InputParameters:
+         runtime: 'nodejs8.10,nodejs6.10,python3.6,python3.7,python2.7,ruby2.5,java-1.8.0-openjdk,go1.x,dotnetcore2.1,dotnetcore2.0,dotnetcore1.0'
+         timeout: '60'
+         memorySize: '128'
+       Scope:
+         ComplianceResourceTypes:
+           - 'AWS::Lambda::Function'
+       Source:
+         Owner: AWS
+         SourceIdentifier: LAMBDA_FUNCTION_SETTINGS_CHECK
+
+  configRuleDatabase1:
+    Type: 'AWS::Config::ConfigRule'
+    Properties:
+      ConfigRuleName: rds-storage-encrypted
+      Description: |
+        Checks whether storage encryption is enabled for your RDS DB instances:
+        https://docs.aws.amazon.com/config/latest/developerguide/rds-storage-encrypted.html
+      InputParameters: {}
+      Scope:
+        ComplianceResourceTypes:
+          - 'AWS::RDS::DBInstance'
+      Source:
+        Owner: AWS
+        SourceIdentifier: RDS_STORAGE_ENCRYPTED
+
+  configRuleDatabase2:
+     Type: 'AWS::Config::ConfigRule'
+     Properties:
+       ConfigRuleName: rds-multi-az-support
+       Description: |
+         Checks whether high availability is enabled for your RDS DB instances:
+         https://docs.aws.amazon.com/config/latest/developerguide/rds-multi-az-support.html
+       InputParameters: {}
+       Scope:
+         ComplianceResourceTypes:
+           - 'AWS::RDS::DBInstance'
+       Source:
+         Owner: AWS
+         SourceIdentifier: RDS_MULTI_AZ_SUPPORT
+
+  configRuleDatabase3:
+     Type: 'AWS::Config::ConfigRule'
+     Properties:
+       ConfigRuleName: dynamodb-table-encryption-enabled
+       Description: |
+         Checks whether the Amazon DynamoDB tables are encrypted and checks their status. The rule is COMPLIANT if the
+         status is enabled or enabling:
+         https://docs.aws.amazon.com/config/latest/developerguide/dynamodb-table-encryption-enabled.html
+       InputParameters: {}
+       Scope:
+         ComplianceResourceTypes:
+           - 'AWS::DynamoDB::Table'
+       Source:
+         Owner: AWS
+         SourceIdentifier: DYNAMODB_TABLE_ENCRYPTION_ENABLED
+
+  configRuleSecurity1:
+    Type: 'AWS::Config::ConfigRule'
+    Properties:
+      ConfigRuleName: iam-root-access-key-check
+      Description: |
+        Checks whether the root user access key is available. The rule is COMPLIANT if the user access key does not
+        exist:
+        https://docs.aws.amazon.com/config/latest/developerguide/iam-root-access-key-check.html
+      InputParameters: {}
+      Scope: {}
+      Source:
+        Owner: AWS
+        SourceIdentifier: IAM_ROOT_ACCESS_KEY_CHECK
+      MaximumExecutionFrequency: TwentyFour_Hours
+
+  configRuleSecurity2:
+    Type: 'AWS::Config::ConfigRule'
+    Properties:
+      ConfigRuleName: access-keys-rotated
+      Description: |
+        Checks whether the active access keys are rotated within the number of days specified in maxAccessKeyAge.
+      InputParameters:
+        maxAccessKeyAge: '90'
+      Scope: {}
+      Source:
+        Owner: AWS
+        SourceIdentifier: ACCESS_KEYS_ROTATED
+
+  configRuleSecurity3:
+    Type: 'AWS::Config::ConfigRule'
+    Properties:
+      ConfigRuleName: iam-password-policy
+      Description: |
+        Checks whether the account password policy for IAM users meets the specified requirements:
+        https://docs.aws.amazon.com/config/latest/developerguide/iam-password-policy.html
+      InputParameters:
+        RequireUppercaseCharacters: 'true'
+        RequireLowercaseCharacters: 'true'
+        RequireSymbols: 'true'
+        RequireNumbers: 'true'
+        MinimumPasswordLength: '8'
+        PasswordReusePrevention: '12'
+        MaxPasswordAge: '90'
+      Scope: {}
+      Source:
+        Owner: AWS
+        SourceIdentifier: IAM_PASSWORD_POLICY
+
+  configRuleSecurity4:
+    Type: 'AWS::Config::ConfigRule'
+    Properties:
+      ConfigRuleName: iam-user-mfa-enabled
+      Description: |
+        Checks whether the AWS Identity and Access Management users have multi-factor authentication (MFA) enabled:
+        https://docs.aws.amazon.com/config/latest/developerguide/iam-user-mfa-enabled.html
+      InputParameters: {}
+      Scope: {}
+      Source:
+        Owner: AWS
+        SourceIdentifier: IAM_USER_MFA_ENABLED
+      MaximumExecutionFrequency: TwentyFour_Hours
+
+  configRuleSecurity5:
+    Type: 'AWS::Config::ConfigRule'
+    Properties:
+      ConfigRuleName: root-account-mfa-enabled
+      Description: |
+        Checks whether users of your AWS account require a multi-factor authentication (MFA) device to sign in with root
+        credentials:
+        https://docs.aws.amazon.com/config/latest/developerguide/root-account-mfa-enabled.html
+      InputParameters: {}
+      Scope: {}
+      Source:
+        Owner: AWS
+        SourceIdentifier: ROOT_ACCOUNT_MFA_ENABLED
+      MaximumExecutionFrequency: TwentyFour_Hours
+
+  configRuleStorage1:
+     Type: 'AWS::Config::ConfigRule'
+     Properties:
+       ConfigRuleName: s3-bucket-ssl-requests-only
+       Description: |
+         Checks whether S3 buckets have policies that require requests to use Secure Socket Layer (SSL):
+         https://docs.aws.amazon.com/config/latest/developerguide/s3-bucket-ssl-requests-only.html
+       InputParameters: {}
+       Scope:
+         ComplianceResourceTypes:
+           - 'AWS::S3::Bucket'
+       Source:
+         Owner: AWS
+         SourceIdentifier: S3_BUCKET_SSL_REQUESTS_ONLY
