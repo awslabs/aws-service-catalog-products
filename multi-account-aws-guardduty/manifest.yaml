@@ -4,7 +4,14 @@
 schema: puppet-2019-04-01
 
 launches:
-  aws-cloudtrail-enable:
+  guard-duty-spoke:
     portfolio: demo-central-it-team-portfolio
-    product: aws-cloudtrail-enable
+    product: guard-duty-spoke
+    version: v1
+    depends_on:
+      - guard-duty-master
+
+  guard-duty-master:
+    portfolio: demo-central-it-team-portfolio
+    product: guard-duty-master
     version: v1
