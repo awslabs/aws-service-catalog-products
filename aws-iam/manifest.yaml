@@ -8,7 +8,7 @@ launches:
     portfolio: demo-central-it-team-portfolio
     product: iam-assume-roles-spoke
     version: v1
-    
+
   iam-groups-security-account:
     portfolio: demo-central-it-team-portfolio
     product: iam-groups-security-account
