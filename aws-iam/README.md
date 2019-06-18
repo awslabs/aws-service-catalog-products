@@ -1,21 +1,18 @@
 # aws-iam
-
-## Architecture
-DIAGRAM TBD
+This is a solution to help deliver useful IAM roles
 
 ## Description
 Deploys a highly configurable IAM Group/Role strategy that allows users to assume roles into other accounts from the security account. Using IAM Groups ensures permissions are for users in those assumed roles are locked down.
 
 ## Install Instructions
-1. Initialize products into service catalog via the factory
 
-2. Create or Append the puppet manifest
- - Set iam-groups-security-account to an account specific deployment with the security account as the target.
+```bash
+aws codecommit create-repository --repository-name iam-assume-roles-spoke
+git clone --config 'credential.helper=!aws codecommit credential-helper $@' --config 'credential.UseHttpPath=true' https://git-codecommit.eu-west-1.amazonaws.com/v1/repos/iam-assume-roles-spoke
+svn export https://github.com/awslabs/aws-service-catalog-products/trunk/aws-iam/iam-assume-roles-spoke/v1 iam-assume-roles-spoke --force
 
- - deploy iam-assume-roles-spoke to all accounts
+aws codecommit create-repository --repository-name iam-groups-security-account
+git clone --config 'credential.helper=!aws codecommit credential-helper $@' --config 'credential.UseHttpPath=true' https://git-codecommit.eu-west-1.amazonaws.com/v1/repos/iam-groups-security-account
+svn export https://github.com/awslabs/aws-service-catalog-products/trunk/aws-iam/iam-groups-security-account/v1 iam-groups-security-account --force
+```
 
-3. Please Refer to the Docs for explicit instructions on building factory products and writing the manifest
-
- - https://aws-service-catalog-puppet.readthedocs.io/en/latest/puppet/designing_your_manifest.html#purpose-of-the-manifest-file
-
- - https://aws-service-catalog-factory.readthedocs.io/en/latest/
