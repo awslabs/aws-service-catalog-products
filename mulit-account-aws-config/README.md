@@ -1,7 +1,6 @@
 # multi-account-aws-config
 
-## Architecture
-DIAGRAM TBD
+Enables AWS Config in a master account, setups up SNS aggregation and 
 
 ## Description
 Enables AWS Config across all accounts this product is deployed into, Creates an aggregated SNS Topic within the security account which will forward config event messages to a designated email address.
