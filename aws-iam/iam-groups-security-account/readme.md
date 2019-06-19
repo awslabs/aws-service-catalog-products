@@ -14,7 +14,7 @@ Description: Name of the FinOps
 Type: String 
 Default: SecurityTeamGroup 
 Description: Name of the Security Team Group 
-### OSSAdminTeamGroupName 
+### OAdminTeamGroupName 
 Type: String 
 Default: OSSAdminTeam 
 Description: Name of the Security Team Group 
@@ -22,13 +22,15 @@ Description: Name of the Security Team Group
 ## Resources
 The list of resources this template creates:
 
-### OSSAdminGroup 
+### IT-AdminGroup 
 Type: AWS::IAM::Group  
-### FinOpsGroup 
+### IT-FinOpsGroup 
 Type: AWS::IAM::Group  
-### SecurityTeamGroup 
+### IT-SecurityTeamGroup 
 Type: AWS::IAM::Group  
 
 ## Outputs
 The list of outputs this template exposes:
+
+None
 
