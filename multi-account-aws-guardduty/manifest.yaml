@@ -4,14 +4,20 @@
 schema: puppet-2019-04-01
 
 launches:
-  guard-duty-spoke:
+  guardduty-spoke:
     portfolio: demo-central-it-team-portfolio
-    product: guard-duty-spoke
+    product: guardduty-spoke
     version: v1
     depends_on:
       - guard-duty-master
+      - guardduty-orgmasterbootstrap
 
-  guard-duty-master:
+  guardduty-master:
     portfolio: demo-central-it-team-portfolio
-    product: guard-duty-master
+    product: guardduty-master
+    version: v1
+  
+  guardduty-orgmasterbootstrap:
+    portfolio: demo-central-it-team-portfolio
+    product: guardduty-orgmasterbootstrap
     version: v1
