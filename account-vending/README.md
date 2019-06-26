@@ -37,3 +37,6 @@ svn export https://github.com/awslabs/aws-service-catalog-products/trunk/account
 Copy the config from ```manifest.yaml```.  ```account-vending-account-creation-shared``` and 
 ```account-vending-account-bootstrap-shared``` should appear in your manifest only once.  You should add a modified 
 version of ```account-vending-account-001``` for every account you want to create using aws-service-catalog-puppet.
+
+## Notes
+Once the Account-Creation Product has completed it will provide the Status of 'Succeeded' and the AccountId of the newly vended Account. However, please note that Puppet is now running against the new Account using the latest commit of the Puppet Manifest. Depending on how many Products Puppet needs to deploy, the time taken to complete will vary. If you are using Customised IAM Roles to assume into the new Account, these must be created before you are able to do so.

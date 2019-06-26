@@ -65,7 +65,7 @@ Resources:
       Description: Lambda for accepting shares
       Role: !GetAtt AccountCustomResourceRole.Arn
       Runtime: python3.7
-      Timeout: 30
+      Timeout: 120
       Environment:
         Variables:
           ASSUMABLE_ROLE_IN_ROOT_ACCOUNT_ARN: !Ref AssumableRoleInRootAccountArn
