@@ -9,15 +9,15 @@ launches:
     product: guardduty-spoke
     version: v1
     depends_on:
-      - guard-duty-master
-      - guardduty-orgmasterbootstrap
+      - guardduty-master
+      - guardduty-org-bootstrap
 
   guardduty-master:
     portfolio: demo-central-it-team-portfolio
     product: guardduty-master
     version: v1
   
-  guardduty-orgmasterbootstrap:
+  guardduty-org-bootstrap:
     portfolio: demo-central-it-team-portfolio
-    product: guardduty-orgmasterbootstrap
+    product: guardduty-org-bootstrap
     version: v1

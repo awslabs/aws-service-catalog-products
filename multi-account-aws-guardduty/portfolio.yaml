@@ -1,6 +1,6 @@
 Portfolios:
     Components:
-      - Name: GuardDuty-Spoke
+      - Name: guardduty-spoke
         Owner: Amazon-Web-Services
         Description: Spoke GuardDuty Product
         Distributor: Amazon-Web-Services
@@ -17,9 +17,9 @@ Portfolios:
             Source:
               Provider: CodeCommit
               Configuration:
-                RepositoryName: GuardDuty-Spoke
+                RepositoryName: guardduty-spoke
                 BranchName: v1
-      - Name: GuardDuty-Master
+      - Name: guardduty-master
         Owner: Amazon-Web-Services
         Description: Master Account Product for GuardDuty
         Distributor: Amazon-Web-Services
@@ -36,9 +36,9 @@ Portfolios:
             Source:
               Provider: CodeCommit
               Configuration:
-                RepositoryName: GuardDuty-Master
+                RepositoryName: guardduty-master
                 BranchName: v1
-      - Name: GuardDuty-OrgMasterBootstrap
+      - Name: guardduty-org-bootstrap
         Owner: Amazon-Web-Services
         Description: Org Master Bootstrap Product for GuardDuty
         Distributor: Amazon-Web-Services
@@ -55,5 +55,5 @@ Portfolios:
             Source:
               Provider: CodeCommit
               Configuration:
-                RepositoryName: GuardDuty-OrgMasterBootstrap
+                RepositoryName: guardduty-org-bootstrap
                 BranchName: v1

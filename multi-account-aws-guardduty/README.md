@@ -1,7 +1,4 @@
-# multi-account-guard-duty
-
-## Architecture
-DIAGRAM TBD
+# multi-account-aws-guardduty
 
 ## Description
 With GuardDuty, you now have an intelligent and cost-effective option for continuous threat detection in the AWS Cloud. The service uses machine learning, anomaly detection, and integrated threat intelligence to identify and prioritize potential threats. GuardDuty analyzes tens of billions of events across multiple AWS data sources, such as AWS CloudTrail, Amazon VPC Flow Logs, and DNS logs.
@@ -12,18 +9,20 @@ With GuardDuty, you now have an intelligent and cost-effective option for contin
 - **GuardDuty Spoke** - To be run in every Spoke. it runs a Lambda Function to gather information about itself (the email address) and assume into Security Account to initiate the Invitation and create the detector
 
 ## Install Instructions
-1. Deploy GD-MAster-Role.yaml in the Organization Master. Use the Arn of the Deployed Role and as the value for GuardDutyAssumableOrgRoleArn in Security-GuardDutySpoke/product.template.yaml
+1. Deploy multi-account-aws-guardduty/guardduty-org-bootstrap into your org master account
+2. Deploy multi-account-aws-guardduty/guardduty-master into your master account
+3. Deploy multi-account-aws-guardduty/guardduty-spoke into your each spoke
 
-2. Initialize products into service catalog via the factory
+```bash
+aws codecommit create-repository --repository-name multi-account-aws-guardduty-guardduty-master
+git clone --config 'credential.helper=!aws codecommit credential-helper $@' --config 'credential.UseHttpPath=true' https://git-codecommit.eu-west-1.amazonaws.com/v1/repos/multi-account-aws-guardduty-guardduty-master
+svn export https://github.com/awslabs/aws-service-catalog-products/trunk/multi-account-aws-guardduty/guardduty-master/v1 multi-account-aws-guardduty-guardduty-master --force
 
-3. Create or Append the puppet manifest
+aws codecommit create-repository --repository-name multi-account-aws-guardduty-guardduty-org-bootstrap
+git clone --config 'credential.helper=!aws codecommit credential-helper $@' --config 'credential.UseHttpPath=true' https://git-codecommit.eu-west-1.amazonaws.com/v1/repos/multi-account-aws-guardduty-guardduty-org-bootstrap
+svn export https://github.com/awslabs/aws-service-catalog-products/trunk/multi-account-aws-guardduty/guardduty-org-bootstrap/v1 multi-account-aws-guardduty-guardduty-org-bootstrap --force
 
- - deploy the guard-duty-spoke to all accounts and all desired regions
-
- - deploy guard-duty-master to the hub account and only to a single region
-
-4. Please Refer to the Docs for explicit instructions on building factory products and writing the manifest
-
-  - https://aws-service-catalog-puppet.readthedocs.io/en/latest/puppet/designing_your_manifest.html#purpose-of-the-manifest-file
-
-  - https://aws-service-catalog-factory.readthedocs.io/en/latest/
+aws codecommit create-repository --repository-name multi-account-aws-guardduty-guardduty-spoke
+git clone --config 'credential.helper=!aws codecommit credential-helper $@' --config 'credential.UseHttpPath=true' https://git-codecommit.eu-west-1.amazonaws.com/v1/repos/multi-account-aws-guardduty-guardduty-spoke
+svn export https://github.com/awslabs/aws-service-catalog-products/trunk/multi-account-aws-guardduty/guardduty-spoke/v1 multi-account-aws-guardduty-guardduty-spoke --force
+```
