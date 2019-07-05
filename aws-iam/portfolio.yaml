@@ -4,7 +4,7 @@
 Schema: factory-2019-04-01
 Portfolios:
   Components:
-    - Name: iam-assume-roles-spoke
+    - Name: aws-iam-assume-roles-spoke
       Owner: central-it@customer.com
       Description: iam-assume-roles-spoke product
       Distributor: central-it-team
@@ -16,15 +16,15 @@ Portfolios:
           Value: iam
       Versions:
         - Name: v1
-          Description: iam-assume-roles-spoke
+          Description: aws-iam-assume-roles-spoke
           Active: True
           Source:
             Provider: CodeCommit
             Configuration:
-              RepositoryName: iam-assume-roles-spoke
+              RepositoryName: aws-iam-assume-roles-spoke
               BranchName: master
 
-    - Name: iam-groups-security-account
+    - Name: aws-iam-groups-security-account
       Owner: central-it@customer.com
       Description: iam-groups-security-account product
       Distributor: central-it-team
@@ -41,5 +41,5 @@ Portfolios:
           Source:
             Provider: CodeCommit
             Configuration:
-              RepositoryName: iam-groups-security-account
+              RepositoryName: aws-iam-groups-security-account
               BranchName: master
