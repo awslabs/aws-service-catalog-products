@@ -1,0 +1,89 @@
+# Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+AWSTemplateFormatVersion: 2010-09-09
+Description: |
+  Creates IAM Roles in the Account which can be assumed by Users coming from Security Account
+
+Parameters:
+  SecurityAccountId:
+    Type: String
+    Description: 12 Digit Account Number of the Security Account
+
+Resources:
+  OpsAdminRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      RoleName: IT-OpsAdminRole
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action: 'sts:AssumeRole'
+            Principal:
+              AWS: !Ref SecurityAccountId
+  PolicyForAdmin:
+    Type: 'AWS::IAM::Policy'
+    Properties:
+      PolicyName: "IT-PolicyForAdmin"
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Deny
+            Action: 'ec2:RunInstances'
+            NotResource:
+              - 'arn:aws:ec2:*:*:subnet/*'
+              - 'arn:aws:ec2:*::image/ami-01f3682deed220c2a'
+              - 'arn:aws:ec2:*:*:volume/*'
+              - 'arn:aws:ec2:*:*:instance/*'
+              - 'arn:aws:ec2:*:*:network-interface/*'
+              - 'arn:aws:ec2:*:*:security-group/*'
+          - Effect: Allow
+            Action: '*'
+            Resource: '*'
+      Roles:
+        - !Ref OpsAdminRole
+  FinOpsRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      RoleName: IT-FinOpsRole
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action: 'sts:AssumeRole'
+            Principal:
+              AWS: !Ref SecurityAccountId
+  PolicyForFinops:
+    Type: 'AWS::IAM::Policy'
+    Properties:
+      PolicyName: "IT-PolicyForFinops"
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          -
+            Sid: "BillingPolicy"
+            Action:
+              - "aws-portal:ModifyBilling"
+              - "aws-portal:ModifyPaymentMethods"
+              - "aws-portal:ViewAccount"
+              - "aws-portal:ViewBilling"
+              - "aws-portal:ViewPaymentMethods"
+              - "aws-portal:ViewUsage"
+            Effect: "Allow"
+            Resource: "*"
+      Roles:
+        - !Ref FinOpsRole
+  SecurityRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      RoleName: IT-SecurityRole
+      ManagedPolicyArns:
+        - "arn:aws:iam::aws:policy/SecurityAudit"
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action: 'sts:AssumeRole'
+            Principal:
+              AWS: !Ref SecurityAccountId

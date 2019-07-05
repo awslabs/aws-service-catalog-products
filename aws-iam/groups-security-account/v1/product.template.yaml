@@ -1,0 +1,62 @@
+# Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+AWSTemplateFormatVersion: 2010-09-09
+Description: |
+  Creates the IAM Groups in the security Account
+
+Parameters:
+  FinOpsGroupName:
+    Type: String 
+    Description: Name of the FinOps
+    Default: IT-FinOpsGroup
+  SecurityTeamGroupName:
+    Type: String 
+    Description: Name of the Security Team Group
+    Default: IT-SecurityTeamGroup
+  OpsAdminTeamGroupName:
+    Type: String 
+    Description: Name of the Security Team Group
+    Default: IT-OpsAdminTeam
+
+Resources:
+  OpsAdminGroup:
+    Type: AWS::IAM::Group
+    Properties:
+      GroupName: !Ref OpsAdminTeamGroupName
+      Policies:
+      - PolicyName: IT-OpsAdminAssumePolicy
+        PolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+          - Sid: ITAdminAssume
+            Effect: Allow
+            Action: sts:AssumeRole
+            Resource: arn:aws:iam::*:role/IT-OpsAdminRole
+  FinOpsGroup:
+    Type: AWS::IAM::Group
+    Properties:
+      GroupName: !Ref FinOpsGroupName
+      Policies:
+      - PolicyName: FinOpsAssumePolicy
+        PolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+          - Sid: ITFinOpsAssume
+            Effect: Allow
+            Action: sts:AssumeRole
+            Resource: arn:aws:iam::*:role/IT-FinOpsRole
+  SecurityTeamGroup:
+    Type: AWS::IAM::Group
+    Properties:
+      GroupName: !Ref SecurityTeamGroupName
+      Policies:
+      - PolicyName: SecurityTeamAssumePolicy
+        PolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+          - Sid: SecurityTeamAssume
+            Effect: Allow
+            Action: sts:AssumeRole
+            Resource: arn:aws:iam::*:role/IT-SecurityRole
+  
