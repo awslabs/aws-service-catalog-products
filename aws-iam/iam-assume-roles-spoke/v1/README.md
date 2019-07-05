@@ -1,6 +1,6 @@
 # product.template
 # Description
-Creates IAM Roles in the Account which can be assumed by Users coming from Security Account
+Creates IAM Roles for OpsAdmin, FinOps and Security Team Members in the Account which can be assumed by Users coming from **a** Security Account. Note that the OpsAdmin role has a policy attached limiting it to only being able to launch a specific instance. This is just a reference to what you could do to avoid FULL Administrator Access.
 
 
 ## Parameters
@@ -13,27 +13,15 @@ Description: 12 Digit Account Number of the Security Account
 ## Resources
 The list of resources this template creates:
 
-### opsadminrole 
-Type: AWS::IAM::Role  
-### breakglassrole 
-Type: AWS::IAM::Role  
-### enforcerrole 
-Type: AWS::IAM::Role  
-### developerrole 
-Type: AWS::IAM::Role  
-### policyForAdmins 
+### IT-OpsAdminRole 
+Type: AWS::IAM::Role   
+### PolicyForAdmins 
 Type: AWS::IAM::Policy  
-### customPolicyForRestrictingServiceCatalog 
-Type: AWS::IAM::ManagedPolicy  
-### accountownerrole 
+### IT-FinOpsRole 
 Type: AWS::IAM::Role  
-### policyForAppOwner 
+### PolicyForFinops 
 Type: AWS::IAM::Policy  
-### finopsrole 
-Type: AWS::IAM::Role  
-### policyForFinops 
-Type: AWS::IAM::Policy  
-### securityrole 
+### IT-SecurityRole 
 Type: AWS::IAM::Role  
 
 ## Outputs

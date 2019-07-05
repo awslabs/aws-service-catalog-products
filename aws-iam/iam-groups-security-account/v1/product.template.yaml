@@ -9,23 +9,30 @@ Parameters:
   FinOpsGroupName:
     Type: String 
     Description: Name of the FinOps
-    Default: FinOpsGroup
+    Default: IT-FinOpsGroup
   SecurityTeamGroupName:
     Type: String 
     Description: Name of the Security Team Group
-    Default: SecurityTeamGroup
-  OSSAdminTeamGroupName:
+    Default: IT-SecurityTeamGroup
+  OpsAdminTeamGroupName:
     Type: String 
     Description: Name of the Security Team Group
-    Default: OSSAdminTeam
+    Default: IT-OpsAdminTeam
 
 Resources:
-  OSSAdminGroup:
+  OpsAdminGroup:
     Type: AWS::IAM::Group
     Properties:
-      GroupName: !Ref OSSAdminTeamGroupName
-      ManagedPolicyArns: 
-      - 'arn:aws:iam::aws:policy/AdministratorAccess'
+      GroupName: !Ref OpsAdminTeamGroupName
+      Policies:
+      - PolicyName: IT-OpsAdminAssumePolicy
+        PolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+          - Sid: ITAdminAssume
+            Effect: Allow
+            Action: sts:AssumeRole
+            Resource: arn:aws:iam::*:role/IT-OpsAdminRole
   FinOpsGroup:
     Type: AWS::IAM::Group
     Properties:
@@ -35,10 +42,10 @@ Resources:
         PolicyDocument:
           Version: '2012-10-17'
           Statement:
-          - Sid: FinOpsAssume
+          - Sid: ITFinOpsAssume
             Effect: Allow
             Action: sts:AssumeRole
-            Resource: arn:aws:iam::*:role/oss-finopsrole
+            Resource: arn:aws:iam::*:role/IT-FinOpsRole
   SecurityTeamGroup:
     Type: AWS::IAM::Group
     Properties:
@@ -51,5 +58,5 @@ Resources:
           - Sid: SecurityTeamAssume
             Effect: Allow
             Action: sts:AssumeRole
-            Resource: arn:aws:iam::*:role/oss-securityrole
+            Resource: arn:aws:iam::*:role/IT-SecurityRole
   
