@@ -167,7 +167,7 @@ Resources:
                 - cloudtrail.amazonaws.com
             Action: s3:GetBucketAcl
             Resource:
-              - !Sub "arn:aws:s3:::${S3Bucket}"
+              - !Sub "arn:aws:s3:::${S3KmsBucket}"
           - Sid: AWSBucketDelivery
             Effect: Allow
             Principal:
@@ -179,7 +179,7 @@ Resources:
                         - ""
                         -
                           - "arn:aws:s3:::"
-                          - !Ref "S3Bucket"
+                          - !Ref "S3KmsBucket"
                           - "/AWSLogs/*/*"
 
   # Create buckets using S3-SSE keys for default encryption
