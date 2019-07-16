@@ -12,6 +12,7 @@ Parameters:
 Resources:
   VPC:
     Type: AWS::EC2::VPC
+    Description: The vpc being created
     Properties:
       EnableDnsSupport: true
       EnableDnsHostnames: true
@@ -19,5 +20,5 @@ Resources:
 
 Outputs:
   VPCId:
-    Description: The ID of the VPC that this stack is deployed in
+    Description: The ID of the VPC that was created
     Value: !Ref VPC

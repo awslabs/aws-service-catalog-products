@@ -17,6 +17,7 @@ Parameters:
 Resources:
   PublicSubnet:
     Type: AWS::EC2::Subnet
+    Description: The public subnet that is created
     Properties:
       AvailabilityZone:
         Fn::Select:
@@ -28,21 +29,25 @@ Resources:
 
   InternetGateway:
     Type: AWS::EC2::InternetGateway
+    Description: The internet gateway to attach to the public subnet
 
   GatewayAttachement:
     Type: AWS::EC2::VPCGatewayAttachment
+    Description: Attach the gateway to the subnet
     Properties:
       VpcId: !Ref VPCId
       InternetGatewayId: !Ref InternetGateway
 
   PublicRouteTable:
     Type: AWS::EC2::RouteTable
+    Description: Associate the route table for the subnet
     Properties:
       VpcId: !Ref VPCId
 
   PublicRoute:
     Type: AWS::EC2::Route
     DependsOn: GatewayAttachement
+    Description: Set up the route out to the internet
     Properties:
       RouteTableId: !Ref PublicRouteTable
       DestinationCidrBlock: '0.0.0.0/0'
@@ -50,11 +55,12 @@ Resources:
 
   PublicSubnetRouteTableAssociation:
     Type: AWS::EC2::SubnetRouteTableAssociation
+    Description: Associate the route
     Properties:
       SubnetId: !Ref PublicSubnet
       RouteTableId: !Ref PublicRouteTable
 
 Outputs:
   PublicSubnetId:
-    Description: Public subnet
+    Description: The subnet id of the public subnet created
     Value: !Ref PublicSubnet
