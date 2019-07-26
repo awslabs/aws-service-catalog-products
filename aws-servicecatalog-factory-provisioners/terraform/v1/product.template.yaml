@@ -1,0 +1,40 @@
+# Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+AWSTemplateFormatVersion: 2010-09-09
+Description: |
+  Creates IAM Roles Account which can be assumed used by Service Catalog Factory to provision Terraform products
+
+Parameters:
+  PuppetAccountId:
+    Type: String
+    Description: 12 Digit Account Number of the PuppetAccount
+
+Resources:
+  PuppetRoleForTerraform:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: PuppetRoleForTerraform
+      Path: /servicecatalog-puppet/
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Principal:
+              AWS: !Sub "arn:aws:iam::${PuppetAccountId}:root"
+            Action:
+              - "sts:AssumeRole"
+          - Effect: "Allow"
+            Principal:
+              AWS: !Sub "arn:aws:iam::${AWS::AccountId}:root"
+            Action:
+              - "sts:AssumeRole"
+          - Effect: "Allow"
+            Principal:
+              Service:
+                - "codepipeline.amazonaws.com"
+            Action:
+              - "sts:AssumeRole"
+
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AdministratorAccess
