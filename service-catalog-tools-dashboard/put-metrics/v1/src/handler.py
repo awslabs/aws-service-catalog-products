@@ -41,7 +41,7 @@ pipeline_state_map = {
 }
 
 
-def lambda_handler(event, context):
+def handler(event, context):
     pipeline_name, pipeline_state, execution_timestamp = get_event_info(event)
     put_metrics(pipeline_name, pipeline_state_map[pipeline_state], execution_timestamp)
 

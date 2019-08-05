@@ -35,7 +35,7 @@ def start_build(project_name):
     return response
 
 
-def lambda_handler(event, context):
+def handler(event, context):
     LOGGER.info('event: {}'.format(json_dump_format(event)))
 
     project_name = event.get('ProjectName')

@@ -22,8 +22,8 @@ The source code for the static website is available in the `/web-dashboard`. Ple
 
 ## Custom resources
 
-- [GetMetrics Lambda Function](v1/src/get_metric/lambda_function.py) : The lambda function will use the service catalog commands to generate a `list-launches.json` and `show-pipelines.json`. The JSON files are uploaded into the S3 bucket at runtime. The JSON files are uploaded everytime we have an execution of the `servicecatalog-factory-pipeline` and `servicecatalog-puppet-pipeline`
-- [PutMetrics Lambda Function](v1/src/put_metric/lambda_function.py) : The lambda function will upload custom metrics into cloud watch for the pipeline executon status of `servicecatalog-factory-pipeline` and `servicecatalog-puppet-pipeline`. The states tracked are `SUCCEEDED`, `FAILED` and `CANCELED`. The metrics will be used to plot the cloudwatch dashboard for the pipelines
+- [GetMetrics Lambda Function](../get-metrics/v1/src/handler.py) : The lambda function will use the service catalog commands to generate a `list-launches.json` and `show-pipelines.json`. The JSON files are uploaded into the S3 bucket at runtime. The JSON files are uploaded everytime we have an execution of the `servicecatalog-factory-pipeline` and `servicecatalog-puppet-pipeline`
+- [PutMetrics Lambda Function](../put-metrics/v1/src/handler.py) : The lambda function will upload custom metrics into cloud watch for the pipeline executon status of `servicecatalog-factory-pipeline` and `servicecatalog-puppet-pipeline`. The states tracked are `SUCCEEDED`, `FAILED` and `CANCELED`. The metrics will be used to plot the cloudwatch dashboard for the pipelines
 
 ## Example
 

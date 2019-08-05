@@ -1,0 +1,47 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: "Creates a CloudWatch and static website dashboard that monitors service catalog factory/ puppet pipelines and provisioned products health"
+
+Parameters:
+  CIDRForDashboardAccess:
+    Description: IP CIDR range which will be allowed to access the monitoring dashboard hosted on S3
+    Type: String
+Resources:
+  # S3 Bucket for hosting the static website for monitoring dashboard
+  S3StaticHostingBucket:
+    Type: AWS::S3::Bucket
+    DeletionPolicy: Retain # S3 bucket cannot be deleted when non empty
+    Properties:
+      AccessControl: BucketOwnerFullControl
+      WebsiteConfiguration:
+        IndexDocument: index.html
+        ErrorDocument: error.html
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+  # Bucket policy for the S3 bucket hosting the static website
+  StaticHostingBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      PolicyDocument:
+        Id: AllowSelectedIPSource
+        Version: 2012-10-17
+        Statement:
+          - Sid: PublicReadForGetBucketObjects
+            Effect: Allow
+            Principal: "*"
+            Action: "s3:GetObject"
+            Resource: !Join ["", [!GetAtt [S3StaticHostingBucket, Arn], "/*"]]
+            Condition:
+              IpAddress:
+                aws:SourceIp:
+                  - !Ref CIDRForDashboardAccess
+      Bucket: !Ref S3StaticHostingBucket
+Outputs:
+  WebsiteURL:
+    Value: !GetAtt [S3StaticHostingBucket, WebsiteURL]
+    Description: URL for website hosted on S3
+  S3BucketName:
+    Value: !Ref S3StaticHostingBucket
+    Description: Name of S3 bucket to hold website content

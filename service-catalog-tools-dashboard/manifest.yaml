@@ -1,0 +1,36 @@
+# Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+schema: puppet-2019-04-01
+
+launches:
+  sc-tools-dashboard-static-web-app:
+    portfolio: demo-central-it-team-portfolio
+    product: static-web-app
+    version: v1
+    parameters:
+      CIDRForDashboardAccess:
+        default: "192.168.0.0/20"
+    outputs:
+      ssm:
+        - param_name: sc-dashboard-bucket-name
+          stack_output: S3BucketName
+  sc-tools-dashboard-get-metrics:
+    portfolio: demo-central-it-team-portfolio
+    product: get-metrics
+    version: v1
+    depends_on:
+      - sc-tools-dashboard-static-web-app
+    parameters:
+      S3BucketNameForStaticWebsite:
+        ssm:
+          name: sc-dashboard-bucket-name
+      IsDebugEnabled:
+        default: "true"
+  sc-tools-dashboard-put-metrics:
+    portfolio: demo-central-it-team-portfolio
+    product: put-metrics
+    version: v1
+    parameters:
+      IsDebugEnabled:
+        default: "true"
