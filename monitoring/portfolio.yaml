@@ -1,0 +1,38 @@
+# Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+Schema: factory-2019-04-01
+Portfolios:
+  Components:
+    - Name: service-catalog-tools-dashboard
+      Owner: central-it@customer.com
+      Description: Monitoring dashboard product for the service catalog factory and puppet infrastructure
+      Distributor: IT-Support-Customer
+      SupportDescription: Contact us on Chime for help #central-it-team
+      SupportEmail: central-it@customer.com
+      SupportUrl: https://wiki.customer.com/central-it-team/self-service/service-catalog-tools-dashboard
+      Tags:
+        - Key: product-type
+          Value: monitoring
+      Versions:
+        - Name: v1
+          Description: Monitoring dashboard product for the service catalog factory and puppet infrastructure
+          Active: True
+          Source:
+            Provider: CodeCommit
+            Configuration:
+              RepositoryName: service-catalog-tools-dashboard
+              BranchName: v1
+      BuildSpec: |
+        version: 0.2  
+        phases:  
+          build:  
+            commands:  
+              - for dir in src/*; do pip install -r $dir/requirements.txt -t $dir/; done  
+            {% for region in ALL_REGIONS %}  
+              - aws cloudformation package --template $(pwd)/product.template.yaml --s3-bucket sc-factory-artifacts-${ACCOUNT_ID}-{{ region }} --s3-prefix ${STACK_NAME} --output-template-file product.template-{{ region }}.yaml  
+            {% endfor %}  
+        artifacts:  
+          files:  
+            - '*'  
+            - '**/*'
