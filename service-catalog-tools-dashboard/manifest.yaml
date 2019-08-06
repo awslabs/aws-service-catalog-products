@@ -25,6 +25,7 @@ launches:
       S3BucketNameForStaticWebsite:
         ssm:
           name: sc-dashboard-bucket-name
+          region: us-east-2
       IsDebugEnabled:
         default: "true"
   sc-tools-dashboard-put-metrics:

@@ -1,13 +1,14 @@
 # Service Catalog Tools Dashboard
 
-This is a solution to monitor the service catalog tools - Factory and Puppet, using dashboards in CloudWatch and a static website hosted on S3
+This is a solution to monitor the service catalog tools - Factory and Puppet, using dashboards in CloudWatch and a static website hosted on S3.
 
 ## Description
 
 Deploys three products which create the dashboard for monitoring the service catalog tools
-* get-metrics
-* put-metrics
-* static-web-app
+
+- [get-metrics](get-metrics/v1/README.md)
+- [put-metrics](put-metrics/v1/README.md)
+- [static-web-app](static-web-app/v1/README.md)
 
 ## Install Instructions
 
@@ -29,9 +30,7 @@ git clone --config 'credential.helper=!aws codecommit credential-helper $@' --co
 svn export https://github.com/awslabs/aws-service-catalog-products/trunk/service-catalog-tools-dashboard/static-web-app/v1 static-web-app --force
 ```
 
+## Usage Instructions
 
-
-
-## Usage instructions
-
-Copy the config from manifest.yaml. The launch of `service-catalog-tools-dashboard` should appear in your manifest only once. Refer the dashboard product [README](static-web-app/README.md) for more details.
+- Copy the config from the portfolio.yaml. Here we are providing the details on the repository and BuildSpec needed for packaging the products
+- Copy the config from manifest.yaml. We will be having three launches in the manifest

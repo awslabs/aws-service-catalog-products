@@ -1,4 +1,4 @@
-# Monitoring Dashboard
+# Static website dashboard for SC Tools
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.9.
 
@@ -22,4 +22,3 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 - Execute `ng build --prod=true`
 - The files will be generated within `/static-website/public_html`
 - Copy all the files from `/static-website/public_html` to the required S3 bucket
-

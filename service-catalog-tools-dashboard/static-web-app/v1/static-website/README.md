@@ -1,4 +1,4 @@
-# Notes
+# Static website deployment for SC Tools
 
 - The static website is stored in `public_html` folder
 - The static website is **auto-generated** by the Angular framework
