@@ -6,6 +6,7 @@ Parameters:
   CIDRForDashboardAccess:
     Description: IP CIDR range which will be allowed to access the monitoring dashboard hosted on S3
     Type: String
+
 Resources:
   # S3 Bucket for hosting the static website for monitoring dashboard
   S3StaticHostingBucket:
@@ -38,6 +39,59 @@ Resources:
                 aws:SourceIp:
                   - !Ref CIDRForDashboardAccess
       Bucket: !Ref S3StaticHostingBucket
+  # Code build role for the static website
+  StaticWebsiteBuildRole:
+    Type: AWS::IAM::Role
+    Properties:
+      Path: /servicecatalog-monitoring/
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - codebuild.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Policies:
+        - PolicyName: StaticWebsiteBuildPolicy
+          PolicyDocument:
+            Statement:
+              - Action:
+                  - "sts:AssumeRole"
+                  - "logs:CreateLogGroup"
+                  - "logs:CreateLogStream"
+                  - "logs:PutLogEvents"
+                  - "codecommit:Get*"
+                  - "codecommit:List*"
+                  - "codecommit:GitPull"
+                  - "s3:List*"
+                  - "s3:Get*"
+                  - "s3:PutObject"
+                Effect: Allow
+                Resource: "*"
+  # Code build project for the static website
+  BuildStaticWebsite:
+    Type: AWS::CodeBuild::Project
+    Properties:
+      Description: Project to build the static website for the metrics dashboard
+      Environment:
+        Type: LINUX_CONTAINER
+        ComputeType: BUILD_GENERAL1_SMALL
+        Image: aws/codebuild/standard:2.0
+      ServiceRole: !GetAtt StaticWebsiteBuildRole.Arn
+      Source:
+        Type: CODECOMMIT
+        Location: !Join
+          - ""
+          - - "https://git-codecommit."
+            - !Ref "AWS::Region"
+            - ".amazonaws.com/v1/repos/static-web-app"
+      Artifacts:
+        Type: S3
+        Location: !Ref S3StaticHostingBucket
+        Packaging: NONE
+        EncryptionDisabled: true
 Outputs:
   WebsiteURL:
     Value: !GetAtt [S3StaticHostingBucket, WebsiteURL]
