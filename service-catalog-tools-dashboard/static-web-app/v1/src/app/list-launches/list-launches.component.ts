@@ -4,38 +4,38 @@ import {Observable} from "rxjs";
 import {ListLaunchService} from "../_services";
 
 @Component({
-  selector: 'app-list-launches',
-  templateUrl: './list-launches.component.html',
-  styleUrls: ['./list-launches.component.scss'],
-  encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-list-launches',
+    templateUrl: './list-launches.component.html',
+    styleUrls: ['./list-launches.component.scss'],
+    encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ListLaunchesComponent implements OnInit {
 
-  list_launches$: Observable<ProductInfo[]>;
-  now: number;
-  show_spinner: boolean = true;
+    list_launches$: Observable<ProductInfo[]>;
+    now: number;
+    show_spinner: boolean = true;
 
-  constructor(private listLaunchService: ListLaunchService,
-              private changeDetectorRef: ChangeDetectorRef) {
-  }
+    constructor(private listLaunchService: ListLaunchService,
+                private changeDetectorRef: ChangeDetectorRef) {
+    }
 
-  ngOnInit() {
+    ngOnInit() {
 
-    // Load the data every 5 seconds
-    setInterval(() => {
-      this.loadAll();
-      this.now = Date.now();
-      this.changeDetectorRef.markForCheck();
-      this.show_spinner = false;
-    }, 5000);
+        // Load the data every 5 seconds
+        setInterval(() => {
+            this.loadAll();
+            this.now = Date.now();
+            this.changeDetectorRef.markForCheck();
+            this.show_spinner = false;
+        }, 5000);
 
-  }
+    }
 
-  loadAll() {
-    this.list_launches$ = this.listLaunchService.list_launches;
-    this.listLaunchService.loadAll();
-  }
+    loadAll() {
+        this.list_launches$ = this.listLaunchService.list_launches;
+        this.listLaunchService.loadAll();
+    }
 
 }
 

@@ -6,12 +6,11 @@ This CloudFormation template creates dashboard product hosted on S3 bucket for t
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.9.
 
-## Development server
+## Local development server
 
-- Install Angular CLI - `npm install -g @angular/cli`
-- Navigate to the root folder. Here the root folder is _web-dashboard_
+- Navigate to the root folder. Here the root folder is _v1_
 - Run `npm install` for installing all the dependencies from `package.json`
-- Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`
+- Run `npm run-script start` for a dev server. Navigate to `http://localhost:4200/`
 - The app will automatically reload if you change any of the source files.
 - Any environment specific variables are defined in `environment.ts` and `environment.prod.ts`
 
@@ -23,6 +22,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 ## Deployment to S3
 
 - The code build project will be deploying the static website into the S3 bucket
+- We have a cloud watch event which listens for any change to the code commit repository of static-web-app and triggers the code build
 
 ## Parameters
 

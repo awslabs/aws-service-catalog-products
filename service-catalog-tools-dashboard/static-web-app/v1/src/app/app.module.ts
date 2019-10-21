@@ -15,25 +15,25 @@ import {SpinnerComponent} from './spinner/spinner.component';
 
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    ListLaunchesComponent,
-    HeaderComponent,
-    FooterComponent,
-    ShowPipelinesComponent,
-    SpinnerComponent
-  ],
-  imports: [
-    BrowserModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    AppRoutingModule
-  ],
-  providers: [
-    {provide: HTTP_INTERCEPTORS, useClass: HeaderInterceptor, multi: true}
-  ],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        ListLaunchesComponent,
+        HeaderComponent,
+        FooterComponent,
+        ShowPipelinesComponent,
+        SpinnerComponent
+    ],
+    imports: [
+        BrowserModule,
+        FormsModule,
+        ReactiveFormsModule,
+        HttpClientModule,
+        AppRoutingModule
+    ],
+    providers: [
+        {provide: HTTP_INTERCEPTORS, useClass: HeaderInterceptor, multi: true}
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule {
 }

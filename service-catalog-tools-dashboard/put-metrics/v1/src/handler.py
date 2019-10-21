@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 
 """ Lambda Function For Putting Metrics into CloudWatch """
-from datetime import datetime
 import json
 import logging
 import os
+from datetime import datetime
 
 import boto3
 
