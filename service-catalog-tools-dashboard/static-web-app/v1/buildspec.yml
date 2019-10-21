@@ -18,3 +18,6 @@ phases:
   post-build:
     commands:
       - echo Build is completed on `date`
+artifacts:
+  files:
+    - 'dist/*'
