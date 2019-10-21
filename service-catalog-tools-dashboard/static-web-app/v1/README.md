@@ -1,4 +1,8 @@
-# Static website dashboard for SC Tools
+# Static Web App Product
+
+This CloudFormation template creates dashboard product hosted on S3 bucket for tracking the status of the SC tools.
+
+**NOTE** : **This is for illustration purposes only and not approved for production use**.
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.9.
 
@@ -18,7 +22,18 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Deployment to S3
 
-- The static website is generated in `/static-website/public_html` folder. The location is [here](../static-website/README.md)
-- Execute `ng build --prod=true`
-- The files will be generated within `/static-website/public_html`
-- Copy all the files from `/static-website/public_html` to the required S3 bucket
+- The code build project will be deploying the static website into the S3 bucket
+
+## Parameters
+
+```
+CIDRForDashboardAccess:
+    Description: IP CIDR range which will be allowed to access the monitoring dashboard hosted on S3
+    Type: String
+```
+
+## Example
+
+```
+CIDRForDashboardAccess = 192.168.0.0/20
+```

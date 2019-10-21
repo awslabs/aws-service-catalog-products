@@ -93,6 +93,54 @@ Resources:
         Packaging: NONE
         EncryptionDisabled: true
         Name: "/"
+  # Role for the CW event to invoke the code build
+  CWEventInvokeStaticWebsiteBuildRole:
+    Type: AWS::IAM::Role
+    Properties:
+      Path: /servicecatalog-monitoring/
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - events.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Policies:
+        - PolicyName: CWEventPolicyForCodeBuild
+          PolicyDocument:
+            Statement:
+              - Action:
+                  - "sts:AssumeRole"
+                  - "codebuild:StartBuild"
+                Effect: Allow
+                Resource: "*"
+  # Event for triggering the code build project
+  StaticWebsiteEventRole:
+    Type: AWS::Events::Rule
+    Properties:
+      Name: service-catalog-metrics-static-web-app
+      Description: Event to detect a code change to trigger the code build project
+      EventPattern:
+        source:
+          - "aws.codecommit"
+        detail:
+          referenceType:
+            - branch
+          event:
+            - referenceCreated
+            - referenceUpdated
+          referenceName:
+            - v1
+        detail-type:
+          - CodeCommit Repository State Change
+        resources:
+          - !Sub 'arn:aws:codecommit:${AWS::Region}:${AWS::AccountId}:static-web-app'
+      Targets:
+        - Id: "InvokeStaticWebAppBuild"
+          Arn: !GetAtt BuildStaticWebsite.Arn
+          RoleArn: !GetAtt CWEventInvokeStaticWebsiteBuildRole.Arn
 Outputs:
   WebsiteURL:
     Value: !GetAtt [S3StaticHostingBucket, WebsiteURL]
