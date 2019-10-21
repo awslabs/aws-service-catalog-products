@@ -92,6 +92,7 @@ Resources:
         Location: !Ref S3StaticHostingBucket
         Packaging: NONE
         EncryptionDisabled: true
+        Name: "/"
 Outputs:
   WebsiteURL:
     Value: !GetAtt [S3StaticHostingBucket, WebsiteURL]

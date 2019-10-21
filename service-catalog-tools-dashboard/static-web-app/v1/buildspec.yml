@@ -4,20 +4,17 @@ phases:
   install:
     runtime-versions:
       nodejs: 10
-    commands:
-      - echo Installing Angular Framework....
-      - npm install -g @angular/cli
-  pre-build:
+  pre_build:
     commands:
       - echo Installing NPM dependencies....
       - npm install
   build:
     commands:
       - echo Building the project....
-      - ng build --prod
-  post-build:
+      - npm run-script build
+  post_build:
     commands:
       - echo Build is completed on `date`
 artifacts:
   files:
-    - 'dist/*'
+    - "dist/**/*"
