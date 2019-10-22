@@ -61,11 +61,7 @@ Resources:
       Environment:
         Type: LINUX_CONTAINER
         ComputeType: BUILD_GENERAL1_SMALL
-        Image: aws/codebuild/standard:1.0
-        EnvironmentVariables:
-          - Name: VERSION
-            Type: PLAINTEXT
-            Value: 0.18.0
+        Image: aws/codebuild/standard:2.0
       ServiceRole: !GetAtt DashboardCodeBuildRole.Arn
       Source:
         Type: CODECOMMIT
@@ -81,7 +77,7 @@ Resources:
               runtime-versions:
                 python: 3.7
               commands:
-                - pip install aws-service-catalog-puppet==${VERSION}
+                - pip install aws-service-catalog-puppet
             build:
               commands:
                 - servicecatalog-puppet expand manifest.yaml
@@ -104,11 +100,7 @@ Resources:
       Environment:
         Type: LINUX_CONTAINER
         ComputeType: BUILD_GENERAL1_SMALL
-        Image: aws/codebuild/standard:1.0
-        EnvironmentVariables:
-          - Name: VERSION
-            Type: PLAINTEXT
-            Value: 0.11.0
+        Image: aws/codebuild/standard:2.0
       ServiceRole: !GetAtt DashboardCodeBuildRole.Arn
       Source:
         Type: CODECOMMIT
@@ -124,7 +116,7 @@ Resources:
               runtime-versions:
                 python: 3.7
               commands:
-                - pip install aws-service-catalog-factory==${VERSION}
+                - pip install aws-service-catalog-factory
             build:
               commands:
                 - servicecatalog-factory show-pipelines . --format json > show-pipelines.json
