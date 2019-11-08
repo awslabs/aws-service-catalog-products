@@ -38,8 +38,8 @@ Resources:
 Outputs:
   RoleArn:
     Description: The Arn of the Role created
-      Value: !GetAtt Role.Arn
+    Value: !GetAtt Role.Arn
 
   RoleId:
     Description: The Id of the Role created
-      Value: !GetAtt Role.RoleId
+    Value: !GetAtt Role.RoleId
