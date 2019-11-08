@@ -1,0 +1,46 @@
+# Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+AWSTemplateFormatVersion: 2010-09-09
+Description: |
+  Creates a role with the AdministratorAccess policy and a trust policy for the given service
+
+Parameters:
+  ServiceToTrust:
+    Type: String
+    Description: "AWS Service to trust eg codebuild.amazonaws.com"
+
+  RoleName:
+    Type: String
+    Default: Admin
+
+  Path:
+    Type: String
+    Default: /
+
+Resources:
+  Role:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Ref RoleName
+      Path: !Ref Path
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Principal:
+              Service:
+                - !Ref ServiceToTrust
+            Action:
+              - "sts:AssumeRole"
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AdministratorAccess
+
+Outputs:
+  RoleArn:
+    Description: The Arn of the Role created
+      Value: !GetAtt Role.Arn
+
+  RoleId:
+    Description: The Id of the Role created
+      Value: !GetAtt Role.RoleId
