@@ -1,0 +1,21 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 10
+  pre_build:
+    commands:
+      - echo Installing NPM dependencies....
+      - npm install
+  build:
+    commands:
+      - echo Building the project....
+      - npm run-script build
+  post_build:
+    commands:
+      - echo Build is completed on `date`
+artifacts:
+  files:
+    - "**/*"
+  base-directory: "dist"
