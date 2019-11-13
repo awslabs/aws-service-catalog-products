@@ -4,7 +4,7 @@
 schema: puppet-2019-04-01
 
 launches:
-  aws-servicecatalog-factory-provisioners-terraform:
+  aws-config-aggregator:
     portfolio: demo-central-it-team-portfolio
-    product: aws-servicecatalog-factory-provisioners-terraform
-    version: v4
+    product: aws-config-aggregator
+    version: v1

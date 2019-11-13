@@ -4,22 +4,22 @@
 Schema: factory-2019-04-01
 Portfolios:
   Components:
-    - Name: aws-servicecatalog-factory-provisioners-terraform
+    - Name: aws-config-aggregator
       Owner: central-it@customer.com
-      Description: IAM roles needed in the spoke accounts to make Terraform provisioning work
+      Description: aws-config-aggregator
       Distributor: central-it-team
       SupportDescription: Contact us on Chime for help #central-it-team
       SupportEmail: central-it-team@customer.com
-      SupportUrl: https://wiki.customer.com/central-it-team/self-service/account-iam
+      SupportUrl: https://wiki.customer.com/central-it-team/aws-config-aggregator
       Tags:
         - Key: product-type
-          Value: iam
+          Value: aws-config
       Versions:
-        - Name: v4
-          Description: IAM roles needed in the spoke accounts to make Terraform provisioning work
+        - Name: v1
+          Description: aws-config-aggregator
           Active: True
           Source:
             Provider: CodeCommit
             Configuration:
-              RepositoryName: aws-servicecatalog-factory-provisioners-terraform
+              RepositoryName: aws-config-aggregator
               BranchName: master
