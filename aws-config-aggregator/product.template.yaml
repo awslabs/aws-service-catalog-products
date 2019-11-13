@@ -1,0 +1,82 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: |
+  This template creates an AWS Config Aggregator using AWS Organizations.
+
+Parameters:
+  ConfigurationAggregatorName:
+    Type: String
+    Description: |
+      "The name of the aggregator. Member must satisfy regular expression pattern: [\w\-]+"
+
+  AllAwsRegions:
+    Type: String
+    Default: true
+    AllowedValues: [true, false]
+    Description: |
+      If true, aggregate existing AWS Config regions and future regions.
+
+  SpecificAwsRegions:
+    Type: CommaDelimitedList
+    Default: ""
+    Description: |
+      Optional - If AllAwsRegions is true then this is not used. CommaDelimitedList of source regions being aggregated.
+
+Conditions:
+  # If AllAwsRegions is true then let UseAllAwsRegions evaluate to true.
+  UseAllAwsRegions: !Equals
+      - !Ref AllAwsRegions
+      - "true"
+  UseSpecificAwsRegions: !Equals
+      - !Ref AllAwsRegions
+      - "false"
+
+Resources:
+  OrgConfigAggregatorRole:
+    Type: 'AWS::IAM::Role'
+    Description: The IAM role used by AWS Config for Organization permissions
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - config.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSConfigRoleForOrganizations
+
+  OrgConfigAggregatorAll:
+    Condition: UseAllAwsRegions
+    Type: AWS::Config::ConfigurationAggregator
+    Properties:
+      ConfigurationAggregatorName: !Ref ConfigurationAggregatorName
+      OrganizationAggregationSource:
+        AllAwsRegions: true
+        RoleArn: !GetAtt OrgConfigAggregatorRole.Arn
+
+  OrgConfigAggregatorSpecific:
+    Condition: UseSpecificAwsRegions
+    Type: AWS::Config::ConfigurationAggregator
+    Properties:
+      ConfigurationAggregatorName: !Ref ConfigurationAggregatorName
+      OrganizationAggregationSource:
+        AwsRegions: !Ref SpecificAwsRegions
+        AllAwsRegions: false
+        RoleArn: !GetAtt OrgConfigAggregatorRole.Arn
+
+Outputs:
+  OrgConfigRole:
+    Description: Arn of IAM role used by AWS Config for Organization permissions
+    Value: !GetAtt OrgConfigAggregatorRole.Arn
+
+  OrgConfigName:
+    Description: Configuration Aggregator Name
+    Value: !Ref OrgConfigAggregatorAll
+    Condition: UseAllAwsRegions
+
+  OrgConfigName:
+    Description: Configuration Aggregator Name
+    Value: !Ref OrgConfigAggregatorSpecific
+    Condition: UseSpecificAwsRegions
