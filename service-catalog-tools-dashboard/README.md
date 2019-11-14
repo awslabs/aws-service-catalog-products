@@ -2,6 +2,10 @@
 
 This is a solution to monitor the service catalog tools - Factory and Puppet, using dashboards in CloudWatch and a static website hosted on S3.
 
+![Product Launch Status](product-launch-status.png)
+
+![Pipelines Status](pipelines-status.png)
+
 ## Description
 
 Deploys three products which create the dashboard for monitoring the service catalog tools
