@@ -38,3 +38,16 @@ Resources:
 
       ManagedPolicyArns:
         - arn:aws:iam::aws:policy/AdministratorAccess
+
+      Policies:
+        - PolicyName: "AllowAccessToFactoryArtifacts"
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: "Allow"
+                Action:
+                  - s3:Get*
+                  - s3:List*
+                  - s3:Head*
+                  - s3:GetEncryptionConfiguration
+                Resource: !Sub "arn:aws:s3:::sc-factory-artifacts-${PuppetAccountId}-*/*"
