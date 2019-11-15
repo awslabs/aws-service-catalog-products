@@ -5,7 +5,7 @@ schema: puppet-2019-04-01
 
 launches:
   scp-create-guardrail-001:
-    portfolio: lz-core-org-master-portfolio
+    portfolio: demo-central-it-team-portfolio
     product: scp-create
     version: v1
     parameters:

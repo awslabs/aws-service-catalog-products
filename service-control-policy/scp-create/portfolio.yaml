@@ -14,6 +14,8 @@ Portfolios:
       Tags:
         - Key: lz-type
           Value: core
+        - Key: product-type
+          Value: scp
       Versions:
         - Name: v1
           Description: Creates SCP
