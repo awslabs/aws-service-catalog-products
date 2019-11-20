@@ -49,9 +49,6 @@ Resources:
       Role: !GetAtt AttachPolicyLambdaRole.Arn
       Runtime: python3.7
       Timeout: 60
-      Environment:
-        Variables:
-          DEBUG_MODE: 'true'
 
   AttachPolicy:
     Type: Custom::AttachPolicy

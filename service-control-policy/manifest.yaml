@@ -27,3 +27,29 @@ launches:
       tags:
         - tag: aws_account_name:core_security
           regions: default_region
+    outputs:
+      ssm:
+        - param_name: /sc-outputs/scp-create-guardrail-001/PolicyId
+          stack_output: PolicyId
+  scp-attach-guardrail-001:
+    portfolio: demo-central-it-team-portfolio
+    product: scp-attach
+    version: v1
+    depends_on:
+      - scp-create-guardrail-001
+    parameters:
+      PolicyId:
+        ssm:
+          name: /sc-outputs/scp-create-guardrail-001/PolicyId
+          region: eu-central-1
+      TargetId:
+        default: 'ou-xwew-fqufiolk'
+      OrgRole:
+        ssm:
+          name: /sc-outputs/org-bootstrap-roles/SCPManagementRoleArn
+          region: eu-central-1
+    deploy_to:
+      tags:
+        - tag: aws_account_name:core_security
+          regions: default_region
+
