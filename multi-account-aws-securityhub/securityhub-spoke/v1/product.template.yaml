@@ -1,0 +1,59 @@
+# Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Enables SecurityHub & creates a Lambda-backed custom resource which will assume a role in the hub account and register itself
+
+Parameters:
+  HubEnablerFunctionRole:
+    Type: String
+    Description: ARN of the SecurityHub role in the master that SecurityHubRegisterFunction will assume into
+  Email:
+    Type: String
+    Description: Email contact required for SecurityHub invite
+  HubAccountId:
+    Type: String
+    Description: The AccountId of the SecurityHub master account
+
+
+Resources:
+
+  SecurityHub:
+    Type: AWS::SecurityHub::Hub
+    Properties: 
+      Tags:
+          "Managed-by" : "Service-Catalog-Puppet"
+
+  SecurityHubRegisterFunction:
+    Type: AWS::Serverless::Function
+    Description: |
+      A lambda function that will register itself in the hub and send an invite
+    Properties:
+      Runtime: python3.7
+      Handler: lambda_function.lambda_handler
+      CodeUri: ./src/register
+      Policies:
+        - arn:aws:iam::aws:policy/AWSLambdaExecute
+        - Version: 2012-10-17
+          Statement:
+            - Effect: Allow
+              Action:
+                - sts:AssumeRole
+              Resource: !Ref HubEnablerFunctionRole
+            - Effect: Allow
+              Action:
+                - securityhub:ListInvitations
+                - securityhub:AcceptInvitation
+              Resource: '*'
+      Timeout: 900
+
+  SpokeCustomResource:
+    Type: Custom::RegisterSecurityHub
+    DependsOn: SecurityHub
+    Properties:
+      ServiceToken: !GetAtt SecurityHubRegisterFunction.Arn
+      AssumableHubRoleArn: !Ref HubEnablerFunctionRole
+      SpokeAccountId: !Ref AWS::AccountId
+      HubAccountId: !Ref HubAccountId
+      Email: !Ref Email
