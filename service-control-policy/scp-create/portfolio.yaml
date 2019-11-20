@@ -1,0 +1,40 @@
+# Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+Schema: factory-2019-04-01
+Portfolios:
+  Components:
+    - Name: scp-create
+      Owner: infrastructure-team@customer.com
+      Description: Creates SCP
+      Distributor: IT-Support-Customer
+      SupportDescription: Contact us on Chime for help #central-it-team
+      SupportEmail: infrastructure-team@customer.com
+      SupportUrl: https://wiki.customer.com/infrastructure-team/self-service/
+      Tags:
+        - Key: lz-type
+          Value: core
+        - Key: product-type
+          Value: scp
+      Versions:
+        - Name: v1
+          Description: Creates SCP
+          Active: True
+          Source:
+            Provider: CodeCommit
+            Configuration:
+              RepositoryName: scp-create
+              BranchName: master
+      BuildSpec: |
+          version: 0.2
+          phases:
+            build:
+              commands:
+                - for dir in src/*; do pip install -r $dir/requirements.txt -t $dir/; done
+              {% for region in ALL_REGIONS %}
+                - aws cloudformation package --template $(pwd)/product.template.yaml --s3-bucket sc-factory-artifacts-${ACCOUNT_ID}-{{ region }} --s3-prefix ${STACK_NAME} --output-template-file product.template-{{ region }}.yaml
+              {% endfor %}
+          artifacts:
+            files:
+              - '*'
+              - '**/*'
