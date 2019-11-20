@@ -1,4 +1,4 @@
-# service-control-policies
+# service-control-policy
 This is a solution that provides the ability to create & attach Service Control Policies.
 
 ## Description
