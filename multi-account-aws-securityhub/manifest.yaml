@@ -10,7 +10,7 @@ launches:
     version: v1
     parameters:
       AWSOrganizationId:
-        default: 'o-yrrkkr91np5'
+        default: 'o-qwertyuiopa'
     outputs:
       ssm:
         - param_name: /sc-outputs/securityhub-master/SecurityHubRegisterRoleArn
