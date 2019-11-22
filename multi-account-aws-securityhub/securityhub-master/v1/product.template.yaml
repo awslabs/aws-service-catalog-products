@@ -1,0 +1,59 @@
+# Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+AWSTemplateFormatVersion: 2010-09-09
+Description: Creates an IAM Role that can be assumed by the Spoke Security Hub Lambdas for self-registration
+
+Parameters:
+  AWSOrganizationId:
+    Type: String
+    Description: The AWS Organizations ID (example o-xxxxxxx)
+
+Resources:
+  SecurityHub:
+    Type: AWS::SecurityHub::Hub
+    Properties: 
+      Tags:
+          "Managed-by" : "Service-Catalog-Puppet"
+
+  SecurityHubRegisterRole:
+    Type: "AWS::IAM::Role"
+    Properties:
+      RoleName: SecurityHubRegisterRole
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Principal:
+              AWS:
+                - "*"
+            Action:
+              - "sts:AssumeRole"
+            Condition:
+              StringEquals:
+                aws:PrincipalOrgID:
+                  - !Ref AWSOrganizationId
+      Policies:
+        - PolicyName: "Invite-Spoke"
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: "Allow"
+                Action:
+                  - securityhub:AcceptInvitation
+                  - securityhub:CreateMembers
+                  - securityhub:InviteMembers
+                  - securityhub:DeleteMembers
+                  - securityhub:DisassociateMembers
+                Resource: "*"
+
+
+
+Outputs:
+  SecurityHubRegisterRoleArn:
+    Description: ARN of the SecurityHubRegisterRole to be assumed by spoke accounts in the org
+    Value: !GetAtt SecurityHubRegisterRole.Arn
+
+  SecurityHubArn:
+    Description: ARN of SecurityHub
+    Value: !Ref SecurityHub
