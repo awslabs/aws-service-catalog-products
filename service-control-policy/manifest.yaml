@@ -43,7 +43,7 @@ launches:
           name: /sc-outputs/scp-create-guardrail-001/PolicyId
           region: eu-central-1
       TargetId:
-        default: 'ou-xwew-fqufiolk'
+        default: 'ou-xxxx-yyyyyyyy'
       OrgRole:
         ssm:
           name: /sc-outputs/org-bootstrap-roles/SCPManagementRoleArn
