@@ -1,0 +1,82 @@
+# Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: 'Creates SCP Policy using supporting lambda functions'
+
+Parameters:
+  PolicyName:
+    Description: Name of SCP Policy
+    Type: String
+  
+  PolicyDescription:
+    Description: Description of Policy
+    Type: String
+
+  S3Bucket:
+    Description: S3 bucket where policy has been uploaded
+    Type: String
+
+  S3Object:
+    Description: S3 object name of policy
+    Type: String
+  
+  OrgRole:
+    Description: ARN of IAM role that Lambda will assume to perform policy attach/delete actions.
+    Type: String
+
+Resources:
+
+  CreatePolicyLambdaRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service: 'lambda.amazonaws.com'
+          Action:
+          - 'sts:AssumeRole'
+      Path: '/'
+      ManagedPolicyArns:
+      - 'arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
+      Policies:
+      - PolicyName: AssumeOrgRole
+        PolicyDocument:
+          Statement:
+          - Effect: Allow
+            Action:
+              - sts:AssumeRole
+              - s3:List*
+              - s3:Get*
+            Resource: '*'
+  
+  CreatePolicyLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./src/create_policy
+      Handler: lambda_function.lambda_handler
+      MemorySize: 128
+      Role: !GetAtt CreatePolicyLambdaRole.Arn
+      Runtime: python3.7
+      Timeout: 60
+      Environment:
+        Variables:
+          DEBUG_MODE: 'true'
+
+  CreatePolicy:
+    Type: Custom::CreatePolicy
+    Properties:
+      ServiceToken: !GetAtt 'CreatePolicyLambda.Arn'
+      PolicyName: !Ref 'PolicyName'
+      S3Object: !Ref 'S3Object'
+      S3Bucket: !Ref 'S3Bucket'
+      OrgRole: !Ref 'OrgRole'
+      PolicyDescription: !Ref 'PolicyDescription'
+  
+Outputs:
+  PolicyId:
+    Description: 'Policy Id of SCP'
+    Value: !Ref 'CreatePolicy'
