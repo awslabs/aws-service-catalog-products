@@ -24,6 +24,7 @@
     "jquery": "^3.4.1",
     "popper": "^1.0.1",
     "rxjs": "~6.3.3",
+    "serialize-javascript": "^2.1.2",
     "tslib": "^1.9.0",
     "zone.js": "~0.8.26"
   },
@@ -46,6 +47,7 @@
     "protractor": "~5.4.0",
     "ts-node": "~7.0.0",
     "tslint": "~5.11.0",
-    "typescript": "~3.2.2"
+    "typescript": "~3.2.2",
+    "serialize-javascript": "^2.1.2"
   }
 }
