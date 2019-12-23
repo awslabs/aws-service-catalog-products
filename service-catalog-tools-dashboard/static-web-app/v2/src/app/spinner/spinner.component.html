@@ -1,0 +1,11 @@
+<!--Spinner-->
+<div *ngIf="enable">
+    <div class="text-center">
+        <div class="spinner-border text-primary" role="status"></div>
+        <p *ngIf="message && message !== ''" class="text-primary spinner-message">
+            {{message}}
+        </p>
+    </div>
+</div>
+
+
