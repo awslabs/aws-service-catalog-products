@@ -15,7 +15,7 @@ Portfolios:
         - Key: product-type
           Value: service-catalog-tools-dashboard
       Versions:
-        - Name: v1
+        - Name: v2
           Description: Deploys a static website in S3 bucket to display service catalog tools dashboard
           Active: True
           Source:
