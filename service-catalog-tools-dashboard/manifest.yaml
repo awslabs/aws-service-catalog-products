@@ -7,7 +7,7 @@ launches:
   sc-tools-dashboard-static-web-app:
     portfolio: demo-central-it-team-portfolio
     product: static-web-app
-    version: v1
+    version: v2
     parameters:
       CIDRForDashboardAccess:
         default: "192.168.0.0/20"
