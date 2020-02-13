@@ -11,14 +11,14 @@ Portfolios:
         - Key: product-type
           Value: GuardDuty
         Versions:
-          - Name: v1
-            Description: GuardDuty V1
+          - Name: v2
+            Description: GuardDuty V2
             Active: True
             Source:
               Provider: CodeCommit
               Configuration:
                 RepositoryName: guardduty-spoke
-                BranchName: v1
+                BranchName: v2
       - Name: guardduty-master
         Owner: Amazon-Web-Services
         Description: Master Account Product for GuardDuty
@@ -30,14 +30,14 @@ Portfolios:
         - Key: product-type
           Value: GuardDuty
         Versions:
-          - Name: v1
+          - Name: v2
             Description: GuardDuty Product
             Active: True
             Source:
               Provider: CodeCommit
               Configuration:
                 RepositoryName: guardduty-master
-                BranchName: v1
+                BranchName: v2
       - Name: guardduty-org-bootstrap
         Owner: Amazon-Web-Services
         Description: Org Master Bootstrap Product for GuardDuty
@@ -49,11 +49,11 @@ Portfolios:
         - Key: product-type
           Value: GuardDuty
         Versions:
-          - Name: v1
+          - Name: v2
             Description: GuardDuty Product
             Active: True
             Source:
               Provider: CodeCommit
               Configuration:
                 RepositoryName: guardduty-org-bootstrap
-                BranchName: v1
+                BranchName: v2
