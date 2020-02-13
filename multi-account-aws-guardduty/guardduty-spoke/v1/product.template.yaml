@@ -15,7 +15,10 @@ Parameters:
     HubAccountID:
       Type: String
       Description: The AccountID of the guardduty hub account
-
+    ResourcePrefix:
+      Description: "Groups resources under a single prefix"
+      Type: String
+      Default: "sc-admin-product"
 
 Resources:
   GuardDutyRegisterFunction:
@@ -25,30 +28,48 @@ Resources:
     Properties:
       Runtime: python3.7
       Handler: lambda_handler.handler
-      CodeUri: ./src
-      Policies:
-        - arn:aws:iam::aws:policy/AWSLambdaExecute
-        - Version: 2012-10-17
-          Statement:
-            - Effect: Allow
-              Action:
-                - sts:AssumeRole
-              Resource: !Ref HubEnablerFunctionRole
-            - Effect: Allow
-              Action:
-                - sts:AssumeRole
-              Resource: !Ref GuardDutyAssumableOrgRoleArn
-            - Effect: Allow
-              Action:
-                - guardduty:AcceptInvitation
-                - guardduty:ListDetectors
-                - guardduty:CreateDetector
-                - guardduty:ListInvitations
-                - guardduty:DisassociateFromMasterAccount
-                - guardduty:DeleteInvitations
-                - iam:CreateServiceLinkedRole
-              Resource: "*"
+      CodeUri: ./src/register
+      FunctionName: !Sub ${ResourcePrefix}-GuardDutyRegister
+      Role: !GetAtt LambdaRole.Arn
       Timeout: 900
+
+  LambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: "GuardDutyRegister"
+      Path: !Sub "/${ResourcePrefix}/"
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service: lambda.amazonaws.com
+          Action:
+          - sts:AssumeRole
+      ManagedPolicyArns:
+      - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Policies:
+      - PolicyName: GuardDutyRegister
+        PolicyDocument:
+          Statement:
+          - Effect: Allow
+            Action:
+              - guardduty:AcceptInvitation
+              - guardduty:ListDetectors
+              - guardduty:CreateDetector
+              - guardduty:ListInvitations
+              - guardduty:DisassociateFromMasterAccount
+              - guardduty:DeleteInvitations
+              - iam:CreateServiceLinkedRole
+            Resource: '*'
+          - Effect: Allow
+            Action:
+              - sts:AssumeRole
+            Resource: !Ref GuardDutyAssumableOrgRoleArn
+          - Effect: Allow
+            Action:
+              - sts:AssumeRole
+            Resource: !Ref HubEnablerFunctionRole
 
   SpokeCustomResource:
     Type: Custom::RegisterGuardDuty

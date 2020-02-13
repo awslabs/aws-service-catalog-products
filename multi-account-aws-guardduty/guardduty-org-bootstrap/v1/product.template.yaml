@@ -7,6 +7,10 @@ Description: IAM Role needed to use AWS Organizations to Describe Accounts ONLY.
 Parameters:
   AWSOrganizationId:
     Type: String
+  ResourcePrefix:
+    Description: "Groups resources under a single prefix"
+    Type: String
+    Default: "sc-admin-product"
 
 Resources:
   GuardDutyAssumableRoleInRootAccount:
@@ -14,8 +18,8 @@ Resources:
     Description: |
       This role can be used by spoke Accounts to get Account Information via AWS Organizations
     Properties:
-      RoleName: GuarDutyAssumableRoleInRootAccount
-      Path: /guardduty/
+      RoleName: GuardDutyAssumableRoleInRootAccount
+      Path: !Sub "/${ResourcePrefix}/"
       Policies:
         - PolicyName: Organizations
           PolicyDocument:
@@ -24,7 +28,6 @@ Resources:
               - Effect: Allow
                 Action:
                   - organizations:DescribeAccount
-
                 Resource: '*'
               - Effect: Allow
                 Action:
@@ -48,7 +51,7 @@ Resources:
       SSM Parameter to help sharing of the GuardDutyAssumableRoleInRootAccount Arn.  Stores it in the SSM Param with the name
       ```GuardDutyAssumableRoleInRootAccount```
     Properties:
-      Name: /guardduty/guardduty-assumable-role-in-root-account
+      Name: !Sub /${ResourcePrefix}/guardduty-assumable-role-in-root-account
       Type: String
       Value: !GetAtt GuardDutyAssumableRoleInRootAccount.Arn
 

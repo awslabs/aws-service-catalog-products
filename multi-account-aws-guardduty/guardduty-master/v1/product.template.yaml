@@ -8,12 +8,17 @@ Parameters:
   AWSOrganizationId:
     Type: String
     Description: The AWS Organizations ID (example o-xxxxxxx)
+  ResourcePrefix:
+    Description: "Groups resources under a single prefix"
+    Type: String
+    Default: "sc-admin-product"
 
 Resources:
   GuardDutyHubRole:
     Type: "AWS::IAM::Role"
     Properties:
       RoleName: GuardDutyHubRole
+      Path: !Sub "/${ResourcePrefix}/"
       AssumeRolePolicyDocument:
         Version: "2012-10-17"
         Statement:

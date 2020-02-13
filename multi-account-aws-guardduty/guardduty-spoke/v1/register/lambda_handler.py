@@ -17,7 +17,6 @@ import json, logging, os
 import boto3
 import traceback
 
-from botocore.vendored import requests
 from urllib.request import Request, urlopen
 from time import sleep
 
