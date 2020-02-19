@@ -28,6 +28,9 @@ Portfolios:
       BuildSpec: |
           version: 0.2
           phases:
+            install:
+              runtime-versions:
+                python: 3.8
             build:
               commands:
                 - for dir in src/*; do pip install -r $dir/requirements.txt -t $dir/; done
@@ -62,6 +65,9 @@ Portfolios:
       BuildSpec: |
           version: 0.2
           phases:
+            install:
+              runtime-versions:
+                python: 3.8
             build:
               commands:
                 - for dir in src/*; do pip install -r $dir/requirements.txt -t $dir/; done
