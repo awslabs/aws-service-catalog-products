@@ -7,7 +7,7 @@ launches:
   account-vending-account-creation-shared:
     portfolio: demo-central-it-team-portfolio
     product: account-vending-account-creation-shared
-    version: v1
+    version: v2
     parameters:
       AssumableRoleInRootAccountArn:
         default: arn:aws:iam::0123456789010:role/servicecatalog-puppet/AssumableRoleInRootAccount
@@ -23,7 +23,7 @@ launches:
   account-vending-account-bootstrap-shared:
     portfolio: demo-central-it-team-portfolio
     product: account-vending-account-bootstrap-shared
-    version: v1
+    version: v2
     parameters:
       AssumableRoleInRootAccountArn:
         default: arn:aws:iam::0123456789010:role/servicecatalog-puppet/AssumableRoleInRootAccount

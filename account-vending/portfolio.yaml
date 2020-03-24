@@ -15,20 +15,20 @@ Portfolios:
         - Key: product-set
           Value: account-vending
       Versions:
-        - Name: v1
+        - Name: v2
           Description: lambda to used to back custom resources that create an AWS account and move it to an ou
           Active: True
           Source:
             Provider: CodeCommit
             Configuration:
               RepositoryName: account-vending-account-creation-shared
-              BranchName: master
+              BranchName: v2
           BuildSpec: |
             version: 0.2
             phases:
               install:
                 runtime-versions:
-                  python: 3.8
+                  python: 3.x
               build:
                 commands:
                   - pip install -r requirements.txt -t src
@@ -51,20 +51,20 @@ Portfolios:
         - Key: product-set
           Value: account-vending
       Versions:
-        - Name: v1
+        - Name: v2
           Description: Lambda and codebuild project needed to run servicecatalog-puppet bootstrap-spoke-as
           Active: True
           Source:
             Provider: CodeCommit
             Configuration:
               RepositoryName: account-vending-account-bootstrap-shared
-              BranchName: master
+              BranchName: v2
           BuildSpec: |
             version: 0.2
             phases:
               install:
                 runtime-versions:
-                  python: 3.8
+                  python: 3.x
               build:
                 commands:
                   - pip install -r requirements.txt -t src
