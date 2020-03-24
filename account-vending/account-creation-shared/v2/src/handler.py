@@ -147,7 +147,7 @@ def ensure_account_created(
             account_id = response.get('CreateAccountStatus').get('AccountId')
             counter = 20
             while counter > 0:
-                # time.sleep(10)
+                time.sleep(10)
                 try:
                     with betterboto_client.CrossMultipleAccountsClientContextManager(
                         'sts',
