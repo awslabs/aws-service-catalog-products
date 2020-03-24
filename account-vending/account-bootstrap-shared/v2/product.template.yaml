@@ -7,6 +7,7 @@ Description: |
   Creates:
    - codebuild project that can be run to bootstrap an account
    - lambda function that can be used to back a custom resource so the codebuild project can be started from CloudFormation
+
 Parameters:
   AssumableRoleInRootAccountArn:
     Description: The Arn of the assumable role from the root account
@@ -44,7 +45,7 @@ Resources:
       Environment:
         Type: linuxContainer
         ComputeType: BUILD_GENERAL1_SMALL
-        Image: aws/codebuild/python:3.7.1
+        Image: aws/codebuild/standard:4.0
         EnvironmentVariables:
           - Name: PUPPET_ACCOUNT_ID
             Type: PLAINTEXT
@@ -64,6 +65,8 @@ Resources:
           version: 0.2
           phases:
             install:
+              runtime-versions:
+                python: 3.x
               commands:
                 - pip install aws-service-catalog-puppet==${VERSION}
             build:
