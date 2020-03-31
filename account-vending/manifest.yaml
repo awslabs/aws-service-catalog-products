@@ -7,10 +7,12 @@ launches:
   account-vending-account-creation-shared:
     portfolio: demo-central-it-team-portfolio
     product: account-vending-account-creation-shared
-    version: v2
+    version: v3
     parameters:
       AssumableRoleInRootAccountArn:
         default: arn:aws:iam::0123456789010:role/servicecatalog-puppet/AssumableRoleInRootAccount
+      OrganizationAccountAccessRole:
+        default: OrganizationAccountAccessRole
     outputs:
       ssm:
         - param_name: /account-vending/account-custom-resource-arn
