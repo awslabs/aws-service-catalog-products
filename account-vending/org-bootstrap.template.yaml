@@ -9,6 +9,11 @@ Parameters:
     Description: The account you will be installing AWS Service Catalog Factory into
     Type: String
 
+  OrganizationAccountAccessRole:
+    Description: Name of the IAM role used to access cross accounts for AWS Orgs usage
+    Default: OrganizationAccountAccessRole
+    Type: String
+
 Resources:
   AssumableRoleInRootAccount:
     Type: AWS::IAM::Role
@@ -35,7 +40,7 @@ Resources:
               - Effect: Allow
                 Action:
                   - sts:AssumeRole
-                Resource: "arn:aws:iam::*:role/OrganizationAccountAccessRole"
+                Resource: !Sub "arn:aws:iam::*:role/${OrganizationAccountAccessRole}"
       AssumeRolePolicyDocument:
         Version: "2012-10-17"
         Statement:
