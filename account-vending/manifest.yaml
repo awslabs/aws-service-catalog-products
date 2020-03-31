@@ -41,7 +41,7 @@ launches:
   account-vending-account-001:
     portfolio: demo-central-it-team-portfolio
     product: account-vending-account-creation
-    version: v1
+    version: v2
     depends_on:
       - account-vending-account-creation-shared
       - account-vending-account-bootstrap-shared
