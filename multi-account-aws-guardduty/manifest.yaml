@@ -7,7 +7,7 @@ launches:
   guardduty-spoke:
     portfolio: demo-central-it-team-portfolio
     product: guardduty-spoke
-    version: v1
+    version: v2
     depends_on:
       - guardduty-master
       - guardduty-org-bootstrap
@@ -15,9 +15,9 @@ launches:
   guardduty-master:
     portfolio: demo-central-it-team-portfolio
     product: guardduty-master
-    version: v1
+    version: v2
   
   guardduty-org-bootstrap:
     portfolio: demo-central-it-team-portfolio
     product: guardduty-org-bootstrap
-    version: v1
+    version: v2

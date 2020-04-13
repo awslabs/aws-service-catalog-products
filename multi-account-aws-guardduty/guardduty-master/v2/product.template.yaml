@@ -1,0 +1,52 @@
+# Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+AWSTemplateFormatVersion: 2010-09-09
+Description: Creates an IAM Role that can be assumed by the Spoke GuardDuty Lambdas for self-registration
+
+Parameters:
+  AWSOrganizationId:
+    Type: String
+    Description: The AWS Organizations ID (example o-xxxxxxx)
+  ResourcePrefix:
+    Description: "Groups resources under a single prefix"
+    Type: String
+    Default: "sc-admin-product"
+
+Resources:
+  GuardDutyHubRole:
+    Type: "AWS::IAM::Role"
+    Properties:
+      RoleName: GuardDutyHubRole
+      Path: !Sub "/${ResourcePrefix}/"
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Principal:
+              AWS:
+                - "*"
+            Action:
+              - "sts:AssumeRole"
+            Condition:
+              StringEquals:
+                aws:PrincipalOrgID:
+                  - !Ref AWSOrganizationId
+      Policies:
+        - PolicyName: "Invite-Spoke"
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: "Allow"
+                Action:
+                  - guardduty:CreateMembers
+                  - guardduty:InviteMembers
+                  - guardduty:ListDetectors
+                  - guardduty:CreateDetector
+                  - iam:CreateServiceLinkedRole
+                Resource: "*"
+
+Outputs:
+  GuardDutyHubRoleArn:
+    Description: ARN of the GuardDutyHubRole to be assumed by spoke accounts in the org
+    Value: !GetAtt GuardDutyHubRole.Arn
