@@ -1,0 +1,55 @@
+# Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: 'Function to use to back a custom resource to attach SCP Policy'
+
+Parameters:
+  OrgRole:
+    Description: IAM Role Lambda uses to perform policy attach/delete actions
+    Type: String
+
+Resources:
+
+  AttachPolicyLambdaRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service: 'lambda.amazonaws.com'
+          Action:
+          - 'sts:AssumeRole'
+      Path: '/'
+      ManagedPolicyArns:
+      - 'arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
+      Policies:
+      - PolicyName: AssumeOrgRole
+        PolicyDocument:
+          Statement:
+          - Effect: Allow
+            Action:
+              - sts:AssumeRole
+            Resource: '*'
+  
+  AttacherPolicyLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./src/attach_policy
+      Handler: lambda_function.lambda_handler
+      MemorySize: 128
+      Role: !GetAtt AttachPolicyLambdaRole.Arn
+      Runtime: python3.7
+      Timeout: 60
+      Environment:
+        Variables:
+          ORG_ROLE: !Ref OrgRole
+
+Outputs:
+  SCPAttacherPolicyLambdaArn:
+    Description: |
+      Outputs the AttacherPolicyLambda Arn so others can use it
+    Value: !GetAtt AttacherPolicyLambda.Arn

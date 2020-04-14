@@ -1,0 +1,93 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Provides a set of SCPs for governing over your mulit account framework set of accounts
+
+
+Parameters:
+  Version:
+    Type: String
+    Default: v1
+
+Resources:
+  PolicyBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+
+  BucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref PolicyBucket
+      PolicyDocument:
+        Statement:
+          -
+            Action:
+              - "s3:GetObject"
+            Effect: "Allow"
+            Resource:
+              Fn::Join:
+                - ""
+                -
+                  - "arn:aws:s3:::"
+                  - !Ref PolicyBucket
+                  - "/*"
+            Principal:
+              AWS: !Sub 'arn:aws:iam::${AWS::AccountId}:root'
+
+  UploadArtefactLambdaRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: 'lambda.amazonaws.com'
+            Action:
+              - 'sts:AssumeRole'
+      Path: '/'
+      ManagedPolicyArns:
+        - 'arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
+      Policies:
+        - PolicyName: S3Access
+          PolicyDocument:
+            Statement:
+              - Effect: Allow
+                Action:
+                  - s3:Get*
+                  - s3:Put*
+                Resource:
+                  - !GetAtt PolicyBucket.Arn
+                  - !Sub ${PolicyBucket.Arn}/*
+
+  UploadArtefactLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./src/upload_artefact
+      Handler: lambda_function.lambda_handler
+      MemorySize: 128
+      Role: !GetAtt UploadArtefactLambdaRole.Arn
+      Runtime: python3.7
+      Timeout: 60
+      Environment:
+        Variables:
+          VERSION: !Ref Version
+
+  UploadArtefact:
+    Type: Custom::UploadArtefactLambda
+    Properties:
+      ServiceToken: !GetAtt 'UploadArtefactLambda.Arn'
+      S3Bucket: !Ref 'PolicyBucket'
+
+Outputs:
+  BucketName:
+    Description: 'Policy Bucket Name'
+    Value: !Ref 'PolicyBucket'
+
+  ALLOW_ONLY_HIPAA_SERVICES_1:
+    Value: !Sub '${PolicyBucket}/${Version}/allow_only_hipaa_services_1.json'
+
+

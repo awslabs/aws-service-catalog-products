@@ -1,0 +1,43 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Deny",
+      "Action": [
+        "codebuild:BatchDeleteBuilds",
+        "codebuild:CreateProject",
+        "codebuild:DeleteProject",
+        "codebuild:UpdateProject",
+        "codecommit:PutRepositoryTriggers",
+        "codecommit:DeleteRepository",
+        "codecommit:UpdateRepositoryDescription",
+        "codecommit:UpdateRepositoryName",
+        "codecommit:DeleteBranch",
+        "codecommit:CreateRepository",
+        "codedeploy:RemoveTagsFromOnPremisesInstances",
+        "codedeploy:CreateDeploymentConfig",
+        "codedeploy:UpdateDeploymentGroup",
+        "codedeploy:RegisterOnPremisesInstance",
+        "codedeploy:RegisterApplicationRevision",
+        "codedeploy:CreateApplication",
+        "codedeploy:DeregisterOnPremisesInstance",
+        "codedeploy:AddTagsToOnPremisesInstances",
+        "codedeploy:UpdateApplication",
+        "codedeploy:DeleteDeploymentConfig",
+        "codedeploy:DeleteApplication",
+        "codedeploy:DeleteDeploymentGroup",
+        "codedeploy:CreateDeploymentGroup",
+        "codepipeline:PutActionRevision",
+        "codepipeline:DeleteCustomActionType",
+        "codepipeline:CreatePipeline",
+        "codepipeline:DisableStageTransition",
+        "codepipeline:StartPipelineExecution",
+        "codepipeline:UpdatePipeline",
+        "codepipeline:CreateCustomActionType",
+        "codepipeline:DeletePipeline",
+        "codepipeline:EnableStageTransition"
+      ],
+      "Resource": "*"
+    }
+  ]
+}

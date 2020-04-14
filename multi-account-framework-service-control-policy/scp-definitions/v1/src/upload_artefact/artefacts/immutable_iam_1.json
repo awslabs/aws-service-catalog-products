@@ -1,0 +1,21 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Deny",
+      "Action": [
+        "iam:Add",
+        "iam:Attach*",
+        "iam:Create*",
+        "iam:Delete*",
+        "iam:Detach*",
+        "iam:Put*",
+        "iam:Remove*",
+        "iam:Set*",
+        "iam:Update*",
+        "iam:Upload*"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
