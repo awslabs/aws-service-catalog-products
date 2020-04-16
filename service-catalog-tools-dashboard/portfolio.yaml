@@ -15,14 +15,14 @@ Portfolios:
         - Key: product-type
           Value: service-catalog-tools-dashboard
       Versions:
-        - Name: v2
+        - Name: v3
           Description: Deploys a static website in S3 bucket to display service catalog tools dashboard
           Active: True
           Source:
             Provider: CodeCommit
             Configuration:
               RepositoryName: static-web-app
-              BranchName: v1
+              BranchName: v3
     - Name: get-metrics
       Owner: central-it@customer.com
       Description: get-metrics product for fetching the service catalog tools launch and pipelines information
