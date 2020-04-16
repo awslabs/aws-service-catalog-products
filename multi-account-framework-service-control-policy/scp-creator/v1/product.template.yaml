@@ -6,7 +6,7 @@ Transform: AWS::Serverless-2016-10-31
 Description: 'Function to use to back a custom resource to creat SCP Policy'
 
 Parameters:
-  OrgRole:
+  ScpCreatorOrgRole:
     Description: ARN of IAM role that Lambda will assume to perform policy attach/delete actions.
     Type: String
 
@@ -18,25 +18,25 @@ Resources:
       AssumeRolePolicyDocument:
         Version: '2012-10-17'
         Statement:
-        - Effect: Allow
-          Principal:
-            Service: 'lambda.amazonaws.com'
-          Action:
-          - 'sts:AssumeRole'
+          - Effect: Allow
+            Principal:
+              Service: 'lambda.amazonaws.com'
+            Action:
+              - 'sts:AssumeRole'
       Path: '/'
       ManagedPolicyArns:
-      - 'arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
+        - 'arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
       Policies:
-      - PolicyName: AssumeOrgRole
-        PolicyDocument:
-          Statement:
-          - Effect: Allow
-            Action:
-              - sts:AssumeRole
-              - s3:List*
-              - s3:Get*
-            Resource: '*'
-  
+        - PolicyName: AssumeOrgRole
+          PolicyDocument:
+            Statement:
+              - Effect: Allow
+                Action:
+                  - sts:AssumeRole
+                  - s3:List*
+                  - s3:Get*
+                Resource: '*'
+
   CreatorPolicyLambda:
     Type: AWS::Serverless::Function
     Properties:
@@ -49,7 +49,7 @@ Resources:
       Environment:
         Variables:
           DEBUG_MODE: 'true'
-          ORG_ROLE: !Ref OrgRole
+          ORG_ROLE: !Ref ScpCreatorOrgRole
 
 Outputs:
   CreatorPolicyLambdaArn:

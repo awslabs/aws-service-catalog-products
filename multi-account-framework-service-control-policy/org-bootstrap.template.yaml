@@ -1,0 +1,47 @@
+# Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+AWSTemplateFormatVersion: '2010-09-09'
+Description: IAM Role needed to use AWS Organizations to create and attach SCPs.
+
+Parameters:
+  ServiceCatalogFactoryAccountId:
+    Description: The account you have installed AWS Service Catalog Factory into
+    Type: String
+
+Resources:
+  AssumableRoleInRootAccount:
+    Type: AWS::IAM::Role
+    Description: |
+      IAM Role needed to manage SCPs
+    Properties:
+      RoleName: AssumableRoleInRootAccountForSCPs
+      Path: /servicecatalog-puppet/
+      Policies:
+        - PolicyName: Organizations
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                    - organizations:UpdatePolicy
+                    - organizations:DetachPolicy
+                    - organizations:AttachPolicy
+                    - organizations:DeletePolicy
+                    - organizations:DescribePolicy
+                    - organizations:CreatePolicy
+                    - organizations:ListPolicies
+                Resource: '*'
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Principal:
+              AWS: !Sub "arn:aws:iam::${ServiceCatalogFactoryAccountId}:root"
+            Action:
+              - "sts:AssumeRole"
+
+Outputs:
+  AssumableRoleInRootAccountArn:
+    Description: The ARN for your Assumable role in root account to create SCPs
+    Value: !GetAtt AssumableRoleInRootAccount.Arn
