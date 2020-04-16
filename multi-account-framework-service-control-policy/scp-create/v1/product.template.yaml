@@ -1,0 +1,42 @@
+# Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: 'Creates SCP Policy'
+
+Parameters:
+  PolicyName:
+    Description: Name of SCP Policy
+    Type: String
+  
+  PolicyDescription:
+    Description: Description of Policy
+    Type: String
+
+  S3Bucket:
+    Description: S3 bucket where policy has been uploaded
+    Type: String
+
+  S3Object:
+    Description: S3 object name of policy
+    Type: String
+
+  CreateSCPPolicyLambdaArn:
+    Description: ARN of the lambda created in scp-creator
+    Type: String
+
+Resources:
+  CreatePolicy:
+    Type: Custom::CreatePolicy
+    Properties:
+      ServiceToken: !Ref 'CreateSCPPolicyLambdaArn'
+      PolicyName: !Ref 'PolicyName'
+      S3Object: !Ref 'S3Object'
+      S3Bucket: !Ref 'S3Bucket'
+      PolicyDescription: !Ref 'PolicyDescription'
+  
+Outputs:
+  PolicyId:
+    Description: 'Policy Id of SCP'
+    Value: !Ref 'CreatePolicy'
