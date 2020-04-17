@@ -49,7 +49,7 @@ Resources:
           ORG_ROLE: !Ref ScpAttacherOrgRole
 
 Outputs:
-  SCPAttacherPolicyLambdaArn:
+  AttacherPolicyLambdaArn:
     Description: |
       Outputs the AttacherPolicyLambda Arn so others can use it
     Value: !GetAtt AttacherPolicyLambda.Arn
