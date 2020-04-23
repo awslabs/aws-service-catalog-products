@@ -88,43 +88,43 @@ Outputs:
     Value: !Ref 'PolicyBucket'
 
   Baseline1:
-    Value: !Sub '${PolicyBucket}/${Version}/baseline_1.json'
+    Value: !Sub '${Version}/baseline_1.json'
 
   ImmutableRegionSet1:
-    Value: !Sub '${PolicyBucket}/${Version}/immutable_region_set_1.json'
+    Value: !Sub '${Version}/immutable_region_set_1.json'
 
   NetworkingOnly1:
-    Value: !Sub '${PolicyBucket}/${Version}/networking_only_1.json'
+    Value: !Sub '${Version}/networking_only_1.json'
 
   DisableAllScp1:
-    Value: !Sub '${PolicyBucket}/${Version}/disable_all_scp_1.json'
+    Value: !Sub '${Version}/disable_all_scp_1.json'
 
   ImmutableIam1:
-    Value: !Sub '${PolicyBucket}/${Version}/immutable_iam_1.json'
+    Value: !Sub '${Version}/immutable_iam_1.json'
 
   ImmutableVpcFoundation1:
-    Value: !Sub '${PolicyBucket}/${Version}/immutable_vpc_foundation_1.json'
+    Value: !Sub '${Version}/immutable_vpc_foundation_1.json'
 
   ImmutableVpcBoundaries1:
-    Value: !Sub '${PolicyBucket}/${Version}/immutable_vpc_boundaries_1.json'
+    Value: !Sub '${Version}/immutable_vpc_boundaries_1.json'
 
   OrgMaster1:
-    Value: !Sub '${PolicyBucket}/${Version}/org_master_1.json'
+    Value: !Sub '${Version}/org_master_1.json'
 
   RequireImds1:
-    Value: !Sub '${PolicyBucket}/${Version}/require_imds_1.json'
+    Value: !Sub '${Version}/require_imds_1.json'
 
   AllowOnlyHipaaServices1:
-    Value: !Sub '${PolicyBucket}/${Version}/allow_only_hipaa_services_1.json'
+    Value: !Sub '${Version}/allow_only_hipaa_services_1.json'
 
   ImmutableS3BucketPolicies1:
-    Value: !Sub '${PolicyBucket}/${Version}/immutable_s3_bucket_policies_1.json'
+    Value: !Sub '${Version}/immutable_s3_bucket_policies_1.json'
 
   DenyAllExceptBaselineIamAndS31:
-    Value: !Sub '${PolicyBucket}/${Version}/deny_all_except_baseline_iam_and_s3_1.json'
+    Value: !Sub '${Version}/deny_all_except_baseline_iam_and_s3_1.json'
 
   ImmutableCodepipelines1:
-    Value: !Sub '${PolicyBucket}/${Version}/immutable_codepipelines_1.json'
+    Value: !Sub '${Version}/immutable_codepipelines_1.json'
 
   DisableRoot1:
-    Value: !Sub '${PolicyBucket}/${Version}/disable_root_1.json'
+    Value: !Sub '${Version}/disable_root_1.json'
