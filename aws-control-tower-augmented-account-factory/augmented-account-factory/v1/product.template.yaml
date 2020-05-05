@@ -78,6 +78,22 @@ Resources:
         !Sub "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:account-details-to-aws-account-id"
       AccountName: !Ref AccountName
 
+  Notifier:
+    Type: Custom::Resource
+    DependsOn:
+      - AccountDetails
+      - OUDetails
+    Properties:
+      ServiceToken:
+        !Sub "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:account-creation-notifier"
+      AccountName: !Ref AccountName
+      AccountEmail: !Ref AccountEmail
+      SSOUserFirstName: !Ref SSOUserFirstName
+      SSOUserLastName: !Ref SSOUserLastName
+      SSOUserEmail: !Ref SSOUserEmail
+      ManagedOrganizationalUnit: !GetAtt OUDetails.OrganizationalUnitId
+      AccountId: !GetAtt AccountDetails.Id
+
 Outputs:
   AccountId:
     Description: |

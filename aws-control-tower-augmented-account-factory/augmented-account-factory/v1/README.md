@@ -34,12 +34,12 @@ Type: Custom::Resource
 Type: AWS::ServiceCatalog::CloudFormationProvisionedProduct  
 ### AccountDetails 
 Type: Custom::Resource  
+### Notifier 
+Type: Custom::Resource  
 
 ## Outputs
 The list of outputs this template exposes:
 
 ### AccountId 
 Description: AccountId for the newly created AWS Account
- 
-Export name: foo  
 
