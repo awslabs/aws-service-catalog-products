@@ -22,4 +22,8 @@ svn export https://github.com/awslabs/aws-service-catalog-products/trunk/aws-con
 aws codecommit create-repository --repository-name augmented-account-factory
 git clone --config 'credential.helper=!aws codecommit credential-helper $@' --config 'credential.UseHttpPath=true' https://git-codecommit.eu-west-1.amazonaws.com/v1/repos/augmented-account-factory
 svn export https://github.com/awslabs/aws-service-catalog-products/trunk/aws-control-tower-augmented-account-factory/augmented-account-factory/v1 augmented-account-factory --force
+
+aws codecommit create-repository --repository-name account-creation-notifier
+git clone --config 'credential.helper=!aws codecommit credential-helper $@' --config 'credential.UseHttpPath=true' https://git-codecommit.eu-west-1.amazonaws.com/v1/repos/account-creation-notifier
+svn export https://github.com/awslabs/aws-service-catalog-products/trunk/aws-control-tower-account-creation-notifier/account-creation-notifier/v1 account-creation-notifier --force
 ```
