@@ -35,25 +35,25 @@ Resources:
 
           def lambda_handler(event, context):
             logger.info('got event {}'.format(event))
-            responseData = {}
+            response_data = {}
 
             if event['RequestType'] == 'Create':
               account_type = event['ResourceProperties'].get('AccountType')
               organizational_unit_id = organizational_unit_ids.get(account_type, DEFAULT_OU_ID)
-              responseData['organizational_unit_id'] = organizational_unit_id
+              response_data['OrganizationalUnitId'] = organizational_unit_id
 
             else: # delete / update
               pass
 
-            logger.info('responseData {}'.format(responseData))
-            cfnresponse.send(event, context, cfnresponse.SUCCESS, responseData, responseData['organizational_unit_id'])
+            logger.info('response_data {}'.format(response_data))
+            cfnresponse.send(event, context, cfnresponse.SUCCESS, response_data, response_data['OrganizationalUnitId'])
 
   Role:
     Type: AWS::IAM::Role
     Description: |
       IAM role needed to execute account-type-to-organizational-unit-id.  Only needs basic access.
     Properties:
-      Path: /account-type-to-organizational-unit-chooser/
+      Path: /aws-control-tower-augmented-account-factory/
       AssumeRolePolicyDocument:
         Version: 2012-10-17
         Statement:
