@@ -8,3 +8,11 @@ launches:
     portfolio: demo-central-it-team-portfolio
     product: account-type-to-organizational-unit-chooser
     version: v1
+
+  account-details-to-aws-account-id:
+    portfolio: demo-central-it-team-portfolio
+    product: account-details-to-aws-account-id
+    version: v1
+    parameters:
+      AssumableRoleInRootAccountArn:
+        default: SET_ME

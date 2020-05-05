@@ -16,10 +16,52 @@ Portfolios:
           Value: util
       Versions:
         - Name: v1
-          Description: iam-groups-security-account product
+          Description: Takes the given account type and returns the organizational unit it should be assigned to
           Active: True
           Source:
             Provider: CodeCommit
             Configuration:
               RepositoryName: account-type-to-organizational-unit-chooser
+              BranchName: v1
+
+
+    - Name: account-details-to-aws-account-id
+      Owner: central-it@customer.com
+      Description: Takes the given 'AccountName' and returns the account details
+      Distributor: central-it-team
+      SupportDescription: Contact us on Chime for help #central-it-team
+      SupportEmail: central-it-team@customer.com
+      SupportUrl: https://wiki.customer.com/central-it-team/util
+      Tags:
+        - Key: product-type
+          Value: util
+      Versions:
+        - Name: v1
+          Description: Takes the given 'AccountName' and returns the account details
+          Active: True
+          Source:
+            Provider: CodeCommit
+            Configuration:
+              RepositoryName: account-details-to-aws-account-id
+              BranchName: v1
+
+
+    - Name: augmented-account-factory
+      Owner: central-it@customer.com
+      Description: Augments AWS Control Tower Account Factory - simplifies user input, dispatches extra parameters via AWS SNS and returns the account id as an output
+      Distributor: central-it-team
+      SupportDescription: Contact us on Chime for help #central-it-team
+      SupportEmail: central-it-team@customer.com
+      SupportUrl: https://wiki.customer.com/central-it-team/util
+      Tags:
+        - Key: product-type
+          Value: util
+      Versions:
+        - Name: v1
+          Description: Augments AWS Control Tower Account Factory - simplifies user input, dispatches extra parameters via AWS SNS and returns the account id as an output
+          Active: True
+          Source:
+            Provider: CodeCommit
+            Configuration:
+              RepositoryName: augmented-account-factory
               BranchName: v1
