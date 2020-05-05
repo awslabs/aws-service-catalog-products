@@ -4,7 +4,7 @@
 schema: puppet-2019-04-01
 
 launches:
-  iam-groups-security-account:
+  account-type-to-organizational-unit-chooser:
     portfolio: demo-central-it-team-portfolio
     product: account-type-to-organizational-unit-chooser
     version: v1
