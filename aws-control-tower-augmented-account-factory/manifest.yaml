@@ -7,7 +7,7 @@ launches:
   account-type-to-organizational-unit-chooser:
     portfolio: demo-central-it-team-portfolio
     product: account-type-to-organizational-unit-chooser
-    version: v1
+    version: v2
 
   account-details-to-aws-account-id:
     portfolio: demo-central-it-team-portfolio
@@ -16,3 +16,8 @@ launches:
     parameters:
       AssumableRoleInRootAccountArn:
         default: SET_ME
+
+  account-creation-notifier:
+    portfolio: demo-central-it-team-portfolio
+    product: account-creation-notifier
+    version: v1
