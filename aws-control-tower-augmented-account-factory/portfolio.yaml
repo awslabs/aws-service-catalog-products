@@ -67,6 +67,27 @@ Portfolios:
               BranchName: v1
 
 
+    - Name: account-bootstrap-shared
+      Owner: central-it@customer.com
+      Description: Creates lambda to be used to back a custom resource.  It bootstraps new accounts
+      Distributor: central-it-team
+      SupportDescription: Contact us on Chime for help #central-it-team
+      SupportEmail: central-it-team@customer.com
+      SupportUrl: https://wiki.customer.com/central-it-team/util
+      Tags:
+        - Key: product-type
+          Value: util
+      Versions:
+        - Name: v2
+          Description: Creates lambda to be used to back a custom resource.  It bootstraps new accounts
+          Active: True
+          Source:
+            Provider: CodeCommit
+            Configuration:
+              RepositoryName: account-bootstrap-shared
+              BranchName: v2
+
+
     - Name: augmented-account-factory
       Owner: central-it@customer.com
       Description: Augments AWS Control Tower Account Factory - simplifies user input, dispatches extra parameters via AWS SNS and returns the account id as an output
@@ -78,11 +99,11 @@ Portfolios:
         - Key: product-type
           Value: util
       Versions:
-        - Name: v2
+        - Name: v3
           Description: Augments AWS Control Tower Account Factory - simplifies user input, dispatches extra parameters via AWS SNS and returns the account id as an output
           Active: True
           Source:
             Provider: CodeCommit
             Configuration:
               RepositoryName: augmented-account-factory
-              BranchName: v2
+              BranchName: v3

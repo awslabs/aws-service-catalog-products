@@ -21,3 +21,14 @@ launches:
     portfolio: demo-central-it-team-portfolio
     product: account-creation-notifier
     version: v1
+
+  account-bootstrap-shared:
+    portfolio: demo-central-it-team-portfolio
+    product: account-bootstrap-shared
+    version: v2
+    parameters:
+      PuppetAccountId:
+        Default: set me
+      PuppetVersion:
+        Default: set me
+
