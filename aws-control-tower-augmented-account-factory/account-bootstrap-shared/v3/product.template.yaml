@@ -7,7 +7,7 @@ Description: |
   Creates:
    - codebuild project that can be run to bootstrap an account
    - lambda function that can be used to back a custom resource so the codebuild project can be started from CloudFormation
-    {"version": "v2", "framework": "servicecatalog-products", "role": "product", "product-set": "aws-control-tower-augmented-account-factory", "product": "account-bootstrap-shared"}
+    {"version": "v3", "framework": "servicecatalog-products", "role": "product", "product-set": "aws-control-tower-augmented-account-factory", "product": "account-bootstrap-shared"}
 
 Parameters:
   PuppetAccountId:
@@ -21,6 +21,7 @@ Resources:
   BootstrapperRole:
     Type: AWS::IAM::Role
     Properties:
+      RoleName: "BootstrapperRole"
       Path: /aws-control-tower-augmented-account-factory/
       ManagedPolicyArns:
         - arn:aws:iam::aws:policy/AdministratorAccess
@@ -33,6 +34,15 @@ Resources:
                 - "codebuild.amazonaws.com"
             Action:
               - "sts:AssumeRole"
+      Policies:
+        - PolicyName: AssumeIntoSpokes
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - sts:AssumeRole
+                Resource: arn:aws:iam::*:role/AWSControlTowerExecution
 
   BootstrapperProject:
     Type: AWS::CodeBuild::Project
@@ -57,7 +67,7 @@ Resources:
           - Name: VERSION
             Type: PLAINTEXT
             Value: !Ref PuppetVersion
-          - Name: ASSUMABLE_ROLE_IN_ROOT_ACCOUNT
+          - Name: ASSUMABLE_ROLE_IN_SPOKE_ACCOUNT
             Type: PLAINTEXT
             Value: CHANGE_ME
       Source:
@@ -72,7 +82,7 @@ Resources:
                 - pip install aws-service-catalog-puppet==${VERSION}
             build:
               commands:
-                - servicecatalog-puppet bootstrap-spoke-as ${PUPPET_ACCOUNT_ID} ${ASSUMABLE_ROLE_IN_ROOT_ACCOUNT}
+                - servicecatalog-puppet bootstrap-spoke-as ${PUPPET_ACCOUNT_ID} ${ASSUMABLE_ROLE_IN_SPOKE_ACCOUNT}
       TimeoutInMinutes: 30
 
   BootstrapperProjectCustomResourceRole:
@@ -123,7 +133,6 @@ Resources:
       Environment:
         Variables:
           BOOTSTRAPPER_PROJECT_NAME: !Ref BootstrapperProject
-          ASSUMABLE_ROLE_IN_ROOT_ACCOUNT_ARN: !Sub "arn:aws:iam::${AWS::AccountId}:role/AWSControlTowerExecution"
 
 Outputs:
   BootstrapperProjectCustomResourceArn:

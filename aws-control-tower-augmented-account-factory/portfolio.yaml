@@ -15,14 +15,14 @@ Portfolios:
         - Key: product-type
           Value: util
       Versions:
-        - Name: v2
+        - Name: v3
           Description: Takes the given account type and returns the organizational unit it should be assigned to
           Active: True
           Source:
             Provider: CodeCommit
             Configuration:
               RepositoryName: account-type-to-organizational-unit-chooser
-              BranchName: v2
+              BranchName: v3
 
 
     - Name: account-details-to-aws-account-id
@@ -78,14 +78,30 @@ Portfolios:
         - Key: product-type
           Value: util
       Versions:
-        - Name: v2
+        - Name: v3
           Description: Creates lambda to be used to back a custom resource.  It bootstraps new accounts
           Active: True
           Source:
             Provider: CodeCommit
             Configuration:
               RepositoryName: account-bootstrap-shared
-              BranchName: v2
+              BranchName: v3
+          BuildSpec: |
+            version: 0.2
+            phases:
+              install:
+                runtime-versions:
+                  python: 3.x
+              build:
+                commands:
+                  - pip install -r requirements.txt -t src
+                {% for region in ALL_REGIONS %}
+                  - aws cloudformation package --template $(pwd)/product.template.yaml --s3-bucket sc-factory-artifacts-${ACCOUNT_ID}-{{ region }} --s3-prefix ${STACK_NAME} --output-template-file product.template-{{ region }}.yaml
+                {% endfor %}
+            artifacts:
+              files:
+                - '*'
+                - '**/*'
 
 
     - Name: augmented-account-factory
@@ -99,11 +115,11 @@ Portfolios:
         - Key: product-type
           Value: util
       Versions:
-        - Name: v3
+        - Name: v4
           Description: Augments AWS Control Tower Account Factory - simplifies user input, dispatches extra parameters via AWS SNS and returns the account id as an output
           Active: True
           Source:
             Provider: CodeCommit
             Configuration:
               RepositoryName: augmented-account-factory
-              BranchName: v3
+              BranchName: v4

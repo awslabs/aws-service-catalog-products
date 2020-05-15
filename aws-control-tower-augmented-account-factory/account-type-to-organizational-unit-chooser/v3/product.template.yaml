@@ -4,7 +4,7 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: |
   Takes the given account type and returns the organizational unit it should be assigned to
-  {"version": "v2", "framework": "servicecatalog-products", "role": "product", "product-set": "aws-control-tower-augmented-account-factory", "product": "account-type-to-organizational-unit-chooser"}
+  {"version": "v3", "framework": "servicecatalog-products", "role": "product", "product-set": "aws-control-tower-augmented-account-factory", "product": "account-type-to-organizational-unit-chooser"}
 
 Resources:
   Function:
@@ -26,13 +26,13 @@ Resources:
           logger = logging.getLogger()
           logger.setLevel(logging.INFO)
 
-          DEFAULT_OU_ID = 'ou-root'
-          organizational_unit_ids = {
+          DEFAULT_OU_NAME = 'Root'
+          organizational_unit_names = {
             'platform_1': {
-              'dev': 'ou-dev',
-              'test': 'ou-test',
-              'pre-prod': 'ou-pre-prod',
-              'prod': 'ou-prod',
+              'dev': 'Root',
+              'test': 'Root',
+              'pre-prod': 'Root',
+              'prod': 'Root',
             }
           }
 
@@ -43,14 +43,14 @@ Resources:
             if event['RequestType'] == 'Create':
               account_type = event['ResourceProperties'].get('AccountType')
               platform_name = event['ResourceProperties'].get('PlatformName')
-              organizational_unit_id = organizational_unit_ids.get(platform_name, {}).get(account_type, DEFAULT_OU_ID)
-              response_data['OrganizationalUnitId'] = organizational_unit_id
+              organizational_unit_name = organizational_unit_names.get(platform_name, {}).get(account_type, DEFAULT_OU_NAME)
+              response_data['OrganizationalUnitName'] = organizational_unit_name
 
             else: # delete / update
               pass
 
             logger.info('response_data {}'.format(response_data))
-            cfnresponse.send(event, context, cfnresponse.SUCCESS, response_data, response_data['OrganizationalUnitId'])
+            cfnresponse.send(event, context, cfnresponse.SUCCESS, response_data, response_data['OrganizationalUnitName'])
 
   Role:
     Type: AWS::IAM::Role

@@ -4,6 +4,7 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: |
   Lambda to back a custom resource that dispatches notifications to an included SNS Topic
+  {"version": "v1", "framework": "servicecatalog-products", "role": "product", "product-set": "aws-control-tower-augmented-account-factory", "product": "account-creation-notifier"}
 
 Resources:
   SNSTopic:

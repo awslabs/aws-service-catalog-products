@@ -7,7 +7,7 @@ launches:
   account-type-to-organizational-unit-chooser:
     portfolio: demo-central-it-team-portfolio
     product: account-type-to-organizational-unit-chooser
-    version: v2
+    version: v3
 
   account-details-to-aws-account-id:
     portfolio: demo-central-it-team-portfolio
@@ -25,10 +25,34 @@ launches:
   account-bootstrap-shared:
     portfolio: demo-central-it-team-portfolio
     product: account-bootstrap-shared
-    version: v2
+    version: v3
     parameters:
       PuppetAccountId:
         Default: set me
       PuppetVersion:
         Default: set me
 
+  account-001:
+    portfolio: demo-central-it-team-portfolio
+    product: augmented-account-factory
+    version: v4
+    depends_on:
+      - account-type-to-organizational-unit-chooser
+      - account-details-to-aws-account-id
+      - account-creation-notifier
+      - account-bootstrap-shared
+    parameters:
+      AccountName:
+        Default: set me
+      AccountEmail:
+        Default: set me
+      SSOUserFirstName:
+        Default: set me
+      SSOUserLastName:
+        Default: set me
+      SSOUserEmail:
+        Default: set me
+      AccountType:
+        Default: set me
+      PlatformName:
+        Default: set me

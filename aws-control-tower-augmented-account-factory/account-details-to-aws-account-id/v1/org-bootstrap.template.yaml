@@ -2,7 +2,9 @@
 # SPDX-License-Identifier: Apache-2.0
 
 AWSTemplateFormatVersion: '2010-09-09'
-Description: IAM Role needed to use AWS Organizations to list AWS Accounts.
+Description: |
+  IAM Role needed to use AWS Organizations to list AWS Accounts.
+  {"version": "v2", "framework": "servicecatalog-products", "role": "product", "product-set": "aws-control-tower-augmented-account-factory", "product": "account-details-to-aws-account-id"}
 
 Parameters:
   AccountToTrust:

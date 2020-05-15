@@ -13,7 +13,7 @@ This will create an IAM Role needed as a parameter for the account-details-to-aw
 ```bash
 aws codecommit create-repository --repository-name account-type-to-organizational-unit-chooser
 git clone --config 'credential.helper=!aws codecommit credential-helper $@' --config 'credential.UseHttpPath=true' https://git-codecommit.eu-west-1.amazonaws.com/v1/repos/account-type-to-organizational-unit-chooser
-svn export https://github.com/awslabs/aws-service-catalog-products/trunk/aws-control-tower-augmented-account-factory/account-type-to-organizational-unit-chooser/v2 account-type-to-organizational-unit-chooser --force
+svn export https://github.com/awslabs/aws-service-catalog-products/trunk/aws-control-tower-augmented-account-factory/account-type-to-organizational-unit-chooser/v3 account-type-to-organizational-unit-chooser --force
 
 aws codecommit create-repository --repository-name account-details-to-aws-account-id
 git clone --config 'credential.helper=!aws codecommit credential-helper $@' --config 'credential.UseHttpPath=true' https://git-codecommit.eu-west-1.amazonaws.com/v1/repos/account-details-to-aws-account-id
@@ -21,7 +21,7 @@ svn export https://github.com/awslabs/aws-service-catalog-products/trunk/aws-con
 
 aws codecommit create-repository --repository-name augmented-account-factory
 git clone --config 'credential.helper=!aws codecommit credential-helper $@' --config 'credential.UseHttpPath=true' https://git-codecommit.eu-west-1.amazonaws.com/v1/repos/augmented-account-factory
-svn export https://github.com/awslabs/aws-service-catalog-products/trunk/aws-control-tower-augmented-account-factory/augmented-account-factory/v3 augmented-account-factory --force
+svn export https://github.com/awslabs/aws-service-catalog-products/trunk/aws-control-tower-augmented-account-factory/augmented-account-factory/v4 augmented-account-factory --force
 
 aws codecommit create-repository --repository-name account-creation-notifier
 git clone --config 'credential.helper=!aws codecommit credential-helper $@' --config 'credential.UseHttpPath=true' https://git-codecommit.eu-west-1.amazonaws.com/v1/repos/account-creation-notifier
@@ -29,5 +29,5 @@ svn export https://github.com/awslabs/aws-service-catalog-products/trunk/aws-con
 
 aws codecommit create-repository --repository-name account-bootstrap-shared
 git clone --config 'credential.helper=!aws codecommit credential-helper $@' --config 'credential.UseHttpPath=true' https://git-codecommit.eu-west-1.amazonaws.com/v1/repos/account-bootstrap-shared
-svn export https://github.com/awslabs/aws-service-catalog-products/trunk/aws-control-tower-account-creation-notifier/account-bootstrap-shared/v2 account-bootstrap-shared --force
+svn export https://github.com/awslabs/aws-service-catalog-products/trunk/aws-control-tower-account-creation-notifier/account-bootstrap-shared/v3 account-bootstrap-shared --force
 ```
