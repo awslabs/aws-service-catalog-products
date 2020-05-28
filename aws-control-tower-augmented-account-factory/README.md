@@ -13,7 +13,7 @@ This will create an IAM Role needed as a parameter for the account-details-to-aw
 ```bash
 aws codecommit create-repository --repository-name account-type-to-organizational-unit-chooser
 git clone --config 'credential.helper=!aws codecommit credential-helper $@' --config 'credential.UseHttpPath=true' https://git-codecommit.eu-west-1.amazonaws.com/v1/repos/account-type-to-organizational-unit-chooser
-svn export https://github.com/awslabs/aws-service-catalog-products/trunk/aws-control-tower-augmented-account-factory/account-type-to-organizational-unit-chooser/v3 account-type-to-organizational-unit-chooser --force
+svn export https://github.com/awslabs/aws-service-catalog-products/trunk/aws-control-tower-augmented-account-factory/account-type-to-organizational-unit-chooser/v4 account-type-to-organizational-unit-chooser --force
 
 aws codecommit create-repository --repository-name account-details-to-aws-account-id
 git clone --config 'credential.helper=!aws codecommit credential-helper $@' --config 'credential.UseHttpPath=true' https://git-codecommit.eu-west-1.amazonaws.com/v1/repos/account-details-to-aws-account-id

@@ -7,7 +7,7 @@ launches:
   account-type-to-organizational-unit-chooser:
     portfolio: demo-central-it-team-portfolio
     product: account-type-to-organizational-unit-chooser
-    version: v3
+    version: v4
 
   account-details-to-aws-account-id:
     portfolio: demo-central-it-team-portfolio
