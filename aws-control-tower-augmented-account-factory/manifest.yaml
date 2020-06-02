@@ -35,7 +35,7 @@ launches:
   account-001:
     portfolio: demo-central-it-team-portfolio
     product: augmented-account-factory
-    version: v4
+    version: v5
     depends_on:
       - account-type-to-organizational-unit-chooser
       - account-details-to-aws-account-id

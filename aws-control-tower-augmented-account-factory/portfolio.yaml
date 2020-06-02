@@ -115,11 +115,11 @@ Portfolios:
         - Key: product-type
           Value: util
       Versions:
-        - Name: v4
+        - Name: v5
           Description: Augments AWS Control Tower Account Factory - simplifies user input, dispatches extra parameters via AWS SNS and returns the account id as an output
           Active: True
           Source:
             Provider: CodeCommit
             Configuration:
               RepositoryName: augmented-account-factory
-              BranchName: v4
+              BranchName: v5

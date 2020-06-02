@@ -1,0 +1,51 @@
+# Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+Schema: factory-2019-04-01
+Portfolios:
+  Components:
+    - Name: account-recorder
+      Owner: central-it@customer.com
+      Description: |
+        Listens to the aws-control-tower-augmented-account-factory product set and records account creations in
+        the datastore
+      Distributor: central-it-team
+      SupportDescription: Contact us on Chime for help #central-it-team
+      SupportEmail: central-it-team@customer.com
+      SupportUrl: https://wiki.customer.com/central-it-team/util
+      Tags:
+        - Key: product-type
+          Value: util
+      Versions:
+        - Name: v1
+          Description: |
+            Listens to the aws-control-tower-augmented-account-factory product set and records account creations in
+            the datastore
+          Active: True
+          Source:
+            Provider: CodeCommit
+            Configuration:
+              RepositoryName: account-recorder
+              BranchName: v1
+
+
+    - Name: datastore
+      Owner: central-it@customer.com
+      Description: Provides the datastore for the account-recorder product
+      Distributor: central-it-team
+      SupportDescription: Contact us on Chime for help #central-it-team
+      SupportEmail: central-it-team@customer.com
+      SupportUrl: https://wiki.customer.com/central-it-team/util
+      Tags:
+        - Key: product-type
+          Value: util
+      Versions:
+        - Name: v1
+          Description: Provides the datastore for the account-recorder product
+          Active: True
+          Source:
+            Provider: CodeCommit
+            Configuration:
+              RepositoryName: datastore
+              BranchName: v1
+
