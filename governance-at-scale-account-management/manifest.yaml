@@ -8,15 +8,28 @@ launches:
     portfolio: demo-central-it-team-portfolio
     product: account-recorder
     version: v1
+    deploy_to:
+      tags:
+        - regions: default_region
+          tag: "role:controltower"
     depends_on:
       - datastore
     parameters:
       AccountCreationSNSTopicArn:
         default: SET_ME
       GASDataStoreBucketName:
-        default: SET_ME
+        ssm: 
+          name: /governance-at-scale-account-management/GASDataStoreBucketName
 
   datastore:
     portfolio: demo-central-it-team-portfolio
     product: datastore
     version: v1
+    deploy_to:
+      tags:
+        - regions: default_region
+          tag: "role:controltower"
+    outputs:
+      ssm:
+        -  param_name: /governance-at-scale-account-management/GASDataStoreBucketName
+           stack_output: GASDataStoreBucketName
