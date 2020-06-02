@@ -8,6 +8,8 @@ launches:
     portfolio: demo-central-it-team-portfolio
     product: account-recorder
     version: v1
+    depends_on:
+      - datastore
     parameters:
       AccountCreationSNSTopicArn:
         default: SET_ME
