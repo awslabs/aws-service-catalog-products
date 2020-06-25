@@ -8,8 +8,17 @@ launches:
     portfolio: demo-central-it-team-portfolio
     product: aws-iam-assume-roles-spoke
     version: v1
+    deploy_to:
+      tags:
+      - regions: default_region
+        tag: scope:all
+    
 
   iam-groups-security-account:
     portfolio: demo-central-it-team-portfolio
     product: aws-iam-groups-security-account
     version: v1
+    deploy_to:
+      tags:
+      - regions: default_region
+        tag: scope:all
