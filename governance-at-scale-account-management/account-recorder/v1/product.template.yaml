@@ -1,0 +1,97 @@
+# Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+AWSTemplateFormatVersion: 2010-09-09
+Description: |
+  Creates an AWS Lambda that listens to SNS notifications and writes the payload to S3
+  {"version": "v1", "framework": "servicecatalog-products", "role": "product", "product-set": "governance-at-scale-account-management", "product": "account-recorder"}
+
+Parameters:
+  AccountCreationSNSTopicArn:
+    Type: String
+  GASDataStoreBucketName:
+    Type: String
+
+Resources:
+  AccountRecorderRole:
+    Type: AWS::IAM::Role
+    Description: |
+      IAM role needed to publish account creations to S3.
+    Properties:
+      Path: /governance-at-scale-account-management/
+      Policies:
+        - PolicyName: PublishPerms
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - s3:PutObject
+                Resource: !Sub "arn:${AWS::Partition}:s3:::${GASDataStoreBucketName}/*"
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+
+  AccountRecorder:
+    Description: "Listens to AWS SNS and writes to AWS S3"
+    Type: AWS::Lambda::Function
+    Properties:
+      Handler: index.lambda_handler
+      Timeout: 60
+      Role: !GetAtt AccountRecorderRole.Arn
+      Runtime: python3.7
+      Environment:
+        Variables:
+          S3_BUCKET_NAME: !Ref GASDataStoreBucketName
+      Code:
+        ZipFile: |
+          import boto3
+          import os
+          import json
+
+          def lambda_handler(event, context):
+              bucket_name = os.getenv('S3_BUCKET_NAME')
+              message = {}
+              s3_client = boto3.client('s3')
+              responseData = dict()
+              responseData['Data'] = list()
+              for record in event.get('Records'):
+                  sns = record.get('Sns')
+                  message = sns.get('Message')
+                  account_id = json.loads(message).get('AccountId')
+                  responseData['Data'].append(account_id)
+                  s3_client.put_object(Bucket=bucket_name, Key=f"accounts/{account_id}.json", Body=message)
+
+  AccountRecorderSNSPermission:
+    Description: "allow sns to trigger the lambda"
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !GetAtt AccountRecorder.Arn
+      Action: lambda:InvokeFunction
+      Principal: sns.amazonaws.com
+      SourceArn: !Ref AccountCreationSNSTopicArn
+
+  AccountRecorderSubscription:
+    Description: "trigger the lambda when the sns topic is used"
+    Type: AWS::SNS::Subscription
+    Properties:
+      Endpoint: !GetAtt AccountRecorder.Arn
+      Protocol: lambda
+      TopicArn: !Ref AccountCreationSNSTopicArn
+
+Outputs:
+  AccountRecorderName:
+    Description: "The name of the account recorder function"
+    Value: !Ref AccountRecorder
+
+  AccountRecorderArn:
+    Description: "The Arn of the account recorder function"
+    Value: !GetAtt AccountRecorder.Arn
