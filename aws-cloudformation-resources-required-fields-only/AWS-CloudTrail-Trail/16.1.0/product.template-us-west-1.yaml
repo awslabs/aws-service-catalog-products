@@ -1,0 +1,30 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cloudtrail-trail.html
+Parameters:
+  IsLogging:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cloudtrail-trail.html#cfn-cloudtrail-trail-islogging
+    AllowedValues:
+      - 'true'
+      - 'false'
+  S3BucketName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cloudtrail-trail.html#cfn-cloudtrail-trail-s3bucketname
+Resources:
+  Resource:
+    Type: AWS::CloudTrail::Trail
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cloudtrail-trail.html
+    Properties:
+      IsLogging: !Ref 'IsLogging'
+      S3BucketName: !Ref 'S3BucketName'
+Outputs:
+  Arn:
+    Value:
+      GetAtt:
+        - Resource
+        - Arn
+  SnsTopicArn:
+    Value:
+      GetAtt:
+        - Resource
+        - SnsTopicArn

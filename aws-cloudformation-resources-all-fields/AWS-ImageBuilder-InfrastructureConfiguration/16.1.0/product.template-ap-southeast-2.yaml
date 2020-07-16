@@ -1,0 +1,55 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-imagebuilder-infrastructureconfiguration.html
+Parameters:
+  Name:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-imagebuilder-infrastructureconfiguration.html#cfn-imagebuilder-infrastructureconfiguration-name
+  Description:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-imagebuilder-infrastructureconfiguration.html#cfn-imagebuilder-infrastructureconfiguration-description
+    Default: null
+  Logging:
+    Type: Json
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-imagebuilder-infrastructureconfiguration.html#cfn-imagebuilder-infrastructureconfiguration-logging
+    Default: null
+  SubnetId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-imagebuilder-infrastructureconfiguration.html#cfn-imagebuilder-infrastructureconfiguration-subnetid
+    Default: null
+  KeyPair:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-imagebuilder-infrastructureconfiguration.html#cfn-imagebuilder-infrastructureconfiguration-keypair
+    Default: null
+  TerminateInstanceOnFailure:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-imagebuilder-infrastructureconfiguration.html#cfn-imagebuilder-infrastructureconfiguration-terminateinstanceonfailure
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  InstanceProfileName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-imagebuilder-infrastructureconfiguration.html#cfn-imagebuilder-infrastructureconfiguration-instanceprofilename
+  SnsTopicArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-imagebuilder-infrastructureconfiguration.html#cfn-imagebuilder-infrastructureconfiguration-snstopicarn
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::ImageBuilder::InfrastructureConfiguration
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-imagebuilder-infrastructureconfiguration.html
+    Properties:
+      Name: !Ref 'Name'
+      Description: !Ref 'Description'
+      Logging: !Ref 'Logging'
+      SubnetId: !Ref 'SubnetId'
+      KeyPair: !Ref 'KeyPair'
+      TerminateInstanceOnFailure: !Ref 'TerminateInstanceOnFailure'
+      InstanceProfileName: !Ref 'InstanceProfileName'
+      SnsTopicArn: !Ref 'SnsTopicArn'
+Outputs:
+  Arn:
+    Value:
+      GetAtt:
+        - Resource
+        - Arn

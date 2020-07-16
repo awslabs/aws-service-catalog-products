@@ -1,0 +1,30 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-logs-destination.html
+Parameters:
+  DestinationName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-logs-destination.html#cfn-logs-destination-destinationname
+  DestinationPolicy:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-logs-destination.html#cfn-logs-destination-destinationpolicy
+  RoleArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-logs-destination.html#cfn-logs-destination-rolearn
+  TargetArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-logs-destination.html#cfn-logs-destination-targetarn
+Resources:
+  Resource:
+    Type: AWS::Logs::Destination
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-logs-destination.html
+    Properties:
+      DestinationName: !Ref 'DestinationName'
+      DestinationPolicy: !Ref 'DestinationPolicy'
+      RoleArn: !Ref 'RoleArn'
+      TargetArn: !Ref 'TargetArn'
+Outputs:
+  Arn:
+    Value:
+      GetAtt:
+        - Resource
+        - Arn

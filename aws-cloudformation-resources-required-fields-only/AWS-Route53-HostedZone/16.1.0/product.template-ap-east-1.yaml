@@ -1,0 +1,18 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-route53-hostedzone.html
+Parameters:
+  Name:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-route53-hostedzone.html#cfn-route53-hostedzone-name
+Resources:
+  Resource:
+    Type: AWS::Route53::HostedZone
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-route53-hostedzone.html
+    Properties:
+      Name: !Ref 'Name'
+Outputs:
+  NameServers:
+    Value:
+      GetAtt:
+        - Resource
+        - NameServers

@@ -1,0 +1,49 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticmapreduce-instancefleetconfig.html
+Parameters:
+  ClusterId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticmapreduce-instancefleetconfig.html#cfn-elasticmapreduce-instancefleetconfig-clusterid
+  InstanceFleetType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticmapreduce-instancefleetconfig.html#cfn-elasticmapreduce-instancefleetconfig-instancefleettype
+  InstanceFleetProvisioningSpecificationsSpotProvisioningSpecificationBlockDurationMinutes:
+    Type: Number
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticmapreduce-instancefleetconfig-spotprovisioningspecification.html#cfn-elasticmapreduce-instancefleetconfig-spotprovisioningspecification-blockdurationminutes
+    Default: null
+  InstanceFleetProvisioningSpecificationsSpotProvisioningSpecificationTimeoutAction:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticmapreduce-instancefleetconfig-spotprovisioningspecification.html#cfn-elasticmapreduce-instancefleetconfig-spotprovisioningspecification-timeoutaction
+  InstanceFleetProvisioningSpecificationsSpotProvisioningSpecificationTimeoutDurationMinutes:
+    Type: Number
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticmapreduce-instancefleetconfig-spotprovisioningspecification.html#cfn-elasticmapreduce-instancefleetconfig-spotprovisioningspecification-timeoutdurationminutes
+  Name:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticmapreduce-instancefleetconfig.html#cfn-elasticmapreduce-instancefleetconfig-name
+    Default: null
+  TargetOnDemandCapacity:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticmapreduce-instancefleetconfig.html#cfn-elasticmapreduce-instancefleetconfig-targetondemandcapacity
+    Default: null
+  TargetSpotCapacity:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticmapreduce-instancefleetconfig.html#cfn-elasticmapreduce-instancefleetconfig-targetspotcapacity
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::EMR::InstanceFleetConfig
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticmapreduce-instancefleetconfig.html
+    Properties:
+      ClusterId: !Ref 'ClusterId'
+      InstanceFleetType: !Ref 'InstanceFleetType'
+      LaunchSpecifications:
+        SpotSpecification:
+          BlockDurationMinutes: !Ref 'InstanceFleetProvisioningSpecificationsSpotProvisioningSpecificationBlockDurationMinutes'
+          TimeoutAction: !Ref 'InstanceFleetProvisioningSpecificationsSpotProvisioningSpecificationTimeoutAction'
+          TimeoutDurationMinutes: !Ref 'InstanceFleetProvisioningSpecificationsSpotProvisioningSpecificationTimeoutDurationMinutes'
+      Name: !Ref 'Name'
+      TargetOnDemandCapacity: !Ref 'TargetOnDemandCapacity'
+      TargetSpotCapacity: !Ref 'TargetSpotCapacity'

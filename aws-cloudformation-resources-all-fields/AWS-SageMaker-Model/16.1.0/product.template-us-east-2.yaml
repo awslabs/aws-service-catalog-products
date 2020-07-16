@@ -1,0 +1,55 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-sagemaker-model.html
+Parameters:
+  ExecutionRoleArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-sagemaker-model.html#cfn-sagemaker-model-executionrolearn
+  ContainerDefinitionContainerHostname:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sagemaker-model-containerdefinition.html#cfn-sagemaker-model-containerdefinition-containerhostname
+    Default: null
+  ContainerDefinitionModelPackageName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sagemaker-model-containerdefinition.html#cfn-sagemaker-model-containerdefinition-modelpackagename
+    Default: null
+  ContainerDefinitionMode:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sagemaker-model-containerdefinition.html#cfn-sagemaker-model-containerdefinition-mode
+    Default: null
+  ContainerDefinitionEnvironment:
+    Type: Json
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sagemaker-model-containerdefinition.html#cfn-sagemaker-model-containerdefinition-environment
+    Default: null
+  ContainerDefinitionModelDataUrl:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sagemaker-model-containerdefinition.html#cfn-sagemaker-model-containerdefinition-modeldataurl
+    Default: null
+  ContainerDefinitionImage:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sagemaker-model-containerdefinition.html#cfn-sagemaker-model-containerdefinition-image
+    Default: null
+  ModelName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-sagemaker-model.html#cfn-sagemaker-model-modelname
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::SageMaker::Model
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-sagemaker-model.html
+    Properties:
+      ExecutionRoleArn: !Ref 'ExecutionRoleArn'
+      PrimaryContainer:
+        ContainerHostname: !Ref 'ContainerDefinitionContainerHostname'
+        ModelPackageName: !Ref 'ContainerDefinitionModelPackageName'
+        Mode: !Ref 'ContainerDefinitionMode'
+        Environment: !Ref 'ContainerDefinitionEnvironment'
+        ModelDataUrl: !Ref 'ContainerDefinitionModelDataUrl'
+        Image: !Ref 'ContainerDefinitionImage'
+      ModelName: !Ref 'ModelName'
+      VpcConfig: {}
+Outputs:
+  ModelName:
+    Value:
+      GetAtt:
+        - Resource
+        - ModelName

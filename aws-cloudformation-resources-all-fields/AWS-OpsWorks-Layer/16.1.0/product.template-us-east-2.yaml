@@ -1,0 +1,142 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opsworks-layer.html
+Parameters:
+  AutoAssignElasticIps:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opsworks-layer.html#cfn-opsworks-layer-autoassignelasticips
+    AllowedValues:
+      - 'true'
+      - 'false'
+  AutoAssignPublicIps:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opsworks-layer.html#cfn-opsworks-layer-autoassignpublicips
+    AllowedValues:
+      - 'true'
+      - 'false'
+  CustomInstanceProfileArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opsworks-layer.html#cfn-opsworks-layer-custominstanceprofilearn
+    Default: null
+  CustomJson:
+    Type: Json
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opsworks-layer.html#cfn-opsworks-layer-customjson
+    Default: null
+  EnableAutoHealing:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opsworks-layer.html#cfn-opsworks-layer-enableautohealing
+    AllowedValues:
+      - 'true'
+      - 'false'
+  InstallUpdatesOnBoot:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opsworks-layer.html#cfn-opsworks-layer-installupdatesonboot
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  LifecycleEventConfigurationShutdownEventConfigurationDelayUntilElbConnectionsDrained:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-opsworks-layer-lifecycleeventconfiguration-shutdowneventconfiguration.html#cfn-opsworks-layer-lifecycleconfiguration-shutdowneventconfiguration-delayuntilelbconnectionsdrained
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  LifecycleEventConfigurationShutdownEventConfigurationExecutionTimeout:
+    Type: Number
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-opsworks-layer-lifecycleeventconfiguration-shutdowneventconfiguration.html#cfn-opsworks-layer-lifecycleconfiguration-shutdowneventconfiguration-executiontimeout
+    Default: null
+  LoadBasedAutoScalingAutoScalingThresholdsCpuThreshold:
+    Type: Double
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-opsworks-layer-loadbasedautoscaling-autoscalingthresholds.html#cfn-opsworks-layer-loadbasedautoscaling-autoscalingthresholds-cputhreshold
+    Default: null
+  LoadBasedAutoScalingAutoScalingThresholdsIgnoreMetricsTime:
+    Type: Number
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-opsworks-layer-loadbasedautoscaling-autoscalingthresholds.html#cfn-opsworks-layer-loadbasedautoscaling-autoscalingthresholds-ignoremetricstime
+    Default: null
+  LoadBasedAutoScalingAutoScalingThresholdsInstanceCount:
+    Type: Number
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-opsworks-layer-loadbasedautoscaling-autoscalingthresholds.html#cfn-opsworks-layer-loadbasedautoscaling-autoscalingthresholds-instancecount
+    Default: null
+  LoadBasedAutoScalingAutoScalingThresholdsLoadThreshold:
+    Type: Double
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-opsworks-layer-loadbasedautoscaling-autoscalingthresholds.html#cfn-opsworks-layer-loadbasedautoscaling-autoscalingthresholds-loadthreshold
+    Default: null
+  LoadBasedAutoScalingAutoScalingThresholdsMemoryThreshold:
+    Type: Double
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-opsworks-layer-loadbasedautoscaling-autoscalingthresholds.html#cfn-opsworks-layer-loadbasedautoscaling-autoscalingthresholds-memorythreshold
+    Default: null
+  LoadBasedAutoScalingAutoScalingThresholdsThresholdsWaitTime:
+    Type: Number
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-opsworks-layer-loadbasedautoscaling-autoscalingthresholds.html#cfn-opsworks-layer-loadbasedautoscaling-autoscalingthresholds-thresholdwaittime
+    Default: null
+  LoadBasedAutoScalingEnable:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-opsworks-layer-loadbasedautoscaling.html#cfn-opsworks-layer-loadbasedautoscaling-enable
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  Name:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opsworks-layer.html#cfn-opsworks-layer-name
+  Shortname:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opsworks-layer.html#cfn-opsworks-layer-shortname
+  StackId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opsworks-layer.html#cfn-opsworks-layer-stackid
+  Type:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opsworks-layer.html#cfn-opsworks-layer-type
+  UseEbsOptimizedInstances:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opsworks-layer.html#cfn-opsworks-layer-useebsoptimizedinstances
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::OpsWorks::Layer
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opsworks-layer.html
+    Properties:
+      AutoAssignElasticIps: !Ref 'AutoAssignElasticIps'
+      AutoAssignPublicIps: !Ref 'AutoAssignPublicIps'
+      CustomInstanceProfileArn: !Ref 'CustomInstanceProfileArn'
+      CustomJson: !Ref 'CustomJson'
+      CustomRecipes: {}
+      EnableAutoHealing: !Ref 'EnableAutoHealing'
+      InstallUpdatesOnBoot: !Ref 'InstallUpdatesOnBoot'
+      LifecycleEventConfiguration:
+        ShutdownEventConfiguration:
+          DelayUntilElbConnectionsDrained: !Ref 'LifecycleEventConfigurationShutdownEventConfigurationDelayUntilElbConnectionsDrained'
+          ExecutionTimeout: !Ref 'LifecycleEventConfigurationShutdownEventConfigurationExecutionTimeout'
+      LoadBasedAutoScaling:
+        DownScaling:
+          CpuThreshold: !Ref 'LoadBasedAutoScalingAutoScalingThresholdsCpuThreshold'
+          IgnoreMetricsTime: !Ref 'LoadBasedAutoScalingAutoScalingThresholdsIgnoreMetricsTime'
+          InstanceCount: !Ref 'LoadBasedAutoScalingAutoScalingThresholdsInstanceCount'
+          LoadThreshold: !Ref 'LoadBasedAutoScalingAutoScalingThresholdsLoadThreshold'
+          MemoryThreshold: !Ref 'LoadBasedAutoScalingAutoScalingThresholdsMemoryThreshold'
+          ThresholdsWaitTime: !Ref 'LoadBasedAutoScalingAutoScalingThresholdsThresholdsWaitTime'
+        Enable: !Ref 'LoadBasedAutoScalingEnable'
+        UpScaling:
+          CpuThreshold: !Ref 'LoadBasedAutoScalingAutoScalingThresholdsCpuThreshold'
+          IgnoreMetricsTime: !Ref 'LoadBasedAutoScalingAutoScalingThresholdsIgnoreMetricsTime'
+          InstanceCount: !Ref 'LoadBasedAutoScalingAutoScalingThresholdsInstanceCount'
+          LoadThreshold: !Ref 'LoadBasedAutoScalingAutoScalingThresholdsLoadThreshold'
+          MemoryThreshold: !Ref 'LoadBasedAutoScalingAutoScalingThresholdsMemoryThreshold'
+          ThresholdsWaitTime: !Ref 'LoadBasedAutoScalingAutoScalingThresholdsThresholdsWaitTime'
+      Name: !Ref 'Name'
+      Shortname: !Ref 'Shortname'
+      StackId: !Ref 'StackId'
+      Type: !Ref 'Type'
+      UseEbsOptimizedInstances: !Ref 'UseEbsOptimizedInstances'

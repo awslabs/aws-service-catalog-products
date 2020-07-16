@@ -1,0 +1,93 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ssm-association.html
+Parameters:
+  AssociationName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ssm-association.html#cfn-ssm-association-associationname
+    Default: null
+  DocumentVersion:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ssm-association.html#cfn-ssm-association-documentversion
+    Default: null
+  InstanceId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ssm-association.html#cfn-ssm-association-instanceid
+    Default: null
+  Name:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ssm-association.html#cfn-ssm-association-name
+  ScheduleExpression:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ssm-association.html#cfn-ssm-association-scheduleexpression
+    Default: null
+  InstanceAssociationOutputLocationS3OutputLocationOutputS3Region:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ssm-association-s3outputlocation.html#cfn-ssm-association-s3outputlocation-outputs3region
+    Default: null
+  InstanceAssociationOutputLocationS3OutputLocationOutputS3BucketName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ssm-association-s3outputlocation.html#cfn-ssm-association-s3outputlocation-outputs3bucketname
+    Default: null
+  InstanceAssociationOutputLocationS3OutputLocationOutputS3KeyPrefix:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ssm-association-s3outputlocation.html#cfn-ssm-association-s3outputlocation-outputs3keyprefix
+    Default: null
+  AutomationTargetParameterName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ssm-association.html#cfn-ssm-association-automationtargetparametername
+    Default: null
+  MaxErrors:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ssm-association.html#cfn-ssm-association-maxerrors
+    Default: null
+  MaxConcurrency:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ssm-association.html#cfn-ssm-association-maxconcurrency
+    Default: null
+  ComplianceSeverity:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ssm-association.html#cfn-ssm-association-complianceseverity
+    Default: null
+  SyncCompliance:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ssm-association.html#cfn-ssm-association-synccompliance
+    Default: null
+  WaitForSuccessTimeoutSeconds:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ssm-association.html#cfn-ssm-association-waitforsuccesstimeoutseconds
+    Default: null
+  ApplyOnlyAtCronInterval:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ssm-association.html#cfn-ssm-association-applyonlyatcroninterval
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::SSM::Association
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ssm-association.html
+    Properties:
+      AssociationName: !Ref 'AssociationName'
+      DocumentVersion: !Ref 'DocumentVersion'
+      InstanceId: !Ref 'InstanceId'
+      Name: !Ref 'Name'
+      ScheduleExpression: !Ref 'ScheduleExpression'
+      OutputLocation:
+        S3Location:
+          OutputS3Region: !Ref 'InstanceAssociationOutputLocationS3OutputLocationOutputS3Region'
+          OutputS3BucketName: !Ref 'InstanceAssociationOutputLocationS3OutputLocationOutputS3BucketName'
+          OutputS3KeyPrefix: !Ref 'InstanceAssociationOutputLocationS3OutputLocationOutputS3KeyPrefix'
+      AutomationTargetParameterName: !Ref 'AutomationTargetParameterName'
+      MaxErrors: !Ref 'MaxErrors'
+      MaxConcurrency: !Ref 'MaxConcurrency'
+      ComplianceSeverity: !Ref 'ComplianceSeverity'
+      SyncCompliance: !Ref 'SyncCompliance'
+      WaitForSuccessTimeoutSeconds: !Ref 'WaitForSuccessTimeoutSeconds'
+      ApplyOnlyAtCronInterval: !Ref 'ApplyOnlyAtCronInterval'
+Outputs:
+  AssociationId:
+    Value:
+      GetAtt:
+        - Resource
+        - AssociationId

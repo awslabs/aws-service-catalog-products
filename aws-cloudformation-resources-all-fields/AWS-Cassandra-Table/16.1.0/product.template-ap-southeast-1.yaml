@@ -1,0 +1,31 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cassandra-table.html
+Parameters:
+  KeyspaceName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cassandra-table.html#cfn-cassandra-table-keyspacename
+  TableName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cassandra-table.html#cfn-cassandra-table-tablename
+    Default: null
+  BillingModeMode:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cassandra-table-billingmode.html#cfn-cassandra-table-billingmode-mode
+  BillingModeProvisionedThroughputReadCapacityUnits:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cassandra-table-provisionedthroughput.html#cfn-cassandra-table-provisionedthroughput-readcapacityunits
+  BillingModeProvisionedThroughputWriteCapacityUnits:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cassandra-table-provisionedthroughput.html#cfn-cassandra-table-provisionedthroughput-writecapacityunits
+Resources:
+  Resource:
+    Type: AWS::Cassandra::Table
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cassandra-table.html
+    Properties:
+      KeyspaceName: !Ref 'KeyspaceName'
+      TableName: !Ref 'TableName'
+      BillingMode:
+        Mode: !Ref 'BillingModeMode'
+        ProvisionedThroughput:
+          ReadCapacityUnits: !Ref 'BillingModeProvisionedThroughputReadCapacityUnits'
+          WriteCapacityUnits: !Ref 'BillingModeProvisionedThroughputWriteCapacityUnits'

@@ -1,0 +1,96 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-config-organizationconfigrule.html
+Parameters:
+  OrganizationManagedRuleMetadataTagKeyScope:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-config-organizationconfigrule-organizationmanagedrulemetadata.html#cfn-config-organizationconfigrule-organizationmanagedrulemetadata-tagkeyscope
+    Default: null
+  OrganizationManagedRuleMetadataTagValueScope:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-config-organizationconfigrule-organizationmanagedrulemetadata.html#cfn-config-organizationconfigrule-organizationmanagedrulemetadata-tagvaluescope
+    Default: null
+  OrganizationManagedRuleMetadataDescription:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-config-organizationconfigrule-organizationmanagedrulemetadata.html#cfn-config-organizationconfigrule-organizationmanagedrulemetadata-description
+    Default: null
+  OrganizationManagedRuleMetadataResourceIdScope:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-config-organizationconfigrule-organizationmanagedrulemetadata.html#cfn-config-organizationconfigrule-organizationmanagedrulemetadata-resourceidscope
+    Default: null
+  OrganizationManagedRuleMetadataRuleIdentifier:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-config-organizationconfigrule-organizationmanagedrulemetadata.html#cfn-config-organizationconfigrule-organizationmanagedrulemetadata-ruleidentifier
+  OrganizationManagedRuleMetadataMaximumExecutionFrequency:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-config-organizationconfigrule-organizationmanagedrulemetadata.html#cfn-config-organizationconfigrule-organizationmanagedrulemetadata-maximumexecutionfrequency
+    Default: null
+  OrganizationManagedRuleMetadataInputParameters:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-config-organizationconfigrule-organizationmanagedrulemetadata.html#cfn-config-organizationconfigrule-organizationmanagedrulemetadata-inputparameters
+    Default: null
+  OrganizationConfigRuleName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-config-organizationconfigrule.html#cfn-config-organizationconfigrule-organizationconfigrulename
+  OrganizationCustomRuleMetadataTagKeyScope:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-config-organizationconfigrule-organizationcustomrulemetadata.html#cfn-config-organizationconfigrule-organizationcustomrulemetadata-tagkeyscope
+    Default: null
+  OrganizationCustomRuleMetadataTagValueScope:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-config-organizationconfigrule-organizationcustomrulemetadata.html#cfn-config-organizationconfigrule-organizationcustomrulemetadata-tagvaluescope
+    Default: null
+  OrganizationCustomRuleMetadataDescription:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-config-organizationconfigrule-organizationcustomrulemetadata.html#cfn-config-organizationconfigrule-organizationcustomrulemetadata-description
+    Default: null
+  OrganizationCustomRuleMetadataResourceIdScope:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-config-organizationconfigrule-organizationcustomrulemetadata.html#cfn-config-organizationconfigrule-organizationcustomrulemetadata-resourceidscope
+    Default: null
+  OrganizationCustomRuleMetadataLambdaFunctionArn:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-config-organizationconfigrule-organizationcustomrulemetadata.html#cfn-config-organizationconfigrule-organizationcustomrulemetadata-lambdafunctionarn
+  OrganizationCustomRuleMetadataMaximumExecutionFrequency:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-config-organizationconfigrule-organizationcustomrulemetadata.html#cfn-config-organizationconfigrule-organizationcustomrulemetadata-maximumexecutionfrequency
+    Default: null
+  OrganizationCustomRuleMetadataInputParameters:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-config-organizationconfigrule-organizationcustomrulemetadata.html#cfn-config-organizationconfigrule-organizationcustomrulemetadata-inputparameters
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::Config::OrganizationConfigRule
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-config-organizationconfigrule.html
+    Properties:
+      OrganizationManagedRuleMetadata:
+        TagKeyScope: !Ref 'OrganizationManagedRuleMetadataTagKeyScope'
+        TagValueScope: !Ref 'OrganizationManagedRuleMetadataTagValueScope'
+        Description: !Ref 'OrganizationManagedRuleMetadataDescription'
+        ResourceIdScope: !Ref 'OrganizationManagedRuleMetadataResourceIdScope'
+        RuleIdentifier: !Ref 'OrganizationManagedRuleMetadataRuleIdentifier'
+        MaximumExecutionFrequency: !Ref 'OrganizationManagedRuleMetadataMaximumExecutionFrequency'
+        InputParameters: !Ref 'OrganizationManagedRuleMetadataInputParameters'
+      OrganizationConfigRuleName: !Ref 'OrganizationConfigRuleName'
+      OrganizationCustomRuleMetadata:
+        TagKeyScope: !Ref 'OrganizationCustomRuleMetadataTagKeyScope'
+        TagValueScope: !Ref 'OrganizationCustomRuleMetadataTagValueScope'
+        Description: !Ref 'OrganizationCustomRuleMetadataDescription'
+        ResourceIdScope: !Ref 'OrganizationCustomRuleMetadataResourceIdScope'
+        LambdaFunctionArn: !Ref 'OrganizationCustomRuleMetadataLambdaFunctionArn'
+        MaximumExecutionFrequency: !Ref 'OrganizationCustomRuleMetadataMaximumExecutionFrequency'
+        InputParameters: !Ref 'OrganizationCustomRuleMetadataInputParameters'

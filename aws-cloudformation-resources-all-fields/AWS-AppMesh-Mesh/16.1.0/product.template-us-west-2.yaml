@@ -1,0 +1,44 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appmesh-mesh.html
+Parameters:
+  MeshName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appmesh-mesh.html#cfn-appmesh-mesh-meshname
+  MeshSpecEgressFilterType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-appmesh-mesh-egressfilter.html#cfn-appmesh-mesh-egressfilter-type
+Resources:
+  Resource:
+    Type: AWS::AppMesh::Mesh
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appmesh-mesh.html
+    Properties:
+      MeshName: !Ref 'MeshName'
+      Spec:
+        EgressFilter:
+          Type: !Ref 'MeshSpecEgressFilterType'
+Outputs:
+  Uid:
+    Value:
+      GetAtt:
+        - Resource
+        - Uid
+  MeshName:
+    Value:
+      GetAtt:
+        - Resource
+        - MeshName
+  MeshOwner:
+    Value:
+      GetAtt:
+        - Resource
+        - MeshOwner
+  ResourceOwner:
+    Value:
+      GetAtt:
+        - Resource
+        - ResourceOwner
+  Arn:
+    Value:
+      GetAtt:
+        - Resource
+        - Arn

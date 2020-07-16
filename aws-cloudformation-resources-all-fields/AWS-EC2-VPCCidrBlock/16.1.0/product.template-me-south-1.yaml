@@ -1,0 +1,25 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-vpccidrblock.html
+Parameters:
+  AmazonProvidedIpv6CidrBlock:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-vpccidrblock.html#cfn-ec2-vpccidrblock-amazonprovidedipv6cidrblock
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  CidrBlock:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-vpccidrblock.html#cfn-ec2-vpccidrblock-cidrblock
+    Default: null
+  VpcId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-vpccidrblock.html#cfn-ec2-vpccidrblock-vpcid
+Resources:
+  Resource:
+    Type: AWS::EC2::VPCCidrBlock
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-vpccidrblock.html
+    Properties:
+      AmazonProvidedIpv6CidrBlock: !Ref 'AmazonProvidedIpv6CidrBlock'
+      CidrBlock: !Ref 'CidrBlock'
+      VpcId: !Ref 'VpcId'

@@ -1,0 +1,66 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-ebs-volume.html
+Parameters:
+  AutoEnableIO:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-ebs-volume.html#cfn-ec2-ebs-volume-autoenableio
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  AvailabilityZone:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-ebs-volume.html#cfn-ec2-ebs-volume-availabilityzone
+  Encrypted:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-ebs-volume.html#cfn-ec2-ebs-volume-encrypted
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  Iops:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-ebs-volume.html#cfn-ec2-ebs-volume-iops
+    Default: null
+  KmsKeyId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-ebs-volume.html#cfn-ec2-ebs-volume-kmskeyid
+    Default: null
+  MultiAttachEnabled:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-ebs-volume.html#cfn-ec2-ebs-volume-multiattachenabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  OutpostArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-ebs-volume.html#cfn-ec2-ebs-volume-outpostarn
+    Default: null
+  Size:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-ebs-volume.html#cfn-ec2-ebs-volume-size
+    Default: null
+  SnapshotId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-ebs-volume.html#cfn-ec2-ebs-volume-snapshotid
+    Default: null
+  VolumeType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-ebs-volume.html#cfn-ec2-ebs-volume-volumetype
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::EC2::Volume
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-ebs-volume.html
+    Properties:
+      AutoEnableIO: !Ref 'AutoEnableIO'
+      AvailabilityZone: !Ref 'AvailabilityZone'
+      Encrypted: !Ref 'Encrypted'
+      Iops: !Ref 'Iops'
+      KmsKeyId: !Ref 'KmsKeyId'
+      MultiAttachEnabled: !Ref 'MultiAttachEnabled'
+      OutpostArn: !Ref 'OutpostArn'
+      Size: !Ref 'Size'
+      SnapshotId: !Ref 'SnapshotId'
+      VolumeType: !Ref 'VolumeType'

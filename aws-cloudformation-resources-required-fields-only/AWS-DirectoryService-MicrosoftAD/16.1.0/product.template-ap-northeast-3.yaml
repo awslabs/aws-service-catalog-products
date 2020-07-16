@@ -1,0 +1,32 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-directoryservice-microsoftad.html
+Parameters:
+  Name:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-directoryservice-microsoftad.html#cfn-directoryservice-microsoftad-name
+  Password:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-directoryservice-microsoftad.html#cfn-directoryservice-microsoftad-password
+  VpcSettingsVpcId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-directoryservice-microsoftad-vpcsettings.html#cfn-directoryservice-microsoftad-vpcsettings-vpcid
+Resources:
+  Resource:
+    Type: AWS::DirectoryService::MicrosoftAD
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-directoryservice-microsoftad.html
+    Properties:
+      Name: !Ref 'Name'
+      Password: !Ref 'Password'
+      VpcSettings:
+        VpcId: !Ref 'VpcSettingsVpcId'
+Outputs:
+  Alias:
+    Value:
+      GetAtt:
+        - Resource
+        - Alias
+  DnsIpAddresses:
+    Value:
+      GetAtt:
+        - Resource
+        - DnsIpAddresses

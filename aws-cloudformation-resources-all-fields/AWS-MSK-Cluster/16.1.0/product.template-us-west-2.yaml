@@ -1,0 +1,142 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-msk-cluster.html
+Parameters:
+  BrokerNodeGroupInfoStorageInfoEBSStorageInfoVolumeSize:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-msk-cluster-ebsstorageinfo.html#cfn-msk-cluster-ebsstorageinfo-volumesize
+    Default: null
+  BrokerNodeGroupInfoBrokerAZDistribution:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-msk-cluster-brokernodegroupinfo.html#cfn-msk-cluster-brokernodegroupinfo-brokerazdistribution
+    Default: null
+  BrokerNodeGroupInfoInstanceType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-msk-cluster-brokernodegroupinfo.html#cfn-msk-cluster-brokernodegroupinfo-instancetype
+  EnhancedMonitoring:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-msk-cluster.html#cfn-msk-cluster-enhancedmonitoring
+    Default: null
+  KafkaVersion:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-msk-cluster.html#cfn-msk-cluster-kafkaversion
+  NumberOfBrokerNodes:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-msk-cluster.html#cfn-msk-cluster-numberofbrokernodes
+  EncryptionInfoEncryptionAtRestDataVolumeKMSKeyId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-msk-cluster-encryptionatrest.html#cfn-msk-cluster-encryptionatrest-datavolumekmskeyid
+  EncryptionInfoEncryptionInTransitClientBroker:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-msk-cluster-encryptionintransit.html#cfn-msk-cluster-encryptionintransit-clientbroker
+    Default: null
+  EncryptionInfoEncryptionInTransitInCluster:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-msk-cluster-encryptionintransit.html#cfn-msk-cluster-encryptionintransit-incluster
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  OpenMonitoringPrometheusJmxExporterEnabledInBroker:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-msk-cluster-jmxexporter.html#cfn-msk-cluster-jmxexporter-enabledinbroker
+    AllowedValues:
+      - 'true'
+      - 'false'
+  OpenMonitoringPrometheusNodeExporterEnabledInBroker:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-msk-cluster-nodeexporter.html#cfn-msk-cluster-nodeexporter-enabledinbroker
+    AllowedValues:
+      - 'true'
+      - 'false'
+  ClusterName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-msk-cluster.html#cfn-msk-cluster-clustername
+  LoggingInfoBrokerLogsS3Bucket:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-msk-cluster-s3.html#cfn-msk-cluster-s3-bucket
+    Default: null
+  LoggingInfoBrokerLogsS3Enabled:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-msk-cluster-s3.html#cfn-msk-cluster-s3-enabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+  LoggingInfoBrokerLogsS3Prefix:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-msk-cluster-s3.html#cfn-msk-cluster-s3-prefix
+    Default: null
+  LoggingInfoBrokerLogsFirehoseDeliveryStream:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-msk-cluster-firehose.html#cfn-msk-cluster-firehose-deliverystream
+    Default: null
+  LoggingInfoBrokerLogsFirehoseEnabled:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-msk-cluster-firehose.html#cfn-msk-cluster-firehose-enabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+  LoggingInfoBrokerLogsCloudWatchLogsLogGroup:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-msk-cluster-cloudwatchlogs.html#cfn-msk-cluster-cloudwatchlogs-loggroup
+    Default: null
+  LoggingInfoBrokerLogsCloudWatchLogsEnabled:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-msk-cluster-cloudwatchlogs.html#cfn-msk-cluster-cloudwatchlogs-enabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+  Tags:
+    Type: Json
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-msk-cluster.html#cfn-msk-cluster-tags
+    Default: null
+  ConfigurationInfoRevision:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-msk-cluster-configurationinfo.html#cfn-msk-cluster-configurationinfo-revision
+  ConfigurationInfoArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-msk-cluster-configurationinfo.html#cfn-msk-cluster-configurationinfo-arn
+Resources:
+  Resource:
+    Type: AWS::MSK::Cluster
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-msk-cluster.html
+    Properties:
+      BrokerNodeGroupInfo:
+        StorageInfo:
+          EBSStorageInfo:
+            VolumeSize: !Ref 'BrokerNodeGroupInfoStorageInfoEBSStorageInfoVolumeSize'
+        BrokerAZDistribution: !Ref 'BrokerNodeGroupInfoBrokerAZDistribution'
+        InstanceType: !Ref 'BrokerNodeGroupInfoInstanceType'
+      EnhancedMonitoring: !Ref 'EnhancedMonitoring'
+      KafkaVersion: !Ref 'KafkaVersion'
+      NumberOfBrokerNodes: !Ref 'NumberOfBrokerNodes'
+      EncryptionInfo:
+        EncryptionAtRest:
+          DataVolumeKMSKeyId: !Ref 'EncryptionInfoEncryptionAtRestDataVolumeKMSKeyId'
+        EncryptionInTransit:
+          ClientBroker: !Ref 'EncryptionInfoEncryptionInTransitClientBroker'
+          InCluster: !Ref 'EncryptionInfoEncryptionInTransitInCluster'
+      OpenMonitoring:
+        Prometheus:
+          JmxExporter:
+            EnabledInBroker: !Ref 'OpenMonitoringPrometheusJmxExporterEnabledInBroker'
+          NodeExporter:
+            EnabledInBroker: !Ref 'OpenMonitoringPrometheusNodeExporterEnabledInBroker'
+      ClusterName: !Ref 'ClusterName'
+      ClientAuthentication:
+        Tls: {}
+      LoggingInfo:
+        BrokerLogs:
+          S3:
+            Bucket: !Ref 'LoggingInfoBrokerLogsS3Bucket'
+            Enabled: !Ref 'LoggingInfoBrokerLogsS3Enabled'
+            Prefix: !Ref 'LoggingInfoBrokerLogsS3Prefix'
+          Firehose:
+            DeliveryStream: !Ref 'LoggingInfoBrokerLogsFirehoseDeliveryStream'
+            Enabled: !Ref 'LoggingInfoBrokerLogsFirehoseEnabled'
+          CloudWatchLogs:
+            LogGroup: !Ref 'LoggingInfoBrokerLogsCloudWatchLogsLogGroup'
+            Enabled: !Ref 'LoggingInfoBrokerLogsCloudWatchLogsEnabled'
+      Tags: !Ref 'Tags'
+      ConfigurationInfo:
+        Revision: !Ref 'ConfigurationInfoRevision'
+        Arn: !Ref 'ConfigurationInfoArn'

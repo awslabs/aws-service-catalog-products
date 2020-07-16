@@ -1,0 +1,43 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-transitgateway.html
+Parameters:
+  DefaultRouteTablePropagation:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-transitgateway.html#cfn-ec2-transitgateway-defaultroutetablepropagation
+    Default: null
+  Description:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-transitgateway.html#cfn-ec2-transitgateway-description
+    Default: null
+  AutoAcceptSharedAttachments:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-transitgateway.html#cfn-ec2-transitgateway-autoacceptsharedattachments
+    Default: null
+  DefaultRouteTableAssociation:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-transitgateway.html#cfn-ec2-transitgateway-defaultroutetableassociation
+    Default: null
+  VpnEcmpSupport:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-transitgateway.html#cfn-ec2-transitgateway-vpnecmpsupport
+    Default: null
+  DnsSupport:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-transitgateway.html#cfn-ec2-transitgateway-dnssupport
+    Default: null
+  AmazonSideAsn:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-transitgateway.html#cfn-ec2-transitgateway-amazonsideasn
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::EC2::TransitGateway
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-transitgateway.html
+    Properties:
+      DefaultRouteTablePropagation: !Ref 'DefaultRouteTablePropagation'
+      Description: !Ref 'Description'
+      AutoAcceptSharedAttachments: !Ref 'AutoAcceptSharedAttachments'
+      DefaultRouteTableAssociation: !Ref 'DefaultRouteTableAssociation'
+      VpnEcmpSupport: !Ref 'VpnEcmpSupport'
+      DnsSupport: !Ref 'DnsSupport'
+      AmazonSideAsn: !Ref 'AmazonSideAsn'

@@ -1,0 +1,66 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-pinpoint-applicationsettings.html
+Parameters:
+  QuietTimeStart:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-applicationsettings-quiettime.html#cfn-pinpoint-applicationsettings-quiettime-start
+  QuietTimeEnd:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-applicationsettings-quiettime.html#cfn-pinpoint-applicationsettings-quiettime-end
+  LimitsDaily:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-applicationsettings-limits.html#cfn-pinpoint-applicationsettings-limits-daily
+    Default: null
+  LimitsMaximumDuration:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-applicationsettings-limits.html#cfn-pinpoint-applicationsettings-limits-maximumduration
+    Default: null
+  LimitsTotal:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-applicationsettings-limits.html#cfn-pinpoint-applicationsettings-limits-total
+    Default: null
+  LimitsMessagesPerSecond:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-applicationsettings-limits.html#cfn-pinpoint-applicationsettings-limits-messagespersecond
+    Default: null
+  ApplicationId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-pinpoint-applicationsettings.html#cfn-pinpoint-applicationsettings-applicationid
+  CampaignHookMode:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-applicationsettings-campaignhook.html#cfn-pinpoint-applicationsettings-campaignhook-mode
+    Default: null
+  CampaignHookWebUrl:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-applicationsettings-campaignhook.html#cfn-pinpoint-applicationsettings-campaignhook-weburl
+    Default: null
+  CampaignHookLambdaFunctionName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-applicationsettings-campaignhook.html#cfn-pinpoint-applicationsettings-campaignhook-lambdafunctionname
+    Default: null
+  CloudWatchMetricsEnabled:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-pinpoint-applicationsettings.html#cfn-pinpoint-applicationsettings-cloudwatchmetricsenabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::Pinpoint::ApplicationSettings
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-pinpoint-applicationsettings.html
+    Properties:
+      QuietTime:
+        Start: !Ref 'QuietTimeStart'
+        End: !Ref 'QuietTimeEnd'
+      Limits:
+        Daily: !Ref 'LimitsDaily'
+        MaximumDuration: !Ref 'LimitsMaximumDuration'
+        Total: !Ref 'LimitsTotal'
+        MessagesPerSecond: !Ref 'LimitsMessagesPerSecond'
+      ApplicationId: !Ref 'ApplicationId'
+      CampaignHook:
+        Mode: !Ref 'CampaignHookMode'
+        WebUrl: !Ref 'CampaignHookWebUrl'
+        LambdaFunctionName: !Ref 'CampaignHookLambdaFunctionName'
+      CloudWatchMetricsEnabled: !Ref 'CloudWatchMetricsEnabled'

@@ -1,0 +1,33 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-glue-database.html
+Parameters:
+  DatabaseInputLocationUri:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-glue-database-databaseinput.html#cfn-glue-database-databaseinput-locationuri
+    Default: null
+  DatabaseInputDescription:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-glue-database-databaseinput.html#cfn-glue-database-databaseinput-description
+    Default: null
+  DatabaseInputParameters:
+    Type: Json
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-glue-database-databaseinput.html#cfn-glue-database-databaseinput-parameters
+    Default: null
+  DatabaseInputName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-glue-database-databaseinput.html#cfn-glue-database-databaseinput-name
+    Default: null
+  CatalogId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-glue-database.html#cfn-glue-database-catalogid
+Resources:
+  Resource:
+    Type: AWS::Glue::Database
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-glue-database.html
+    Properties:
+      DatabaseInput:
+        LocationUri: !Ref 'DatabaseInputLocationUri'
+        Description: !Ref 'DatabaseInputDescription'
+        Parameters: !Ref 'DatabaseInputParameters'
+        Name: !Ref 'DatabaseInputName'
+      CatalogId: !Ref 'CatalogId'

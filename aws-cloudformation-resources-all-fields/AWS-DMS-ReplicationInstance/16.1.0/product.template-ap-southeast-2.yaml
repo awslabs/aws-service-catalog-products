@@ -1,0 +1,90 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dms-replicationinstance.html
+Parameters:
+  ReplicationInstanceIdentifier:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dms-replicationinstance.html#cfn-dms-replicationinstance-replicationinstanceidentifier
+    Default: null
+  EngineVersion:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dms-replicationinstance.html#cfn-dms-replicationinstance-engineversion
+    Default: null
+  KmsKeyId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dms-replicationinstance.html#cfn-dms-replicationinstance-kmskeyid
+    Default: null
+  AvailabilityZone:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dms-replicationinstance.html#cfn-dms-replicationinstance-availabilityzone
+    Default: null
+  PreferredMaintenanceWindow:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dms-replicationinstance.html#cfn-dms-replicationinstance-preferredmaintenancewindow
+    Default: null
+  AutoMinorVersionUpgrade:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dms-replicationinstance.html#cfn-dms-replicationinstance-autominorversionupgrade
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  ReplicationSubnetGroupIdentifier:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dms-replicationinstance.html#cfn-dms-replicationinstance-replicationsubnetgroupidentifier
+    Default: null
+  AllocatedStorage:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dms-replicationinstance.html#cfn-dms-replicationinstance-allocatedstorage
+    Default: null
+  AllowMajorVersionUpgrade:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dms-replicationinstance.html#cfn-dms-replicationinstance-allowmajorversionupgrade
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  ReplicationInstanceClass:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dms-replicationinstance.html#cfn-dms-replicationinstance-replicationinstanceclass
+  PubliclyAccessible:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dms-replicationinstance.html#cfn-dms-replicationinstance-publiclyaccessible
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  MultiAZ:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dms-replicationinstance.html#cfn-dms-replicationinstance-multiaz
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::DMS::ReplicationInstance
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dms-replicationinstance.html
+    Properties:
+      ReplicationInstanceIdentifier: !Ref 'ReplicationInstanceIdentifier'
+      EngineVersion: !Ref 'EngineVersion'
+      KmsKeyId: !Ref 'KmsKeyId'
+      AvailabilityZone: !Ref 'AvailabilityZone'
+      PreferredMaintenanceWindow: !Ref 'PreferredMaintenanceWindow'
+      AutoMinorVersionUpgrade: !Ref 'AutoMinorVersionUpgrade'
+      ReplicationSubnetGroupIdentifier: !Ref 'ReplicationSubnetGroupIdentifier'
+      AllocatedStorage: !Ref 'AllocatedStorage'
+      AllowMajorVersionUpgrade: !Ref 'AllowMajorVersionUpgrade'
+      ReplicationInstanceClass: !Ref 'ReplicationInstanceClass'
+      PubliclyAccessible: !Ref 'PubliclyAccessible'
+      MultiAZ: !Ref 'MultiAZ'
+Outputs:
+  ReplicationInstancePublicIpAddresses:
+    Value:
+      GetAtt:
+        - Resource
+        - ReplicationInstancePublicIpAddresses
+  ReplicationInstancePrivateIpAddresses:
+    Value:
+      GetAtt:
+        - Resource
+        - ReplicationInstancePrivateIpAddresses

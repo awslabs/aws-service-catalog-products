@@ -1,0 +1,28 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-robomaker-robotapplication.html
+Parameters:
+  RobotSoftwareSuiteVersion:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-robomaker-robotapplication-robotsoftwaresuite.html#cfn-robomaker-robotapplication-robotsoftwaresuite-version
+  RobotSoftwareSuiteName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-robomaker-robotapplication-robotsoftwaresuite.html#cfn-robomaker-robotapplication-robotsoftwaresuite-name
+Resources:
+  Resource:
+    Type: AWS::RoboMaker::RobotApplication
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-robomaker-robotapplication.html
+    Properties:
+      RobotSoftwareSuite:
+        Version: !Ref 'RobotSoftwareSuiteVersion'
+        Name: !Ref 'RobotSoftwareSuiteName'
+Outputs:
+  CurrentRevisionId:
+    Value:
+      GetAtt:
+        - Resource
+        - CurrentRevisionId
+  Arn:
+    Value:
+      GetAtt:
+        - Resource
+        - Arn

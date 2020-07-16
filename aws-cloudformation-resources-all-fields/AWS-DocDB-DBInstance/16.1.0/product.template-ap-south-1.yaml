@@ -1,0 +1,50 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-docdb-dbinstance.html
+Parameters:
+  DBInstanceClass:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-docdb-dbinstance.html#cfn-docdb-dbinstance-dbinstanceclass
+  DBClusterIdentifier:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-docdb-dbinstance.html#cfn-docdb-dbinstance-dbclusteridentifier
+  AvailabilityZone:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-docdb-dbinstance.html#cfn-docdb-dbinstance-availabilityzone
+    Default: null
+  PreferredMaintenanceWindow:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-docdb-dbinstance.html#cfn-docdb-dbinstance-preferredmaintenancewindow
+    Default: null
+  AutoMinorVersionUpgrade:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-docdb-dbinstance.html#cfn-docdb-dbinstance-autominorversionupgrade
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  DBInstanceIdentifier:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-docdb-dbinstance.html#cfn-docdb-dbinstance-dbinstanceidentifier
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::DocDB::DBInstance
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-docdb-dbinstance.html
+    Properties:
+      DBInstanceClass: !Ref 'DBInstanceClass'
+      DBClusterIdentifier: !Ref 'DBClusterIdentifier'
+      AvailabilityZone: !Ref 'AvailabilityZone'
+      PreferredMaintenanceWindow: !Ref 'PreferredMaintenanceWindow'
+      AutoMinorVersionUpgrade: !Ref 'AutoMinorVersionUpgrade'
+      DBInstanceIdentifier: !Ref 'DBInstanceIdentifier'
+Outputs:
+  Endpoint:
+    Value:
+      GetAtt:
+        - Resource
+        - Endpoint
+  Port:
+    Value:
+      GetAtt:
+        - Resource
+        - Port

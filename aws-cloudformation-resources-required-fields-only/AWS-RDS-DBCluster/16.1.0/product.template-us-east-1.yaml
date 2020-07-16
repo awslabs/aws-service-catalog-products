@@ -1,0 +1,28 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-rds-dbcluster.html
+Parameters:
+  Engine:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-rds-dbcluster.html#cfn-rds-dbcluster-engine
+Resources:
+  Resource:
+    Type: AWS::RDS::DBCluster
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-rds-dbcluster.html
+    Properties:
+      Engine: !Ref 'Engine'
+Outputs:
+  Endpoint.Address:
+    Value:
+      GetAtt:
+        - Resource
+        - Endpoint.Address
+  Endpoint.Port:
+    Value:
+      GetAtt:
+        - Resource
+        - Endpoint.Port
+  ReadEndpoint.Address:
+    Value:
+      GetAtt:
+        - Resource
+        - ReadEndpoint.Address

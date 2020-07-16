@@ -1,0 +1,93 @@
+# Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+AWSTemplateFormatVersion: 2010-09-09
+Description: |
+  Creates an AWS Lambda to use with APIGateway that will allow users to Add the accounts created
+  {"version": "v1", "framework": "servicecatalog-products", "role": "product", "product-set": "governance-at-scale-account-management", "product": "account-management-api-account-add"}
+
+Parameters:
+  GASDataStoreBucketName:
+    Type: String
+
+Resources:
+  AccountManagementAPIAccountAdd:
+    Type: AWS::IAM::Role
+    Description: |
+      IAM role needed to get accounts from S3
+    Properties:
+      Path: /governance-at-scale-account-management/
+      Policies:
+        - PolicyName: AddPermissions
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - s3:PutObject
+                Resource: !Sub "arn:${AWS::Partition}:s3:::${GASDataStoreBucketName}/accounts/*"
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+
+  AccountAdd:
+    Description: "Add accounts created"
+    Type: AWS::Lambda::Function
+    Properties:
+      Handler: index.lambda_handler
+      Timeout: 60
+      Role: !GetAtt AccountManagementAPIAccountAdd.Arn
+      Runtime: python3.7
+      Environment:
+        Variables:
+          S3_BUCKET_NAME: !Ref GASDataStoreBucketName
+      Code:
+        ZipFile: |
+          import boto3
+          import os
+          import json
+          import glob
+
+          def lambda_handler(event, context):
+              bucket_name = os.getenv('S3_BUCKET_NAME')
+              message = dict()
+              s3_client = boto3.client('s3')
+              s3 = boto3.resource('s3')
+              marker = dict(Bucket=bucket_name, Prefix='accounts/')
+              if not os.path.exists('/tmp/accounts'):
+                  os.makedirs('/tmp/accounts')
+              while True:
+                  response = s3_client.list_objects_v2(**marker)
+                  for content in response.get('Contents', []):
+                      key_name = content.get('Key')
+                      if ".json" not in key_name: continue
+                      s3.meta.client.download_file(bucket_name, key_name, '/tmp/accounts/{}'.format(os.path.basename(key_name)))
+                  if marker.get('ContinuationToken'):
+                      del marker['ContinuationToken']
+                  if response.get('NextContinuationToken'):
+                      marker['ContinuationToken'] = response.get('NextContinuationToken')
+                  else:
+                      break
+              files = glob.glob("/tmp/accounts/*.json")
+              for file in files:
+                  with open(file, 'r') as f:
+                      j = json.loads(f.read())
+                      message[j.get('AccountId')] = j
+              return message
+
+Outputs:
+  AccountAddName:
+    Description: "The name of the AccountAdd function"
+    Value: !Ref AccountAdd
+
+  AccountAddArn:
+    Description: "The Arn of the AccountAdd function"
+    Value: !GetAtt AccountAdd.Arn

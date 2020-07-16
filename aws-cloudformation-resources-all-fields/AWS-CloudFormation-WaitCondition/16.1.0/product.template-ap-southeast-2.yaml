@@ -1,0 +1,29 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-waitcondition.html
+Parameters:
+  Count:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-waitcondition.html#cfn-waitcondition-count
+    Default: null
+  Handle:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-waitcondition.html#cfn-waitcondition-handle
+    Default: null
+  Timeout:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-waitcondition.html#cfn-waitcondition-timeout
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::CloudFormation::WaitCondition
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-waitcondition.html
+    Properties:
+      Count: !Ref 'Count'
+      Handle: !Ref 'Handle'
+      Timeout: !Ref 'Timeout'
+Outputs:
+  Data:
+    Value:
+      GetAtt:
+        - Resource
+        - Data

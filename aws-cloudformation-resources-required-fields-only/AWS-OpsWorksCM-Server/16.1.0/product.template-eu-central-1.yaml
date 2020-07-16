@@ -1,0 +1,31 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opsworkscm-server.html
+Parameters:
+  ServiceRoleArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opsworkscm-server.html#cfn-opsworkscm-server-servicerolearn
+  InstanceProfileArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opsworkscm-server.html#cfn-opsworkscm-server-instanceprofilearn
+  InstanceType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opsworkscm-server.html#cfn-opsworkscm-server-instancetype
+Resources:
+  Resource:
+    Type: AWS::OpsWorksCM::Server
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opsworkscm-server.html
+    Properties:
+      ServiceRoleArn: !Ref 'ServiceRoleArn'
+      InstanceProfileArn: !Ref 'InstanceProfileArn'
+      InstanceType: !Ref 'InstanceType'
+Outputs:
+  Endpoint:
+    Value:
+      GetAtt:
+        - Resource
+        - Endpoint
+  Arn:
+    Value:
+      GetAtt:
+        - Resource
+        - Arn

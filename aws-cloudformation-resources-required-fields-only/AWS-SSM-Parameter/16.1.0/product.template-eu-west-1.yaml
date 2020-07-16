@@ -1,0 +1,27 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ssm-parameter.html
+Parameters:
+  Type:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ssm-parameter.html#cfn-ssm-parameter-type
+  Value:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ssm-parameter.html#cfn-ssm-parameter-value
+Resources:
+  Resource:
+    Type: AWS::SSM::Parameter
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ssm-parameter.html
+    Properties:
+      Type: !Ref 'Type'
+      Value: !Ref 'Value'
+Outputs:
+  Type:
+    Value:
+      GetAtt:
+        - Resource
+        - Type
+  Value:
+    Value:
+      GetAtt:
+        - Resource
+        - Value

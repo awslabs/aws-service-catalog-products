@@ -1,0 +1,52 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-globalaccelerator-endpointgroup.html
+Parameters:
+  ListenerArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-globalaccelerator-endpointgroup.html#cfn-globalaccelerator-endpointgroup-listenerarn
+  EndpointGroupRegion:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-globalaccelerator-endpointgroup.html#cfn-globalaccelerator-endpointgroup-endpointgroupregion
+  TrafficDialPercentage:
+    Type: Double
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-globalaccelerator-endpointgroup.html#cfn-globalaccelerator-endpointgroup-trafficdialpercentage
+    Default: null
+  HealthCheckPort:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-globalaccelerator-endpointgroup.html#cfn-globalaccelerator-endpointgroup-healthcheckport
+    Default: null
+  HealthCheckProtocol:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-globalaccelerator-endpointgroup.html#cfn-globalaccelerator-endpointgroup-healthcheckprotocol
+    Default: null
+  HealthCheckPath:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-globalaccelerator-endpointgroup.html#cfn-globalaccelerator-endpointgroup-healthcheckpath
+    Default: null
+  HealthCheckIntervalSeconds:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-globalaccelerator-endpointgroup.html#cfn-globalaccelerator-endpointgroup-healthcheckintervalseconds
+    Default: null
+  ThresholdCount:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-globalaccelerator-endpointgroup.html#cfn-globalaccelerator-endpointgroup-thresholdcount
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::GlobalAccelerator::EndpointGroup
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-globalaccelerator-endpointgroup.html
+    Properties:
+      ListenerArn: !Ref 'ListenerArn'
+      EndpointGroupRegion: !Ref 'EndpointGroupRegion'
+      TrafficDialPercentage: !Ref 'TrafficDialPercentage'
+      HealthCheckPort: !Ref 'HealthCheckPort'
+      HealthCheckProtocol: !Ref 'HealthCheckProtocol'
+      HealthCheckPath: !Ref 'HealthCheckPath'
+      HealthCheckIntervalSeconds: !Ref 'HealthCheckIntervalSeconds'
+      ThresholdCount: !Ref 'ThresholdCount'
+Outputs:
+  EndpointGroupArn:
+    Value:
+      GetAtt:
+        - Resource
+        - EndpointGroupArn

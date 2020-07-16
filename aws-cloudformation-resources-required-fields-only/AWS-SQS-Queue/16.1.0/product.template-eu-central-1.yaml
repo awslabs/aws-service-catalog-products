@@ -1,0 +1,17 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sqs-queues.html
+Resources:
+  Resource:
+    Type: AWS::SQS::Queue
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sqs-queues.html
+Outputs:
+  Arn:
+    Value:
+      GetAtt:
+        - Resource
+        - Arn
+  QueueName:
+    Value:
+      GetAtt:
+        - Resource
+        - QueueName

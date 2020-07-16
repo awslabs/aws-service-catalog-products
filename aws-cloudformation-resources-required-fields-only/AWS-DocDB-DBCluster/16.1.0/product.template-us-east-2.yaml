@@ -1,0 +1,37 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-docdb-dbcluster.html
+Parameters:
+  MasterUserPassword:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-docdb-dbcluster.html#cfn-docdb-dbcluster-masteruserpassword
+  MasterUsername:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-docdb-dbcluster.html#cfn-docdb-dbcluster-masterusername
+Resources:
+  Resource:
+    Type: AWS::DocDB::DBCluster
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-docdb-dbcluster.html
+    Properties:
+      MasterUserPassword: !Ref 'MasterUserPassword'
+      MasterUsername: !Ref 'MasterUsername'
+Outputs:
+  ClusterResourceId:
+    Value:
+      GetAtt:
+        - Resource
+        - ClusterResourceId
+  Endpoint:
+    Value:
+      GetAtt:
+        - Resource
+        - Endpoint
+  Port:
+    Value:
+      GetAtt:
+        - Resource
+        - Port
+  ReadEndpoint:
+    Value:
+      GetAtt:
+        - Resource
+        - ReadEndpoint

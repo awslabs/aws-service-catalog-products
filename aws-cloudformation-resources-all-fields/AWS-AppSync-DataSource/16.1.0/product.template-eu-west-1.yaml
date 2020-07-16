@@ -1,0 +1,143 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appsync-datasource.html
+Parameters:
+  Type:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appsync-datasource.html#cfn-appsync-datasource-type
+  Description:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appsync-datasource.html#cfn-appsync-datasource-description
+    Default: null
+  ServiceRoleArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appsync-datasource.html#cfn-appsync-datasource-servicerolearn
+    Default: null
+  HttpConfigEndpoint:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-appsync-datasource-httpconfig.html#cfn-appsync-datasource-httpconfig-endpoint
+  HttpConfigAuthorizationConfigAwsIamConfigSigningRegion:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-appsync-datasource-awsiamconfig.html#cfn-appsync-datasource-awsiamconfig-signingregion
+    Default: null
+  HttpConfigAuthorizationConfigAwsIamConfigSigningServiceName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-appsync-datasource-awsiamconfig.html#cfn-appsync-datasource-awsiamconfig-signingservicename
+    Default: null
+  HttpConfigAuthorizationConfigAuthorizationType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-appsync-datasource-authorizationconfig.html#cfn-appsync-datasource-authorizationconfig-authorizationtype
+  RelationalDatabaseConfigRdsHttpEndpointConfigAwsRegion:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-appsync-datasource-rdshttpendpointconfig.html#cfn-appsync-datasource-rdshttpendpointconfig-awsregion
+  RelationalDatabaseConfigRdsHttpEndpointConfigSchema:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-appsync-datasource-rdshttpendpointconfig.html#cfn-appsync-datasource-rdshttpendpointconfig-schema
+    Default: null
+  RelationalDatabaseConfigRdsHttpEndpointConfigDatabaseName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-appsync-datasource-rdshttpendpointconfig.html#cfn-appsync-datasource-rdshttpendpointconfig-databasename
+    Default: null
+  RelationalDatabaseConfigRdsHttpEndpointConfigDbClusterIdentifier:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-appsync-datasource-rdshttpendpointconfig.html#cfn-appsync-datasource-rdshttpendpointconfig-dbclusteridentifier
+  RelationalDatabaseConfigRdsHttpEndpointConfigAwsSecretStoreArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-appsync-datasource-rdshttpendpointconfig.html#cfn-appsync-datasource-rdshttpendpointconfig-awssecretstorearn
+  RelationalDatabaseConfigRelationalDatabaseSourceType:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-appsync-datasource-relationaldatabaseconfig.html#cfn-appsync-datasource-relationaldatabaseconfig-relationaldatabasesourcetype
+  LambdaConfigLambdaFunctionArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-appsync-datasource-lambdaconfig.html#cfn-appsync-datasource-lambdaconfig-lambdafunctionarn
+  ApiId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appsync-datasource.html#cfn-appsync-datasource-apiid
+  Name:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appsync-datasource.html#cfn-appsync-datasource-name
+  DynamoDBConfigTableName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-appsync-datasource-dynamodbconfig.html#cfn-appsync-datasource-dynamodbconfig-tablename
+  DynamoDBConfigAwsRegion:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-appsync-datasource-dynamodbconfig.html#cfn-appsync-datasource-dynamodbconfig-awsregion
+  DynamoDBConfigVersioned:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-appsync-datasource-dynamodbconfig.html#cfn-appsync-datasource-dynamodbconfig-versioned
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  DynamoDBConfigDeltaSyncConfigBaseTableTTL:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-appsync-datasource-deltasyncconfig.html#cfn-appsync-datasource-deltasyncconfig-basetablettl
+  DynamoDBConfigDeltaSyncConfigDeltaSyncTableTTL:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-appsync-datasource-deltasyncconfig.html#cfn-appsync-datasource-deltasyncconfig-deltasynctablettl
+  DynamoDBConfigDeltaSyncConfigDeltaSyncTableName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-appsync-datasource-deltasyncconfig.html#cfn-appsync-datasource-deltasyncconfig-deltasynctablename
+  DynamoDBConfigUseCallerCredentials:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-appsync-datasource-dynamodbconfig.html#cfn-appsync-datasource-dynamodbconfig-usecallercredentials
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  ElasticsearchConfigAwsRegion:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-appsync-datasource-elasticsearchconfig.html#cfn-appsync-datasource-elasticsearchconfig-awsregion
+  ElasticsearchConfigEndpoint:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-appsync-datasource-elasticsearchconfig.html#cfn-appsync-datasource-elasticsearchconfig-endpoint
+Resources:
+  Resource:
+    Type: AWS::AppSync::DataSource
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appsync-datasource.html
+    Properties:
+      Type: !Ref 'Type'
+      Description: !Ref 'Description'
+      ServiceRoleArn: !Ref 'ServiceRoleArn'
+      HttpConfig:
+        Endpoint: !Ref 'HttpConfigEndpoint'
+        AuthorizationConfig:
+          AwsIamConfig:
+            SigningRegion: !Ref 'HttpConfigAuthorizationConfigAwsIamConfigSigningRegion'
+            SigningServiceName: !Ref 'HttpConfigAuthorizationConfigAwsIamConfigSigningServiceName'
+          AuthorizationType: !Ref 'HttpConfigAuthorizationConfigAuthorizationType'
+      RelationalDatabaseConfig:
+        RdsHttpEndpointConfig:
+          AwsRegion: !Ref 'RelationalDatabaseConfigRdsHttpEndpointConfigAwsRegion'
+          Schema: !Ref 'RelationalDatabaseConfigRdsHttpEndpointConfigSchema'
+          DatabaseName: !Ref 'RelationalDatabaseConfigRdsHttpEndpointConfigDatabaseName'
+          DbClusterIdentifier: !Ref 'RelationalDatabaseConfigRdsHttpEndpointConfigDbClusterIdentifier'
+          AwsSecretStoreArn: !Ref 'RelationalDatabaseConfigRdsHttpEndpointConfigAwsSecretStoreArn'
+        RelationalDatabaseSourceType: !Ref 'RelationalDatabaseConfigRelationalDatabaseSourceType'
+      LambdaConfig:
+        LambdaFunctionArn: !Ref 'LambdaConfigLambdaFunctionArn'
+      ApiId: !Ref 'ApiId'
+      Name: !Ref 'Name'
+      DynamoDBConfig:
+        TableName: !Ref 'DynamoDBConfigTableName'
+        AwsRegion: !Ref 'DynamoDBConfigAwsRegion'
+        Versioned: !Ref 'DynamoDBConfigVersioned'
+        DeltaSyncConfig:
+          BaseTableTTL: !Ref 'DynamoDBConfigDeltaSyncConfigBaseTableTTL'
+          DeltaSyncTableTTL: !Ref 'DynamoDBConfigDeltaSyncConfigDeltaSyncTableTTL'
+          DeltaSyncTableName: !Ref 'DynamoDBConfigDeltaSyncConfigDeltaSyncTableName'
+        UseCallerCredentials: !Ref 'DynamoDBConfigUseCallerCredentials'
+      ElasticsearchConfig:
+        AwsRegion: !Ref 'ElasticsearchConfigAwsRegion'
+        Endpoint: !Ref 'ElasticsearchConfigEndpoint'
+Outputs:
+  DataSourceArn:
+    Value:
+      GetAtt:
+        - Resource
+        - DataSourceArn
+  Name:
+    Value:
+      GetAtt:
+        - Resource
+        - Name

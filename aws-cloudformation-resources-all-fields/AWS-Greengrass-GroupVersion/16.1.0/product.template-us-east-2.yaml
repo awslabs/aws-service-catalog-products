@@ -1,0 +1,47 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-greengrass-groupversion.html
+Parameters:
+  LoggerDefinitionVersionArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-greengrass-groupversion.html#cfn-greengrass-groupversion-loggerdefinitionversionarn
+    Default: null
+  DeviceDefinitionVersionArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-greengrass-groupversion.html#cfn-greengrass-groupversion-devicedefinitionversionarn
+    Default: null
+  FunctionDefinitionVersionArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-greengrass-groupversion.html#cfn-greengrass-groupversion-functiondefinitionversionarn
+    Default: null
+  CoreDefinitionVersionArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-greengrass-groupversion.html#cfn-greengrass-groupversion-coredefinitionversionarn
+    Default: null
+  ResourceDefinitionVersionArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-greengrass-groupversion.html#cfn-greengrass-groupversion-resourcedefinitionversionarn
+    Default: null
+  ConnectorDefinitionVersionArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-greengrass-groupversion.html#cfn-greengrass-groupversion-connectordefinitionversionarn
+    Default: null
+  SubscriptionDefinitionVersionArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-greengrass-groupversion.html#cfn-greengrass-groupversion-subscriptiondefinitionversionarn
+    Default: null
+  GroupId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-greengrass-groupversion.html#cfn-greengrass-groupversion-groupid
+Resources:
+  Resource:
+    Type: AWS::Greengrass::GroupVersion
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-greengrass-groupversion.html
+    Properties:
+      LoggerDefinitionVersionArn: !Ref 'LoggerDefinitionVersionArn'
+      DeviceDefinitionVersionArn: !Ref 'DeviceDefinitionVersionArn'
+      FunctionDefinitionVersionArn: !Ref 'FunctionDefinitionVersionArn'
+      CoreDefinitionVersionArn: !Ref 'CoreDefinitionVersionArn'
+      ResourceDefinitionVersionArn: !Ref 'ResourceDefinitionVersionArn'
+      ConnectorDefinitionVersionArn: !Ref 'ConnectorDefinitionVersionArn'
+      SubscriptionDefinitionVersionArn: !Ref 'SubscriptionDefinitionVersionArn'
+      GroupId: !Ref 'GroupId'

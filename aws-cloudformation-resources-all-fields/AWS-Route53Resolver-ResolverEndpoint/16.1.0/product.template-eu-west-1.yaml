@@ -1,0 +1,48 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-route53resolver-resolverendpoint.html
+Parameters:
+  Direction:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-route53resolver-resolverendpoint.html#cfn-route53resolver-resolverendpoint-direction
+  Name:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-route53resolver-resolverendpoint.html#cfn-route53resolver-resolverendpoint-name
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::Route53Resolver::ResolverEndpoint
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-route53resolver-resolverendpoint.html
+    Properties:
+      Direction: !Ref 'Direction'
+      Name: !Ref 'Name'
+Outputs:
+  ResolverEndpointId:
+    Value:
+      GetAtt:
+        - Resource
+        - ResolverEndpointId
+  IpAddressCount:
+    Value:
+      GetAtt:
+        - Resource
+        - IpAddressCount
+  Arn:
+    Value:
+      GetAtt:
+        - Resource
+        - Arn
+  Direction:
+    Value:
+      GetAtt:
+        - Resource
+        - Direction
+  HostVPCId:
+    Value:
+      GetAtt:
+        - Resource
+        - HostVPCId
+  Name:
+    Value:
+      GetAtt:
+        - Resource
+        - Name

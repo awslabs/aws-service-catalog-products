@@ -1,0 +1,98 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-servicecatalog-cloudformationprovisionedproduct.html
+Parameters:
+  AcceptLanguage:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-servicecatalog-cloudformationprovisionedproduct.html#cfn-servicecatalog-cloudformationprovisionedproduct-acceptlanguage
+    Default: null
+  PathId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-servicecatalog-cloudformationprovisionedproduct.html#cfn-servicecatalog-cloudformationprovisionedproduct-pathid
+    Default: null
+  ProductId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-servicecatalog-cloudformationprovisionedproduct.html#cfn-servicecatalog-cloudformationprovisionedproduct-productid
+    Default: null
+  ProductName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-servicecatalog-cloudformationprovisionedproduct.html#cfn-servicecatalog-cloudformationprovisionedproduct-productname
+    Default: null
+  ProvisionedProductName:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-servicecatalog-cloudformationprovisionedproduct.html#cfn-servicecatalog-cloudformationprovisionedproduct-provisionedproductname
+    Default: null
+  ProvisioningArtifactId:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-servicecatalog-cloudformationprovisionedproduct.html#cfn-servicecatalog-cloudformationprovisionedproduct-provisioningartifactid
+    Default: null
+  ProvisioningArtifactName:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-servicecatalog-cloudformationprovisionedproduct.html#cfn-servicecatalog-cloudformationprovisionedproduct-provisioningartifactname
+    Default: null
+  ProvisioningPreferencesStackSetFailureToleranceCount:
+    Type: Number
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-servicecatalog-cloudformationprovisionedproduct-provisioningpreferences.html#cfn-servicecatalog-cloudformationprovisionedproduct-provisioningpreferences-stacksetfailuretolerancecount
+    Default: null
+  ProvisioningPreferencesStackSetFailureTolerancePercentage:
+    Type: Number
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-servicecatalog-cloudformationprovisionedproduct-provisioningpreferences.html#cfn-servicecatalog-cloudformationprovisionedproduct-provisioningpreferences-stacksetfailuretolerancepercentage
+    Default: null
+  ProvisioningPreferencesStackSetMaxConcurrencyCount:
+    Type: Number
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-servicecatalog-cloudformationprovisionedproduct-provisioningpreferences.html#cfn-servicecatalog-cloudformationprovisionedproduct-provisioningpreferences-stacksetmaxconcurrencycount
+    Default: null
+  ProvisioningPreferencesStackSetMaxConcurrencyPercentage:
+    Type: Number
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-servicecatalog-cloudformationprovisionedproduct-provisioningpreferences.html#cfn-servicecatalog-cloudformationprovisionedproduct-provisioningpreferences-stacksetmaxconcurrencypercentage
+    Default: null
+  ProvisioningPreferencesStackSetOperationType:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-servicecatalog-cloudformationprovisionedproduct-provisioningpreferences.html#cfn-servicecatalog-cloudformationprovisionedproduct-provisioningpreferences-stacksetoperationtype
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::ServiceCatalog::CloudFormationProvisionedProduct
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-servicecatalog-cloudformationprovisionedproduct.html
+    Properties:
+      AcceptLanguage: !Ref 'AcceptLanguage'
+      PathId: !Ref 'PathId'
+      ProductId: !Ref 'ProductId'
+      ProductName: !Ref 'ProductName'
+      ProvisionedProductName: !Ref 'ProvisionedProductName'
+      ProvisioningArtifactId: !Ref 'ProvisioningArtifactId'
+      ProvisioningArtifactName: !Ref 'ProvisioningArtifactName'
+      ProvisioningPreferences:
+        StackSetFailureToleranceCount: !Ref 'ProvisioningPreferencesStackSetFailureToleranceCount'
+        StackSetFailureTolerancePercentage: !Ref 'ProvisioningPreferencesStackSetFailureTolerancePercentage'
+        StackSetMaxConcurrencyCount: !Ref 'ProvisioningPreferencesStackSetMaxConcurrencyCount'
+        StackSetMaxConcurrencyPercentage: !Ref 'ProvisioningPreferencesStackSetMaxConcurrencyPercentage'
+        StackSetOperationType: !Ref 'ProvisioningPreferencesStackSetOperationType'
+Outputs:
+  ProvisionedProductId:
+    Value:
+      GetAtt:
+        - Resource
+        - ProvisionedProductId
+  RecordId:
+    Value:
+      GetAtt:
+        - Resource
+        - RecordId
+  CloudformationStackArn:
+    Value:
+      GetAtt:
+        - Resource
+        - CloudformationStackArn
+  Outputs:
+    Value:
+      GetAtt:
+        - Resource
+        - Outputs

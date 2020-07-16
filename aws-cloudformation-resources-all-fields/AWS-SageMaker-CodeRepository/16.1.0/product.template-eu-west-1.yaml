@@ -1,0 +1,34 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-sagemaker-coderepository.html
+Parameters:
+  CodeRepositoryName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-sagemaker-coderepository.html#cfn-sagemaker-coderepository-coderepositoryname
+    Default: null
+  GitConfigSecretArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sagemaker-coderepository-gitconfig.html#cfn-sagemaker-coderepository-gitconfig-secretarn
+    Default: null
+  GitConfigBranch:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sagemaker-coderepository-gitconfig.html#cfn-sagemaker-coderepository-gitconfig-branch
+    Default: null
+  GitConfigRepositoryUrl:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sagemaker-coderepository-gitconfig.html#cfn-sagemaker-coderepository-gitconfig-repositoryurl
+Resources:
+  Resource:
+    Type: AWS::SageMaker::CodeRepository
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-sagemaker-coderepository.html
+    Properties:
+      CodeRepositoryName: !Ref 'CodeRepositoryName'
+      GitConfig:
+        SecretArn: !Ref 'GitConfigSecretArn'
+        Branch: !Ref 'GitConfigBranch'
+        RepositoryUrl: !Ref 'GitConfigRepositoryUrl'
+Outputs:
+  CodeRepositoryName:
+    Value:
+      GetAtt:
+        - Resource
+        - CodeRepositoryName

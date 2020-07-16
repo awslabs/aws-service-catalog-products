@@ -1,0 +1,103 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-docdb-dbcluster.html
+Parameters:
+  StorageEncrypted:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-docdb-dbcluster.html#cfn-docdb-dbcluster-storageencrypted
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  EngineVersion:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-docdb-dbcluster.html#cfn-docdb-dbcluster-engineversion
+    Default: null
+  KmsKeyId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-docdb-dbcluster.html#cfn-docdb-dbcluster-kmskeyid
+    Default: null
+  SnapshotIdentifier:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-docdb-dbcluster.html#cfn-docdb-dbcluster-snapshotidentifier
+    Default: null
+  Port:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-docdb-dbcluster.html#cfn-docdb-dbcluster-port
+    Default: null
+  DBClusterIdentifier:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-docdb-dbcluster.html#cfn-docdb-dbcluster-dbclusteridentifier
+    Default: null
+  PreferredMaintenanceWindow:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-docdb-dbcluster.html#cfn-docdb-dbcluster-preferredmaintenancewindow
+    Default: null
+  DBSubnetGroupName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-docdb-dbcluster.html#cfn-docdb-dbcluster-dbsubnetgroupname
+    Default: null
+  DeletionProtection:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-docdb-dbcluster.html#cfn-docdb-dbcluster-deletionprotection
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  PreferredBackupWindow:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-docdb-dbcluster.html#cfn-docdb-dbcluster-preferredbackupwindow
+    Default: null
+  MasterUserPassword:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-docdb-dbcluster.html#cfn-docdb-dbcluster-masteruserpassword
+  MasterUsername:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-docdb-dbcluster.html#cfn-docdb-dbcluster-masterusername
+  DBClusterParameterGroupName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-docdb-dbcluster.html#cfn-docdb-dbcluster-dbclusterparametergroupname
+    Default: null
+  BackupRetentionPeriod:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-docdb-dbcluster.html#cfn-docdb-dbcluster-backupretentionperiod
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::DocDB::DBCluster
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-docdb-dbcluster.html
+    Properties:
+      StorageEncrypted: !Ref 'StorageEncrypted'
+      EngineVersion: !Ref 'EngineVersion'
+      KmsKeyId: !Ref 'KmsKeyId'
+      SnapshotIdentifier: !Ref 'SnapshotIdentifier'
+      Port: !Ref 'Port'
+      DBClusterIdentifier: !Ref 'DBClusterIdentifier'
+      PreferredMaintenanceWindow: !Ref 'PreferredMaintenanceWindow'
+      DBSubnetGroupName: !Ref 'DBSubnetGroupName'
+      DeletionProtection: !Ref 'DeletionProtection'
+      PreferredBackupWindow: !Ref 'PreferredBackupWindow'
+      MasterUserPassword: !Ref 'MasterUserPassword'
+      MasterUsername: !Ref 'MasterUsername'
+      DBClusterParameterGroupName: !Ref 'DBClusterParameterGroupName'
+      BackupRetentionPeriod: !Ref 'BackupRetentionPeriod'
+Outputs:
+  ClusterResourceId:
+    Value:
+      GetAtt:
+        - Resource
+        - ClusterResourceId
+  Endpoint:
+    Value:
+      GetAtt:
+        - Resource
+        - Endpoint
+  Port:
+    Value:
+      GetAtt:
+        - Resource
+        - Port
+  ReadEndpoint:
+    Value:
+      GetAtt:
+        - Resource
+        - ReadEndpoint

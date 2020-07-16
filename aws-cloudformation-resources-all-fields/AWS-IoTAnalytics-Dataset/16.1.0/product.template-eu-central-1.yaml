@@ -1,0 +1,39 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iotanalytics-dataset.html
+Parameters:
+  DatasetName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iotanalytics-dataset.html#cfn-iotanalytics-dataset-datasetname
+    Default: null
+  VersioningConfigurationMaxVersions:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iotanalytics-dataset-versioningconfiguration.html#cfn-iotanalytics-dataset-versioningconfiguration-maxversions
+    Default: null
+  VersioningConfigurationUnlimited:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iotanalytics-dataset-versioningconfiguration.html#cfn-iotanalytics-dataset-versioningconfiguration-unlimited
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  RetentionPeriodNumberOfDays:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iotanalytics-dataset-retentionperiod.html#cfn-iotanalytics-dataset-retentionperiod-numberofdays
+  RetentionPeriodUnlimited:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iotanalytics-dataset-retentionperiod.html#cfn-iotanalytics-dataset-retentionperiod-unlimited
+    AllowedValues:
+      - 'true'
+      - 'false'
+Resources:
+  Resource:
+    Type: AWS::IoTAnalytics::Dataset
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iotanalytics-dataset.html
+    Properties:
+      DatasetName: !Ref 'DatasetName'
+      VersioningConfiguration:
+        MaxVersions: !Ref 'VersioningConfigurationMaxVersions'
+        Unlimited: !Ref 'VersioningConfigurationUnlimited'
+      RetentionPeriod:
+        NumberOfDays: !Ref 'RetentionPeriodNumberOfDays'
+        Unlimited: !Ref 'RetentionPeriodUnlimited'

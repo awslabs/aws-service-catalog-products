@@ -1,0 +1,27 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticmapreduce-cluster.html
+Parameters:
+  JobFlowRole:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticmapreduce-cluster.html#cfn-elasticmapreduce-cluster-jobflowrole
+  Name:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticmapreduce-cluster.html#cfn-elasticmapreduce-cluster-name
+  ServiceRole:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticmapreduce-cluster.html#cfn-elasticmapreduce-cluster-servicerole
+Resources:
+  Resource:
+    Type: AWS::EMR::Cluster
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticmapreduce-cluster.html
+    Properties:
+      Instances: {}
+      JobFlowRole: !Ref 'JobFlowRole'
+      Name: !Ref 'Name'
+      ServiceRole: !Ref 'ServiceRole'
+Outputs:
+  MasterPublicDNS:
+    Value:
+      GetAtt:
+        - Resource
+        - MasterPublicDNS

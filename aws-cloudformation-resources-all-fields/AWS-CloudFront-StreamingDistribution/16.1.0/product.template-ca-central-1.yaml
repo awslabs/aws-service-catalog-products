@@ -1,0 +1,67 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cloudfront-streamingdistribution.html
+Parameters:
+  StreamingDistributionConfigLoggingBucket:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cloudfront-streamingdistribution-logging.html#cfn-cloudfront-streamingdistribution-logging-bucket
+  StreamingDistributionConfigLoggingEnabled:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cloudfront-streamingdistribution-logging.html#cfn-cloudfront-streamingdistribution-logging-enabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+  StreamingDistributionConfigLoggingPrefix:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cloudfront-streamingdistribution-logging.html#cfn-cloudfront-streamingdistribution-logging-prefix
+  StreamingDistributionConfigComment:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cloudfront-streamingdistribution-streamingdistributionconfig.html#cfn-cloudfront-streamingdistribution-streamingdistributionconfig-comment
+  StreamingDistributionConfigPriceClass:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cloudfront-streamingdistribution-streamingdistributionconfig.html#cfn-cloudfront-streamingdistribution-streamingdistributionconfig-priceclass
+    Default: null
+  StreamingDistributionConfigS3OriginDomainName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cloudfront-streamingdistribution-s3origin.html#cfn-cloudfront-streamingdistribution-s3origin-domainname
+  StreamingDistributionConfigS3OriginOriginAccessIdentity:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cloudfront-streamingdistribution-s3origin.html#cfn-cloudfront-streamingdistribution-s3origin-originaccessidentity
+  StreamingDistributionConfigEnabled:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cloudfront-streamingdistribution-streamingdistributionconfig.html#cfn-cloudfront-streamingdistribution-streamingdistributionconfig-enabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+  StreamingDistributionConfigTrustedSignersEnabled:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cloudfront-streamingdistribution-trustedsigners.html#cfn-cloudfront-streamingdistribution-trustedsigners-enabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+Resources:
+  Resource:
+    Type: AWS::CloudFront::StreamingDistribution
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cloudfront-streamingdistribution.html
+    Properties:
+      StreamingDistributionConfig:
+        Logging:
+          Bucket: !Ref 'StreamingDistributionConfigLoggingBucket'
+          Enabled: !Ref 'StreamingDistributionConfigLoggingEnabled'
+          Prefix: !Ref 'StreamingDistributionConfigLoggingPrefix'
+        Comment: !Ref 'StreamingDistributionConfigComment'
+        PriceClass: !Ref 'StreamingDistributionConfigPriceClass'
+        S3Origin:
+          DomainName: !Ref 'StreamingDistributionConfigS3OriginDomainName'
+          OriginAccessIdentity: !Ref 'StreamingDistributionConfigS3OriginOriginAccessIdentity'
+        Enabled: !Ref 'StreamingDistributionConfigEnabled'
+        TrustedSigners:
+          Enabled: !Ref 'StreamingDistributionConfigTrustedSignersEnabled'
+Outputs:
+  DomainName:
+    Value:
+      GetAtt:
+        - Resource
+        - DomainName

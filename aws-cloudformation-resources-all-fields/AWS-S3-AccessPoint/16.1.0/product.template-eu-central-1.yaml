@@ -1,0 +1,76 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-s3-accesspoint.html
+Parameters:
+  Name:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-s3-accesspoint.html#cfn-s3-accesspoint-name
+    Default: null
+  Bucket:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-s3-accesspoint.html#cfn-s3-accesspoint-bucket
+  VpcConfigurationVpcId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-accesspoint-vpcconfiguration.html#cfn-s3-accesspoint-vpcconfiguration-vpcid
+    Default: null
+  PublicAccessBlockConfigurationBlockPublicAcls:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-accesspoint-publicaccessblockconfiguration.html#cfn-s3-accesspoint-publicaccessblockconfiguration-blockpublicacls
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  PublicAccessBlockConfigurationIgnorePublicAcls:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-accesspoint-publicaccessblockconfiguration.html#cfn-s3-accesspoint-publicaccessblockconfiguration-ignorepublicacls
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  PublicAccessBlockConfigurationBlockPublicPolicy:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-accesspoint-publicaccessblockconfiguration.html#cfn-s3-accesspoint-publicaccessblockconfiguration-blockpublicpolicy
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  PublicAccessBlockConfigurationRestrictPublicBuckets:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-accesspoint-publicaccessblockconfiguration.html#cfn-s3-accesspoint-publicaccessblockconfiguration-restrictpublicbuckets
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  Policy:
+    Type: Json
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-s3-accesspoint.html#cfn-s3-accesspoint-policy
+    Default: null
+  PolicyStatus:
+    Type: Json
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-s3-accesspoint.html#cfn-s3-accesspoint-policystatus
+    Default: null
+  NetworkOrigin:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-s3-accesspoint.html#cfn-s3-accesspoint-networkorigin
+    Default: null
+  CreationDate:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-s3-accesspoint.html#cfn-s3-accesspoint-creationdate
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::S3::AccessPoint
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-s3-accesspoint.html
+    Properties:
+      Name: !Ref 'Name'
+      Bucket: !Ref 'Bucket'
+      VpcConfiguration:
+        VpcId: !Ref 'VpcConfigurationVpcId'
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: !Ref 'PublicAccessBlockConfigurationBlockPublicAcls'
+        IgnorePublicAcls: !Ref 'PublicAccessBlockConfigurationIgnorePublicAcls'
+        BlockPublicPolicy: !Ref 'PublicAccessBlockConfigurationBlockPublicPolicy'
+        RestrictPublicBuckets: !Ref 'PublicAccessBlockConfigurationRestrictPublicBuckets'
+      Policy: !Ref 'Policy'
+      PolicyStatus: !Ref 'PolicyStatus'
+      NetworkOrigin: !Ref 'NetworkOrigin'
+      CreationDate: !Ref 'CreationDate'

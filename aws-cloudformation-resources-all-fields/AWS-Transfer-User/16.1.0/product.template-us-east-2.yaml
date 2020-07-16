@@ -1,0 +1,51 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-transfer-user.html
+Parameters:
+  Policy:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-transfer-user.html#cfn-transfer-user-policy
+    Default: null
+  Role:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-transfer-user.html#cfn-transfer-user-role
+  HomeDirectory:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-transfer-user.html#cfn-transfer-user-homedirectory
+    Default: null
+  HomeDirectoryType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-transfer-user.html#cfn-transfer-user-homedirectorytype
+    Default: null
+  ServerId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-transfer-user.html#cfn-transfer-user-serverid
+  UserName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-transfer-user.html#cfn-transfer-user-username
+Resources:
+  Resource:
+    Type: AWS::Transfer::User
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-transfer-user.html
+    Properties:
+      Policy: !Ref 'Policy'
+      Role: !Ref 'Role'
+      HomeDirectory: !Ref 'HomeDirectory'
+      HomeDirectoryType: !Ref 'HomeDirectoryType'
+      ServerId: !Ref 'ServerId'
+      UserName: !Ref 'UserName'
+Outputs:
+  ServerId:
+    Value:
+      GetAtt:
+        - Resource
+        - ServerId
+  UserName:
+    Value:
+      GetAtt:
+        - Resource
+        - UserName
+  Arn:
+    Value:
+      GetAtt:
+        - Resource
+        - Arn

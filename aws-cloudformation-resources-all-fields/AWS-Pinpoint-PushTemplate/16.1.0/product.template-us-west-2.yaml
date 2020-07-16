@@ -1,0 +1,154 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-pinpoint-pushtemplate.html
+Parameters:
+  AndroidPushNotificationTemplateAction:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-pushtemplate-androidpushnotificationtemplate.html#cfn-pinpoint-pushtemplate-androidpushnotificationtemplate-action
+    Default: null
+  AndroidPushNotificationTemplateImageUrl:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-pushtemplate-androidpushnotificationtemplate.html#cfn-pinpoint-pushtemplate-androidpushnotificationtemplate-imageurl
+    Default: null
+  AndroidPushNotificationTemplateSmallImageIconUrl:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-pushtemplate-androidpushnotificationtemplate.html#cfn-pinpoint-pushtemplate-androidpushnotificationtemplate-smallimageiconurl
+    Default: null
+  AndroidPushNotificationTemplateTitle:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-pushtemplate-androidpushnotificationtemplate.html#cfn-pinpoint-pushtemplate-androidpushnotificationtemplate-title
+    Default: null
+  AndroidPushNotificationTemplateImageIconUrl:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-pushtemplate-androidpushnotificationtemplate.html#cfn-pinpoint-pushtemplate-androidpushnotificationtemplate-imageiconurl
+    Default: null
+  AndroidPushNotificationTemplateSound:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-pushtemplate-androidpushnotificationtemplate.html#cfn-pinpoint-pushtemplate-androidpushnotificationtemplate-sound
+    Default: null
+  AndroidPushNotificationTemplateBody:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-pushtemplate-androidpushnotificationtemplate.html#cfn-pinpoint-pushtemplate-androidpushnotificationtemplate-body
+    Default: null
+  AndroidPushNotificationTemplateUrl:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-pushtemplate-androidpushnotificationtemplate.html#cfn-pinpoint-pushtemplate-androidpushnotificationtemplate-url
+    Default: null
+  TemplateName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-pinpoint-pushtemplate.html#cfn-pinpoint-pushtemplate-templatename
+  APNSPushNotificationTemplateAction:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-pushtemplate-apnspushnotificationtemplate.html#cfn-pinpoint-pushtemplate-apnspushnotificationtemplate-action
+    Default: null
+  APNSPushNotificationTemplateMediaUrl:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-pushtemplate-apnspushnotificationtemplate.html#cfn-pinpoint-pushtemplate-apnspushnotificationtemplate-mediaurl
+    Default: null
+  APNSPushNotificationTemplateTitle:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-pushtemplate-apnspushnotificationtemplate.html#cfn-pinpoint-pushtemplate-apnspushnotificationtemplate-title
+    Default: null
+  APNSPushNotificationTemplateSound:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-pushtemplate-apnspushnotificationtemplate.html#cfn-pinpoint-pushtemplate-apnspushnotificationtemplate-sound
+    Default: null
+  APNSPushNotificationTemplateBody:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-pushtemplate-apnspushnotificationtemplate.html#cfn-pinpoint-pushtemplate-apnspushnotificationtemplate-body
+    Default: null
+  APNSPushNotificationTemplateUrl:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-pushtemplate-apnspushnotificationtemplate.html#cfn-pinpoint-pushtemplate-apnspushnotificationtemplate-url
+    Default: null
+  TemplateDescription:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-pinpoint-pushtemplate.html#cfn-pinpoint-pushtemplate-templatedescription
+    Default: null
+  DefaultSubstitutions:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-pinpoint-pushtemplate.html#cfn-pinpoint-pushtemplate-defaultsubstitutions
+    Default: null
+  DefaultPushNotificationTemplateAction:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-pushtemplate-defaultpushnotificationtemplate.html#cfn-pinpoint-pushtemplate-defaultpushnotificationtemplate-action
+    Default: null
+  DefaultPushNotificationTemplateTitle:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-pushtemplate-defaultpushnotificationtemplate.html#cfn-pinpoint-pushtemplate-defaultpushnotificationtemplate-title
+    Default: null
+  DefaultPushNotificationTemplateSound:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-pushtemplate-defaultpushnotificationtemplate.html#cfn-pinpoint-pushtemplate-defaultpushnotificationtemplate-sound
+    Default: null
+  DefaultPushNotificationTemplateBody:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-pushtemplate-defaultpushnotificationtemplate.html#cfn-pinpoint-pushtemplate-defaultpushnotificationtemplate-body
+    Default: null
+  DefaultPushNotificationTemplateUrl:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-pushtemplate-defaultpushnotificationtemplate.html#cfn-pinpoint-pushtemplate-defaultpushnotificationtemplate-url
+    Default: null
+  Tags:
+    Type: Json
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-pinpoint-pushtemplate.html#cfn-pinpoint-pushtemplate-tags
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::Pinpoint::PushTemplate
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-pinpoint-pushtemplate.html
+    Properties:
+      GCM:
+        Action: !Ref 'AndroidPushNotificationTemplateAction'
+        ImageUrl: !Ref 'AndroidPushNotificationTemplateImageUrl'
+        SmallImageIconUrl: !Ref 'AndroidPushNotificationTemplateSmallImageIconUrl'
+        Title: !Ref 'AndroidPushNotificationTemplateTitle'
+        ImageIconUrl: !Ref 'AndroidPushNotificationTemplateImageIconUrl'
+        Sound: !Ref 'AndroidPushNotificationTemplateSound'
+        Body: !Ref 'AndroidPushNotificationTemplateBody'
+        Url: !Ref 'AndroidPushNotificationTemplateUrl'
+      Baidu:
+        Action: !Ref 'AndroidPushNotificationTemplateAction'
+        ImageUrl: !Ref 'AndroidPushNotificationTemplateImageUrl'
+        SmallImageIconUrl: !Ref 'AndroidPushNotificationTemplateSmallImageIconUrl'
+        Title: !Ref 'AndroidPushNotificationTemplateTitle'
+        ImageIconUrl: !Ref 'AndroidPushNotificationTemplateImageIconUrl'
+        Sound: !Ref 'AndroidPushNotificationTemplateSound'
+        Body: !Ref 'AndroidPushNotificationTemplateBody'
+        Url: !Ref 'AndroidPushNotificationTemplateUrl'
+      TemplateName: !Ref 'TemplateName'
+      ADM:
+        Action: !Ref 'AndroidPushNotificationTemplateAction'
+        ImageUrl: !Ref 'AndroidPushNotificationTemplateImageUrl'
+        SmallImageIconUrl: !Ref 'AndroidPushNotificationTemplateSmallImageIconUrl'
+        Title: !Ref 'AndroidPushNotificationTemplateTitle'
+        ImageIconUrl: !Ref 'AndroidPushNotificationTemplateImageIconUrl'
+        Sound: !Ref 'AndroidPushNotificationTemplateSound'
+        Body: !Ref 'AndroidPushNotificationTemplateBody'
+        Url: !Ref 'AndroidPushNotificationTemplateUrl'
+      APNS:
+        Action: !Ref 'APNSPushNotificationTemplateAction'
+        MediaUrl: !Ref 'APNSPushNotificationTemplateMediaUrl'
+        Title: !Ref 'APNSPushNotificationTemplateTitle'
+        Sound: !Ref 'APNSPushNotificationTemplateSound'
+        Body: !Ref 'APNSPushNotificationTemplateBody'
+        Url: !Ref 'APNSPushNotificationTemplateUrl'
+      TemplateDescription: !Ref 'TemplateDescription'
+      DefaultSubstitutions: !Ref 'DefaultSubstitutions'
+      Default:
+        Action: !Ref 'DefaultPushNotificationTemplateAction'
+        Title: !Ref 'DefaultPushNotificationTemplateTitle'
+        Sound: !Ref 'DefaultPushNotificationTemplateSound'
+        Body: !Ref 'DefaultPushNotificationTemplateBody'
+        Url: !Ref 'DefaultPushNotificationTemplateUrl'
+      Tags: !Ref 'Tags'
+Outputs:
+  Arn:
+    Value:
+      GetAtt:
+        - Resource
+        - Arn

@@ -1,0 +1,171 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ssm-maintenancewindowtask.html
+Parameters:
+  MaxErrors:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ssm-maintenancewindowtask.html#cfn-ssm-maintenancewindowtask-maxerrors
+  Description:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ssm-maintenancewindowtask.html#cfn-ssm-maintenancewindowtask-description
+    Default: null
+  ServiceRoleArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ssm-maintenancewindowtask.html#cfn-ssm-maintenancewindowtask-servicerolearn
+    Default: null
+  Priority:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ssm-maintenancewindowtask.html#cfn-ssm-maintenancewindowtask-priority
+  MaxConcurrency:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ssm-maintenancewindowtask.html#cfn-ssm-maintenancewindowtask-maxconcurrency
+  Name:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ssm-maintenancewindowtask.html#cfn-ssm-maintenancewindowtask-name
+    Default: null
+  TaskArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ssm-maintenancewindowtask.html#cfn-ssm-maintenancewindowtask-taskarn
+  TaskInvocationParametersMaintenanceWindowRunCommandParametersTimeoutSeconds:
+    Type: Number
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ssm-maintenancewindowtask-maintenancewindowruncommandparameters.html#cfn-ssm-maintenancewindowtask-maintenancewindowruncommandparameters-timeoutseconds
+    Default: null
+  TaskInvocationParametersMaintenanceWindowRunCommandParametersComment:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ssm-maintenancewindowtask-maintenancewindowruncommandparameters.html#cfn-ssm-maintenancewindowtask-maintenancewindowruncommandparameters-comment
+    Default: null
+  TaskInvocationParametersMaintenanceWindowRunCommandParametersOutputS3KeyPrefix:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ssm-maintenancewindowtask-maintenancewindowruncommandparameters.html#cfn-ssm-maintenancewindowtask-maintenancewindowruncommandparameters-outputs3keyprefix
+    Default: null
+  TaskInvocationParametersMaintenanceWindowRunCommandParametersParameters:
+    Type: Json
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ssm-maintenancewindowtask-maintenancewindowruncommandparameters.html#cfn-ssm-maintenancewindowtask-maintenancewindowruncommandparameters-parameters
+    Default: null
+  TaskInvocationParametersMaintenanceWindowRunCommandParametersDocumentHashType:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ssm-maintenancewindowtask-maintenancewindowruncommandparameters.html#cfn-ssm-maintenancewindowtask-maintenancewindowruncommandparameters-documenthashtype
+    Default: null
+  TaskInvocationParametersMaintenanceWindowRunCommandParametersServiceRoleArn:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ssm-maintenancewindowtask-maintenancewindowruncommandparameters.html#cfn-ssm-maintenancewindowtask-maintenancewindowruncommandparameters-servicerolearn
+    Default: null
+  TaskInvocationParametersMaintenanceWindowRunCommandParametersNotificationConfigNotificationArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ssm-maintenancewindowtask-notificationconfig.html#cfn-ssm-maintenancewindowtask-notificationconfig-notificationarn
+  TaskInvocationParametersMaintenanceWindowRunCommandParametersNotificationConfigNotificationType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ssm-maintenancewindowtask-notificationconfig.html#cfn-ssm-maintenancewindowtask-notificationconfig-notificationtype
+    Default: null
+  TaskInvocationParametersMaintenanceWindowRunCommandParametersOutputS3BucketName:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ssm-maintenancewindowtask-maintenancewindowruncommandparameters.html#cfn-ssm-maintenancewindowtask-maintenancewindowruncommandparameters-outputs3bucketname
+    Default: null
+  TaskInvocationParametersMaintenanceWindowRunCommandParametersDocumentHash:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ssm-maintenancewindowtask-maintenancewindowruncommandparameters.html#cfn-ssm-maintenancewindowtask-maintenancewindowruncommandparameters-documenthash
+    Default: null
+  TaskInvocationParametersMaintenanceWindowAutomationParametersParameters:
+    Type: Json
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ssm-maintenancewindowtask-maintenancewindowautomationparameters.html#cfn-ssm-maintenancewindowtask-maintenancewindowautomationparameters-parameters
+    Default: null
+  TaskInvocationParametersMaintenanceWindowAutomationParametersDocumentVersion:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ssm-maintenancewindowtask-maintenancewindowautomationparameters.html#cfn-ssm-maintenancewindowtask-maintenancewindowautomationparameters-documentversion
+    Default: null
+  TaskInvocationParametersMaintenanceWindowStepFunctionsParametersInput:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ssm-maintenancewindowtask-maintenancewindowstepfunctionsparameters.html#cfn-ssm-maintenancewindowtask-maintenancewindowstepfunctionsparameters-input
+    Default: null
+  TaskInvocationParametersMaintenanceWindowStepFunctionsParametersName:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ssm-maintenancewindowtask-maintenancewindowstepfunctionsparameters.html#cfn-ssm-maintenancewindowtask-maintenancewindowstepfunctionsparameters-name
+    Default: null
+  TaskInvocationParametersMaintenanceWindowLambdaParametersClientContext:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ssm-maintenancewindowtask-maintenancewindowlambdaparameters.html#cfn-ssm-maintenancewindowtask-maintenancewindowlambdaparameters-clientcontext
+    Default: null
+  TaskInvocationParametersMaintenanceWindowLambdaParametersQualifier:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ssm-maintenancewindowtask-maintenancewindowlambdaparameters.html#cfn-ssm-maintenancewindowtask-maintenancewindowlambdaparameters-qualifier
+    Default: null
+  TaskInvocationParametersMaintenanceWindowLambdaParametersPayload:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ssm-maintenancewindowtask-maintenancewindowlambdaparameters.html#cfn-ssm-maintenancewindowtask-maintenancewindowlambdaparameters-payload
+    Default: null
+  WindowId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ssm-maintenancewindowtask.html#cfn-ssm-maintenancewindowtask-windowid
+  TaskParameters:
+    Type: Json
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ssm-maintenancewindowtask.html#cfn-ssm-maintenancewindowtask-taskparameters
+    Default: null
+  TaskType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ssm-maintenancewindowtask.html#cfn-ssm-maintenancewindowtask-tasktype
+  LoggingInfoS3Bucket:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ssm-maintenancewindowtask-logginginfo.html#cfn-ssm-maintenancewindowtask-logginginfo-s3bucket
+  LoggingInfoRegion:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ssm-maintenancewindowtask-logginginfo.html#cfn-ssm-maintenancewindowtask-logginginfo-region
+  LoggingInfoS3Prefix:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ssm-maintenancewindowtask-logginginfo.html#cfn-ssm-maintenancewindowtask-logginginfo-s3prefix
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::SSM::MaintenanceWindowTask
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ssm-maintenancewindowtask.html
+    Properties:
+      MaxErrors: !Ref 'MaxErrors'
+      Description: !Ref 'Description'
+      ServiceRoleArn: !Ref 'ServiceRoleArn'
+      Priority: !Ref 'Priority'
+      MaxConcurrency: !Ref 'MaxConcurrency'
+      Name: !Ref 'Name'
+      TaskArn: !Ref 'TaskArn'
+      TaskInvocationParameters:
+        MaintenanceWindowRunCommandParameters:
+          TimeoutSeconds: !Ref 'TaskInvocationParametersMaintenanceWindowRunCommandParametersTimeoutSeconds'
+          Comment: !Ref 'TaskInvocationParametersMaintenanceWindowRunCommandParametersComment'
+          OutputS3KeyPrefix: !Ref 'TaskInvocationParametersMaintenanceWindowRunCommandParametersOutputS3KeyPrefix'
+          Parameters: !Ref 'TaskInvocationParametersMaintenanceWindowRunCommandParametersParameters'
+          DocumentHashType: !Ref 'TaskInvocationParametersMaintenanceWindowRunCommandParametersDocumentHashType'
+          ServiceRoleArn: !Ref 'TaskInvocationParametersMaintenanceWindowRunCommandParametersServiceRoleArn'
+          NotificationConfig:
+            NotificationArn: !Ref 'TaskInvocationParametersMaintenanceWindowRunCommandParametersNotificationConfigNotificationArn'
+            NotificationType: !Ref 'TaskInvocationParametersMaintenanceWindowRunCommandParametersNotificationConfigNotificationType'
+          OutputS3BucketName: !Ref 'TaskInvocationParametersMaintenanceWindowRunCommandParametersOutputS3BucketName'
+          DocumentHash: !Ref 'TaskInvocationParametersMaintenanceWindowRunCommandParametersDocumentHash'
+        MaintenanceWindowAutomationParameters:
+          Parameters: !Ref 'TaskInvocationParametersMaintenanceWindowAutomationParametersParameters'
+          DocumentVersion: !Ref 'TaskInvocationParametersMaintenanceWindowAutomationParametersDocumentVersion'
+        MaintenanceWindowStepFunctionsParameters:
+          Input: !Ref 'TaskInvocationParametersMaintenanceWindowStepFunctionsParametersInput'
+          Name: !Ref 'TaskInvocationParametersMaintenanceWindowStepFunctionsParametersName'
+        MaintenanceWindowLambdaParameters:
+          ClientContext: !Ref 'TaskInvocationParametersMaintenanceWindowLambdaParametersClientContext'
+          Qualifier: !Ref 'TaskInvocationParametersMaintenanceWindowLambdaParametersQualifier'
+          Payload: !Ref 'TaskInvocationParametersMaintenanceWindowLambdaParametersPayload'
+      WindowId: !Ref 'WindowId'
+      TaskParameters: !Ref 'TaskParameters'
+      TaskType: !Ref 'TaskType'
+      LoggingInfo:
+        S3Bucket: !Ref 'LoggingInfoS3Bucket'
+        Region: !Ref 'LoggingInfoRegion'
+        S3Prefix: !Ref 'LoggingInfoS3Prefix'

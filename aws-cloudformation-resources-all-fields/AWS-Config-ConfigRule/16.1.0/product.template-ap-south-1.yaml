@@ -1,0 +1,69 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-config-configrule.html
+Parameters:
+  ConfigRuleName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-config-configrule.html#cfn-config-configrule-configrulename
+    Default: null
+  Description:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-config-configrule.html#cfn-config-configrule-description
+    Default: null
+  InputParameters:
+    Type: Json
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-config-configrule.html#cfn-config-configrule-inputparameters
+    Default: null
+  MaximumExecutionFrequency:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-config-configrule.html#cfn-config-configrule-maximumexecutionfrequency
+    Default: null
+  ScopeComplianceResourceId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-config-configrule-scope.html#cfn-config-configrule-scope-complianceresourceid
+    Default: null
+  ScopeTagKey:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-config-configrule-scope.html#cfn-config-configrule-scope-tagkey
+    Default: null
+  ScopeTagValue:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-config-configrule-scope.html#cfn-config-configrule-scope-tagvalue
+    Default: null
+  SourceOwner:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-config-configrule-source.html#cfn-config-configrule-source-owner
+  SourceSourceIdentifier:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-config-configrule-source.html#cfn-config-configrule-source-sourceidentifier
+Resources:
+  Resource:
+    Type: AWS::Config::ConfigRule
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-config-configrule.html
+    Properties:
+      ConfigRuleName: !Ref 'ConfigRuleName'
+      Description: !Ref 'Description'
+      InputParameters: !Ref 'InputParameters'
+      MaximumExecutionFrequency: !Ref 'MaximumExecutionFrequency'
+      Scope:
+        ComplianceResourceId: !Ref 'ScopeComplianceResourceId'
+        TagKey: !Ref 'ScopeTagKey'
+        TagValue: !Ref 'ScopeTagValue'
+      Source:
+        Owner: !Ref 'SourceOwner'
+        SourceIdentifier: !Ref 'SourceSourceIdentifier'
+Outputs:
+  Arn:
+    Value:
+      GetAtt:
+        - Resource
+        - Arn
+  Compliance.Type:
+    Value:
+      GetAtt:
+        - Resource
+        - Compliance.Type
+  ConfigRuleId:
+    Value:
+      GetAtt:
+        - Resource
+        - ConfigRuleId

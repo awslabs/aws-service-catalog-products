@@ -1,0 +1,35 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iot1click-device.html
+Parameters:
+  DeviceId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iot1click-device.html#cfn-iot1click-device-deviceid
+  Enabled:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iot1click-device.html#cfn-iot1click-device-enabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+Resources:
+  Resource:
+    Type: AWS::IoT1Click::Device
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iot1click-device.html
+    Properties:
+      DeviceId: !Ref 'DeviceId'
+      Enabled: !Ref 'Enabled'
+Outputs:
+  DeviceId:
+    Value:
+      GetAtt:
+        - Resource
+        - DeviceId
+  Enabled:
+    Value:
+      GetAtt:
+        - Resource
+        - Enabled
+  Arn:
+    Value:
+      GetAtt:
+        - Resource
+        - Arn

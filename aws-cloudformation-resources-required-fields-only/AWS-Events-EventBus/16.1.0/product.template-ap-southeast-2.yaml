@@ -1,0 +1,28 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-events-eventbus.html
+Parameters:
+  Name:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-events-eventbus.html#cfn-events-eventbus-name
+Resources:
+  Resource:
+    Type: AWS::Events::EventBus
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-events-eventbus.html
+    Properties:
+      Name: !Ref 'Name'
+Outputs:
+  Policy:
+    Value:
+      GetAtt:
+        - Resource
+        - Policy
+  Arn:
+    Value:
+      GetAtt:
+        - Resource
+        - Arn
+  Name:
+    Value:
+      GetAtt:
+        - Resource
+        - Name

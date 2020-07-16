@@ -1,0 +1,65 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-medialive-channel.html
+Parameters:
+  InputSpecificationCodec:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-medialive-channel-inputspecification.html#cfn-medialive-channel-inputspecification-codec
+    Default: null
+  InputSpecificationMaximumBitrate:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-medialive-channel-inputspecification.html#cfn-medialive-channel-inputspecification-maximumbitrate
+    Default: null
+  InputSpecificationResolution:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-medialive-channel-inputspecification.html#cfn-medialive-channel-inputspecification-resolution
+    Default: null
+  ChannelClass:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-medialive-channel.html#cfn-medialive-channel-channelclass
+    Default: null
+  EncoderSettings:
+    Type: Json
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-medialive-channel.html#cfn-medialive-channel-encodersettings
+    Default: null
+  LogLevel:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-medialive-channel.html#cfn-medialive-channel-loglevel
+    Default: null
+  RoleArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-medialive-channel.html#cfn-medialive-channel-rolearn
+    Default: null
+  Tags:
+    Type: Json
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-medialive-channel.html#cfn-medialive-channel-tags
+    Default: null
+  Name:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-medialive-channel.html#cfn-medialive-channel-name
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::MediaLive::Channel
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-medialive-channel.html
+    Properties:
+      InputSpecification:
+        Codec: !Ref 'InputSpecificationCodec'
+        MaximumBitrate: !Ref 'InputSpecificationMaximumBitrate'
+        Resolution: !Ref 'InputSpecificationResolution'
+      ChannelClass: !Ref 'ChannelClass'
+      EncoderSettings: !Ref 'EncoderSettings'
+      LogLevel: !Ref 'LogLevel'
+      RoleArn: !Ref 'RoleArn'
+      Tags: !Ref 'Tags'
+      Name: !Ref 'Name'
+Outputs:
+  Arn:
+    Value:
+      GetAtt:
+        - Resource
+        - Arn
+  Inputs:
+    Value:
+      GetAtt:
+        - Resource
+        - Inputs

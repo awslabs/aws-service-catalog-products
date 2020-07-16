@@ -1,0 +1,42 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opsworks-instance.html
+Parameters:
+  InstanceType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opsworks-instance.html#cfn-opsworks-instance-instancetype
+  StackId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opsworks-instance.html#cfn-opsworks-instance-stackid
+Resources:
+  Resource:
+    Type: AWS::OpsWorks::Instance
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opsworks-instance.html
+    Properties:
+      InstanceType: !Ref 'InstanceType'
+      StackId: !Ref 'StackId'
+Outputs:
+  AvailabilityZone:
+    Value:
+      GetAtt:
+        - Resource
+        - AvailabilityZone
+  PrivateDnsName:
+    Value:
+      GetAtt:
+        - Resource
+        - PrivateDnsName
+  PrivateIp:
+    Value:
+      GetAtt:
+        - Resource
+        - PrivateIp
+  PublicDnsName:
+    Value:
+      GetAtt:
+        - Resource
+        - PublicDnsName
+  PublicIp:
+    Value:
+      GetAtt:
+        - Resource
+        - PublicIp

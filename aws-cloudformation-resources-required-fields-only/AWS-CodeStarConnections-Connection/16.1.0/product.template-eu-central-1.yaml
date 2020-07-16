@@ -1,0 +1,28 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codestarconnections-connection.html
+Parameters:
+  ConnectionName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codestarconnections-connection.html#cfn-codestarconnections-connection-connectionname
+Resources:
+  Resource:
+    Type: AWS::CodeStarConnections::Connection
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codestarconnections-connection.html
+    Properties:
+      ConnectionName: !Ref 'ConnectionName'
+Outputs:
+  ConnectionArn:
+    Value:
+      GetAtt:
+        - Resource
+        - ConnectionArn
+  ConnectionStatus:
+    Value:
+      GetAtt:
+        - Resource
+        - ConnectionStatus
+  OwnerAccountId:
+    Value:
+      GetAtt:
+        - Resource
+        - OwnerAccountId

@@ -1,0 +1,90 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-glue-partition.html
+Parameters:
+  TableName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-glue-partition.html#cfn-glue-partition-tablename
+  DatabaseName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-glue-partition.html#cfn-glue-partition-databasename
+  CatalogId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-glue-partition.html#cfn-glue-partition-catalogid
+  PartitionInputParameters:
+    Type: Json
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-glue-partition-partitioninput.html#cfn-glue-partition-partitioninput-parameters
+    Default: null
+  PartitionInputStorageDescriptorStoredAsSubDirectories:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-glue-partition-storagedescriptor.html#cfn-glue-partition-storagedescriptor-storedassubdirectories
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  PartitionInputStorageDescriptorParameters:
+    Type: Json
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-glue-partition-storagedescriptor.html#cfn-glue-partition-storagedescriptor-parameters
+    Default: null
+  PartitionInputStorageDescriptorSkewedInfoSkewedColumnValueLocationMaps:
+    Type: Json
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-glue-partition-skewedinfo.html#cfn-glue-partition-skewedinfo-skewedcolumnvaluelocationmaps
+    Default: null
+  PartitionInputStorageDescriptorInputFormat:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-glue-partition-storagedescriptor.html#cfn-glue-partition-storagedescriptor-inputformat
+    Default: null
+  PartitionInputStorageDescriptorNumberOfBuckets:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-glue-partition-storagedescriptor.html#cfn-glue-partition-storagedescriptor-numberofbuckets
+    Default: null
+  PartitionInputStorageDescriptorOutputFormat:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-glue-partition-storagedescriptor.html#cfn-glue-partition-storagedescriptor-outputformat
+    Default: null
+  PartitionInputStorageDescriptorSerdeInfoParameters:
+    Type: Json
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-glue-partition-serdeinfo.html#cfn-glue-partition-serdeinfo-parameters
+    Default: null
+  PartitionInputStorageDescriptorSerdeInfoSerializationLibrary:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-glue-partition-serdeinfo.html#cfn-glue-partition-serdeinfo-serializationlibrary
+    Default: null
+  PartitionInputStorageDescriptorSerdeInfoName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-glue-partition-serdeinfo.html#cfn-glue-partition-serdeinfo-name
+    Default: null
+  PartitionInputStorageDescriptorCompressed:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-glue-partition-storagedescriptor.html#cfn-glue-partition-storagedescriptor-compressed
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  PartitionInputStorageDescriptorLocation:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-glue-partition-storagedescriptor.html#cfn-glue-partition-storagedescriptor-location
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::Glue::Partition
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-glue-partition.html
+    Properties:
+      TableName: !Ref 'TableName'
+      DatabaseName: !Ref 'DatabaseName'
+      CatalogId: !Ref 'CatalogId'
+      PartitionInput:
+        Parameters: !Ref 'PartitionInputParameters'
+        StorageDescriptor:
+          StoredAsSubDirectories: !Ref 'PartitionInputStorageDescriptorStoredAsSubDirectories'
+          Parameters: !Ref 'PartitionInputStorageDescriptorParameters'
+          SkewedInfo:
+            SkewedColumnValueLocationMaps: !Ref 'PartitionInputStorageDescriptorSkewedInfoSkewedColumnValueLocationMaps'
+          InputFormat: !Ref 'PartitionInputStorageDescriptorInputFormat'
+          NumberOfBuckets: !Ref 'PartitionInputStorageDescriptorNumberOfBuckets'
+          OutputFormat: !Ref 'PartitionInputStorageDescriptorOutputFormat'
+          SerdeInfo:
+            Parameters: !Ref 'PartitionInputStorageDescriptorSerdeInfoParameters'
+            SerializationLibrary: !Ref 'PartitionInputStorageDescriptorSerdeInfoSerializationLibrary'
+            Name: !Ref 'PartitionInputStorageDescriptorSerdeInfoName'
+          Compressed: !Ref 'PartitionInputStorageDescriptorCompressed'
+          Location: !Ref 'PartitionInputStorageDescriptorLocation'

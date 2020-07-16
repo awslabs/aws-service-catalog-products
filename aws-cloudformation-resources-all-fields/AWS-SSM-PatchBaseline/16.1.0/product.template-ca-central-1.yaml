@@ -1,0 +1,42 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ssm-patchbaseline.html
+Parameters:
+  OperatingSystem:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ssm-patchbaseline.html#cfn-ssm-patchbaseline-operatingsystem
+    Default: null
+  Description:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ssm-patchbaseline.html#cfn-ssm-patchbaseline-description
+    Default: null
+  Name:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ssm-patchbaseline.html#cfn-ssm-patchbaseline-name
+  RejectedPatchesAction:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ssm-patchbaseline.html#cfn-ssm-patchbaseline-rejectedpatchesaction
+    Default: null
+  ApprovedPatchesComplianceLevel:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ssm-patchbaseline.html#cfn-ssm-patchbaseline-approvedpatchescompliancelevel
+    Default: null
+  ApprovedPatchesEnableNonSecurity:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ssm-patchbaseline.html#cfn-ssm-patchbaseline-approvedpatchesenablenonsecurity
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::SSM::PatchBaseline
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ssm-patchbaseline.html
+    Properties:
+      OperatingSystem: !Ref 'OperatingSystem'
+      Description: !Ref 'Description'
+      ApprovalRules: {}
+      Name: !Ref 'Name'
+      RejectedPatchesAction: !Ref 'RejectedPatchesAction'
+      ApprovedPatchesComplianceLevel: !Ref 'ApprovedPatchesComplianceLevel'
+      ApprovedPatchesEnableNonSecurity: !Ref 'ApprovedPatchesEnableNonSecurity'
+      GlobalFilters: {}

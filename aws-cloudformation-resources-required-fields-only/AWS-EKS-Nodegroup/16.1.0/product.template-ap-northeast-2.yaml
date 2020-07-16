@@ -1,0 +1,32 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-eks-nodegroup.html
+Parameters:
+  NodeRole:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-eks-nodegroup.html#cfn-eks-nodegroup-noderole
+  ClusterName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-eks-nodegroup.html#cfn-eks-nodegroup-clustername
+Resources:
+  Resource:
+    Type: AWS::EKS::Nodegroup
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-eks-nodegroup.html
+    Properties:
+      NodeRole: !Ref 'NodeRole'
+      ClusterName: !Ref 'ClusterName'
+Outputs:
+  NodegroupName:
+    Value:
+      GetAtt:
+        - Resource
+        - NodegroupName
+  ClusterName:
+    Value:
+      GetAtt:
+        - Resource
+        - ClusterName
+  Arn:
+    Value:
+      GetAtt:
+        - Resource
+        - Arn

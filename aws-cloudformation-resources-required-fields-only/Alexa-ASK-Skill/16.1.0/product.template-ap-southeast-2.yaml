@@ -1,0 +1,34 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ask-skill.html
+Parameters:
+  AuthenticationConfigurationRefreshToken:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ask-skill-authenticationconfiguration.html#cfn-ask-skill-authenticationconfiguration-refreshtoken
+  AuthenticationConfigurationClientSecret:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ask-skill-authenticationconfiguration.html#cfn-ask-skill-authenticationconfiguration-clientsecret
+  AuthenticationConfigurationClientId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ask-skill-authenticationconfiguration.html#cfn-ask-skill-authenticationconfiguration-clientid
+  VendorId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ask-skill.html#cfn-ask-skill-vendorid
+  SkillPackageS3Bucket:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ask-skill-skillpackage.html#cfn-ask-skill-skillpackage-s3bucket
+  SkillPackageS3Key:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ask-skill-skillpackage.html#cfn-ask-skill-skillpackage-s3key
+Resources:
+  Resource:
+    Type: Alexa::ASK::Skill
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ask-skill.html
+    Properties:
+      AuthenticationConfiguration:
+        RefreshToken: !Ref 'AuthenticationConfigurationRefreshToken'
+        ClientSecret: !Ref 'AuthenticationConfigurationClientSecret'
+        ClientId: !Ref 'AuthenticationConfigurationClientId'
+      VendorId: !Ref 'VendorId'
+      SkillPackage:
+        S3Bucket: !Ref 'SkillPackageS3Bucket'
+        S3Key: !Ref 'SkillPackageS3Key'

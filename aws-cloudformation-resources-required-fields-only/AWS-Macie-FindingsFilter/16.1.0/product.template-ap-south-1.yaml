@@ -1,0 +1,29 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-macie-findingsfilter.html
+Parameters:
+  Name:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-macie-findingsfilter.html#cfn-macie-findingsfilter-name
+Resources:
+  Resource:
+    Type: AWS::Macie::FindingsFilter
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-macie-findingsfilter.html
+    Properties:
+      Name: !Ref 'Name'
+      FindingCriteria: {}
+Outputs:
+  Id:
+    Value:
+      GetAtt:
+        - Resource
+        - Id
+  Arn:
+    Value:
+      GetAtt:
+        - Resource
+        - Arn
+  FindingsFilterListItems:
+    Value:
+      GetAtt:
+        - Resource
+        - FindingsFilterListItems

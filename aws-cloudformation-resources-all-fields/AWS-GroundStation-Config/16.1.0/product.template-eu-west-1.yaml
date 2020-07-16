@@ -1,0 +1,32 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-groundstation-config.html
+Parameters:
+  Name:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-groundstation-config.html#cfn-groundstation-config-name
+  ConfigData:
+    Type: Json
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-groundstation-config.html#cfn-groundstation-config-configdata
+Resources:
+  Resource:
+    Type: AWS::GroundStation::Config
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-groundstation-config.html
+    Properties:
+      Name: !Ref 'Name'
+      ConfigData: !Ref 'ConfigData'
+Outputs:
+  Type:
+    Value:
+      GetAtt:
+        - Resource
+        - Type
+  Arn:
+    Value:
+      GetAtt:
+        - Resource
+        - Arn
+  Id:
+    Value:
+      GetAtt:
+        - Resource
+        - Id

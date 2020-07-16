@@ -1,0 +1,52 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-rds-dbproxy.html
+Parameters:
+  DBProxyName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-rds-dbproxy.html#cfn-rds-dbproxy-dbproxyname
+  DebugLogging:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-rds-dbproxy.html#cfn-rds-dbproxy-debuglogging
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  EngineFamily:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-rds-dbproxy.html#cfn-rds-dbproxy-enginefamily
+  IdleClientTimeout:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-rds-dbproxy.html#cfn-rds-dbproxy-idleclienttimeout
+    Default: null
+  RequireTLS:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-rds-dbproxy.html#cfn-rds-dbproxy-requiretls
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  RoleArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-rds-dbproxy.html#cfn-rds-dbproxy-rolearn
+Resources:
+  Resource:
+    Type: AWS::RDS::DBProxy
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-rds-dbproxy.html
+    Properties:
+      DBProxyName: !Ref 'DBProxyName'
+      DebugLogging: !Ref 'DebugLogging'
+      EngineFamily: !Ref 'EngineFamily'
+      IdleClientTimeout: !Ref 'IdleClientTimeout'
+      RequireTLS: !Ref 'RequireTLS'
+      RoleArn: !Ref 'RoleArn'
+Outputs:
+  DBProxyArn:
+    Value:
+      GetAtt:
+        - Resource
+        - DBProxyArn
+  Endpoint:
+    Value:
+      GetAtt:
+        - Resource
+        - Endpoint

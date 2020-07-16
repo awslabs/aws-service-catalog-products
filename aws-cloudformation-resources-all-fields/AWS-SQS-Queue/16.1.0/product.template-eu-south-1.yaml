@@ -1,0 +1,80 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sqs-queues.html
+Parameters:
+  ContentBasedDeduplication:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sqs-queues.html#aws-sqs-queue-contentbaseddeduplication
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  DelaySeconds:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sqs-queues.html#aws-sqs-queue-delayseconds
+    Default: null
+  FifoQueue:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sqs-queues.html#aws-sqs-queue-fifoqueue
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  KmsDataKeyReusePeriodSeconds:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sqs-queues.html#aws-sqs-queue-kmsdatakeyreuseperiodseconds
+    Default: null
+  KmsMasterKeyId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sqs-queues.html#aws-sqs-queue-kmsmasterkeyid
+    Default: null
+  MaximumMessageSize:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sqs-queues.html#aws-sqs-queue-maxmesgsize
+    Default: null
+  MessageRetentionPeriod:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sqs-queues.html#aws-sqs-queue-msgretentionperiod
+    Default: null
+  QueueName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sqs-queues.html#aws-sqs-queue-name
+    Default: null
+  ReceiveMessageWaitTimeSeconds:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sqs-queues.html#aws-sqs-queue-receivemsgwaittime
+    Default: null
+  RedrivePolicy:
+    Type: Json
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sqs-queues.html#aws-sqs-queue-redrive
+    Default: null
+  VisibilityTimeout:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sqs-queues.html#aws-sqs-queue-visiblitytimeout
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::SQS::Queue
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sqs-queues.html
+    Properties:
+      ContentBasedDeduplication: !Ref 'ContentBasedDeduplication'
+      DelaySeconds: !Ref 'DelaySeconds'
+      FifoQueue: !Ref 'FifoQueue'
+      KmsDataKeyReusePeriodSeconds: !Ref 'KmsDataKeyReusePeriodSeconds'
+      KmsMasterKeyId: !Ref 'KmsMasterKeyId'
+      MaximumMessageSize: !Ref 'MaximumMessageSize'
+      MessageRetentionPeriod: !Ref 'MessageRetentionPeriod'
+      QueueName: !Ref 'QueueName'
+      ReceiveMessageWaitTimeSeconds: !Ref 'ReceiveMessageWaitTimeSeconds'
+      RedrivePolicy: !Ref 'RedrivePolicy'
+      VisibilityTimeout: !Ref 'VisibilityTimeout'
+Outputs:
+  Arn:
+    Value:
+      GetAtt:
+        - Resource
+        - Arn
+  QueueName:
+    Value:
+      GetAtt:
+        - Resource
+        - QueueName

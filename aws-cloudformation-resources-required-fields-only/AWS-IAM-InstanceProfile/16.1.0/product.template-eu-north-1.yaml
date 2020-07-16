@@ -1,0 +1,12 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-instanceprofile.html
+Resources:
+  Resource:
+    Type: AWS::IAM::InstanceProfile
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-instanceprofile.html
+Outputs:
+  Arn:
+    Value:
+      GetAtt:
+        - Resource
+        - Arn

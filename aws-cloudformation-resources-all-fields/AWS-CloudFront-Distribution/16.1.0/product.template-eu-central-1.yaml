@@ -1,0 +1,171 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cloudfront-distribution.html
+Parameters:
+  DistributionConfigLoggingIncludeCookies:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cloudfront-distribution-logging.html#cfn-cloudfront-distribution-logging-includecookies
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  DistributionConfigLoggingBucket:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cloudfront-distribution-logging.html#cfn-cloudfront-distribution-logging-bucket
+  DistributionConfigLoggingPrefix:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cloudfront-distribution-logging.html#cfn-cloudfront-distribution-logging-prefix
+    Default: null
+  DistributionConfigComment:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cloudfront-distribution-distributionconfig.html#cfn-cloudfront-distribution-distributionconfig-comment
+    Default: null
+  DistributionConfigDefaultRootObject:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cloudfront-distribution-distributionconfig.html#cfn-cloudfront-distribution-distributionconfig-defaultrootobject
+    Default: null
+  DistributionConfigViewerCertificateIamCertificateId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cloudfront-distribution-viewercertificate.html#cfn-cloudfront-distribution-viewercertificate-iamcertificateid
+    Default: null
+  DistributionConfigViewerCertificateSslSupportMethod:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cloudfront-distribution-viewercertificate.html#cfn-cloudfront-distribution-viewercertificate-sslsupportmethod
+    Default: null
+  DistributionConfigViewerCertificateMinimumProtocolVersion:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cloudfront-distribution-viewercertificate.html#cfn-cloudfront-distribution-viewercertificate-minimumprotocolversion
+    Default: null
+  DistributionConfigViewerCertificateCloudFrontDefaultCertificate:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cloudfront-distribution-viewercertificate.html#cfn-cloudfront-distribution-viewercertificate-cloudfrontdefaultcertificate
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  DistributionConfigViewerCertificateAcmCertificateArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cloudfront-distribution-viewercertificate.html#cfn-cloudfront-distribution-viewercertificate-acmcertificatearn
+    Default: null
+  DistributionConfigPriceClass:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cloudfront-distribution-distributionconfig.html#cfn-cloudfront-distribution-distributionconfig-priceclass
+    Default: null
+  DistributionConfigDefaultCacheBehaviorCompress:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cloudfront-distribution-defaultcachebehavior.html#cfn-cloudfront-distribution-defaultcachebehavior-compress
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  DistributionConfigDefaultCacheBehaviorTargetOriginId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cloudfront-distribution-defaultcachebehavior.html#cfn-cloudfront-distribution-defaultcachebehavior-targetoriginid
+  DistributionConfigDefaultCacheBehaviorViewerProtocolPolicy:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cloudfront-distribution-defaultcachebehavior.html#cfn-cloudfront-distribution-defaultcachebehavior-viewerprotocolpolicy
+  DistributionConfigDefaultCacheBehaviorDefaultTTL:
+    Type: Double
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cloudfront-distribution-defaultcachebehavior.html#cfn-cloudfront-distribution-defaultcachebehavior-defaultttl
+    Default: null
+  DistributionConfigDefaultCacheBehaviorFieldLevelEncryptionId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cloudfront-distribution-defaultcachebehavior.html#cfn-cloudfront-distribution-defaultcachebehavior-fieldlevelencryptionid
+    Default: null
+  DistributionConfigDefaultCacheBehaviorSmoothStreaming:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cloudfront-distribution-defaultcachebehavior.html#cfn-cloudfront-distribution-defaultcachebehavior-smoothstreaming
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  DistributionConfigDefaultCacheBehaviorForwardedValuesCookiesForward:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cloudfront-distribution-cookies.html#cfn-cloudfront-distribution-cookies-forward
+  DistributionConfigDefaultCacheBehaviorForwardedValuesQueryString:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cloudfront-distribution-forwardedvalues.html#cfn-cloudfront-distribution-forwardedvalues-querystring
+    AllowedValues:
+      - 'true'
+      - 'false'
+  DistributionConfigDefaultCacheBehaviorMinTTL:
+    Type: Double
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cloudfront-distribution-defaultcachebehavior.html#cfn-cloudfront-distribution-defaultcachebehavior-minttl
+    Default: null
+  DistributionConfigDefaultCacheBehaviorMaxTTL:
+    Type: Double
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cloudfront-distribution-defaultcachebehavior.html#cfn-cloudfront-distribution-defaultcachebehavior-maxttl
+    Default: null
+  DistributionConfigOriginGroupsQuantity:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cloudfront-distribution-origingroups.html#cfn-cloudfront-distribution-origingroups-quantity
+  DistributionConfigEnabled:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cloudfront-distribution-distributionconfig.html#cfn-cloudfront-distribution-distributionconfig-enabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+  DistributionConfigIPV6Enabled:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cloudfront-distribution-distributionconfig.html#cfn-cloudfront-distribution-distributionconfig-ipv6enabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  DistributionConfigWebACLId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cloudfront-distribution-distributionconfig.html#cfn-cloudfront-distribution-distributionconfig-webaclid
+    Default: null
+  DistributionConfigHttpVersion:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cloudfront-distribution-distributionconfig.html#cfn-cloudfront-distribution-distributionconfig-httpversion
+    Default: null
+  DistributionConfigRestrictionsGeoRestrictionRestrictionType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cloudfront-distribution-georestriction.html#cfn-cloudfront-distribution-georestriction-restrictiontype
+Resources:
+  Resource:
+    Type: AWS::CloudFront::Distribution
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cloudfront-distribution.html
+    Properties:
+      DistributionConfig:
+        Logging:
+          IncludeCookies: !Ref 'DistributionConfigLoggingIncludeCookies'
+          Bucket: !Ref 'DistributionConfigLoggingBucket'
+          Prefix: !Ref 'DistributionConfigLoggingPrefix'
+        Comment: !Ref 'DistributionConfigComment'
+        DefaultRootObject: !Ref 'DistributionConfigDefaultRootObject'
+        ViewerCertificate:
+          IamCertificateId: !Ref 'DistributionConfigViewerCertificateIamCertificateId'
+          SslSupportMethod: !Ref 'DistributionConfigViewerCertificateSslSupportMethod'
+          MinimumProtocolVersion: !Ref 'DistributionConfigViewerCertificateMinimumProtocolVersion'
+          CloudFrontDefaultCertificate: !Ref 'DistributionConfigViewerCertificateCloudFrontDefaultCertificate'
+          AcmCertificateArn: !Ref 'DistributionConfigViewerCertificateAcmCertificateArn'
+        PriceClass: !Ref 'DistributionConfigPriceClass'
+        DefaultCacheBehavior:
+          Compress: !Ref 'DistributionConfigDefaultCacheBehaviorCompress'
+          TargetOriginId: !Ref 'DistributionConfigDefaultCacheBehaviorTargetOriginId'
+          ViewerProtocolPolicy: !Ref 'DistributionConfigDefaultCacheBehaviorViewerProtocolPolicy'
+          DefaultTTL: !Ref 'DistributionConfigDefaultCacheBehaviorDefaultTTL'
+          FieldLevelEncryptionId: !Ref 'DistributionConfigDefaultCacheBehaviorFieldLevelEncryptionId'
+          SmoothStreaming: !Ref 'DistributionConfigDefaultCacheBehaviorSmoothStreaming'
+          ForwardedValues:
+            Cookies:
+              Forward: !Ref 'DistributionConfigDefaultCacheBehaviorForwardedValuesCookiesForward'
+            QueryString: !Ref 'DistributionConfigDefaultCacheBehaviorForwardedValuesQueryString'
+          MinTTL: !Ref 'DistributionConfigDefaultCacheBehaviorMinTTL'
+          MaxTTL: !Ref 'DistributionConfigDefaultCacheBehaviorMaxTTL'
+        OriginGroups:
+          Quantity: !Ref 'DistributionConfigOriginGroupsQuantity'
+        Enabled: !Ref 'DistributionConfigEnabled'
+        IPV6Enabled: !Ref 'DistributionConfigIPV6Enabled'
+        WebACLId: !Ref 'DistributionConfigWebACLId'
+        HttpVersion: !Ref 'DistributionConfigHttpVersion'
+        Restrictions:
+          GeoRestriction:
+            RestrictionType: !Ref 'DistributionConfigRestrictionsGeoRestrictionRestrictionType'
+Outputs:
+  DomainName:
+    Value:
+      GetAtt:
+        - Resource
+        - DomainName

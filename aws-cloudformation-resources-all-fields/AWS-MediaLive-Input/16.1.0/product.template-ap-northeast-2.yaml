@@ -1,0 +1,45 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-medialive-input.html
+Parameters:
+  Type:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-medialive-input.html#cfn-medialive-input-type
+    Default: null
+  RoleArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-medialive-input.html#cfn-medialive-input-rolearn
+    Default: null
+  Tags:
+    Type: Json
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-medialive-input.html#cfn-medialive-input-tags
+    Default: null
+  Name:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-medialive-input.html#cfn-medialive-input-name
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::MediaLive::Input
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-medialive-input.html
+    Properties:
+      Type: !Ref 'Type'
+      Vpc: {}
+      RoleArn: !Ref 'RoleArn'
+      Tags: !Ref 'Tags'
+      Name: !Ref 'Name'
+Outputs:
+  Destinations:
+    Value:
+      GetAtt:
+        - Resource
+        - Destinations
+  Arn:
+    Value:
+      GetAtt:
+        - Resource
+        - Arn
+  Sources:
+    Value:
+      GetAtt:
+        - Resource
+        - Sources

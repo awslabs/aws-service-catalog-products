@@ -1,0 +1,22 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-globalaccelerator-listener.html
+Parameters:
+  AcceleratorArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-globalaccelerator-listener.html#cfn-globalaccelerator-listener-acceleratorarn
+  Protocol:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-globalaccelerator-listener.html#cfn-globalaccelerator-listener-protocol
+Resources:
+  Resource:
+    Type: AWS::GlobalAccelerator::Listener
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-globalaccelerator-listener.html
+    Properties:
+      AcceleratorArn: !Ref 'AcceleratorArn'
+      Protocol: !Ref 'Protocol'
+Outputs:
+  ListenerArn:
+    Value:
+      GetAtt:
+        - Resource
+        - ListenerArn

@@ -1,0 +1,212 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticsearch-domain.html
+Parameters:
+  AccessPolicies:
+    Type: Json
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticsearch-domain.html#cfn-elasticsearch-domain-accesspolicies
+    Default: null
+  AdvancedSecurityOptionsInputEnabled:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticsearch-domain-advancedsecurityoptionsinput.html#cfn-elasticsearch-domain-advancedsecurityoptionsinput-enabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  AdvancedSecurityOptionsInputInternalUserDatabaseEnabled:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticsearch-domain-advancedsecurityoptionsinput.html#cfn-elasticsearch-domain-advancedsecurityoptionsinput-internaluserdatabaseenabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  AdvancedSecurityOptionsInputMasterUserOptionsMasterUserARN:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticsearch-domain-masteruseroptions.html#cfn-elasticsearch-domain-masteruseroptions-masteruserarn
+    Default: null
+  AdvancedSecurityOptionsInputMasterUserOptionsMasterUserName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticsearch-domain-masteruseroptions.html#cfn-elasticsearch-domain-masteruseroptions-masterusername
+    Default: null
+  AdvancedSecurityOptionsInputMasterUserOptionsMasterUserPassword:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticsearch-domain-masteruseroptions.html#cfn-elasticsearch-domain-masteruseroptions-masteruserpassword
+    Default: null
+  CognitoOptionsEnabled:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticsearch-domain-cognitooptions.html#cfn-elasticsearch-domain-cognitooptions-enabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  CognitoOptionsIdentityPoolId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticsearch-domain-cognitooptions.html#cfn-elasticsearch-domain-cognitooptions-identitypoolid
+    Default: null
+  CognitoOptionsRoleArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticsearch-domain-cognitooptions.html#cfn-elasticsearch-domain-cognitooptions-rolearn
+    Default: null
+  CognitoOptionsUserPoolId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticsearch-domain-cognitooptions.html#cfn-elasticsearch-domain-cognitooptions-userpoolid
+    Default: null
+  DomainEndpointOptionsEnforceHTTPS:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticsearch-domain-domainendpointoptions.html#cfn-elasticsearch-domain-domainendpointoptions-enforcehttps
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  DomainEndpointOptionsTLSSecurityPolicy:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticsearch-domain-domainendpointoptions.html#cfn-elasticsearch-domain-domainendpointoptions-tlssecuritypolicy
+    Default: null
+  DomainName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticsearch-domain.html#cfn-elasticsearch-domain-domainname
+    Default: null
+  EBSOptionsEBSEnabled:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticsearch-domain-ebsoptions.html#cfn-elasticsearch-domain-ebsoptions-ebsenabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  EBSOptionsIops:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticsearch-domain-ebsoptions.html#cfn-elasticsearch-domain-ebsoptions-iops
+    Default: null
+  EBSOptionsVolumeSize:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticsearch-domain-ebsoptions.html#cfn-elasticsearch-domain-ebsoptions-volumesize
+    Default: null
+  EBSOptionsVolumeType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticsearch-domain-ebsoptions.html#cfn-elasticsearch-domain-ebsoptions-volumetype
+    Default: null
+  ElasticsearchClusterConfigDedicatedMasterCount:
+    Type: Number
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticsearch-domain-elasticsearchclusterconfig.html#cfn-elasticsearch-domain-elasticseachclusterconfig-dedicatedmastercount
+    Default: null
+  ElasticsearchClusterConfigDedicatedMasterEnabled:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticsearch-domain-elasticsearchclusterconfig.html#cfn-elasticsearch-domain-elasticseachclusterconfig-dedicatedmasterenabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  ElasticsearchClusterConfigDedicatedMasterType:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticsearch-domain-elasticsearchclusterconfig.html#cfn-elasticsearch-domain-elasticseachclusterconfig-dedicatedmastertype
+    Default: null
+  ElasticsearchClusterConfigInstanceCount:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticsearch-domain-elasticsearchclusterconfig.html#cfn-elasticsearch-domain-elasticseachclusterconfig-instancecount
+    Default: null
+  ElasticsearchClusterConfigInstanceType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticsearch-domain-elasticsearchclusterconfig.html#cfn-elasticsearch-domain-elasticseachclusterconfig-instnacetype
+    Default: null
+  ElasticsearchClusterConfigZoneAwarenessConfigAvailabilityZoneCount:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticsearch-domain-zoneawarenessconfig.html#cfn-elasticsearch-domain-zoneawarenessconfig-availabilityzonecount
+    Default: null
+  ElasticsearchClusterConfigZoneAwarenessEnabled:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticsearch-domain-elasticsearchclusterconfig.html#cfn-elasticsearch-domain-elasticseachclusterconfig-zoneawarenessenabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  ElasticsearchVersion:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticsearch-domain.html#cfn-elasticsearch-domain-elasticsearchversion
+    Default: null
+  EncryptionAtRestOptionsEnabled:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticsearch-domain-encryptionatrestoptions.html#cfn-elasticsearch-domain-encryptionatrestoptions-enabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  EncryptionAtRestOptionsKmsKeyId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticsearch-domain-encryptionatrestoptions.html#cfn-elasticsearch-domain-encryptionatrestoptions-kmskeyid
+    Default: null
+  NodeToNodeEncryptionOptionsEnabled:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticsearch-domain-nodetonodeencryptionoptions.html#cfn-elasticsearch-domain-nodetonodeencryptionoptions-enabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  SnapshotOptionsAutomatedSnapshotStartHour:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticsearch-domain-snapshotoptions.html#cfn-elasticsearch-domain-snapshotoptions-automatedsnapshotstarthour
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::Elasticsearch::Domain
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticsearch-domain.html
+    Properties:
+      AccessPolicies: !Ref 'AccessPolicies'
+      AdvancedSecurityOptions:
+        Enabled: !Ref 'AdvancedSecurityOptionsInputEnabled'
+        InternalUserDatabaseEnabled: !Ref 'AdvancedSecurityOptionsInputInternalUserDatabaseEnabled'
+        MasterUserOptions:
+          MasterUserARN: !Ref 'AdvancedSecurityOptionsInputMasterUserOptionsMasterUserARN'
+          MasterUserName: !Ref 'AdvancedSecurityOptionsInputMasterUserOptionsMasterUserName'
+          MasterUserPassword: !Ref 'AdvancedSecurityOptionsInputMasterUserOptionsMasterUserPassword'
+      CognitoOptions:
+        Enabled: !Ref 'CognitoOptionsEnabled'
+        IdentityPoolId: !Ref 'CognitoOptionsIdentityPoolId'
+        RoleArn: !Ref 'CognitoOptionsRoleArn'
+        UserPoolId: !Ref 'CognitoOptionsUserPoolId'
+      DomainEndpointOptions:
+        EnforceHTTPS: !Ref 'DomainEndpointOptionsEnforceHTTPS'
+        TLSSecurityPolicy: !Ref 'DomainEndpointOptionsTLSSecurityPolicy'
+      DomainName: !Ref 'DomainName'
+      EBSOptions:
+        EBSEnabled: !Ref 'EBSOptionsEBSEnabled'
+        Iops: !Ref 'EBSOptionsIops'
+        VolumeSize: !Ref 'EBSOptionsVolumeSize'
+        VolumeType: !Ref 'EBSOptionsVolumeType'
+      ElasticsearchClusterConfig:
+        DedicatedMasterCount: !Ref 'ElasticsearchClusterConfigDedicatedMasterCount'
+        DedicatedMasterEnabled: !Ref 'ElasticsearchClusterConfigDedicatedMasterEnabled'
+        DedicatedMasterType: !Ref 'ElasticsearchClusterConfigDedicatedMasterType'
+        InstanceCount: !Ref 'ElasticsearchClusterConfigInstanceCount'
+        InstanceType: !Ref 'ElasticsearchClusterConfigInstanceType'
+        ZoneAwarenessConfig:
+          AvailabilityZoneCount: !Ref 'ElasticsearchClusterConfigZoneAwarenessConfigAvailabilityZoneCount'
+        ZoneAwarenessEnabled: !Ref 'ElasticsearchClusterConfigZoneAwarenessEnabled'
+      ElasticsearchVersion: !Ref 'ElasticsearchVersion'
+      EncryptionAtRestOptions:
+        Enabled: !Ref 'EncryptionAtRestOptionsEnabled'
+        KmsKeyId: !Ref 'EncryptionAtRestOptionsKmsKeyId'
+      NodeToNodeEncryptionOptions:
+        Enabled: !Ref 'NodeToNodeEncryptionOptionsEnabled'
+      SnapshotOptions:
+        AutomatedSnapshotStartHour: !Ref 'SnapshotOptionsAutomatedSnapshotStartHour'
+      VPCOptions: {}
+Outputs:
+  Arn:
+    Value:
+      GetAtt:
+        - Resource
+        - Arn
+  DomainArn:
+    Value:
+      GetAtt:
+        - Resource
+        - DomainArn
+  DomainEndpoint:
+    Value:
+      GetAtt:
+        - Resource
+        - DomainEndpoint

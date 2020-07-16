@@ -1,0 +1,103 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appsync-graphqlapi.html
+Parameters:
+  OpenIDConnectConfigIssuer:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-appsync-graphqlapi-openidconnectconfig.html#cfn-appsync-graphqlapi-openidconnectconfig-issuer
+    Default: null
+  OpenIDConnectConfigClientId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-appsync-graphqlapi-openidconnectconfig.html#cfn-appsync-graphqlapi-openidconnectconfig-clientid
+    Default: null
+  OpenIDConnectConfigAuthTTL:
+    Type: Double
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-appsync-graphqlapi-openidconnectconfig.html#cfn-appsync-graphqlapi-openidconnectconfig-authttl
+    Default: null
+  OpenIDConnectConfigIatTTL:
+    Type: Double
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-appsync-graphqlapi-openidconnectconfig.html#cfn-appsync-graphqlapi-openidconnectconfig-iatttl
+    Default: null
+  XrayEnabled:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appsync-graphqlapi.html#cfn-appsync-graphqlapi-xrayenabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  UserPoolConfigAppIdClientRegex:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-appsync-graphqlapi-userpoolconfig.html#cfn-appsync-graphqlapi-userpoolconfig-appidclientregex
+    Default: null
+  UserPoolConfigUserPoolId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-appsync-graphqlapi-userpoolconfig.html#cfn-appsync-graphqlapi-userpoolconfig-userpoolid
+    Default: null
+  UserPoolConfigAwsRegion:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-appsync-graphqlapi-userpoolconfig.html#cfn-appsync-graphqlapi-userpoolconfig-awsregion
+    Default: null
+  UserPoolConfigDefaultAction:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-appsync-graphqlapi-userpoolconfig.html#cfn-appsync-graphqlapi-userpoolconfig-defaultaction
+    Default: null
+  Name:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appsync-graphqlapi.html#cfn-appsync-graphqlapi-name
+  AuthenticationType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appsync-graphqlapi.html#cfn-appsync-graphqlapi-authenticationtype
+  LogConfigCloudWatchLogsRoleArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-appsync-graphqlapi-logconfig.html#cfn-appsync-graphqlapi-logconfig-cloudwatchlogsrolearn
+    Default: null
+  LogConfigExcludeVerboseContent:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-appsync-graphqlapi-logconfig.html#cfn-appsync-graphqlapi-logconfig-excludeverbosecontent
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  LogConfigFieldLogLevel:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-appsync-graphqlapi-logconfig.html#cfn-appsync-graphqlapi-logconfig-fieldloglevel
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::AppSync::GraphQLApi
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appsync-graphqlapi.html
+    Properties:
+      OpenIDConnectConfig:
+        Issuer: !Ref 'OpenIDConnectConfigIssuer'
+        ClientId: !Ref 'OpenIDConnectConfigClientId'
+        AuthTTL: !Ref 'OpenIDConnectConfigAuthTTL'
+        IatTTL: !Ref 'OpenIDConnectConfigIatTTL'
+      XrayEnabled: !Ref 'XrayEnabled'
+      UserPoolConfig:
+        AppIdClientRegex: !Ref 'UserPoolConfigAppIdClientRegex'
+        UserPoolId: !Ref 'UserPoolConfigUserPoolId'
+        AwsRegion: !Ref 'UserPoolConfigAwsRegion'
+        DefaultAction: !Ref 'UserPoolConfigDefaultAction'
+      Tags: {}
+      Name: !Ref 'Name'
+      AuthenticationType: !Ref 'AuthenticationType'
+      LogConfig:
+        CloudWatchLogsRoleArn: !Ref 'LogConfigCloudWatchLogsRoleArn'
+        ExcludeVerboseContent: !Ref 'LogConfigExcludeVerboseContent'
+        FieldLogLevel: !Ref 'LogConfigFieldLogLevel'
+      AdditionalAuthenticationProviders: {}
+Outputs:
+  GraphQLUrl:
+    Value:
+      GetAtt:
+        - Resource
+        - GraphQLUrl
+  Arn:
+    Value:
+      GetAtt:
+        - Resource
+        - Arn
+  ApiId:
+    Value:
+      GetAtt:
+        - Resource
+        - ApiId

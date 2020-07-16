@@ -1,0 +1,42 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-user.html
+Parameters:
+  LoginProfilePassword:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-user-loginprofile.html#cfn-iam-user-loginprofile-password
+  LoginProfilePasswordResetRequired:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-user-loginprofile.html#cfn-iam-user-loginprofile-passwordresetrequired
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  Path:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-user.html#cfn-iam-user-path
+    Default: null
+  PermissionsBoundary:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-user.html#cfn-iam-user-permissionsboundary
+    Default: null
+  UserName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-user.html#cfn-iam-user-username
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::IAM::User
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-user.html
+    Properties:
+      LoginProfile:
+        Password: !Ref 'LoginProfilePassword'
+        PasswordResetRequired: !Ref 'LoginProfilePasswordResetRequired'
+      Path: !Ref 'Path'
+      PermissionsBoundary: !Ref 'PermissionsBoundary'
+      UserName: !Ref 'UserName'
+Outputs:
+  Arn:
+    Value:
+      GetAtt:
+        - Resource
+        - Arn

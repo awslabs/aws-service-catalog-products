@@ -1,0 +1,121 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-glue-table.html
+Parameters:
+  TableInputOwner:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-glue-table-tableinput.html#cfn-glue-table-tableinput-owner
+    Default: null
+  TableInputViewOriginalText:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-glue-table-tableinput.html#cfn-glue-table-tableinput-vieworiginaltext
+    Default: null
+  TableInputDescription:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-glue-table-tableinput.html#cfn-glue-table-tableinput-description
+    Default: null
+  TableInputTableType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-glue-table-tableinput.html#cfn-glue-table-tableinput-tabletype
+    Default: null
+  TableInputParameters:
+    Type: Json
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-glue-table-tableinput.html#cfn-glue-table-tableinput-parameters
+    Default: null
+  TableInputViewExpandedText:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-glue-table-tableinput.html#cfn-glue-table-tableinput-viewexpandedtext
+    Default: null
+  TableInputStorageDescriptorStoredAsSubDirectories:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-glue-table-storagedescriptor.html#cfn-glue-table-storagedescriptor-storedassubdirectories
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  TableInputStorageDescriptorParameters:
+    Type: Json
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-glue-table-storagedescriptor.html#cfn-glue-table-storagedescriptor-parameters
+    Default: null
+  TableInputStorageDescriptorSkewedInfoSkewedColumnValueLocationMaps:
+    Type: Json
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-glue-table-skewedinfo.html#cfn-glue-table-skewedinfo-skewedcolumnvaluelocationmaps
+    Default: null
+  TableInputStorageDescriptorInputFormat:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-glue-table-storagedescriptor.html#cfn-glue-table-storagedescriptor-inputformat
+    Default: null
+  TableInputStorageDescriptorNumberOfBuckets:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-glue-table-storagedescriptor.html#cfn-glue-table-storagedescriptor-numberofbuckets
+    Default: null
+  TableInputStorageDescriptorOutputFormat:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-glue-table-storagedescriptor.html#cfn-glue-table-storagedescriptor-outputformat
+    Default: null
+  TableInputStorageDescriptorSerdeInfoParameters:
+    Type: Json
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-glue-table-serdeinfo.html#cfn-glue-table-serdeinfo-parameters
+    Default: null
+  TableInputStorageDescriptorSerdeInfoSerializationLibrary:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-glue-table-serdeinfo.html#cfn-glue-table-serdeinfo-serializationlibrary
+    Default: null
+  TableInputStorageDescriptorSerdeInfoName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-glue-table-serdeinfo.html#cfn-glue-table-serdeinfo-name
+    Default: null
+  TableInputStorageDescriptorCompressed:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-glue-table-storagedescriptor.html#cfn-glue-table-storagedescriptor-compressed
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  TableInputStorageDescriptorLocation:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-glue-table-storagedescriptor.html#cfn-glue-table-storagedescriptor-location
+    Default: null
+  TableInputRetention:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-glue-table-tableinput.html#cfn-glue-table-tableinput-retention
+    Default: null
+  TableInputName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-glue-table-tableinput.html#cfn-glue-table-tableinput-name
+    Default: null
+  DatabaseName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-glue-table.html#cfn-glue-table-databasename
+  CatalogId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-glue-table.html#cfn-glue-table-catalogid
+Resources:
+  Resource:
+    Type: AWS::Glue::Table
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-glue-table.html
+    Properties:
+      TableInput:
+        Owner: !Ref 'TableInputOwner'
+        ViewOriginalText: !Ref 'TableInputViewOriginalText'
+        Description: !Ref 'TableInputDescription'
+        TableType: !Ref 'TableInputTableType'
+        Parameters: !Ref 'TableInputParameters'
+        ViewExpandedText: !Ref 'TableInputViewExpandedText'
+        StorageDescriptor:
+          StoredAsSubDirectories: !Ref 'TableInputStorageDescriptorStoredAsSubDirectories'
+          Parameters: !Ref 'TableInputStorageDescriptorParameters'
+          SkewedInfo:
+            SkewedColumnValueLocationMaps: !Ref 'TableInputStorageDescriptorSkewedInfoSkewedColumnValueLocationMaps'
+          InputFormat: !Ref 'TableInputStorageDescriptorInputFormat'
+          NumberOfBuckets: !Ref 'TableInputStorageDescriptorNumberOfBuckets'
+          OutputFormat: !Ref 'TableInputStorageDescriptorOutputFormat'
+          SerdeInfo:
+            Parameters: !Ref 'TableInputStorageDescriptorSerdeInfoParameters'
+            SerializationLibrary: !Ref 'TableInputStorageDescriptorSerdeInfoSerializationLibrary'
+            Name: !Ref 'TableInputStorageDescriptorSerdeInfoName'
+          Compressed: !Ref 'TableInputStorageDescriptorCompressed'
+          Location: !Ref 'TableInputStorageDescriptorLocation'
+        Retention: !Ref 'TableInputRetention'
+        Name: !Ref 'TableInputName'
+      DatabaseName: !Ref 'DatabaseName'
+      CatalogId: !Ref 'CatalogId'

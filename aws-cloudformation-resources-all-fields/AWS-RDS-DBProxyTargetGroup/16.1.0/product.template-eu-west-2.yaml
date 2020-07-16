@@ -1,0 +1,47 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-rds-dbproxytargetgroup.html
+Parameters:
+  DBProxyName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-rds-dbproxytargetgroup.html#cfn-rds-dbproxytargetgroup-dbproxyname
+  TargetGroupName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-rds-dbproxytargetgroup.html#cfn-rds-dbproxytargetgroup-targetgroupname
+  ConnectionPoolConfigurationInfoFormatMaxConnectionsPercent:
+    Type: Number
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-dbproxytargetgroup-connectionpoolconfigurationinfoformat.html#cfn-rds-dbproxytargetgroup-connectionpoolconfigurationinfoformat-maxconnectionspercent
+    Default: null
+  ConnectionPoolConfigurationInfoFormatMaxIdleConnectionsPercent:
+    Type: Number
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-dbproxytargetgroup-connectionpoolconfigurationinfoformat.html#cfn-rds-dbproxytargetgroup-connectionpoolconfigurationinfoformat-maxidleconnectionspercent
+    Default: null
+  ConnectionPoolConfigurationInfoFormatConnectionBorrowTimeout:
+    Type: Number
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-dbproxytargetgroup-connectionpoolconfigurationinfoformat.html#cfn-rds-dbproxytargetgroup-connectionpoolconfigurationinfoformat-connectionborrowtimeout
+    Default: null
+  ConnectionPoolConfigurationInfoFormatInitQuery:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-dbproxytargetgroup-connectionpoolconfigurationinfoformat.html#cfn-rds-dbproxytargetgroup-connectionpoolconfigurationinfoformat-initquery
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::RDS::DBProxyTargetGroup
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-rds-dbproxytargetgroup.html
+    Properties:
+      DBProxyName: !Ref 'DBProxyName'
+      TargetGroupName: !Ref 'TargetGroupName'
+      ConnectionPoolConfigurationInfo:
+        MaxConnectionsPercent: !Ref 'ConnectionPoolConfigurationInfoFormatMaxConnectionsPercent'
+        MaxIdleConnectionsPercent: !Ref 'ConnectionPoolConfigurationInfoFormatMaxIdleConnectionsPercent'
+        ConnectionBorrowTimeout: !Ref 'ConnectionPoolConfigurationInfoFormatConnectionBorrowTimeout'
+        InitQuery: !Ref 'ConnectionPoolConfigurationInfoFormatInitQuery'
+Outputs:
+  TargetGroupArn:
+    Value:
+      GetAtt:
+        - Resource
+        - TargetGroupArn

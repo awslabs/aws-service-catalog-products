@@ -1,0 +1,47 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-route53resolver-resolverrule.html
+Parameters:
+  DomainName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-route53resolver-resolverrule.html#cfn-route53resolver-resolverrule-domainname
+  RuleType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-route53resolver-resolverrule.html#cfn-route53resolver-resolverrule-ruletype
+Resources:
+  Resource:
+    Type: AWS::Route53Resolver::ResolverRule
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-route53resolver-resolverrule.html
+    Properties:
+      DomainName: !Ref 'DomainName'
+      RuleType: !Ref 'RuleType'
+Outputs:
+  ResolverEndpointId:
+    Value:
+      GetAtt:
+        - Resource
+        - ResolverEndpointId
+  DomainName:
+    Value:
+      GetAtt:
+        - Resource
+        - DomainName
+  ResolverRuleId:
+    Value:
+      GetAtt:
+        - Resource
+        - ResolverRuleId
+  Arn:
+    Value:
+      GetAtt:
+        - Resource
+        - Arn
+  TargetIps:
+    Value:
+      GetAtt:
+        - Resource
+        - TargetIps
+  Name:
+    Value:
+      GetAtt:
+        - Resource
+        - Name

@@ -1,0 +1,17 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-macie-session.html
+Resources:
+  Resource:
+    Type: AWS::Macie::Session
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-macie-session.html
+Outputs:
+  AwsAccountId:
+    Value:
+      GetAtt:
+        - Resource
+        - AwsAccountId
+  ServiceRole:
+    Value:
+      GetAtt:
+        - Resource
+        - ServiceRole

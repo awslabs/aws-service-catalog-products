@@ -1,0 +1,129 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codedeploy-deploymentgroup.html
+Parameters:
+  AlarmConfigurationEnabled:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codedeploy-deploymentgroup-alarmconfiguration.html#cfn-codedeploy-deploymentgroup-alarmconfiguration-enabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  AlarmConfigurationIgnorePollAlarmFailure:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codedeploy-deploymentgroup-alarmconfiguration.html#cfn-codedeploy-deploymentgroup-alarmconfiguration-ignorepollalarmfailure
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  ApplicationName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codedeploy-deploymentgroup.html#cfn-codedeploy-deploymentgroup-applicationname
+  AutoRollbackConfigurationEnabled:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codedeploy-deploymentgroup-autorollbackconfiguration.html#cfn-codedeploy-deploymentgroup-autorollbackconfiguration-enabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  DeploymentDescription:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codedeploy-deploymentgroup-deployment.html#cfn-properties-codedeploy-deploymentgroup-deployment-description
+    Default: null
+  DeploymentIgnoreApplicationStopFailures:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codedeploy-deploymentgroup-deployment.html#cfn-properties-codedeploy-deploymentgroup-deployment-ignoreapplicationstopfailures
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  DeploymentRevisionLocationGitHubLocationCommitId:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codedeploy-deploymentgroup-deployment-revision-githublocation.html#cfn-properties-codedeploy-deploymentgroup-deployment-revision-githublocation-commitid
+  DeploymentRevisionLocationGitHubLocationRepository:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codedeploy-deploymentgroup-deployment-revision-githublocation.html#cfn-properties-codedeploy-deploymentgroup-deployment-revision-githublocation-repository
+  DeploymentRevisionLocationRevisionType:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codedeploy-deploymentgroup-deployment-revision.html#cfn-properties-codedeploy-deploymentgroup-deployment-revision-revisiontype
+    Default: null
+  DeploymentRevisionLocationS3LocationBucket:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codedeploy-deploymentgroup-deployment-revision-s3location.html#cfn-properties-codedeploy-deploymentgroup-deployment-revision-s3location-bucket
+  DeploymentRevisionLocationS3LocationBundleType:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codedeploy-deploymentgroup-deployment-revision-s3location.html#cfn-properties-codedeploy-deploymentgroup-deployment-revision-s3location-bundletype
+    Default: null
+  DeploymentRevisionLocationS3LocationETag:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codedeploy-deploymentgroup-deployment-revision-s3location.html#cfn-properties-codedeploy-deploymentgroup-deployment-revision-s3location-etag
+    Default: null
+  DeploymentRevisionLocationS3LocationKey:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codedeploy-deploymentgroup-deployment-revision-s3location.html#cfn-properties-codedeploy-deploymentgroup-deployment-revision-s3location-key
+  DeploymentRevisionLocationS3LocationVersion:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codedeploy-deploymentgroup-deployment-revision-s3location.html#cfn-properties-codedeploy-deploymentgroup-deployment-revision-s3location-value
+    Default: null
+  DeploymentConfigName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codedeploy-deploymentgroup.html#cfn-codedeploy-deploymentgroup-deploymentconfigname
+    Default: null
+  DeploymentGroupName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codedeploy-deploymentgroup.html#cfn-codedeploy-deploymentgroup-deploymentgroupname
+    Default: null
+  DeploymentStyleDeploymentOption:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codedeploy-deploymentgroup-deploymentstyle.html#cfn-codedeploy-deploymentgroup-deploymentstyle-deploymentoption
+    Default: null
+  DeploymentStyleDeploymentType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codedeploy-deploymentgroup-deploymentstyle.html#cfn-codedeploy-deploymentgroup-deploymentstyle-deploymenttype
+    Default: null
+  ServiceRoleArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codedeploy-deploymentgroup.html#cfn-codedeploy-deploymentgroup-servicerolearn
+Resources:
+  Resource:
+    Type: AWS::CodeDeploy::DeploymentGroup
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codedeploy-deploymentgroup.html
+    Properties:
+      AlarmConfiguration:
+        Enabled: !Ref 'AlarmConfigurationEnabled'
+        IgnorePollAlarmFailure: !Ref 'AlarmConfigurationIgnorePollAlarmFailure'
+      ApplicationName: !Ref 'ApplicationName'
+      AutoRollbackConfiguration:
+        Enabled: !Ref 'AutoRollbackConfigurationEnabled'
+      Deployment:
+        Description: !Ref 'DeploymentDescription'
+        IgnoreApplicationStopFailures: !Ref 'DeploymentIgnoreApplicationStopFailures'
+        Revision:
+          GitHubLocation:
+            CommitId: !Ref 'DeploymentRevisionLocationGitHubLocationCommitId'
+            Repository: !Ref 'DeploymentRevisionLocationGitHubLocationRepository'
+          RevisionType: !Ref 'DeploymentRevisionLocationRevisionType'
+          S3Location:
+            Bucket: !Ref 'DeploymentRevisionLocationS3LocationBucket'
+            BundleType: !Ref 'DeploymentRevisionLocationS3LocationBundleType'
+            ETag: !Ref 'DeploymentRevisionLocationS3LocationETag'
+            Key: !Ref 'DeploymentRevisionLocationS3LocationKey'
+            Version: !Ref 'DeploymentRevisionLocationS3LocationVersion'
+      DeploymentConfigName: !Ref 'DeploymentConfigName'
+      DeploymentGroupName: !Ref 'DeploymentGroupName'
+      DeploymentStyle:
+        DeploymentOption: !Ref 'DeploymentStyleDeploymentOption'
+        DeploymentType: !Ref 'DeploymentStyleDeploymentType'
+      Ec2TagSet: {}
+      LoadBalancerInfo: {}
+      OnPremisesTagSet: {}
+      ServiceRoleArn: !Ref 'ServiceRoleArn'

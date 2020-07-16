@@ -1,0 +1,47 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-sagemaker-endpointconfig.html
+Parameters:
+  DataCaptureConfigKmsKeyId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sagemaker-endpointconfig-datacaptureconfig.html#cfn-sagemaker-endpointconfig-datacaptureconfig-kmskeyid
+    Default: null
+  DataCaptureConfigDestinationS3Uri:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sagemaker-endpointconfig-datacaptureconfig.html#cfn-sagemaker-endpointconfig-datacaptureconfig-destinations3uri
+  DataCaptureConfigInitialSamplingPercentage:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sagemaker-endpointconfig-datacaptureconfig.html#cfn-sagemaker-endpointconfig-datacaptureconfig-initialsamplingpercentage
+  DataCaptureConfigEnableCapture:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sagemaker-endpointconfig-datacaptureconfig.html#cfn-sagemaker-endpointconfig-datacaptureconfig-enablecapture
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  KmsKeyId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-sagemaker-endpointconfig.html#cfn-sagemaker-endpointconfig-kmskeyid
+    Default: null
+  EndpointConfigName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-sagemaker-endpointconfig.html#cfn-sagemaker-endpointconfig-endpointconfigname
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::SageMaker::EndpointConfig
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-sagemaker-endpointconfig.html
+    Properties:
+      DataCaptureConfig:
+        KmsKeyId: !Ref 'DataCaptureConfigKmsKeyId'
+        DestinationS3Uri: !Ref 'DataCaptureConfigDestinationS3Uri'
+        InitialSamplingPercentage: !Ref 'DataCaptureConfigInitialSamplingPercentage'
+        CaptureContentTypeHeader: {}
+        EnableCapture: !Ref 'DataCaptureConfigEnableCapture'
+      KmsKeyId: !Ref 'KmsKeyId'
+      EndpointConfigName: !Ref 'EndpointConfigName'
+Outputs:
+  EndpointConfigName:
+    Value:
+      GetAtt:
+        - Resource
+        - EndpointConfigName

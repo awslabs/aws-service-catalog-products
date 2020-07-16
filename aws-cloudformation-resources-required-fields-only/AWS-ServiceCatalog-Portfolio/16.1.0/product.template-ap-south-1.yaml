@@ -1,0 +1,22 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-servicecatalog-portfolio.html
+Parameters:
+  ProviderName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-servicecatalog-portfolio.html#cfn-servicecatalog-portfolio-providername
+  DisplayName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-servicecatalog-portfolio.html#cfn-servicecatalog-portfolio-displayname
+Resources:
+  Resource:
+    Type: AWS::ServiceCatalog::Portfolio
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-servicecatalog-portfolio.html
+    Properties:
+      ProviderName: !Ref 'ProviderName'
+      DisplayName: !Ref 'DisplayName'
+Outputs:
+  PortfolioName:
+    Value:
+      GetAtt:
+        - Resource
+        - PortfolioName

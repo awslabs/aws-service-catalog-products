@@ -1,0 +1,40 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-amazonmq-configuration.html
+Parameters:
+  EngineVersion:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-amazonmq-configuration.html#cfn-amazonmq-configuration-engineversion
+  EngineType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-amazonmq-configuration.html#cfn-amazonmq-configuration-enginetype
+  Data:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-amazonmq-configuration.html#cfn-amazonmq-configuration-data
+  Name:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-amazonmq-configuration.html#cfn-amazonmq-configuration-name
+Resources:
+  Resource:
+    Type: AWS::AmazonMQ::Configuration
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-amazonmq-configuration.html
+    Properties:
+      EngineVersion: !Ref 'EngineVersion'
+      EngineType: !Ref 'EngineType'
+      Data: !Ref 'Data'
+      Name: !Ref 'Name'
+Outputs:
+  Revision:
+    Value:
+      GetAtt:
+        - Resource
+        - Revision
+  Id:
+    Value:
+      GetAtt:
+        - Resource
+        - Id
+  Arn:
+    Value:
+      GetAtt:
+        - Resource
+        - Arn

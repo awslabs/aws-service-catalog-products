@@ -1,0 +1,43 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-backup-backupvault.html
+Parameters:
+  BackupVaultTags:
+    Type: Json
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-backup-backupvault.html#cfn-backup-backupvault-backupvaulttags
+    Default: null
+  BackupVaultName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-backup-backupvault.html#cfn-backup-backupvault-backupvaultname
+  EncryptionKeyArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-backup-backupvault.html#cfn-backup-backupvault-encryptionkeyarn
+    Default: null
+  NotificationObjectTypeSNSTopicArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-backup-backupvault-notificationobjecttype.html#cfn-backup-backupvault-notificationobjecttype-snstopicarn
+  AccessPolicy:
+    Type: Json
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-backup-backupvault.html#cfn-backup-backupvault-accesspolicy
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::Backup::BackupVault
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-backup-backupvault.html
+    Properties:
+      BackupVaultTags: !Ref 'BackupVaultTags'
+      BackupVaultName: !Ref 'BackupVaultName'
+      EncryptionKeyArn: !Ref 'EncryptionKeyArn'
+      Notifications:
+        SNSTopicArn: !Ref 'NotificationObjectTypeSNSTopicArn'
+      AccessPolicy: !Ref 'AccessPolicy'
+Outputs:
+  BackupVaultName:
+    Value:
+      GetAtt:
+        - Resource
+        - BackupVaultName
+  BackupVaultArn:
+    Value:
+      GetAtt:
+        - Resource
+        - BackupVaultArn

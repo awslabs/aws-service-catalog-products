@@ -1,0 +1,49 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-kms-key.html
+Parameters:
+  Description:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-kms-key.html#cfn-kms-key-description
+    Default: null
+  EnableKeyRotation:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-kms-key.html#cfn-kms-key-enablekeyrotation
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  Enabled:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-kms-key.html#cfn-kms-key-enabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  KeyPolicy:
+    Type: Json
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-kms-key.html#cfn-kms-key-keypolicy
+  KeyUsage:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-kms-key.html#cfn-kms-key-keyusage
+    Default: null
+  PendingWindowInDays:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-kms-key.html#cfn-kms-key-pendingwindowindays
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::KMS::Key
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-kms-key.html
+    Properties:
+      Description: !Ref 'Description'
+      EnableKeyRotation: !Ref 'EnableKeyRotation'
+      Enabled: !Ref 'Enabled'
+      KeyPolicy: !Ref 'KeyPolicy'
+      KeyUsage: !Ref 'KeyUsage'
+      PendingWindowInDays: !Ref 'PendingWindowInDays'
+Outputs:
+  Arn:
+    Value:
+      GetAtt:
+        - Resource
+        - Arn

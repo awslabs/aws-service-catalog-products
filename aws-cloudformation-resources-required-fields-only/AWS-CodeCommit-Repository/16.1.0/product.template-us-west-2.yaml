@@ -1,0 +1,33 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codecommit-repository.html
+Parameters:
+  RepositoryName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codecommit-repository.html#cfn-codecommit-repository-repositoryname
+Resources:
+  Resource:
+    Type: AWS::CodeCommit::Repository
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codecommit-repository.html
+    Properties:
+      RepositoryName: !Ref 'RepositoryName'
+Outputs:
+  CloneUrlHttp:
+    Value:
+      GetAtt:
+        - Resource
+        - CloneUrlHttp
+  CloneUrlSsh:
+    Value:
+      GetAtt:
+        - Resource
+        - CloneUrlSsh
+  Arn:
+    Value:
+      GetAtt:
+        - Resource
+        - Arn
+  Name:
+    Value:
+      GetAtt:
+        - Resource
+        - Name

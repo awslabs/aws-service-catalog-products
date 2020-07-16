@@ -1,0 +1,67 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appstream-imagebuilder.html
+Parameters:
+  ImageName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appstream-imagebuilder.html#cfn-appstream-imagebuilder-imagename
+    Default: null
+  Description:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appstream-imagebuilder.html#cfn-appstream-imagebuilder-description
+    Default: null
+  EnableDefaultInternetAccess:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appstream-imagebuilder.html#cfn-appstream-imagebuilder-enabledefaultinternetaccess
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  DisplayName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appstream-imagebuilder.html#cfn-appstream-imagebuilder-displayname
+    Default: null
+  DomainJoinInfoOrganizationalUnitDistinguishedName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-appstream-imagebuilder-domainjoininfo.html#cfn-appstream-imagebuilder-domainjoininfo-organizationalunitdistinguishedname
+    Default: null
+  DomainJoinInfoDirectoryName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-appstream-imagebuilder-domainjoininfo.html#cfn-appstream-imagebuilder-domainjoininfo-directoryname
+    Default: null
+  AppstreamAgentVersion:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appstream-imagebuilder.html#cfn-appstream-imagebuilder-appstreamagentversion
+    Default: null
+  InstanceType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appstream-imagebuilder.html#cfn-appstream-imagebuilder-instancetype
+  Name:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appstream-imagebuilder.html#cfn-appstream-imagebuilder-name
+  ImageArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appstream-imagebuilder.html#cfn-appstream-imagebuilder-imagearn
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::AppStream::ImageBuilder
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appstream-imagebuilder.html
+    Properties:
+      ImageName: !Ref 'ImageName'
+      Description: !Ref 'Description'
+      VpcConfig: {}
+      EnableDefaultInternetAccess: !Ref 'EnableDefaultInternetAccess'
+      DisplayName: !Ref 'DisplayName'
+      DomainJoinInfo:
+        OrganizationalUnitDistinguishedName: !Ref 'DomainJoinInfoOrganizationalUnitDistinguishedName'
+        DirectoryName: !Ref 'DomainJoinInfoDirectoryName'
+      AppstreamAgentVersion: !Ref 'AppstreamAgentVersion'
+      InstanceType: !Ref 'InstanceType'
+      Name: !Ref 'Name'
+      ImageArn: !Ref 'ImageArn'
+Outputs:
+  StreamingUrl:
+    Value:
+      GetAtt:
+        - Resource
+        - StreamingUrl

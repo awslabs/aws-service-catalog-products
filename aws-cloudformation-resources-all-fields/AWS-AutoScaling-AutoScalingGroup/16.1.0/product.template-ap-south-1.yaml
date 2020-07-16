@@ -1,0 +1,144 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-as-group.html
+Parameters:
+  AutoScalingGroupName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-as-group.html#cfn-autoscaling-autoscalinggroup-autoscalinggroupname
+    Default: null
+  Cooldown:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-as-group.html#cfn-as-group-cooldown
+    Default: null
+  DesiredCapacity:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-as-group.html#cfn-as-group-desiredcapacity
+    Default: null
+  HealthCheckGracePeriod:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-as-group.html#cfn-as-group-healthcheckgraceperiod
+    Default: null
+  HealthCheckType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-as-group.html#cfn-as-group-healthchecktype
+    Default: null
+  InstanceId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-as-group.html#cfn-as-group-instanceid
+    Default: null
+  LaunchConfigurationName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-as-group.html#cfn-as-group-launchconfigurationname
+    Default: null
+  LaunchTemplateSpecificationLaunchTemplateId:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-autoscaling-autoscalinggroup-launchtemplatespecification.html#cfn-autoscaling-autoscalinggroup-launchtemplatespecification-launchtemplateid
+    Default: null
+  LaunchTemplateSpecificationLaunchTemplateName:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-autoscaling-autoscalinggroup-launchtemplatespecification.html#cfn-autoscaling-autoscalinggroup-launchtemplatespecification-launchtemplatename
+    Default: null
+  LaunchTemplateSpecificationVersion:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-autoscaling-autoscalinggroup-launchtemplatespecification.html#cfn-autoscaling-autoscalinggroup-launchtemplatespecification-version
+  MaxInstanceLifetime:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-as-group.html#cfn-as-group-maxinstancelifetime
+    Default: null
+  MaxSize:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-as-group.html#cfn-as-group-maxsize
+  MinSize:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-as-group.html#cfn-as-group-minsize
+  MixedInstancesPolicyInstancesDistributionOnDemandAllocationStrategy:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-as-mixedinstancespolicy-instancesdistribution.html#cfn-autoscaling-autoscalinggroup-instancesdistribution-ondemandallocationstrategy
+    Default: null
+  MixedInstancesPolicyInstancesDistributionOnDemandBaseCapacity:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-as-mixedinstancespolicy-instancesdistribution.html#cfn-autoscaling-autoscalinggroup-instancesdistribution-ondemandbasecapacity
+    Default: null
+  MixedInstancesPolicyInstancesDistributionOnDemandPercentageAboveBaseCapacity:
+    Type: Number
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-as-mixedinstancespolicy-instancesdistribution.html#cfn-autoscaling-autoscalinggroup-instancesdistribution-ondemandpercentageabovebasecapacity
+    Default: null
+  MixedInstancesPolicyInstancesDistributionSpotAllocationStrategy:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-as-mixedinstancespolicy-instancesdistribution.html#cfn-autoscaling-autoscalinggroup-instancesdistribution-spotallocationstrategy
+    Default: null
+  MixedInstancesPolicyInstancesDistributionSpotInstancePools:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-as-mixedinstancespolicy-instancesdistribution.html#cfn-autoscaling-autoscalinggroup-instancesdistribution-spotinstancepools
+    Default: null
+  MixedInstancesPolicyInstancesDistributionSpotMaxPrice:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-as-mixedinstancespolicy-instancesdistribution.html#cfn-autoscaling-autoscalinggroup-instancesdistribution-spotmaxprice
+    Default: null
+  MixedInstancesPolicyLaunchTemplateLaunchTemplateSpecificationLaunchTemplateId:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-autoscaling-autoscalinggroup-launchtemplatespecification.html#cfn-autoscaling-autoscalinggroup-launchtemplatespecification-launchtemplateid
+    Default: null
+  MixedInstancesPolicyLaunchTemplateLaunchTemplateSpecificationLaunchTemplateName:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-autoscaling-autoscalinggroup-launchtemplatespecification.html#cfn-autoscaling-autoscalinggroup-launchtemplatespecification-launchtemplatename
+    Default: null
+  MixedInstancesPolicyLaunchTemplateLaunchTemplateSpecificationVersion:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-autoscaling-autoscalinggroup-launchtemplatespecification.html#cfn-autoscaling-autoscalinggroup-launchtemplatespecification-version
+  NewInstancesProtectedFromScaleIn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-as-group.html#cfn-as-group-newinstancesprotectedfromscalein
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  PlacementGroup:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-as-group.html#cfn-as-group-placementgroup
+    Default: null
+  ServiceLinkedRoleARN:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-as-group.html#cfn-autoscaling-autoscalinggroup-servicelinkedrolearn
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::AutoScaling::AutoScalingGroup
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-as-group.html
+    Properties:
+      AutoScalingGroupName: !Ref 'AutoScalingGroupName'
+      Cooldown: !Ref 'Cooldown'
+      DesiredCapacity: !Ref 'DesiredCapacity'
+      HealthCheckGracePeriod: !Ref 'HealthCheckGracePeriod'
+      HealthCheckType: !Ref 'HealthCheckType'
+      InstanceId: !Ref 'InstanceId'
+      LaunchConfigurationName: !Ref 'LaunchConfigurationName'
+      LaunchTemplate:
+        LaunchTemplateId: !Ref 'LaunchTemplateSpecificationLaunchTemplateId'
+        LaunchTemplateName: !Ref 'LaunchTemplateSpecificationLaunchTemplateName'
+        Version: !Ref 'LaunchTemplateSpecificationVersion'
+      MaxInstanceLifetime: !Ref 'MaxInstanceLifetime'
+      MaxSize: !Ref 'MaxSize'
+      MinSize: !Ref 'MinSize'
+      MixedInstancesPolicy:
+        InstancesDistribution:
+          OnDemandAllocationStrategy: !Ref 'MixedInstancesPolicyInstancesDistributionOnDemandAllocationStrategy'
+          OnDemandBaseCapacity: !Ref 'MixedInstancesPolicyInstancesDistributionOnDemandBaseCapacity'
+          OnDemandPercentageAboveBaseCapacity: !Ref 'MixedInstancesPolicyInstancesDistributionOnDemandPercentageAboveBaseCapacity'
+          SpotAllocationStrategy: !Ref 'MixedInstancesPolicyInstancesDistributionSpotAllocationStrategy'
+          SpotInstancePools: !Ref 'MixedInstancesPolicyInstancesDistributionSpotInstancePools'
+          SpotMaxPrice: !Ref 'MixedInstancesPolicyInstancesDistributionSpotMaxPrice'
+        LaunchTemplate:
+          LaunchTemplateSpecification:
+            LaunchTemplateId: !Ref 'MixedInstancesPolicyLaunchTemplateLaunchTemplateSpecificationLaunchTemplateId'
+            LaunchTemplateName: !Ref 'MixedInstancesPolicyLaunchTemplateLaunchTemplateSpecificationLaunchTemplateName'
+            Version: !Ref 'MixedInstancesPolicyLaunchTemplateLaunchTemplateSpecificationVersion'
+      NewInstancesProtectedFromScaleIn: !Ref 'NewInstancesProtectedFromScaleIn'
+      PlacementGroup: !Ref 'PlacementGroup'
+      ServiceLinkedRoleARN: !Ref 'ServiceLinkedRoleARN'

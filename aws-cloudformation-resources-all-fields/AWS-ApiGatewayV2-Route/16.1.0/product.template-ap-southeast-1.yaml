@@ -1,0 +1,64 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigatewayv2-route.html
+Parameters:
+  Target:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigatewayv2-route.html#cfn-apigatewayv2-route-target
+    Default: null
+  RouteResponseSelectionExpression:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigatewayv2-route.html#cfn-apigatewayv2-route-routeresponseselectionexpression
+    Default: null
+  AuthorizerId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigatewayv2-route.html#cfn-apigatewayv2-route-authorizerid
+    Default: null
+  RequestModels:
+    Type: Json
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigatewayv2-route.html#cfn-apigatewayv2-route-requestmodels
+    Default: null
+  OperationName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigatewayv2-route.html#cfn-apigatewayv2-route-operationname
+    Default: null
+  ApiKeyRequired:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigatewayv2-route.html#cfn-apigatewayv2-route-apikeyrequired
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  RouteKey:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigatewayv2-route.html#cfn-apigatewayv2-route-routekey
+  AuthorizationType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigatewayv2-route.html#cfn-apigatewayv2-route-authorizationtype
+    Default: null
+  ModelSelectionExpression:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigatewayv2-route.html#cfn-apigatewayv2-route-modelselectionexpression
+    Default: null
+  ApiId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigatewayv2-route.html#cfn-apigatewayv2-route-apiid
+  RequestParameters:
+    Type: Json
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigatewayv2-route.html#cfn-apigatewayv2-route-requestparameters
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::ApiGatewayV2::Route
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigatewayv2-route.html
+    Properties:
+      Target: !Ref 'Target'
+      RouteResponseSelectionExpression: !Ref 'RouteResponseSelectionExpression'
+      AuthorizerId: !Ref 'AuthorizerId'
+      RequestModels: !Ref 'RequestModels'
+      OperationName: !Ref 'OperationName'
+      ApiKeyRequired: !Ref 'ApiKeyRequired'
+      RouteKey: !Ref 'RouteKey'
+      AuthorizationType: !Ref 'AuthorizationType'
+      ModelSelectionExpression: !Ref 'ModelSelectionExpression'
+      ApiId: !Ref 'ApiId'
+      RequestParameters: !Ref 'RequestParameters'

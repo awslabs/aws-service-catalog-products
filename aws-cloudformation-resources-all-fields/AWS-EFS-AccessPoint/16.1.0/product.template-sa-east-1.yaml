@@ -1,0 +1,56 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-efs-accesspoint.html
+Parameters:
+  ClientToken:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-efs-accesspoint.html#cfn-efs-accesspoint-clienttoken
+    Default: null
+  FileSystemId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-efs-accesspoint.html#cfn-efs-accesspoint-filesystemid
+  PosixUserUid:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-efs-accesspoint-posixuser.html#cfn-efs-accesspoint-posixuser-uid
+  PosixUserGid:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-efs-accesspoint-posixuser.html#cfn-efs-accesspoint-posixuser-gid
+  RootDirectoryPath:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-efs-accesspoint-rootdirectory.html#cfn-efs-accesspoint-rootdirectory-path
+    Default: null
+  RootDirectoryCreationInfoOwnerUid:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-efs-accesspoint-creationinfo.html#cfn-efs-accesspoint-creationinfo-owneruid
+  RootDirectoryCreationInfoOwnerGid:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-efs-accesspoint-creationinfo.html#cfn-efs-accesspoint-creationinfo-ownergid
+  RootDirectoryCreationInfoPermissions:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-efs-accesspoint-creationinfo.html#cfn-efs-accesspoint-creationinfo-permissions
+Resources:
+  Resource:
+    Type: AWS::EFS::AccessPoint
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-efs-accesspoint.html
+    Properties:
+      ClientToken: !Ref 'ClientToken'
+      FileSystemId: !Ref 'FileSystemId'
+      PosixUser:
+        Uid: !Ref 'PosixUserUid'
+        Gid: !Ref 'PosixUserGid'
+      RootDirectory:
+        Path: !Ref 'RootDirectoryPath'
+        CreationInfo:
+          OwnerUid: !Ref 'RootDirectoryCreationInfoOwnerUid'
+          OwnerGid: !Ref 'RootDirectoryCreationInfoOwnerGid'
+          Permissions: !Ref 'RootDirectoryCreationInfoPermissions'
+Outputs:
+  AccessPointId:
+    Value:
+      GetAtt:
+        - Resource
+        - AccessPointId
+  Arn:
+    Value:
+      GetAtt:
+        - Resource
+        - Arn

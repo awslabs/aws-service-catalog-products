@@ -1,0 +1,19 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-autoscalingplans-scalingplan.html
+Resources:
+  Resource:
+    Type: AWS::AutoScalingPlans::ScalingPlan
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-autoscalingplans-scalingplan.html
+    Properties:
+      ApplicationSource: {}
+Outputs:
+  ScalingPlanName:
+    Value:
+      GetAtt:
+        - Resource
+        - ScalingPlanName
+  ScalingPlanVersion:
+    Value:
+      GetAtt:
+        - Resource
+        - ScalingPlanVersion

@@ -1,0 +1,108 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-gamelift-fleet.html
+Parameters:
+  BuildId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-gamelift-fleet.html#cfn-gamelift-fleet-buildid
+    Default: null
+  CertificateConfigurationCertificateType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-gamelift-fleet-certificateconfiguration.html#cfn-gamelift-fleet-certificateconfiguration-certificatetype
+  Description:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-gamelift-fleet.html#cfn-gamelift-fleet-description
+    Default: null
+  DesiredEC2Instances:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-gamelift-fleet.html#cfn-gamelift-fleet-desiredec2instances
+    Default: null
+  EC2InstanceType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-gamelift-fleet.html#cfn-gamelift-fleet-ec2instancetype
+  FleetType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-gamelift-fleet.html#cfn-gamelift-fleet-fleettype
+    Default: null
+  InstanceRoleARN:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-gamelift-fleet.html#cfn-gamelift-fleet-instancerolearn
+    Default: null
+  MaxSize:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-gamelift-fleet.html#cfn-gamelift-fleet-maxsize
+    Default: null
+  MinSize:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-gamelift-fleet.html#cfn-gamelift-fleet-minsize
+    Default: null
+  Name:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-gamelift-fleet.html#cfn-gamelift-fleet-name
+  NewGameSessionProtectionPolicy:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-gamelift-fleet.html#cfn-gamelift-fleet-newgamesessionprotectionpolicy
+    Default: null
+  PeerVpcAwsAccountId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-gamelift-fleet.html#cfn-gamelift-fleet-peervpcawsaccountid
+    Default: null
+  PeerVpcId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-gamelift-fleet.html#cfn-gamelift-fleet-peervpcid
+    Default: null
+  ResourceCreationLimitPolicyNewGameSessionsPerCreator:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-gamelift-fleet-resourcecreationlimitpolicy.html#cfn-gamelift-fleet-resourcecreationlimitpolicy-newgamesessionspercreator
+    Default: null
+  ResourceCreationLimitPolicyPolicyPeriodInMinutes:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-gamelift-fleet-resourcecreationlimitpolicy.html#cfn-gamelift-fleet-resourcecreationlimitpolicy-policyperiodinminutes
+    Default: null
+  RuntimeConfigurationGameSessionActivationTimeoutSeconds:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-gamelift-fleet-runtimeconfiguration.html#cfn-gamelift-fleet-runtimeconfiguration-gamesessionactivationtimeoutseconds
+    Default: null
+  RuntimeConfigurationMaxConcurrentGameSessionActivations:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-gamelift-fleet-runtimeconfiguration.html#cfn-gamelift-fleet-runtimeconfiguration-maxconcurrentgamesessionactivations
+    Default: null
+  ScriptId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-gamelift-fleet.html#cfn-gamelift-fleet-scriptid
+    Default: null
+  ServerLaunchParameters:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-gamelift-fleet.html#cfn-gamelift-fleet-serverlaunchparameters
+    Default: null
+  ServerLaunchPath:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-gamelift-fleet.html#cfn-gamelift-fleet-serverlaunchpath
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::GameLift::Fleet
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-gamelift-fleet.html
+    Properties:
+      BuildId: !Ref 'BuildId'
+      CertificateConfiguration:
+        CertificateType: !Ref 'CertificateConfigurationCertificateType'
+      Description: !Ref 'Description'
+      DesiredEC2Instances: !Ref 'DesiredEC2Instances'
+      EC2InstanceType: !Ref 'EC2InstanceType'
+      FleetType: !Ref 'FleetType'
+      InstanceRoleARN: !Ref 'InstanceRoleARN'
+      MaxSize: !Ref 'MaxSize'
+      MinSize: !Ref 'MinSize'
+      Name: !Ref 'Name'
+      NewGameSessionProtectionPolicy: !Ref 'NewGameSessionProtectionPolicy'
+      PeerVpcAwsAccountId: !Ref 'PeerVpcAwsAccountId'
+      PeerVpcId: !Ref 'PeerVpcId'
+      ResourceCreationLimitPolicy:
+        NewGameSessionsPerCreator: !Ref 'ResourceCreationLimitPolicyNewGameSessionsPerCreator'
+        PolicyPeriodInMinutes: !Ref 'ResourceCreationLimitPolicyPolicyPeriodInMinutes'
+      RuntimeConfiguration:
+        GameSessionActivationTimeoutSeconds: !Ref 'RuntimeConfigurationGameSessionActivationTimeoutSeconds'
+        MaxConcurrentGameSessionActivations: !Ref 'RuntimeConfigurationMaxConcurrentGameSessionActivations'
+      ScriptId: !Ref 'ScriptId'
+      ServerLaunchParameters: !Ref 'ServerLaunchParameters'
+      ServerLaunchPath: !Ref 'ServerLaunchPath'

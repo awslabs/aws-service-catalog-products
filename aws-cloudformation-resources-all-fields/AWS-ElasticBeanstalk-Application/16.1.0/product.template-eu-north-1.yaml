@@ -1,0 +1,70 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-beanstalk.html
+Parameters:
+  ApplicationName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-beanstalk.html#cfn-elasticbeanstalk-application-name
+    Default: null
+  Description:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-beanstalk.html#cfn-elasticbeanstalk-application-description
+    Default: null
+  ApplicationResourceLifecycleConfigServiceRole:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticbeanstalk-application-applicationresourcelifecycleconfig.html#cfn-elasticbeanstalk-application-applicationresourcelifecycleconfig-servicerole
+    Default: null
+  ApplicationResourceLifecycleConfigApplicationVersionLifecycleConfigMaxAgeRuleDeleteSourceFromS3:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticbeanstalk-application-maxagerule.html#cfn-elasticbeanstalk-application-maxagerule-deletesourcefroms3
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  ApplicationResourceLifecycleConfigApplicationVersionLifecycleConfigMaxAgeRuleEnabled:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticbeanstalk-application-maxagerule.html#cfn-elasticbeanstalk-application-maxagerule-enabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  ApplicationResourceLifecycleConfigApplicationVersionLifecycleConfigMaxAgeRuleMaxAgeInDays:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticbeanstalk-application-maxagerule.html#cfn-elasticbeanstalk-application-maxagerule-maxageindays
+    Default: null
+  ApplicationResourceLifecycleConfigApplicationVersionLifecycleConfigMaxCountRuleDeleteSourceFromS3:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticbeanstalk-application-maxcountrule.html#cfn-elasticbeanstalk-application-maxcountrule-deletesourcefroms3
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  ApplicationResourceLifecycleConfigApplicationVersionLifecycleConfigMaxCountRuleEnabled:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticbeanstalk-application-maxcountrule.html#cfn-elasticbeanstalk-application-maxcountrule-enabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  ApplicationResourceLifecycleConfigApplicationVersionLifecycleConfigMaxCountRuleMaxCount:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticbeanstalk-application-maxcountrule.html#cfn-elasticbeanstalk-application-maxcountrule-maxcount
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::ElasticBeanstalk::Application
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-beanstalk.html
+    Properties:
+      ApplicationName: !Ref 'ApplicationName'
+      Description: !Ref 'Description'
+      ResourceLifecycleConfig:
+        ServiceRole: !Ref 'ApplicationResourceLifecycleConfigServiceRole'
+        VersionLifecycleConfig:
+          MaxAgeRule:
+            DeleteSourceFromS3: !Ref 'ApplicationResourceLifecycleConfigApplicationVersionLifecycleConfigMaxAgeRuleDeleteSourceFromS3'
+            Enabled: !Ref 'ApplicationResourceLifecycleConfigApplicationVersionLifecycleConfigMaxAgeRuleEnabled'
+            MaxAgeInDays: !Ref 'ApplicationResourceLifecycleConfigApplicationVersionLifecycleConfigMaxAgeRuleMaxAgeInDays'
+          MaxCountRule:
+            DeleteSourceFromS3: !Ref 'ApplicationResourceLifecycleConfigApplicationVersionLifecycleConfigMaxCountRuleDeleteSourceFromS3'
+            Enabled: !Ref 'ApplicationResourceLifecycleConfigApplicationVersionLifecycleConfigMaxCountRuleEnabled'
+            MaxCount: !Ref 'ApplicationResourceLifecycleConfigApplicationVersionLifecycleConfigMaxCountRuleMaxCount'

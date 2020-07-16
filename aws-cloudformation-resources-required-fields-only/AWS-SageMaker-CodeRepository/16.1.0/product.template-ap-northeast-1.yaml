@@ -1,0 +1,19 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-sagemaker-coderepository.html
+Parameters:
+  GitConfigRepositoryUrl:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sagemaker-coderepository-gitconfig.html#cfn-sagemaker-coderepository-gitconfig-repositoryurl
+Resources:
+  Resource:
+    Type: AWS::SageMaker::CodeRepository
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-sagemaker-coderepository.html
+    Properties:
+      GitConfig:
+        RepositoryUrl: !Ref 'GitConfigRepositoryUrl'
+Outputs:
+  CodeRepositoryName:
+    Value:
+      GetAtt:
+        - Resource
+        - CodeRepositoryName

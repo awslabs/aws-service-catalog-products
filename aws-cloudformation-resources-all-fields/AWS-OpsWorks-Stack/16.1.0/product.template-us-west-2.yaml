@@ -1,0 +1,155 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opsworks-stack.html
+Parameters:
+  AgentVersion:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opsworks-stack.html#cfn-opsworks-stack-agentversion
+    Default: null
+  ChefConfigurationBerkshelfVersion:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-opsworks-stack-chefconfiguration.html#cfn-opsworks-chefconfiguration-berkshelfversion
+    Default: null
+  ChefConfigurationManageBerkshelf:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-opsworks-stack-chefconfiguration.html#cfn-opsworks-chefconfiguration-berkshelfversion
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  ClonePermissions:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opsworks-stack.html#cfn-opsworks-stack-clonepermissions
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  StackConfigurationManagerName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-opsworks-stack-stackconfigmanager.html#cfn-opsworks-configmanager-name
+    Default: null
+  StackConfigurationManagerVersion:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-opsworks-stack-stackconfigmanager.html#cfn-opsworks-configmanager-version
+    Default: null
+  SourcePassword:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-opsworks-stack-source.html#cfn-opsworks-custcookbooksource-password
+    Default: null
+  SourceRevision:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-opsworks-stack-source.html#cfn-opsworks-custcookbooksource-revision
+    Default: null
+  SourceSshKey:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-opsworks-stack-source.html#cfn-opsworks-custcookbooksource-sshkey
+    Default: null
+  SourceType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-opsworks-stack-source.html#cfn-opsworks-custcookbooksource-type
+    Default: null
+  SourceUrl:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-opsworks-stack-source.html#cfn-opsworks-custcookbooksource-url
+    Default: null
+  SourceUsername:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-opsworks-stack-source.html#cfn-opsworks-custcookbooksource-username
+    Default: null
+  CustomJson:
+    Type: Json
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opsworks-stack.html#cfn-opsworks-stack-custjson
+    Default: null
+  DefaultAvailabilityZone:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opsworks-stack.html#cfn-opsworks-stack-defaultaz
+    Default: null
+  DefaultInstanceProfileArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opsworks-stack.html#cfn-opsworks-stack-defaultinstanceprof
+  DefaultOs:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opsworks-stack.html#cfn-opsworks-stack-defaultos
+    Default: null
+  DefaultRootDeviceType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opsworks-stack.html#cfn-opsworks-stack-defaultrootdevicetype
+    Default: null
+  DefaultSshKeyName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opsworks-stack.html#cfn-opsworks-stack-defaultsshkeyname
+    Default: null
+  DefaultSubnetId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opsworks-stack.html#defaultsubnet
+    Default: null
+  EcsClusterArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opsworks-stack.html#cfn-opsworks-stack-ecsclusterarn
+    Default: null
+  HostnameTheme:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opsworks-stack.html#cfn-opsworks-stack-hostnametheme
+    Default: null
+  Name:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opsworks-stack.html#cfn-opsworks-stack-name
+  ServiceRoleArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opsworks-stack.html#cfn-opsworks-stack-servicerolearn
+  SourceStackId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opsworks-stack.html#cfn-opsworks-stack-sourcestackid
+    Default: null
+  UseCustomCookbooks:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opsworks-stack.html#usecustcookbooks
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  UseOpsworksSecurityGroups:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opsworks-stack.html#cfn-opsworks-stack-useopsworkssecuritygroups
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  VpcId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opsworks-stack.html#cfn-opsworks-stack-vpcid
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::OpsWorks::Stack
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opsworks-stack.html
+    Properties:
+      AgentVersion: !Ref 'AgentVersion'
+      ChefConfiguration:
+        BerkshelfVersion: !Ref 'ChefConfigurationBerkshelfVersion'
+        ManageBerkshelf: !Ref 'ChefConfigurationManageBerkshelf'
+      ClonePermissions: !Ref 'ClonePermissions'
+      ConfigurationManager:
+        Name: !Ref 'StackConfigurationManagerName'
+        Version: !Ref 'StackConfigurationManagerVersion'
+      CustomCookbooksSource:
+        Password: !Ref 'SourcePassword'
+        Revision: !Ref 'SourceRevision'
+        SshKey: !Ref 'SourceSshKey'
+        Type: !Ref 'SourceType'
+        Url: !Ref 'SourceUrl'
+        Username: !Ref 'SourceUsername'
+      CustomJson: !Ref 'CustomJson'
+      DefaultAvailabilityZone: !Ref 'DefaultAvailabilityZone'
+      DefaultInstanceProfileArn: !Ref 'DefaultInstanceProfileArn'
+      DefaultOs: !Ref 'DefaultOs'
+      DefaultRootDeviceType: !Ref 'DefaultRootDeviceType'
+      DefaultSshKeyName: !Ref 'DefaultSshKeyName'
+      DefaultSubnetId: !Ref 'DefaultSubnetId'
+      EcsClusterArn: !Ref 'EcsClusterArn'
+      HostnameTheme: !Ref 'HostnameTheme'
+      Name: !Ref 'Name'
+      ServiceRoleArn: !Ref 'ServiceRoleArn'
+      SourceStackId: !Ref 'SourceStackId'
+      UseCustomCookbooks: !Ref 'UseCustomCookbooks'
+      UseOpsworksSecurityGroups: !Ref 'UseOpsworksSecurityGroups'
+      VpcId: !Ref 'VpcId'

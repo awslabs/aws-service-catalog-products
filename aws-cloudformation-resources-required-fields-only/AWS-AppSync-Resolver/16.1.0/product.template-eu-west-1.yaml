@@ -1,0 +1,36 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appsync-resolver.html
+Parameters:
+  TypeName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appsync-resolver.html#cfn-appsync-resolver-typename
+  ApiId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appsync-resolver.html#cfn-appsync-resolver-apiid
+  FieldName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appsync-resolver.html#cfn-appsync-resolver-fieldname
+Resources:
+  Resource:
+    Type: AWS::AppSync::Resolver
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appsync-resolver.html
+    Properties:
+      TypeName: !Ref 'TypeName'
+      ApiId: !Ref 'ApiId'
+      FieldName: !Ref 'FieldName'
+Outputs:
+  TypeName:
+    Value:
+      GetAtt:
+        - Resource
+        - TypeName
+  ResolverArn:
+    Value:
+      GetAtt:
+        - Resource
+        - ResolverArn
+  FieldName:
+    Value:
+      GetAtt:
+        - Resource
+        - FieldName

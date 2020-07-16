@@ -1,0 +1,113 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-elb.html
+Parameters:
+  AccessLoggingPolicyEmitInterval:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-elb-accessloggingpolicy.html#cfn-elb-accessloggingpolicy-emitinterval
+    Default: null
+  AccessLoggingPolicyEnabled:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-elb-accessloggingpolicy.html#cfn-elb-accessloggingpolicy-enabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+  AccessLoggingPolicyS3BucketName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-elb-accessloggingpolicy.html#cfn-elb-accessloggingpolicy-s3bucketname
+  AccessLoggingPolicyS3BucketPrefix:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-elb-accessloggingpolicy.html#cfn-elb-accessloggingpolicy-s3bucketprefix
+    Default: null
+  ConnectionDrainingPolicyEnabled:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-elb-connectiondrainingpolicy.html#cfn-elb-connectiondrainingpolicy-enabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+  ConnectionDrainingPolicyTimeout:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-elb-connectiondrainingpolicy.html#cfn-elb-connectiondrainingpolicy-timeout
+    Default: null
+  ConnectionSettingsIdleTimeout:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-elb-connectionsettings.html#cfn-elb-connectionsettings-idletimeout
+  CrossZone:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-elb.html#cfn-ec2-elb-crosszone
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  HealthCheckHealthyThreshold:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-elb-health-check.html#cfn-elb-healthcheck-healthythreshold
+  HealthCheckInterval:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-elb-health-check.html#cfn-elb-healthcheck-interval
+  HealthCheckTarget:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-elb-health-check.html#cfn-elb-healthcheck-target
+  HealthCheckTimeout:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-elb-health-check.html#cfn-elb-healthcheck-timeout
+  HealthCheckUnhealthyThreshold:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-elb-health-check.html#cfn-elb-healthcheck-unhealthythreshold
+  LoadBalancerName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-elb.html#cfn-ec2-elb-elbname
+    Default: null
+  Scheme:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-elb.html#cfn-ec2-elb-scheme
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::ElasticLoadBalancing::LoadBalancer
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-elb.html
+    Properties:
+      AccessLoggingPolicy:
+        EmitInterval: !Ref 'AccessLoggingPolicyEmitInterval'
+        Enabled: !Ref 'AccessLoggingPolicyEnabled'
+        S3BucketName: !Ref 'AccessLoggingPolicyS3BucketName'
+        S3BucketPrefix: !Ref 'AccessLoggingPolicyS3BucketPrefix'
+      ConnectionDrainingPolicy:
+        Enabled: !Ref 'ConnectionDrainingPolicyEnabled'
+        Timeout: !Ref 'ConnectionDrainingPolicyTimeout'
+      ConnectionSettings:
+        IdleTimeout: !Ref 'ConnectionSettingsIdleTimeout'
+      CrossZone: !Ref 'CrossZone'
+      HealthCheck:
+        HealthyThreshold: !Ref 'HealthCheckHealthyThreshold'
+        Interval: !Ref 'HealthCheckInterval'
+        Target: !Ref 'HealthCheckTarget'
+        Timeout: !Ref 'HealthCheckTimeout'
+        UnhealthyThreshold: !Ref 'HealthCheckUnhealthyThreshold'
+      LoadBalancerName: !Ref 'LoadBalancerName'
+      Scheme: !Ref 'Scheme'
+Outputs:
+  CanonicalHostedZoneName:
+    Value:
+      GetAtt:
+        - Resource
+        - CanonicalHostedZoneName
+  CanonicalHostedZoneNameID:
+    Value:
+      GetAtt:
+        - Resource
+        - CanonicalHostedZoneNameID
+  DNSName:
+    Value:
+      GetAtt:
+        - Resource
+        - DNSName
+  SourceSecurityGroup.GroupName:
+    Value:
+      GetAtt:
+        - Resource
+        - SourceSecurityGroup.GroupName
+  SourceSecurityGroup.OwnerAlias:
+    Value:
+      GetAtt:
+        - Resource
+        - SourceSecurityGroup.OwnerAlias

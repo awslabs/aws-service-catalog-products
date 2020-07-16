@@ -1,0 +1,12 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-efs-filesystem.html
+Resources:
+  Resource:
+    Type: AWS::EFS::FileSystem
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-efs-filesystem.html
+Outputs:
+  FileSystemId:
+    Value:
+      GetAtt:
+        - Resource
+        - FileSystemId

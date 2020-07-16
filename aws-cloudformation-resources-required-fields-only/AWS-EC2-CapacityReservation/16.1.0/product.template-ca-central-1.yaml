@@ -1,0 +1,50 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-capacityreservation.html
+Parameters:
+  InstanceCount:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-capacityreservation.html#cfn-ec2-capacityreservation-instancecount
+  AvailabilityZone:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-capacityreservation.html#cfn-ec2-capacityreservation-availabilityzone
+  InstancePlatform:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-capacityreservation.html#cfn-ec2-capacityreservation-instanceplatform
+  InstanceType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-capacityreservation.html#cfn-ec2-capacityreservation-instancetype
+Resources:
+  Resource:
+    Type: AWS::EC2::CapacityReservation
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-capacityreservation.html
+    Properties:
+      InstanceCount: !Ref 'InstanceCount'
+      AvailabilityZone: !Ref 'AvailabilityZone'
+      InstancePlatform: !Ref 'InstancePlatform'
+      InstanceType: !Ref 'InstanceType'
+Outputs:
+  Tenancy:
+    Value:
+      GetAtt:
+        - Resource
+        - Tenancy
+  AvailableInstanceCount:
+    Value:
+      GetAtt:
+        - Resource
+        - AvailableInstanceCount
+  AvailabilityZone:
+    Value:
+      GetAtt:
+        - Resource
+        - AvailabilityZone
+  TotalInstanceCount:
+    Value:
+      GetAtt:
+        - Resource
+        - TotalInstanceCount
+  InstanceType:
+    Value:
+      GetAtt:
+        - Resource
+        - InstanceType

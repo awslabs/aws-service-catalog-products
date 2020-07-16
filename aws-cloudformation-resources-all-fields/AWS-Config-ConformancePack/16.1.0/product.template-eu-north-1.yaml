@@ -1,0 +1,31 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-config-conformancepack.html
+Parameters:
+  ConformancePackName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-config-conformancepack.html#cfn-config-conformancepack-conformancepackname
+  DeliveryS3Bucket:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-config-conformancepack.html#cfn-config-conformancepack-deliverys3bucket
+  DeliveryS3KeyPrefix:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-config-conformancepack.html#cfn-config-conformancepack-deliverys3keyprefix
+    Default: null
+  TemplateBody:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-config-conformancepack.html#cfn-config-conformancepack-templatebody
+    Default: null
+  TemplateS3Uri:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-config-conformancepack.html#cfn-config-conformancepack-templates3uri
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::Config::ConformancePack
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-config-conformancepack.html
+    Properties:
+      ConformancePackName: !Ref 'ConformancePackName'
+      DeliveryS3Bucket: !Ref 'DeliveryS3Bucket'
+      DeliveryS3KeyPrefix: !Ref 'DeliveryS3KeyPrefix'
+      TemplateBody: !Ref 'TemplateBody'
+      TemplateS3Uri: !Ref 'TemplateS3Uri'

@@ -1,0 +1,45 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-macie-findingsfilter.html
+Parameters:
+  Name:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-macie-findingsfilter.html#cfn-macie-findingsfilter-name
+  Description:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-macie-findingsfilter.html#cfn-macie-findingsfilter-description
+    Default: null
+  Action:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-macie-findingsfilter.html#cfn-macie-findingsfilter-action
+    Default: null
+  Position:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-macie-findingsfilter.html#cfn-macie-findingsfilter-position
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::Macie::FindingsFilter
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-macie-findingsfilter.html
+    Properties:
+      Name: !Ref 'Name'
+      Description: !Ref 'Description'
+      FindingCriteria:
+        Criterion: {}
+      Action: !Ref 'Action'
+      Position: !Ref 'Position'
+Outputs:
+  Id:
+    Value:
+      GetAtt:
+        - Resource
+        - Id
+  Arn:
+    Value:
+      GetAtt:
+        - Resource
+        - Arn
+  FindingsFilterListItems:
+    Value:
+      GetAtt:
+        - Resource
+        - FindingsFilterListItems

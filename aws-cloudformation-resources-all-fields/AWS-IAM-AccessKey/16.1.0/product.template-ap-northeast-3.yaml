@@ -1,0 +1,28 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-accesskey.html
+Parameters:
+  Serial:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-accesskey.html#cfn-iam-accesskey-serial
+    Default: null
+  Status:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-accesskey.html#cfn-iam-accesskey-status
+    Default: null
+  UserName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-accesskey.html#cfn-iam-accesskey-username
+Resources:
+  Resource:
+    Type: AWS::IAM::AccessKey
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-accesskey.html
+    Properties:
+      Serial: !Ref 'Serial'
+      Status: !Ref 'Status'
+      UserName: !Ref 'UserName'
+Outputs:
+  SecretAccessKey:
+    Value:
+      GetAtt:
+        - Resource
+        - SecretAccessKey

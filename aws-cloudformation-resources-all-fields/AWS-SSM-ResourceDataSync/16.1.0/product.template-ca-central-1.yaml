@@ -1,0 +1,83 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ssm-resourcedatasync.html
+Parameters:
+  S3DestinationKMSKeyArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ssm-resourcedatasync-s3destination.html#cfn-ssm-resourcedatasync-s3destination-kmskeyarn
+    Default: null
+  S3DestinationBucketName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ssm-resourcedatasync-s3destination.html#cfn-ssm-resourcedatasync-s3destination-bucketname
+  S3DestinationBucketRegion:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ssm-resourcedatasync-s3destination.html#cfn-ssm-resourcedatasync-s3destination-bucketregion
+  S3DestinationSyncFormat:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ssm-resourcedatasync-s3destination.html#cfn-ssm-resourcedatasync-s3destination-syncformat
+  S3DestinationBucketPrefix:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ssm-resourcedatasync-s3destination.html#cfn-ssm-resourcedatasync-s3destination-bucketprefix
+    Default: null
+  KMSKeyArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ssm-resourcedatasync.html#cfn-ssm-resourcedatasync-kmskeyarn
+    Default: null
+  SyncSourceSourceType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ssm-resourcedatasync-syncsource.html#cfn-ssm-resourcedatasync-syncsource-sourcetype
+  SyncSourceAwsOrganizationsSourceOrganizationSourceType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ssm-resourcedatasync-awsorganizationssource.html#cfn-ssm-resourcedatasync-awsorganizationssource-organizationsourcetype
+  SyncSourceIncludeFutureRegions:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ssm-resourcedatasync-syncsource.html#cfn-ssm-resourcedatasync-syncsource-includefutureregions
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  BucketName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ssm-resourcedatasync.html#cfn-ssm-resourcedatasync-bucketname
+    Default: null
+  BucketRegion:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ssm-resourcedatasync.html#cfn-ssm-resourcedatasync-bucketregion
+    Default: null
+  SyncFormat:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ssm-resourcedatasync.html#cfn-ssm-resourcedatasync-syncformat
+    Default: null
+  SyncName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ssm-resourcedatasync.html#cfn-ssm-resourcedatasync-syncname
+  SyncType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ssm-resourcedatasync.html#cfn-ssm-resourcedatasync-synctype
+    Default: null
+  BucketPrefix:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ssm-resourcedatasync.html#cfn-ssm-resourcedatasync-bucketprefix
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::SSM::ResourceDataSync
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ssm-resourcedatasync.html
+    Properties:
+      S3Destination:
+        KMSKeyArn: !Ref 'S3DestinationKMSKeyArn'
+        BucketName: !Ref 'S3DestinationBucketName'
+        BucketRegion: !Ref 'S3DestinationBucketRegion'
+        SyncFormat: !Ref 'S3DestinationSyncFormat'
+        BucketPrefix: !Ref 'S3DestinationBucketPrefix'
+      KMSKeyArn: !Ref 'KMSKeyArn'
+      SyncSource:
+        SourceType: !Ref 'SyncSourceSourceType'
+        AwsOrganizationsSource:
+          OrganizationSourceType: !Ref 'SyncSourceAwsOrganizationsSourceOrganizationSourceType'
+        IncludeFutureRegions: !Ref 'SyncSourceIncludeFutureRegions'
+      BucketName: !Ref 'BucketName'
+      BucketRegion: !Ref 'BucketRegion'
+      SyncFormat: !Ref 'SyncFormat'
+      SyncName: !Ref 'SyncName'
+      SyncType: !Ref 'SyncType'
+      BucketPrefix: !Ref 'BucketPrefix'

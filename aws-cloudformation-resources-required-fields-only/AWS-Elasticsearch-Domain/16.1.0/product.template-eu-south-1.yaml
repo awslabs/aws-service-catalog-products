@@ -1,0 +1,22 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticsearch-domain.html
+Resources:
+  Resource:
+    Type: AWS::Elasticsearch::Domain
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticsearch-domain.html
+Outputs:
+  Arn:
+    Value:
+      GetAtt:
+        - Resource
+        - Arn
+  DomainArn:
+    Value:
+      GetAtt:
+        - Resource
+        - DomainArn
+  DomainEndpoint:
+    Value:
+      GetAtt:
+        - Resource
+        - DomainEndpoint

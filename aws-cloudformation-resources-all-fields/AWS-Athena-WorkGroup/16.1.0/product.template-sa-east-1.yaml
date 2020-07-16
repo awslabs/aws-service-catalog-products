@@ -1,0 +1,159 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-athena-workgroup.html
+Parameters:
+  Name:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-athena-workgroup.html#cfn-athena-workgroup-name
+  Description:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-athena-workgroup.html#cfn-athena-workgroup-description
+    Default: null
+  WorkGroupConfigurationBytesScannedCutoffPerQuery:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-athena-workgroup-workgroupconfiguration.html#cfn-athena-workgroup-workgroupconfiguration-bytesscannedcutoffperquery
+    Default: null
+  WorkGroupConfigurationEnforceWorkGroupConfiguration:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-athena-workgroup-workgroupconfiguration.html#cfn-athena-workgroup-workgroupconfiguration-enforceworkgroupconfiguration
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  WorkGroupConfigurationPublishCloudWatchMetricsEnabled:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-athena-workgroup-workgroupconfiguration.html#cfn-athena-workgroup-workgroupconfiguration-publishcloudwatchmetricsenabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  WorkGroupConfigurationRequesterPaysEnabled:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-athena-workgroup-workgroupconfiguration.html#cfn-athena-workgroup-workgroupconfiguration-requesterpaysenabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  WorkGroupConfigurationResultConfigurationEncryptionConfigurationEncryptionOption:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-athena-workgroup-encryptionconfiguration.html#cfn-athena-workgroup-encryptionconfiguration-encryptionoption
+  WorkGroupConfigurationResultConfigurationEncryptionConfigurationKmsKey:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-athena-workgroup-encryptionconfiguration.html#cfn-athena-workgroup-encryptionconfiguration-kmskey
+    Default: null
+  WorkGroupConfigurationResultConfigurationOutputLocation:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-athena-workgroup-resultconfiguration.html#cfn-athena-workgroup-resultconfiguration-outputlocation
+    Default: null
+  WorkGroupConfigurationUpdatesBytesScannedCutoffPerQuery:
+    Type: Number
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-athena-workgroup-workgroupconfigurationupdates.html#cfn-athena-workgroup-workgroupconfigurationupdates-bytesscannedcutoffperquery
+    Default: null
+  WorkGroupConfigurationUpdatesEnforceWorkGroupConfiguration:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-athena-workgroup-workgroupconfigurationupdates.html#cfn-athena-workgroup-workgroupconfigurationupdates-enforceworkgroupconfiguration
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  WorkGroupConfigurationUpdatesPublishCloudWatchMetricsEnabled:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-athena-workgroup-workgroupconfigurationupdates.html#cfn-athena-workgroup-workgroupconfigurationupdates-publishcloudwatchmetricsenabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  WorkGroupConfigurationUpdatesRequesterPaysEnabled:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-athena-workgroup-workgroupconfigurationupdates.html#cfn-athena-workgroup-workgroupconfigurationupdates-requesterpaysenabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  WorkGroupConfigurationUpdatesResultConfigurationUpdatesEncryptionConfigurationEncryptionOption:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-athena-workgroup-encryptionconfiguration.html#cfn-athena-workgroup-encryptionconfiguration-encryptionoption
+  WorkGroupConfigurationUpdatesResultConfigurationUpdatesEncryptionConfigurationKmsKey:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-athena-workgroup-encryptionconfiguration.html#cfn-athena-workgroup-encryptionconfiguration-kmskey
+    Default: null
+  WorkGroupConfigurationUpdatesResultConfigurationUpdatesOutputLocation:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-athena-workgroup-resultconfigurationupdates.html#cfn-athena-workgroup-resultconfigurationupdates-outputlocation
+    Default: null
+  WorkGroupConfigurationUpdatesResultConfigurationUpdatesRemoveEncryptionConfiguration:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-athena-workgroup-resultconfigurationupdates.html#cfn-athena-workgroup-resultconfigurationupdates-removeencryptionconfiguration
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  WorkGroupConfigurationUpdatesResultConfigurationUpdatesRemoveOutputLocation:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-athena-workgroup-resultconfigurationupdates.html#cfn-athena-workgroup-resultconfigurationupdates-removeoutputlocation
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  WorkGroupConfigurationUpdatesRemoveBytesScannedCutoffPerQuery:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-athena-workgroup-workgroupconfigurationupdates.html#cfn-athena-workgroup-workgroupconfigurationupdates-removebytesscannedcutoffperquery
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  State:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-athena-workgroup.html#cfn-athena-workgroup-state
+    Default: null
+  RecursiveDeleteOption:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-athena-workgroup.html#cfn-athena-workgroup-recursivedeleteoption
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::Athena::WorkGroup
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-athena-workgroup.html
+    Properties:
+      Name: !Ref 'Name'
+      Description: !Ref 'Description'
+      Tags: {}
+      WorkGroupConfiguration:
+        BytesScannedCutoffPerQuery: !Ref 'WorkGroupConfigurationBytesScannedCutoffPerQuery'
+        EnforceWorkGroupConfiguration: !Ref 'WorkGroupConfigurationEnforceWorkGroupConfiguration'
+        PublishCloudWatchMetricsEnabled: !Ref 'WorkGroupConfigurationPublishCloudWatchMetricsEnabled'
+        RequesterPaysEnabled: !Ref 'WorkGroupConfigurationRequesterPaysEnabled'
+        ResultConfiguration:
+          EncryptionConfiguration:
+            EncryptionOption: !Ref 'WorkGroupConfigurationResultConfigurationEncryptionConfigurationEncryptionOption'
+            KmsKey: !Ref 'WorkGroupConfigurationResultConfigurationEncryptionConfigurationKmsKey'
+          OutputLocation: !Ref 'WorkGroupConfigurationResultConfigurationOutputLocation'
+      WorkGroupConfigurationUpdates:
+        BytesScannedCutoffPerQuery: !Ref 'WorkGroupConfigurationUpdatesBytesScannedCutoffPerQuery'
+        EnforceWorkGroupConfiguration: !Ref 'WorkGroupConfigurationUpdatesEnforceWorkGroupConfiguration'
+        PublishCloudWatchMetricsEnabled: !Ref 'WorkGroupConfigurationUpdatesPublishCloudWatchMetricsEnabled'
+        RequesterPaysEnabled: !Ref 'WorkGroupConfigurationUpdatesRequesterPaysEnabled'
+        ResultConfigurationUpdates:
+          EncryptionConfiguration:
+            EncryptionOption: !Ref 'WorkGroupConfigurationUpdatesResultConfigurationUpdatesEncryptionConfigurationEncryptionOption'
+            KmsKey: !Ref 'WorkGroupConfigurationUpdatesResultConfigurationUpdatesEncryptionConfigurationKmsKey'
+          OutputLocation: !Ref 'WorkGroupConfigurationUpdatesResultConfigurationUpdatesOutputLocation'
+          RemoveEncryptionConfiguration: !Ref 'WorkGroupConfigurationUpdatesResultConfigurationUpdatesRemoveEncryptionConfiguration'
+          RemoveOutputLocation: !Ref 'WorkGroupConfigurationUpdatesResultConfigurationUpdatesRemoveOutputLocation'
+        RemoveBytesScannedCutoffPerQuery: !Ref 'WorkGroupConfigurationUpdatesRemoveBytesScannedCutoffPerQuery'
+      State: !Ref 'State'
+      RecursiveDeleteOption: !Ref 'RecursiveDeleteOption'
+Outputs:
+  CreationTime:
+    Value:
+      GetAtt:
+        - Resource
+        - CreationTime

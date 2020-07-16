@@ -1,0 +1,90 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cognito-userpoolriskconfigurationattachment.html
+Parameters:
+  CompromisedCredentialsRiskConfigurationTypeCompromisedCredentialsActionsTypeEventAction:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cognito-userpoolriskconfigurationattachment-compromisedcredentialsactionstype.html#cfn-cognito-userpoolriskconfigurationattachment-compromisedcredentialsactionstype-eventaction
+  UserPoolId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cognito-userpoolriskconfigurationattachment.html#cfn-cognito-userpoolriskconfigurationattachment-userpoolid
+  ClientId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cognito-userpoolriskconfigurationattachment.html#cfn-cognito-userpoolriskconfigurationattachment-clientid
+  AccountTakeoverRiskConfigurationTypeAccountTakeoverActionsTypeAccountTakeoverActionTypeNotify:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cognito-userpoolriskconfigurationattachment-accounttakeoveractiontype.html#cfn-cognito-userpoolriskconfigurationattachment-accounttakeoveractiontype-notify
+    AllowedValues:
+      - 'true'
+      - 'false'
+  AccountTakeoverRiskConfigurationTypeAccountTakeoverActionsTypeAccountTakeoverActionTypeEventAction:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cognito-userpoolriskconfigurationattachment-accounttakeoveractiontype.html#cfn-cognito-userpoolriskconfigurationattachment-accounttakeoveractiontype-eventaction
+  AccountTakeoverRiskConfigurationTypeNotifyConfigurationTypeNotifyEmailTypeTextBody:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cognito-userpoolriskconfigurationattachment-notifyemailtype.html#cfn-cognito-userpoolriskconfigurationattachment-notifyemailtype-textbody
+    Default: null
+  AccountTakeoverRiskConfigurationTypeNotifyConfigurationTypeNotifyEmailTypeHtmlBody:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cognito-userpoolriskconfigurationattachment-notifyemailtype.html#cfn-cognito-userpoolriskconfigurationattachment-notifyemailtype-htmlbody
+    Default: null
+  AccountTakeoverRiskConfigurationTypeNotifyConfigurationTypeNotifyEmailTypeSubject:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cognito-userpoolriskconfigurationattachment-notifyemailtype.html#cfn-cognito-userpoolriskconfigurationattachment-notifyemailtype-subject
+  AccountTakeoverRiskConfigurationTypeNotifyConfigurationTypeReplyTo:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cognito-userpoolriskconfigurationattachment-notifyconfigurationtype.html#cfn-cognito-userpoolriskconfigurationattachment-notifyconfigurationtype-replyto
+    Default: null
+  AccountTakeoverRiskConfigurationTypeNotifyConfigurationTypeSourceArn:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cognito-userpoolriskconfigurationattachment-notifyconfigurationtype.html#cfn-cognito-userpoolriskconfigurationattachment-notifyconfigurationtype-sourcearn
+  AccountTakeoverRiskConfigurationTypeNotifyConfigurationTypeFrom:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cognito-userpoolriskconfigurationattachment-notifyconfigurationtype.html#cfn-cognito-userpoolriskconfigurationattachment-notifyconfigurationtype-from
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::Cognito::UserPoolRiskConfigurationAttachment
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cognito-userpoolriskconfigurationattachment.html
+    Properties:
+      CompromisedCredentialsRiskConfiguration:
+        Actions:
+          EventAction: !Ref 'CompromisedCredentialsRiskConfigurationTypeCompromisedCredentialsActionsTypeEventAction'
+      UserPoolId: !Ref 'UserPoolId'
+      ClientId: !Ref 'ClientId'
+      AccountTakeoverRiskConfiguration:
+        Actions:
+          HighAction:
+            Notify: !Ref 'AccountTakeoverRiskConfigurationTypeAccountTakeoverActionsTypeAccountTakeoverActionTypeNotify'
+            EventAction: !Ref 'AccountTakeoverRiskConfigurationTypeAccountTakeoverActionsTypeAccountTakeoverActionTypeEventAction'
+          LowAction:
+            Notify: !Ref 'AccountTakeoverRiskConfigurationTypeAccountTakeoverActionsTypeAccountTakeoverActionTypeNotify'
+            EventAction: !Ref 'AccountTakeoverRiskConfigurationTypeAccountTakeoverActionsTypeAccountTakeoverActionTypeEventAction'
+          MediumAction:
+            Notify: !Ref 'AccountTakeoverRiskConfigurationTypeAccountTakeoverActionsTypeAccountTakeoverActionTypeNotify'
+            EventAction: !Ref 'AccountTakeoverRiskConfigurationTypeAccountTakeoverActionsTypeAccountTakeoverActionTypeEventAction'
+        NotifyConfiguration:
+          BlockEmail:
+            TextBody: !Ref 'AccountTakeoverRiskConfigurationTypeNotifyConfigurationTypeNotifyEmailTypeTextBody'
+            HtmlBody: !Ref 'AccountTakeoverRiskConfigurationTypeNotifyConfigurationTypeNotifyEmailTypeHtmlBody'
+            Subject: !Ref 'AccountTakeoverRiskConfigurationTypeNotifyConfigurationTypeNotifyEmailTypeSubject'
+          ReplyTo: !Ref 'AccountTakeoverRiskConfigurationTypeNotifyConfigurationTypeReplyTo'
+          SourceArn: !Ref 'AccountTakeoverRiskConfigurationTypeNotifyConfigurationTypeSourceArn'
+          NoActionEmail:
+            TextBody: !Ref 'AccountTakeoverRiskConfigurationTypeNotifyConfigurationTypeNotifyEmailTypeTextBody'
+            HtmlBody: !Ref 'AccountTakeoverRiskConfigurationTypeNotifyConfigurationTypeNotifyEmailTypeHtmlBody'
+            Subject: !Ref 'AccountTakeoverRiskConfigurationTypeNotifyConfigurationTypeNotifyEmailTypeSubject'
+          From: !Ref 'AccountTakeoverRiskConfigurationTypeNotifyConfigurationTypeFrom'
+          MfaEmail:
+            TextBody: !Ref 'AccountTakeoverRiskConfigurationTypeNotifyConfigurationTypeNotifyEmailTypeTextBody'
+            HtmlBody: !Ref 'AccountTakeoverRiskConfigurationTypeNotifyConfigurationTypeNotifyEmailTypeHtmlBody'
+            Subject: !Ref 'AccountTakeoverRiskConfigurationTypeNotifyConfigurationTypeNotifyEmailTypeSubject'
+      RiskExceptionConfiguration: {}

@@ -1,0 +1,63 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-robomaker-simulationapplication.html
+Parameters:
+  RenderingEngineVersion:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-robomaker-simulationapplication-renderingengine.html#cfn-robomaker-simulationapplication-renderingengine-version
+  RenderingEngineName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-robomaker-simulationapplication-renderingengine.html#cfn-robomaker-simulationapplication-renderingengine-name
+  SimulationSoftwareSuiteVersion:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-robomaker-simulationapplication-simulationsoftwaresuite.html#cfn-robomaker-simulationapplication-simulationsoftwaresuite-version
+  SimulationSoftwareSuiteName:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-robomaker-simulationapplication-simulationsoftwaresuite.html#cfn-robomaker-simulationapplication-simulationsoftwaresuite-name
+  CurrentRevisionId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-robomaker-simulationapplication.html#cfn-robomaker-simulationapplication-currentrevisionid
+    Default: null
+  RobotSoftwareSuiteVersion:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-robomaker-simulationapplication-robotsoftwaresuite.html#cfn-robomaker-simulationapplication-robotsoftwaresuite-version
+  RobotSoftwareSuiteName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-robomaker-simulationapplication-robotsoftwaresuite.html#cfn-robomaker-simulationapplication-robotsoftwaresuite-name
+  Tags:
+    Type: Json
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-robomaker-simulationapplication.html#cfn-robomaker-simulationapplication-tags
+    Default: null
+  Name:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-robomaker-simulationapplication.html#cfn-robomaker-simulationapplication-name
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::RoboMaker::SimulationApplication
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-robomaker-simulationapplication.html
+    Properties:
+      RenderingEngine:
+        Version: !Ref 'RenderingEngineVersion'
+        Name: !Ref 'RenderingEngineName'
+      SimulationSoftwareSuite:
+        Version: !Ref 'SimulationSoftwareSuiteVersion'
+        Name: !Ref 'SimulationSoftwareSuiteName'
+      CurrentRevisionId: !Ref 'CurrentRevisionId'
+      RobotSoftwareSuite:
+        Version: !Ref 'RobotSoftwareSuiteVersion'
+        Name: !Ref 'RobotSoftwareSuiteName'
+      Tags: !Ref 'Tags'
+      Name: !Ref 'Name'
+Outputs:
+  CurrentRevisionId:
+    Value:
+      GetAtt:
+        - Resource
+        - CurrentRevisionId
+  Arn:
+    Value:
+      GetAtt:
+        - Resource
+        - Arn

@@ -1,0 +1,29 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-eip.html
+Parameters:
+  Domain:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-eip.html#cfn-ec2-eip-domain
+    Default: null
+  InstanceId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-eip.html#cfn-ec2-eip-instanceid
+    Default: null
+  PublicIpv4Pool:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-eip.html#cfn-ec2-eip-publicipv4pool
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::EC2::EIP
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-eip.html
+    Properties:
+      Domain: !Ref 'Domain'
+      InstanceId: !Ref 'InstanceId'
+      PublicIpv4Pool: !Ref 'PublicIpv4Pool'
+Outputs:
+  AllocationId:
+    Value:
+      GetAtt:
+        - Resource
+        - AllocationId

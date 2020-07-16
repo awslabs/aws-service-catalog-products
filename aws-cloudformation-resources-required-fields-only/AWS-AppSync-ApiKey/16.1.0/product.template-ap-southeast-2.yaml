@@ -1,0 +1,23 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appsync-apikey.html
+Parameters:
+  ApiId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appsync-apikey.html#cfn-appsync-apikey-apiid
+Resources:
+  Resource:
+    Type: AWS::AppSync::ApiKey
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appsync-apikey.html
+    Properties:
+      ApiId: !Ref 'ApiId'
+Outputs:
+  ApiKey:
+    Value:
+      GetAtt:
+        - Resource
+        - ApiKey
+  Arn:
+    Value:
+      GetAtt:
+        - Resource
+        - Arn

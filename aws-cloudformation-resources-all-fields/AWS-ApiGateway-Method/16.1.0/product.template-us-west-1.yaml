@@ -1,0 +1,99 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigateway-method.html
+Parameters:
+  ApiKeyRequired:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigateway-method.html#cfn-apigateway-method-apikeyrequired
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  AuthorizationType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigateway-method.html#cfn-apigateway-method-authorizationtype
+    Default: null
+  AuthorizerId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigateway-method.html#cfn-apigateway-method-authorizerid
+    Default: null
+  HttpMethod:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigateway-method.html#cfn-apigateway-method-httpmethod
+  IntegrationCacheNamespace:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-apitgateway-method-integration.html#cfn-apigateway-method-integration-cachenamespace
+    Default: null
+  IntegrationConnectionId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-apitgateway-method-integration.html#cfn-apigateway-method-integration-connectionid
+    Default: null
+  IntegrationConnectionType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-apitgateway-method-integration.html#cfn-apigateway-method-integration-connectiontype
+    Default: null
+  IntegrationContentHandling:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-apitgateway-method-integration.html#cfn-apigateway-method-integration-contenthandling
+    Default: null
+  IntegrationCredentials:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-apitgateway-method-integration.html#cfn-apigateway-method-integration-credentials
+    Default: null
+  IntegrationIntegrationHttpMethod:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-apitgateway-method-integration.html#cfn-apigateway-method-integration-integrationhttpmethod
+    Default: null
+  IntegrationPassthroughBehavior:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-apitgateway-method-integration.html#cfn-apigateway-method-integration-passthroughbehavior
+    Default: null
+  IntegrationTimeoutInMillis:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-apitgateway-method-integration.html#cfn-apigateway-method-integration-timeoutinmillis
+    Default: null
+  IntegrationType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-apitgateway-method-integration.html#cfn-apigateway-method-integration-type
+    Default: null
+  IntegrationUri:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-apitgateway-method-integration.html#cfn-apigateway-method-integration-uri
+    Default: null
+  OperationName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigateway-method.html#cfn-apigateway-method-operationname
+    Default: null
+  RequestValidatorId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigateway-method.html#cfn-apigateway-method-requestvalidatorid
+    Default: null
+  ResourceId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigateway-method.html#cfn-apigateway-method-resourceid
+  RestApiId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigateway-method.html#cfn-apigateway-method-restapiid
+Resources:
+  Resource:
+    Type: AWS::ApiGateway::Method
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigateway-method.html
+    Properties:
+      ApiKeyRequired: !Ref 'ApiKeyRequired'
+      AuthorizationType: !Ref 'AuthorizationType'
+      AuthorizerId: !Ref 'AuthorizerId'
+      HttpMethod: !Ref 'HttpMethod'
+      Integration:
+        CacheNamespace: !Ref 'IntegrationCacheNamespace'
+        ConnectionId: !Ref 'IntegrationConnectionId'
+        ConnectionType: !Ref 'IntegrationConnectionType'
+        ContentHandling: !Ref 'IntegrationContentHandling'
+        Credentials: !Ref 'IntegrationCredentials'
+        IntegrationHttpMethod: !Ref 'IntegrationIntegrationHttpMethod'
+        PassthroughBehavior: !Ref 'IntegrationPassthroughBehavior'
+        TimeoutInMillis: !Ref 'IntegrationTimeoutInMillis'
+        Type: !Ref 'IntegrationType'
+        Uri: !Ref 'IntegrationUri'
+      OperationName: !Ref 'OperationName'
+      RequestValidatorId: !Ref 'RequestValidatorId'
+      ResourceId: !Ref 'ResourceId'
+      RestApiId: !Ref 'RestApiId'

@@ -1,0 +1,41 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-mediastore-container.html
+Parameters:
+  Policy:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-mediastore-container.html#cfn-mediastore-container-policy
+    Default: null
+  MetricPolicyContainerLevelMetrics:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-mediastore-container-metricpolicy.html#cfn-mediastore-container-metricpolicy-containerlevelmetrics
+  ContainerName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-mediastore-container.html#cfn-mediastore-container-containername
+  LifecyclePolicy:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-mediastore-container.html#cfn-mediastore-container-lifecyclepolicy
+    Default: null
+  AccessLoggingEnabled:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-mediastore-container.html#cfn-mediastore-container-accessloggingenabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::MediaStore::Container
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-mediastore-container.html
+    Properties:
+      Policy: !Ref 'Policy'
+      MetricPolicy:
+        ContainerLevelMetrics: !Ref 'MetricPolicyContainerLevelMetrics'
+      ContainerName: !Ref 'ContainerName'
+      LifecyclePolicy: !Ref 'LifecyclePolicy'
+      AccessLoggingEnabled: !Ref 'AccessLoggingEnabled'
+Outputs:
+  Endpoint:
+    Value:
+      GetAtt:
+        - Resource
+        - Endpoint

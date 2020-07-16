@@ -1,0 +1,31 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-rds-dbproxy.html
+Parameters:
+  DBProxyName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-rds-dbproxy.html#cfn-rds-dbproxy-dbproxyname
+  EngineFamily:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-rds-dbproxy.html#cfn-rds-dbproxy-enginefamily
+  RoleArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-rds-dbproxy.html#cfn-rds-dbproxy-rolearn
+Resources:
+  Resource:
+    Type: AWS::RDS::DBProxy
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-rds-dbproxy.html
+    Properties:
+      DBProxyName: !Ref 'DBProxyName'
+      EngineFamily: !Ref 'EngineFamily'
+      RoleArn: !Ref 'RoleArn'
+Outputs:
+  DBProxyArn:
+    Value:
+      GetAtt:
+        - Resource
+        - DBProxyArn
+  Endpoint:
+    Value:
+      GetAtt:
+        - Resource
+        - Endpoint

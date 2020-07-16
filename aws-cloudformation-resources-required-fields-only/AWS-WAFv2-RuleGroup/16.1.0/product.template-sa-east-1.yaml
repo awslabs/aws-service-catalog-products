@@ -1,0 +1,46 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-wafv2-rulegroup.html
+Parameters:
+  Capacity:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-wafv2-rulegroup.html#cfn-wafv2-rulegroup-capacity
+  Scope:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-wafv2-rulegroup.html#cfn-wafv2-rulegroup-scope
+  VisibilityConfigSampledRequestsEnabled:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-wafv2-rulegroup-visibilityconfig.html#cfn-wafv2-rulegroup-visibilityconfig-sampledrequestsenabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+  VisibilityConfigCloudWatchMetricsEnabled:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-wafv2-rulegroup-visibilityconfig.html#cfn-wafv2-rulegroup-visibilityconfig-cloudwatchmetricsenabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+  VisibilityConfigMetricName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-wafv2-rulegroup-visibilityconfig.html#cfn-wafv2-rulegroup-visibilityconfig-metricname
+Resources:
+  Resource:
+    Type: AWS::WAFv2::RuleGroup
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-wafv2-rulegroup.html
+    Properties:
+      Capacity: !Ref 'Capacity'
+      Scope: !Ref 'Scope'
+      VisibilityConfig:
+        SampledRequestsEnabled: !Ref 'VisibilityConfigSampledRequestsEnabled'
+        CloudWatchMetricsEnabled: !Ref 'VisibilityConfigCloudWatchMetricsEnabled'
+        MetricName: !Ref 'VisibilityConfigMetricName'
+Outputs:
+  Arn:
+    Value:
+      GetAtt:
+        - Resource
+        - Arn
+  Id:
+    Value:
+      GetAtt:
+        - Resource
+        - Id

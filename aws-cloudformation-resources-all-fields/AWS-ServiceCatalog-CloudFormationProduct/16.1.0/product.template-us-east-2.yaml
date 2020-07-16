@@ -1,0 +1,70 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-servicecatalog-cloudformationproduct.html
+Parameters:
+  ReplaceProvisioningArtifacts:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-servicecatalog-cloudformationproduct.html#cfn-servicecatalog-cloudformationproduct-replaceprovisioningartifacts
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  Owner:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-servicecatalog-cloudformationproduct.html#cfn-servicecatalog-cloudformationproduct-owner
+  SupportDescription:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-servicecatalog-cloudformationproduct.html#cfn-servicecatalog-cloudformationproduct-supportdescription
+    Default: null
+  Description:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-servicecatalog-cloudformationproduct.html#cfn-servicecatalog-cloudformationproduct-description
+    Default: null
+  Distributor:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-servicecatalog-cloudformationproduct.html#cfn-servicecatalog-cloudformationproduct-distributor
+    Default: null
+  SupportEmail:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-servicecatalog-cloudformationproduct.html#cfn-servicecatalog-cloudformationproduct-supportemail
+    Default: null
+  AcceptLanguage:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-servicecatalog-cloudformationproduct.html#cfn-servicecatalog-cloudformationproduct-acceptlanguage
+    Default: null
+  SupportUrl:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-servicecatalog-cloudformationproduct.html#cfn-servicecatalog-cloudformationproduct-supporturl
+    Default: null
+  Name:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-servicecatalog-cloudformationproduct.html#cfn-servicecatalog-cloudformationproduct-name
+Resources:
+  Resource:
+    Type: AWS::ServiceCatalog::CloudFormationProduct
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-servicecatalog-cloudformationproduct.html
+    Properties:
+      ReplaceProvisioningArtifacts: !Ref 'ReplaceProvisioningArtifacts'
+      Owner: !Ref 'Owner'
+      SupportDescription: !Ref 'SupportDescription'
+      Description: !Ref 'Description'
+      Distributor: !Ref 'Distributor'
+      SupportEmail: !Ref 'SupportEmail'
+      AcceptLanguage: !Ref 'AcceptLanguage'
+      SupportUrl: !Ref 'SupportUrl'
+      Name: !Ref 'Name'
+Outputs:
+  ProductName:
+    Value:
+      GetAtt:
+        - Resource
+        - ProductName
+  ProvisioningArtifactIds:
+    Value:
+      GetAtt:
+        - Resource
+        - ProvisioningArtifactIds
+  ProvisioningArtifactNames:
+    Value:
+      GetAtt:
+        - Resource
+        - ProvisioningArtifactNames

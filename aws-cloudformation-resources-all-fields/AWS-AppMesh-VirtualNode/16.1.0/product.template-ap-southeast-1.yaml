@@ -1,0 +1,95 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appmesh-virtualnode.html
+Parameters:
+  MeshName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appmesh-virtualnode.html#cfn-appmesh-virtualnode-meshname
+  MeshOwner:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appmesh-virtualnode.html#cfn-appmesh-virtualnode-meshowner
+    Default: null
+  VirtualNodeSpecLoggingAccessLogFileAccessLogPath:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-appmesh-virtualnode-fileaccesslog.html#cfn-appmesh-virtualnode-fileaccesslog-path
+  ? VirtualNodeSpecBackendDefaultsClientPolicyClientPolicyTlsTlsValidationContextTlsValidationContextTrustTlsValidationContextFileTrustCertificateChain
+  : Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-appmesh-virtualnode-tlsvalidationcontextfiletrust.html#cfn-appmesh-virtualnode-tlsvalidationcontextfiletrust-certificatechain
+  VirtualNodeSpecBackendDefaultsClientPolicyClientPolicyTlsEnforce:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-appmesh-virtualnode-clientpolicytls.html#cfn-appmesh-virtualnode-clientpolicytls-enforce
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  VirtualNodeSpecServiceDiscoveryDnsServiceDiscoveryHostname:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-appmesh-virtualnode-dnsservicediscovery.html#cfn-appmesh-virtualnode-dnsservicediscovery-hostname
+  VirtualNodeSpecServiceDiscoveryAwsCloudMapServiceDiscoveryNamespaceName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-appmesh-virtualnode-awscloudmapservicediscovery.html#cfn-appmesh-virtualnode-awscloudmapservicediscovery-namespacename
+  VirtualNodeSpecServiceDiscoveryAwsCloudMapServiceDiscoveryServiceName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-appmesh-virtualnode-awscloudmapservicediscovery.html#cfn-appmesh-virtualnode-awscloudmapservicediscovery-servicename
+  VirtualNodeName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appmesh-virtualnode.html#cfn-appmesh-virtualnode-virtualnodename
+Resources:
+  Resource:
+    Type: AWS::AppMesh::VirtualNode
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appmesh-virtualnode.html
+    Properties:
+      MeshName: !Ref 'MeshName'
+      MeshOwner: !Ref 'MeshOwner'
+      Spec:
+        Logging:
+          AccessLog:
+            File:
+              Path: !Ref 'VirtualNodeSpecLoggingAccessLogFileAccessLogPath'
+        BackendDefaults:
+          ClientPolicy:
+            TLS:
+              Validation:
+                Trust:
+                  ACM: {}
+                  File:
+                    CertificateChain: !Ref 'VirtualNodeSpecBackendDefaultsClientPolicyClientPolicyTlsTlsValidationContextTlsValidationContextTrustTlsValidationContextFileTrustCertificateChain'
+              Enforce: !Ref 'VirtualNodeSpecBackendDefaultsClientPolicyClientPolicyTlsEnforce'
+        ServiceDiscovery:
+          DNS:
+            Hostname: !Ref 'VirtualNodeSpecServiceDiscoveryDnsServiceDiscoveryHostname'
+          AWSCloudMap:
+            NamespaceName: !Ref 'VirtualNodeSpecServiceDiscoveryAwsCloudMapServiceDiscoveryNamespaceName'
+            ServiceName: !Ref 'VirtualNodeSpecServiceDiscoveryAwsCloudMapServiceDiscoveryServiceName'
+      VirtualNodeName: !Ref 'VirtualNodeName'
+Outputs:
+  Uid:
+    Value:
+      GetAtt:
+        - Resource
+        - Uid
+  MeshName:
+    Value:
+      GetAtt:
+        - Resource
+        - MeshName
+  MeshOwner:
+    Value:
+      GetAtt:
+        - Resource
+        - MeshOwner
+  ResourceOwner:
+    Value:
+      GetAtt:
+        - Resource
+        - ResourceOwner
+  Arn:
+    Value:
+      GetAtt:
+        - Resource
+        - Arn
+  VirtualNodeName:
+    Value:
+      GetAtt:
+        - Resource
+        - VirtualNodeName

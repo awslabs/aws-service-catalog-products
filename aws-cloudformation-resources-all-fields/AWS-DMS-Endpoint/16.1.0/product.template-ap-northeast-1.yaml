@@ -1,0 +1,257 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dms-endpoint.html
+Parameters:
+  KmsKeyId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dms-endpoint.html#cfn-dms-endpoint-kmskeyid
+    Default: null
+  KafkaSettingsBroker:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-dms-endpoint-kafkasettings.html#cfn-dms-endpoint-kafkasettings-broker
+    Default: null
+  KafkaSettingsTopic:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-dms-endpoint-kafkasettings.html#cfn-dms-endpoint-kafkasettings-topic
+    Default: null
+  Port:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dms-endpoint.html#cfn-dms-endpoint-port
+    Default: null
+  DatabaseName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dms-endpoint.html#cfn-dms-endpoint-databasename
+    Default: null
+  NeptuneSettingsMaxRetryCount:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-dms-endpoint-neptunesettings.html#cfn-dms-endpoint-neptunesettings-maxretrycount
+    Default: null
+  NeptuneSettingsMaxFileSize:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-dms-endpoint-neptunesettings.html#cfn-dms-endpoint-neptunesettings-maxfilesize
+    Default: null
+  NeptuneSettingsS3BucketFolder:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-dms-endpoint-neptunesettings.html#cfn-dms-endpoint-neptunesettings-s3bucketfolder
+    Default: null
+  NeptuneSettingsErrorRetryDuration:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-dms-endpoint-neptunesettings.html#cfn-dms-endpoint-neptunesettings-errorretryduration
+    Default: null
+  NeptuneSettingsIamAuthEnabled:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-dms-endpoint-neptunesettings.html#cfn-dms-endpoint-neptunesettings-iamauthenabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  NeptuneSettingsS3BucketName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-dms-endpoint-neptunesettings.html#cfn-dms-endpoint-neptunesettings-s3bucketname
+    Default: null
+  NeptuneSettingsServiceAccessRoleArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-dms-endpoint-neptunesettings.html#cfn-dms-endpoint-neptunesettings-serviceaccessrolearn
+    Default: null
+  ElasticsearchSettingsEndpointUri:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-dms-endpoint-elasticsearchsettings.html#cfn-dms-endpoint-elasticsearchsettings-endpointuri
+    Default: null
+  ElasticsearchSettingsFullLoadErrorPercentage:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-dms-endpoint-elasticsearchsettings.html#cfn-dms-endpoint-elasticsearchsettings-fullloaderrorpercentage
+    Default: null
+  ElasticsearchSettingsErrorRetryDuration:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-dms-endpoint-elasticsearchsettings.html#cfn-dms-endpoint-elasticsearchsettings-errorretryduration
+    Default: null
+  ElasticsearchSettingsServiceAccessRoleArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-dms-endpoint-elasticsearchsettings.html#cfn-dms-endpoint-elasticsearchsettings-serviceaccessrolearn
+    Default: null
+  S3SettingsExternalTableDefinition:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-dms-endpoint-s3settings.html#cfn-dms-endpoint-s3settings-externaltabledefinition
+    Default: null
+  S3SettingsBucketName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-dms-endpoint-s3settings.html#cfn-dms-endpoint-s3settings-bucketname
+    Default: null
+  S3SettingsBucketFolder:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-dms-endpoint-s3settings.html#cfn-dms-endpoint-s3settings-bucketfolder
+    Default: null
+  S3SettingsCsvRowDelimiter:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-dms-endpoint-s3settings.html#cfn-dms-endpoint-s3settings-csvrowdelimiter
+    Default: null
+  S3SettingsCsvDelimiter:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-dms-endpoint-s3settings.html#cfn-dms-endpoint-s3settings-csvdelimiter
+    Default: null
+  S3SettingsServiceAccessRoleArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-dms-endpoint-s3settings.html#cfn-dms-endpoint-s3settings-serviceaccessrolearn
+    Default: null
+  S3SettingsCompressionType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-dms-endpoint-s3settings.html#cfn-dms-endpoint-s3settings-compressiontype
+    Default: null
+  EngineName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dms-endpoint.html#cfn-dms-endpoint-enginename
+  DynamoDbSettingsServiceAccessRoleArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-dms-endpoint-dynamodbsettings.html#cfn-dms-endpoint-dynamodbsettings-serviceaccessrolearn
+    Default: null
+  KinesisSettingsMessageFormat:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-dms-endpoint-kinesissettings.html#cfn-dms-endpoint-kinesissettings-messageformat
+    Default: null
+  KinesisSettingsStreamArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-dms-endpoint-kinesissettings.html#cfn-dms-endpoint-kinesissettings-streamarn
+    Default: null
+  KinesisSettingsServiceAccessRoleArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-dms-endpoint-kinesissettings.html#cfn-dms-endpoint-kinesissettings-serviceaccessrolearn
+    Default: null
+  Username:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dms-endpoint.html#cfn-dms-endpoint-username
+    Default: null
+  SslMode:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dms-endpoint.html#cfn-dms-endpoint-sslmode
+    Default: null
+  ServerName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dms-endpoint.html#cfn-dms-endpoint-servername
+    Default: null
+  ExtraConnectionAttributes:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dms-endpoint.html#cfn-dms-endpoint-extraconnectionattributes
+    Default: null
+  EndpointType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dms-endpoint.html#cfn-dms-endpoint-endpointtype
+  EndpointIdentifier:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dms-endpoint.html#cfn-dms-endpoint-endpointidentifier
+    Default: null
+  Password:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dms-endpoint.html#cfn-dms-endpoint-password
+    Default: null
+  CertificateArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dms-endpoint.html#cfn-dms-endpoint-certificatearn
+    Default: null
+  MongoDbSettingsAuthSource:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-dms-endpoint-mongodbsettings.html#cfn-dms-endpoint-mongodbsettings-authsource
+    Default: null
+  MongoDbSettingsAuthMechanism:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-dms-endpoint-mongodbsettings.html#cfn-dms-endpoint-mongodbsettings-authmechanism
+    Default: null
+  MongoDbSettingsUsername:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-dms-endpoint-mongodbsettings.html#cfn-dms-endpoint-mongodbsettings-username
+    Default: null
+  MongoDbSettingsDocsToInvestigate:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-dms-endpoint-mongodbsettings.html#cfn-dms-endpoint-mongodbsettings-docstoinvestigate
+    Default: null
+  MongoDbSettingsServerName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-dms-endpoint-mongodbsettings.html#cfn-dms-endpoint-mongodbsettings-servername
+    Default: null
+  MongoDbSettingsPort:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-dms-endpoint-mongodbsettings.html#cfn-dms-endpoint-mongodbsettings-port
+    Default: null
+  MongoDbSettingsExtractDocId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-dms-endpoint-mongodbsettings.html#cfn-dms-endpoint-mongodbsettings-extractdocid
+    Default: null
+  MongoDbSettingsDatabaseName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-dms-endpoint-mongodbsettings.html#cfn-dms-endpoint-mongodbsettings-databasename
+    Default: null
+  MongoDbSettingsAuthType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-dms-endpoint-mongodbsettings.html#cfn-dms-endpoint-mongodbsettings-authtype
+    Default: null
+  MongoDbSettingsPassword:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-dms-endpoint-mongodbsettings.html#cfn-dms-endpoint-mongodbsettings-password
+    Default: null
+  MongoDbSettingsNestingLevel:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-dms-endpoint-mongodbsettings.html#cfn-dms-endpoint-mongodbsettings-nestinglevel
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::DMS::Endpoint
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dms-endpoint.html
+    Properties:
+      KmsKeyId: !Ref 'KmsKeyId'
+      KafkaSettings:
+        Broker: !Ref 'KafkaSettingsBroker'
+        Topic: !Ref 'KafkaSettingsTopic'
+      Port: !Ref 'Port'
+      DatabaseName: !Ref 'DatabaseName'
+      NeptuneSettings:
+        MaxRetryCount: !Ref 'NeptuneSettingsMaxRetryCount'
+        MaxFileSize: !Ref 'NeptuneSettingsMaxFileSize'
+        S3BucketFolder: !Ref 'NeptuneSettingsS3BucketFolder'
+        ErrorRetryDuration: !Ref 'NeptuneSettingsErrorRetryDuration'
+        IamAuthEnabled: !Ref 'NeptuneSettingsIamAuthEnabled'
+        S3BucketName: !Ref 'NeptuneSettingsS3BucketName'
+        ServiceAccessRoleArn: !Ref 'NeptuneSettingsServiceAccessRoleArn'
+      ElasticsearchSettings:
+        EndpointUri: !Ref 'ElasticsearchSettingsEndpointUri'
+        FullLoadErrorPercentage: !Ref 'ElasticsearchSettingsFullLoadErrorPercentage'
+        ErrorRetryDuration: !Ref 'ElasticsearchSettingsErrorRetryDuration'
+        ServiceAccessRoleArn: !Ref 'ElasticsearchSettingsServiceAccessRoleArn'
+      S3Settings:
+        ExternalTableDefinition: !Ref 'S3SettingsExternalTableDefinition'
+        BucketName: !Ref 'S3SettingsBucketName'
+        BucketFolder: !Ref 'S3SettingsBucketFolder'
+        CsvRowDelimiter: !Ref 'S3SettingsCsvRowDelimiter'
+        CsvDelimiter: !Ref 'S3SettingsCsvDelimiter'
+        ServiceAccessRoleArn: !Ref 'S3SettingsServiceAccessRoleArn'
+        CompressionType: !Ref 'S3SettingsCompressionType'
+      EngineName: !Ref 'EngineName'
+      DynamoDbSettings:
+        ServiceAccessRoleArn: !Ref 'DynamoDbSettingsServiceAccessRoleArn'
+      KinesisSettings:
+        MessageFormat: !Ref 'KinesisSettingsMessageFormat'
+        StreamArn: !Ref 'KinesisSettingsStreamArn'
+        ServiceAccessRoleArn: !Ref 'KinesisSettingsServiceAccessRoleArn'
+      Username: !Ref 'Username'
+      SslMode: !Ref 'SslMode'
+      ServerName: !Ref 'ServerName'
+      ExtraConnectionAttributes: !Ref 'ExtraConnectionAttributes'
+      EndpointType: !Ref 'EndpointType'
+      EndpointIdentifier: !Ref 'EndpointIdentifier'
+      Password: !Ref 'Password'
+      CertificateArn: !Ref 'CertificateArn'
+      MongoDbSettings:
+        AuthSource: !Ref 'MongoDbSettingsAuthSource'
+        AuthMechanism: !Ref 'MongoDbSettingsAuthMechanism'
+        Username: !Ref 'MongoDbSettingsUsername'
+        DocsToInvestigate: !Ref 'MongoDbSettingsDocsToInvestigate'
+        ServerName: !Ref 'MongoDbSettingsServerName'
+        Port: !Ref 'MongoDbSettingsPort'
+        ExtractDocId: !Ref 'MongoDbSettingsExtractDocId'
+        DatabaseName: !Ref 'MongoDbSettingsDatabaseName'
+        AuthType: !Ref 'MongoDbSettingsAuthType'
+        Password: !Ref 'MongoDbSettingsPassword'
+        NestingLevel: !Ref 'MongoDbSettingsNestingLevel'
+Outputs:
+  ExternalId:
+    Value:
+      GetAtt:
+        - Resource
+        - ExternalId

@@ -1,0 +1,27 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-servicecatalog-cloudformationprovisionedproduct.html
+Resources:
+  Resource:
+    Type: AWS::ServiceCatalog::CloudFormationProvisionedProduct
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-servicecatalog-cloudformationprovisionedproduct.html
+Outputs:
+  ProvisionedProductId:
+    Value:
+      GetAtt:
+        - Resource
+        - ProvisionedProductId
+  RecordId:
+    Value:
+      GetAtt:
+        - Resource
+        - RecordId
+  CloudformationStackArn:
+    Value:
+      GetAtt:
+        - Resource
+        - CloudformationStackArn
+  Outputs:
+    Value:
+      GetAtt:
+        - Resource
+        - Outputs

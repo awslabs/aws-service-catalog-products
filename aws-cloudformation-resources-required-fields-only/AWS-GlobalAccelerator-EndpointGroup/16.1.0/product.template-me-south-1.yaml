@@ -1,0 +1,22 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-globalaccelerator-endpointgroup.html
+Parameters:
+  ListenerArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-globalaccelerator-endpointgroup.html#cfn-globalaccelerator-endpointgroup-listenerarn
+  EndpointGroupRegion:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-globalaccelerator-endpointgroup.html#cfn-globalaccelerator-endpointgroup-endpointgroupregion
+Resources:
+  Resource:
+    Type: AWS::GlobalAccelerator::EndpointGroup
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-globalaccelerator-endpointgroup.html
+    Properties:
+      ListenerArn: !Ref 'ListenerArn'
+      EndpointGroupRegion: !Ref 'EndpointGroupRegion'
+Outputs:
+  EndpointGroupArn:
+    Value:
+      GetAtt:
+        - Resource
+        - EndpointGroupArn

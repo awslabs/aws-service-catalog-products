@@ -1,0 +1,56 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codestar-githubrepository.html
+Parameters:
+  EnableIssues:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codestar-githubrepository.html#cfn-codestar-githubrepository-enableissues
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  RepositoryName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codestar-githubrepository.html#cfn-codestar-githubrepository-repositoryname
+  RepositoryAccessToken:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codestar-githubrepository.html#cfn-codestar-githubrepository-repositoryaccesstoken
+  RepositoryOwner:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codestar-githubrepository.html#cfn-codestar-githubrepository-repositoryowner
+  IsPrivate:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codestar-githubrepository.html#cfn-codestar-githubrepository-isprivate
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  CodeS3ObjectVersion:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codestar-githubrepository-s3.html#cfn-codestar-githubrepository-s3-objectversion
+    Default: null
+  CodeS3Bucket:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codestar-githubrepository-s3.html#cfn-codestar-githubrepository-s3-bucket
+  CodeS3Key:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codestar-githubrepository-s3.html#cfn-codestar-githubrepository-s3-key
+  RepositoryDescription:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codestar-githubrepository.html#cfn-codestar-githubrepository-repositorydescription
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::CodeStar::GitHubRepository
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codestar-githubrepository.html
+    Properties:
+      EnableIssues: !Ref 'EnableIssues'
+      RepositoryName: !Ref 'RepositoryName'
+      RepositoryAccessToken: !Ref 'RepositoryAccessToken'
+      RepositoryOwner: !Ref 'RepositoryOwner'
+      IsPrivate: !Ref 'IsPrivate'
+      Code:
+        S3:
+          ObjectVersion: !Ref 'CodeS3ObjectVersion'
+          Bucket: !Ref 'CodeS3Bucket'
+          Key: !Ref 'CodeS3Key'
+      RepositoryDescription: !Ref 'RepositoryDescription'

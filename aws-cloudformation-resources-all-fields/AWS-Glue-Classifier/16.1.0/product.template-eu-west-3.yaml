@@ -1,0 +1,88 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-glue-classifier.html
+Parameters:
+  XMLClassifierRowTag:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-glue-classifier-xmlclassifier.html#cfn-glue-classifier-xmlclassifier-rowtag
+  XMLClassifierClassification:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-glue-classifier-xmlclassifier.html#cfn-glue-classifier-xmlclassifier-classification
+  XMLClassifierName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-glue-classifier-xmlclassifier.html#cfn-glue-classifier-xmlclassifier-name
+    Default: null
+  JsonClassifierJsonPath:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-glue-classifier-jsonclassifier.html#cfn-glue-classifier-jsonclassifier-jsonpath
+  JsonClassifierName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-glue-classifier-jsonclassifier.html#cfn-glue-classifier-jsonclassifier-name
+    Default: null
+  CsvClassifierQuoteSymbol:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-glue-classifier-csvclassifier.html#cfn-glue-classifier-csvclassifier-quotesymbol
+    Default: null
+  CsvClassifierContainsHeader:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-glue-classifier-csvclassifier.html#cfn-glue-classifier-csvclassifier-containsheader
+    Default: null
+  CsvClassifierDelimiter:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-glue-classifier-csvclassifier.html#cfn-glue-classifier-csvclassifier-delimiter
+    Default: null
+  CsvClassifierAllowSingleColumn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-glue-classifier-csvclassifier.html#cfn-glue-classifier-csvclassifier-allowsinglecolumn
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  CsvClassifierDisableValueTrimming:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-glue-classifier-csvclassifier.html#cfn-glue-classifier-csvclassifier-disablevaluetrimming
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  CsvClassifierName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-glue-classifier-csvclassifier.html#cfn-glue-classifier-csvclassifier-name
+    Default: null
+  GrokClassifierCustomPatterns:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-glue-classifier-grokclassifier.html#cfn-glue-classifier-grokclassifier-custompatterns
+    Default: null
+  GrokClassifierGrokPattern:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-glue-classifier-grokclassifier.html#cfn-glue-classifier-grokclassifier-grokpattern
+  GrokClassifierClassification:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-glue-classifier-grokclassifier.html#cfn-glue-classifier-grokclassifier-classification
+  GrokClassifierName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-glue-classifier-grokclassifier.html#cfn-glue-classifier-grokclassifier-name
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::Glue::Classifier
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-glue-classifier.html
+    Properties:
+      XMLClassifier:
+        RowTag: !Ref 'XMLClassifierRowTag'
+        Classification: !Ref 'XMLClassifierClassification'
+        Name: !Ref 'XMLClassifierName'
+      JsonClassifier:
+        JsonPath: !Ref 'JsonClassifierJsonPath'
+        Name: !Ref 'JsonClassifierName'
+      CsvClassifier:
+        QuoteSymbol: !Ref 'CsvClassifierQuoteSymbol'
+        ContainsHeader: !Ref 'CsvClassifierContainsHeader'
+        Delimiter: !Ref 'CsvClassifierDelimiter'
+        AllowSingleColumn: !Ref 'CsvClassifierAllowSingleColumn'
+        DisableValueTrimming: !Ref 'CsvClassifierDisableValueTrimming'
+        Name: !Ref 'CsvClassifierName'
+      GrokClassifier:
+        CustomPatterns: !Ref 'GrokClassifierCustomPatterns'
+        GrokPattern: !Ref 'GrokClassifierGrokPattern'
+        Classification: !Ref 'GrokClassifierClassification'
+        Name: !Ref 'GrokClassifierName'

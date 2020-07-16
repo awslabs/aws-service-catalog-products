@@ -1,0 +1,24 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-clientvpnendpoint.html
+Parameters:
+  ClientCidrBlock:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-clientvpnendpoint.html#cfn-ec2-clientvpnendpoint-clientcidrblock
+  ConnectionLogOptionsEnabled:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-clientvpnendpoint-connectionlogoptions.html#cfn-ec2-clientvpnendpoint-connectionlogoptions-enabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+  ServerCertificateArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-clientvpnendpoint.html#cfn-ec2-clientvpnendpoint-servercertificatearn
+Resources:
+  Resource:
+    Type: AWS::EC2::ClientVpnEndpoint
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-clientvpnendpoint.html
+    Properties:
+      ClientCidrBlock: !Ref 'ClientCidrBlock'
+      ConnectionLogOptions:
+        Enabled: !Ref 'ConnectionLogOptionsEnabled'
+      ServerCertificateArn: !Ref 'ServerCertificateArn'

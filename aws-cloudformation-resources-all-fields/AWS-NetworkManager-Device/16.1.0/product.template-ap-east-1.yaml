@@ -1,0 +1,69 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-networkmanager-device.html
+Parameters:
+  Description:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-networkmanager-device.html#cfn-networkmanager-device-description
+    Default: null
+  GlobalNetworkId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-networkmanager-device.html#cfn-networkmanager-device-globalnetworkid
+  LocationAddress:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-networkmanager-device-location.html#cfn-networkmanager-device-location-address
+    Default: null
+  LocationLatitude:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-networkmanager-device-location.html#cfn-networkmanager-device-location-latitude
+    Default: null
+  LocationLongitude:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-networkmanager-device-location.html#cfn-networkmanager-device-location-longitude
+    Default: null
+  Model:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-networkmanager-device.html#cfn-networkmanager-device-model
+    Default: null
+  SerialNumber:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-networkmanager-device.html#cfn-networkmanager-device-serialnumber
+    Default: null
+  SiteId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-networkmanager-device.html#cfn-networkmanager-device-siteid
+    Default: null
+  Type:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-networkmanager-device.html#cfn-networkmanager-device-type
+    Default: null
+  Vendor:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-networkmanager-device.html#cfn-networkmanager-device-vendor
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::NetworkManager::Device
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-networkmanager-device.html
+    Properties:
+      Description: !Ref 'Description'
+      GlobalNetworkId: !Ref 'GlobalNetworkId'
+      Location:
+        Address: !Ref 'LocationAddress'
+        Latitude: !Ref 'LocationLatitude'
+        Longitude: !Ref 'LocationLongitude'
+      Model: !Ref 'Model'
+      SerialNumber: !Ref 'SerialNumber'
+      SiteId: !Ref 'SiteId'
+      Type: !Ref 'Type'
+      Vendor: !Ref 'Vendor'
+Outputs:
+  DeviceArn:
+    Value:
+      GetAtt:
+        - Resource
+        - DeviceArn
+  DeviceId:
+    Value:
+      GetAtt:
+        - Resource
+        - DeviceId

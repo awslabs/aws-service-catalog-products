@@ -1,0 +1,40 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appsync-apicache.html
+Parameters:
+  Type:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appsync-apicache.html#cfn-appsync-apicache-type
+  TransitEncryptionEnabled:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appsync-apicache.html#cfn-appsync-apicache-transitencryptionenabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  AtRestEncryptionEnabled:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appsync-apicache.html#cfn-appsync-apicache-atrestencryptionenabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  ApiId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appsync-apicache.html#cfn-appsync-apicache-apiid
+  ApiCachingBehavior:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appsync-apicache.html#cfn-appsync-apicache-apicachingbehavior
+  Ttl:
+    Type: Double
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appsync-apicache.html#cfn-appsync-apicache-ttl
+Resources:
+  Resource:
+    Type: AWS::AppSync::ApiCache
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appsync-apicache.html
+    Properties:
+      Type: !Ref 'Type'
+      TransitEncryptionEnabled: !Ref 'TransitEncryptionEnabled'
+      AtRestEncryptionEnabled: !Ref 'AtRestEncryptionEnabled'
+      ApiId: !Ref 'ApiId'
+      ApiCachingBehavior: !Ref 'ApiCachingBehavior'
+      Ttl: !Ref 'Ttl'

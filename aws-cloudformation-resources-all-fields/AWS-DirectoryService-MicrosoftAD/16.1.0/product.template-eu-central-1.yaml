@@ -1,0 +1,58 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-directoryservice-microsoftad.html
+Parameters:
+  CreateAlias:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-directoryservice-microsoftad.html#cfn-directoryservice-microsoftad-createalias
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  Edition:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-directoryservice-microsoftad.html#cfn-directoryservice-microsoftad-edition
+    Default: null
+  EnableSso:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-directoryservice-microsoftad.html#cfn-directoryservice-microsoftad-enablesso
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  Name:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-directoryservice-microsoftad.html#cfn-directoryservice-microsoftad-name
+  Password:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-directoryservice-microsoftad.html#cfn-directoryservice-microsoftad-password
+  ShortName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-directoryservice-microsoftad.html#cfn-directoryservice-microsoftad-shortname
+    Default: null
+  VpcSettingsVpcId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-directoryservice-microsoftad-vpcsettings.html#cfn-directoryservice-microsoftad-vpcsettings-vpcid
+Resources:
+  Resource:
+    Type: AWS::DirectoryService::MicrosoftAD
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-directoryservice-microsoftad.html
+    Properties:
+      CreateAlias: !Ref 'CreateAlias'
+      Edition: !Ref 'Edition'
+      EnableSso: !Ref 'EnableSso'
+      Name: !Ref 'Name'
+      Password: !Ref 'Password'
+      ShortName: !Ref 'ShortName'
+      VpcSettings:
+        VpcId: !Ref 'VpcSettingsVpcId'
+Outputs:
+  Alias:
+    Value:
+      GetAtt:
+        - Resource
+        - Alias
+  DnsIpAddresses:
+    Value:
+      GetAtt:
+        - Resource
+        - DnsIpAddresses

@@ -1,0 +1,45 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appsync-functionconfiguration.html
+Parameters:
+  DataSourceName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appsync-functionconfiguration.html#cfn-appsync-functionconfiguration-datasourcename
+  FunctionVersion:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appsync-functionconfiguration.html#cfn-appsync-functionconfiguration-functionversion
+  ApiId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appsync-functionconfiguration.html#cfn-appsync-functionconfiguration-apiid
+  Name:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appsync-functionconfiguration.html#cfn-appsync-functionconfiguration-name
+Resources:
+  Resource:
+    Type: AWS::AppSync::FunctionConfiguration
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appsync-functionconfiguration.html
+    Properties:
+      DataSourceName: !Ref 'DataSourceName'
+      FunctionVersion: !Ref 'FunctionVersion'
+      ApiId: !Ref 'ApiId'
+      Name: !Ref 'Name'
+Outputs:
+  FunctionId:
+    Value:
+      GetAtt:
+        - Resource
+        - FunctionId
+  FunctionArn:
+    Value:
+      GetAtt:
+        - Resource
+        - FunctionArn
+  DataSourceName:
+    Value:
+      GetAtt:
+        - Resource
+        - DataSourceName
+  Name:
+    Value:
+      GetAtt:
+        - Resource
+        - Name

@@ -1,0 +1,12 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-sagemaker-endpointconfig.html
+Resources:
+  Resource:
+    Type: AWS::SageMaker::EndpointConfig
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-sagemaker-endpointconfig.html
+Outputs:
+  EndpointConfigName:
+    Value:
+      GetAtt:
+        - Resource
+        - EndpointConfigName

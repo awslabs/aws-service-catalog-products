@@ -1,0 +1,31 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-localgatewayroute.html
+Parameters:
+  DestinationCidrBlock:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-localgatewayroute.html#cfn-ec2-localgatewayroute-destinationcidrblock
+  LocalGatewayRouteTableId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-localgatewayroute.html#cfn-ec2-localgatewayroute-localgatewayroutetableid
+  LocalGatewayVirtualInterfaceGroupId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-localgatewayroute.html#cfn-ec2-localgatewayroute-localgatewayvirtualinterfacegroupid
+Resources:
+  Resource:
+    Type: AWS::EC2::LocalGatewayRoute
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-localgatewayroute.html
+    Properties:
+      DestinationCidrBlock: !Ref 'DestinationCidrBlock'
+      LocalGatewayRouteTableId: !Ref 'LocalGatewayRouteTableId'
+      LocalGatewayVirtualInterfaceGroupId: !Ref 'LocalGatewayVirtualInterfaceGroupId'
+Outputs:
+  State:
+    Value:
+      GetAtt:
+        - Resource
+        - State
+  Type:
+    Value:
+      GetAtt:
+        - Resource
+        - Type

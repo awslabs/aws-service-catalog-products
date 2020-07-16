@@ -1,0 +1,102 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-route53-recordset.html
+Parameters:
+  AliasTargetDNSName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-route53-aliastarget.html#cfn-route53-aliastarget-dnshostname
+  AliasTargetEvaluateTargetHealth:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-route53-aliastarget.html#cfn-route53-aliastarget-evaluatetargethealth
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  AliasTargetHostedZoneId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-route53-aliastarget.html#cfn-route53-aliastarget-hostedzoneid
+  Comment:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-route53-recordset.html#cfn-route53-recordset-comment
+    Default: null
+  Failover:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-route53-recordset.html#cfn-route53-recordset-failover
+    Default: null
+  GeoLocationContinentCode:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-route53-recordset-geolocation.html#cfn-route53-recordset-geolocation-continentcode
+    Default: null
+  GeoLocationCountryCode:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-route53-recordset-geolocation.html#cfn-route53-recordset-geolocation-countrycode
+    Default: null
+  GeoLocationSubdivisionCode:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-route53-recordset-geolocation.html#cfn-route53-recordset-geolocation-subdivisioncode
+    Default: null
+  HealthCheckId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-route53-recordset.html#cfn-route53-recordset-healthcheckid
+    Default: null
+  HostedZoneId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-route53-recordset.html#cfn-route53-recordset-hostedzoneid
+    Default: null
+  HostedZoneName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-route53-recordset.html#cfn-route53-recordset-hostedzonename
+    Default: null
+  MultiValueAnswer:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-route53-recordset.html#cfn-route53-recordset-multivalueanswer
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  Name:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-route53-recordset.html#cfn-route53-recordset-name
+  Region:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-route53-recordset.html#cfn-route53-recordset-region
+    Default: null
+  SetIdentifier:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-route53-recordset.html#cfn-route53-recordset-setidentifier
+    Default: null
+  TTL:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-route53-recordset.html#cfn-route53-recordset-ttl
+    Default: null
+  Type:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-route53-recordset.html#cfn-route53-recordset-type
+  Weight:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-route53-recordset.html#cfn-route53-recordset-weight
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::Route53::RecordSet
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-route53-recordset.html
+    Properties:
+      AliasTarget:
+        DNSName: !Ref 'AliasTargetDNSName'
+        EvaluateTargetHealth: !Ref 'AliasTargetEvaluateTargetHealth'
+        HostedZoneId: !Ref 'AliasTargetHostedZoneId'
+      Comment: !Ref 'Comment'
+      Failover: !Ref 'Failover'
+      GeoLocation:
+        ContinentCode: !Ref 'GeoLocationContinentCode'
+        CountryCode: !Ref 'GeoLocationCountryCode'
+        SubdivisionCode: !Ref 'GeoLocationSubdivisionCode'
+      HealthCheckId: !Ref 'HealthCheckId'
+      HostedZoneId: !Ref 'HostedZoneId'
+      HostedZoneName: !Ref 'HostedZoneName'
+      MultiValueAnswer: !Ref 'MultiValueAnswer'
+      Name: !Ref 'Name'
+      Region: !Ref 'Region'
+      SetIdentifier: !Ref 'SetIdentifier'
+      TTL: !Ref 'TTL'
+      Type: !Ref 'Type'
+      Weight: !Ref 'Weight'

@@ -1,0 +1,144 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-fsx-filesystem.html
+Parameters:
+  StorageType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-fsx-filesystem.html#cfn-fsx-filesystem-storagetype
+    Default: null
+  KmsKeyId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-fsx-filesystem.html#cfn-fsx-filesystem-kmskeyid
+    Default: null
+  StorageCapacity:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-fsx-filesystem.html#cfn-fsx-filesystem-storagecapacity
+    Default: null
+  FileSystemType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-fsx-filesystem.html#cfn-fsx-filesystem-filesystemtype
+  LustreConfigurationImportPath:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-fsx-filesystem-lustreconfiguration.html#cfn-fsx-filesystem-lustreconfiguration-importpath
+    Default: null
+  LustreConfigurationWeeklyMaintenanceStartTime:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-fsx-filesystem-lustreconfiguration.html#cfn-fsx-filesystem-lustreconfiguration-weeklymaintenancestarttime
+    Default: null
+  LustreConfigurationImportedFileChunkSize:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-fsx-filesystem-lustreconfiguration.html#cfn-fsx-filesystem-lustreconfiguration-importedfilechunksize
+    Default: null
+  LustreConfigurationDeploymentType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-fsx-filesystem-lustreconfiguration.html#cfn-fsx-filesystem-lustreconfiguration-deploymenttype
+    Default: null
+  LustreConfigurationExportPath:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-fsx-filesystem-lustreconfiguration.html#cfn-fsx-filesystem-lustreconfiguration-exportpath
+    Default: null
+  LustreConfigurationPerUnitStorageThroughput:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-fsx-filesystem-lustreconfiguration.html#cfn-fsx-filesystem-lustreconfiguration-perunitstoragethroughput
+    Default: null
+  BackupId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-fsx-filesystem.html#cfn-fsx-filesystem-backupid
+    Default: null
+  WindowsConfigurationSelfManagedActiveDirectoryConfigurationFileSystemAdministratorsGroup:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-fsx-filesystem-windowsconfiguration-selfmanagedactivedirectoryconfiguration.html#cfn-fsx-filesystem-windowsconfiguration-selfmanagedactivedirectoryconfiguration-filesystemadministratorsgroup
+    Default: null
+  WindowsConfigurationSelfManagedActiveDirectoryConfigurationUserName:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-fsx-filesystem-windowsconfiguration-selfmanagedactivedirectoryconfiguration.html#cfn-fsx-filesystem-windowsconfiguration-selfmanagedactivedirectoryconfiguration-username
+    Default: null
+  WindowsConfigurationSelfManagedActiveDirectoryConfigurationDomainName:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-fsx-filesystem-windowsconfiguration-selfmanagedactivedirectoryconfiguration.html#cfn-fsx-filesystem-windowsconfiguration-selfmanagedactivedirectoryconfiguration-domainname
+    Default: null
+  WindowsConfigurationSelfManagedActiveDirectoryConfigurationOrganizationalUnitDistinguishedName:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-fsx-filesystem-windowsconfiguration-selfmanagedactivedirectoryconfiguration.html#cfn-fsx-filesystem-windowsconfiguration-selfmanagedactivedirectoryconfiguration-organizationalunitdistinguishedname
+    Default: null
+  WindowsConfigurationSelfManagedActiveDirectoryConfigurationPassword:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-fsx-filesystem-windowsconfiguration-selfmanagedactivedirectoryconfiguration.html#cfn-fsx-filesystem-windowsconfiguration-selfmanagedactivedirectoryconfiguration-password
+    Default: null
+  WindowsConfigurationWeeklyMaintenanceStartTime:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-fsx-filesystem-windowsconfiguration.html#cfn-fsx-filesystem-windowsconfiguration-weeklymaintenancestarttime
+    Default: null
+  WindowsConfigurationActiveDirectoryId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-fsx-filesystem-windowsconfiguration.html#cfn-fsx-filesystem-windowsconfiguration-activedirectoryid
+    Default: null
+  WindowsConfigurationDeploymentType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-fsx-filesystem-windowsconfiguration.html#cfn-fsx-filesystem-windowsconfiguration-deploymenttype
+    Default: null
+  WindowsConfigurationThroughputCapacity:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-fsx-filesystem-windowsconfiguration.html#cfn-fsx-filesystem-windowsconfiguration-throughputcapacity
+    Default: null
+  WindowsConfigurationCopyTagsToBackups:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-fsx-filesystem-windowsconfiguration.html#cfn-fsx-filesystem-windowsconfiguration-copytagstobackups
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  WindowsConfigurationDailyAutomaticBackupStartTime:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-fsx-filesystem-windowsconfiguration.html#cfn-fsx-filesystem-windowsconfiguration-dailyautomaticbackupstarttime
+    Default: null
+  WindowsConfigurationAutomaticBackupRetentionDays:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-fsx-filesystem-windowsconfiguration.html#cfn-fsx-filesystem-windowsconfiguration-automaticbackupretentiondays
+    Default: null
+  WindowsConfigurationPreferredSubnetId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-fsx-filesystem-windowsconfiguration.html#cfn-fsx-filesystem-windowsconfiguration-preferredsubnetid
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::FSx::FileSystem
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-fsx-filesystem.html
+    Properties:
+      StorageType: !Ref 'StorageType'
+      KmsKeyId: !Ref 'KmsKeyId'
+      StorageCapacity: !Ref 'StorageCapacity'
+      FileSystemType: !Ref 'FileSystemType'
+      LustreConfiguration:
+        ImportPath: !Ref 'LustreConfigurationImportPath'
+        WeeklyMaintenanceStartTime: !Ref 'LustreConfigurationWeeklyMaintenanceStartTime'
+        ImportedFileChunkSize: !Ref 'LustreConfigurationImportedFileChunkSize'
+        DeploymentType: !Ref 'LustreConfigurationDeploymentType'
+        ExportPath: !Ref 'LustreConfigurationExportPath'
+        PerUnitStorageThroughput: !Ref 'LustreConfigurationPerUnitStorageThroughput'
+      BackupId: !Ref 'BackupId'
+      WindowsConfiguration:
+        SelfManagedActiveDirectoryConfiguration:
+          FileSystemAdministratorsGroup: !Ref 'WindowsConfigurationSelfManagedActiveDirectoryConfigurationFileSystemAdministratorsGroup'
+          UserName: !Ref 'WindowsConfigurationSelfManagedActiveDirectoryConfigurationUserName'
+          DomainName: !Ref 'WindowsConfigurationSelfManagedActiveDirectoryConfigurationDomainName'
+          OrganizationalUnitDistinguishedName: !Ref 'WindowsConfigurationSelfManagedActiveDirectoryConfigurationOrganizationalUnitDistinguishedName'
+          Password: !Ref 'WindowsConfigurationSelfManagedActiveDirectoryConfigurationPassword'
+        WeeklyMaintenanceStartTime: !Ref 'WindowsConfigurationWeeklyMaintenanceStartTime'
+        ActiveDirectoryId: !Ref 'WindowsConfigurationActiveDirectoryId'
+        DeploymentType: !Ref 'WindowsConfigurationDeploymentType'
+        ThroughputCapacity: !Ref 'WindowsConfigurationThroughputCapacity'
+        CopyTagsToBackups: !Ref 'WindowsConfigurationCopyTagsToBackups'
+        DailyAutomaticBackupStartTime: !Ref 'WindowsConfigurationDailyAutomaticBackupStartTime'
+        AutomaticBackupRetentionDays: !Ref 'WindowsConfigurationAutomaticBackupRetentionDays'
+        PreferredSubnetId: !Ref 'WindowsConfigurationPreferredSubnetId'
+Outputs:
+  LustreMountName:
+    Value:
+      GetAtt:
+        - Resource
+        - LustreMountName

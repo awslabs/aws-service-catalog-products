@@ -1,0 +1,51 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iot-provisioningtemplate.html
+Parameters:
+  TemplateName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iot-provisioningtemplate.html#cfn-iot-provisioningtemplate-templatename
+    Default: null
+  Description:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iot-provisioningtemplate.html#cfn-iot-provisioningtemplate-description
+    Default: null
+  Enabled:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iot-provisioningtemplate.html#cfn-iot-provisioningtemplate-enabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  ProvisioningRoleArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iot-provisioningtemplate.html#cfn-iot-provisioningtemplate-provisioningrolearn
+  TemplateBody:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iot-provisioningtemplate.html#cfn-iot-provisioningtemplate-templatebody
+  ProvisioningHookTargetArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-provisioningtemplate-provisioninghook.html#cfn-iot-provisioningtemplate-provisioninghook-targetarn
+    Default: null
+  ProvisioningHookPayloadVersion:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-provisioningtemplate-provisioninghook.html#cfn-iot-provisioningtemplate-provisioninghook-payloadversion
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::IoT::ProvisioningTemplate
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iot-provisioningtemplate.html
+    Properties:
+      TemplateName: !Ref 'TemplateName'
+      Description: !Ref 'Description'
+      Enabled: !Ref 'Enabled'
+      ProvisioningRoleArn: !Ref 'ProvisioningRoleArn'
+      TemplateBody: !Ref 'TemplateBody'
+      PreProvisioningHook:
+        TargetArn: !Ref 'ProvisioningHookTargetArn'
+        PayloadVersion: !Ref 'ProvisioningHookPayloadVersion'
+Outputs:
+  TemplateArn:
+    Value:
+      GetAtt:
+        - Resource
+        - TemplateArn

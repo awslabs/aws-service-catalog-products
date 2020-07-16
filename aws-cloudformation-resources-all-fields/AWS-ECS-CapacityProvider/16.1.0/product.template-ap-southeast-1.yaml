@@ -1,0 +1,45 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ecs-capacityprovider.html
+Parameters:
+  AutoScalingGroupProviderAutoScalingGroupArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ecs-capacityprovider-autoscalinggroupprovider.html#cfn-ecs-capacityprovider-autoscalinggroupprovider-autoscalinggrouparn
+  AutoScalingGroupProviderManagedScalingMinimumScalingStepSize:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ecs-capacityprovider-managedscaling.html#cfn-ecs-capacityprovider-managedscaling-minimumscalingstepsize
+    Default: null
+  AutoScalingGroupProviderManagedScalingMaximumScalingStepSize:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ecs-capacityprovider-managedscaling.html#cfn-ecs-capacityprovider-managedscaling-maximumscalingstepsize
+    Default: null
+  AutoScalingGroupProviderManagedScalingStatus:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ecs-capacityprovider-managedscaling.html#cfn-ecs-capacityprovider-managedscaling-status
+    Default: null
+  AutoScalingGroupProviderManagedScalingTargetCapacity:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ecs-capacityprovider-managedscaling.html#cfn-ecs-capacityprovider-managedscaling-targetcapacity
+    Default: null
+  AutoScalingGroupProviderManagedTerminationProtection:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ecs-capacityprovider-autoscalinggroupprovider.html#cfn-ecs-capacityprovider-autoscalinggroupprovider-managedterminationprotection
+    Default: null
+  Name:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ecs-capacityprovider.html#cfn-ecs-capacityprovider-name
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::ECS::CapacityProvider
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ecs-capacityprovider.html
+    Properties:
+      AutoScalingGroupProvider:
+        AutoScalingGroupArn: !Ref 'AutoScalingGroupProviderAutoScalingGroupArn'
+        ManagedScaling:
+          MinimumScalingStepSize: !Ref 'AutoScalingGroupProviderManagedScalingMinimumScalingStepSize'
+          MaximumScalingStepSize: !Ref 'AutoScalingGroupProviderManagedScalingMaximumScalingStepSize'
+          Status: !Ref 'AutoScalingGroupProviderManagedScalingStatus'
+          TargetCapacity: !Ref 'AutoScalingGroupProviderManagedScalingTargetCapacity'
+        ManagedTerminationProtection: !Ref 'AutoScalingGroupProviderManagedTerminationProtection'
+      Name: !Ref 'Name'

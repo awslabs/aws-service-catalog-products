@@ -1,0 +1,122 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-applicationautoscaling-scalingpolicy.html
+Parameters:
+  PolicyName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-applicationautoscaling-scalingpolicy.html#cfn-applicationautoscaling-scalingpolicy-policyname
+  PolicyType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-applicationautoscaling-scalingpolicy.html#cfn-applicationautoscaling-scalingpolicy-policytype
+  ResourceId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-applicationautoscaling-scalingpolicy.html#cfn-applicationautoscaling-scalingpolicy-resourceid
+    Default: null
+  ScalableDimension:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-applicationautoscaling-scalingpolicy.html#cfn-applicationautoscaling-scalingpolicy-scalabledimension
+    Default: null
+  ScalingTargetId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-applicationautoscaling-scalingpolicy.html#cfn-applicationautoscaling-scalingpolicy-scalingtargetid
+    Default: null
+  ServiceNamespace:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-applicationautoscaling-scalingpolicy.html#cfn-applicationautoscaling-scalingpolicy-servicenamespace
+    Default: null
+  StepScalingPolicyConfigurationAdjustmentType:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-applicationautoscaling-scalingpolicy-stepscalingpolicyconfiguration.html#cfn-applicationautoscaling-scalingpolicy-stepscalingpolicyconfiguration-adjustmenttype
+    Default: null
+  StepScalingPolicyConfigurationCooldown:
+    Type: Number
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-applicationautoscaling-scalingpolicy-stepscalingpolicyconfiguration.html#cfn-applicationautoscaling-scalingpolicy-stepscalingpolicyconfiguration-cooldown
+    Default: null
+  StepScalingPolicyConfigurationMetricAggregationType:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-applicationautoscaling-scalingpolicy-stepscalingpolicyconfiguration.html#cfn-applicationautoscaling-scalingpolicy-stepscalingpolicyconfiguration-metricaggregationtype
+    Default: null
+  StepScalingPolicyConfigurationMinAdjustmentMagnitude:
+    Type: Number
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-applicationautoscaling-scalingpolicy-stepscalingpolicyconfiguration.html#cfn-applicationautoscaling-scalingpolicy-stepscalingpolicyconfiguration-minadjustmentmagnitude
+    Default: null
+  TargetTrackingScalingPolicyConfigurationCustomizedMetricSpecificationMetricName:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-applicationautoscaling-scalingpolicy-customizedmetricspecification.html#cfn-applicationautoscaling-scalingpolicy-customizedmetricspecification-metricname
+  TargetTrackingScalingPolicyConfigurationCustomizedMetricSpecificationNamespace:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-applicationautoscaling-scalingpolicy-customizedmetricspecification.html#cfn-applicationautoscaling-scalingpolicy-customizedmetricspecification-namespace
+  TargetTrackingScalingPolicyConfigurationCustomizedMetricSpecificationStatistic:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-applicationautoscaling-scalingpolicy-customizedmetricspecification.html#cfn-applicationautoscaling-scalingpolicy-customizedmetricspecification-statistic
+  TargetTrackingScalingPolicyConfigurationCustomizedMetricSpecificationUnit:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-applicationautoscaling-scalingpolicy-customizedmetricspecification.html#cfn-applicationautoscaling-scalingpolicy-customizedmetricspecification-unit
+    Default: null
+  TargetTrackingScalingPolicyConfigurationDisableScaleIn:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-applicationautoscaling-scalingpolicy-targettrackingscalingpolicyconfiguration.html#cfn-applicationautoscaling-scalingpolicy-targettrackingscalingpolicyconfiguration-disablescalein
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  TargetTrackingScalingPolicyConfigurationPredefinedMetricSpecificationPredefinedMetricType:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-applicationautoscaling-scalingpolicy-predefinedmetricspecification.html#cfn-applicationautoscaling-scalingpolicy-predefinedmetricspecification-predefinedmetrictype
+  TargetTrackingScalingPolicyConfigurationPredefinedMetricSpecificationResourceLabel:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-applicationautoscaling-scalingpolicy-predefinedmetricspecification.html#cfn-applicationautoscaling-scalingpolicy-predefinedmetricspecification-resourcelabel
+    Default: null
+  TargetTrackingScalingPolicyConfigurationScaleInCooldown:
+    Type: Number
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-applicationautoscaling-scalingpolicy-targettrackingscalingpolicyconfiguration.html#cfn-applicationautoscaling-scalingpolicy-targettrackingscalingpolicyconfiguration-scaleincooldown
+    Default: null
+  TargetTrackingScalingPolicyConfigurationScaleOutCooldown:
+    Type: Number
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-applicationautoscaling-scalingpolicy-targettrackingscalingpolicyconfiguration.html#cfn-applicationautoscaling-scalingpolicy-targettrackingscalingpolicyconfiguration-scaleoutcooldown
+    Default: null
+  TargetTrackingScalingPolicyConfigurationTargetValue:
+    Type: Double
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-applicationautoscaling-scalingpolicy-targettrackingscalingpolicyconfiguration.html#cfn-applicationautoscaling-scalingpolicy-targettrackingscalingpolicyconfiguration-targetvalue
+Resources:
+  Resource:
+    Type: AWS::ApplicationAutoScaling::ScalingPolicy
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-applicationautoscaling-scalingpolicy.html
+    Properties:
+      PolicyName: !Ref 'PolicyName'
+      PolicyType: !Ref 'PolicyType'
+      ResourceId: !Ref 'ResourceId'
+      ScalableDimension: !Ref 'ScalableDimension'
+      ScalingTargetId: !Ref 'ScalingTargetId'
+      ServiceNamespace: !Ref 'ServiceNamespace'
+      StepScalingPolicyConfiguration:
+        AdjustmentType: !Ref 'StepScalingPolicyConfigurationAdjustmentType'
+        Cooldown: !Ref 'StepScalingPolicyConfigurationCooldown'
+        MetricAggregationType: !Ref 'StepScalingPolicyConfigurationMetricAggregationType'
+        MinAdjustmentMagnitude: !Ref 'StepScalingPolicyConfigurationMinAdjustmentMagnitude'
+      TargetTrackingScalingPolicyConfiguration:
+        CustomizedMetricSpecification:
+          MetricName: !Ref 'TargetTrackingScalingPolicyConfigurationCustomizedMetricSpecificationMetricName'
+          Namespace: !Ref 'TargetTrackingScalingPolicyConfigurationCustomizedMetricSpecificationNamespace'
+          Statistic: !Ref 'TargetTrackingScalingPolicyConfigurationCustomizedMetricSpecificationStatistic'
+          Unit: !Ref 'TargetTrackingScalingPolicyConfigurationCustomizedMetricSpecificationUnit'
+        DisableScaleIn: !Ref 'TargetTrackingScalingPolicyConfigurationDisableScaleIn'
+        PredefinedMetricSpecification:
+          PredefinedMetricType: !Ref 'TargetTrackingScalingPolicyConfigurationPredefinedMetricSpecificationPredefinedMetricType'
+          ResourceLabel: !Ref 'TargetTrackingScalingPolicyConfigurationPredefinedMetricSpecificationResourceLabel'
+        ScaleInCooldown: !Ref 'TargetTrackingScalingPolicyConfigurationScaleInCooldown'
+        ScaleOutCooldown: !Ref 'TargetTrackingScalingPolicyConfigurationScaleOutCooldown'
+        TargetValue: !Ref 'TargetTrackingScalingPolicyConfigurationTargetValue'

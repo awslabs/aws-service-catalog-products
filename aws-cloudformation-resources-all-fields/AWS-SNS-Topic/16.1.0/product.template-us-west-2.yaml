@@ -1,0 +1,45 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sns-topic.html
+Parameters:
+  ContentBasedDeduplication:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sns-topic.html#cfn-sns-topic-contentbaseddeduplication
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  DisplayName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sns-topic.html#cfn-sns-topic-displayname
+    Default: null
+  FifoTopic:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sns-topic.html#cfn-sns-topic-fifotopic
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  KmsMasterKeyId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sns-topic.html#cfn-sns-topic-kmsmasterkeyid
+    Default: null
+  TopicName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sns-topic.html#cfn-sns-topic-topicname
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::SNS::Topic
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sns-topic.html
+    Properties:
+      ContentBasedDeduplication: !Ref 'ContentBasedDeduplication'
+      DisplayName: !Ref 'DisplayName'
+      FifoTopic: !Ref 'FifoTopic'
+      KmsMasterKeyId: !Ref 'KmsMasterKeyId'
+      TopicName: !Ref 'TopicName'
+Outputs:
+  TopicName:
+    Value:
+      GetAtt:
+        - Resource
+        - TopicName

@@ -1,0 +1,62 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-directoryservice-simplead.html
+Parameters:
+  CreateAlias:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-directoryservice-simplead.html#cfn-directoryservice-simplead-createalias
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  Description:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-directoryservice-simplead.html#cfn-directoryservice-simplead-description
+    Default: null
+  EnableSso:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-directoryservice-simplead.html#cfn-directoryservice-simplead-enablesso
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  Name:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-directoryservice-simplead.html#cfn-directoryservice-simplead-name
+  Password:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-directoryservice-simplead.html#cfn-directoryservice-simplead-password
+  ShortName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-directoryservice-simplead.html#cfn-directoryservice-simplead-shortname
+    Default: null
+  Size:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-directoryservice-simplead.html#cfn-directoryservice-simplead-size
+  VpcSettingsVpcId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-directoryservice-simplead-vpcsettings.html#cfn-directoryservice-simplead-vpcsettings-vpcid
+Resources:
+  Resource:
+    Type: AWS::DirectoryService::SimpleAD
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-directoryservice-simplead.html
+    Properties:
+      CreateAlias: !Ref 'CreateAlias'
+      Description: !Ref 'Description'
+      EnableSso: !Ref 'EnableSso'
+      Name: !Ref 'Name'
+      Password: !Ref 'Password'
+      ShortName: !Ref 'ShortName'
+      Size: !Ref 'Size'
+      VpcSettings:
+        VpcId: !Ref 'VpcSettingsVpcId'
+Outputs:
+  Alias:
+    Value:
+      GetAtt:
+        - Resource
+        - Alias
+  DnsIpAddresses:
+    Value:
+      GetAtt:
+        - Resource
+        - DnsIpAddresses

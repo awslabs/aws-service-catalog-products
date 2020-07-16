@@ -1,0 +1,23 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-networkmanager-device.html
+Parameters:
+  GlobalNetworkId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-networkmanager-device.html#cfn-networkmanager-device-globalnetworkid
+Resources:
+  Resource:
+    Type: AWS::NetworkManager::Device
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-networkmanager-device.html
+    Properties:
+      GlobalNetworkId: !Ref 'GlobalNetworkId'
+Outputs:
+  DeviceArn:
+    Value:
+      GetAtt:
+        - Resource
+        - DeviceArn
+  DeviceId:
+    Value:
+      GetAtt:
+        - Resource
+        - DeviceId

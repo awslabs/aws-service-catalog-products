@@ -1,0 +1,31 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dax-cluster.html
+Parameters:
+  ReplicationFactor:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dax-cluster.html#cfn-dax-cluster-replicationfactor
+  IAMRoleARN:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dax-cluster.html#cfn-dax-cluster-iamrolearn
+  NodeType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dax-cluster.html#cfn-dax-cluster-nodetype
+Resources:
+  Resource:
+    Type: AWS::DAX::Cluster
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dax-cluster.html
+    Properties:
+      ReplicationFactor: !Ref 'ReplicationFactor'
+      IAMRoleARN: !Ref 'IAMRoleARN'
+      NodeType: !Ref 'NodeType'
+Outputs:
+  ClusterDiscoveryEndpoint:
+    Value:
+      GetAtt:
+        - Resource
+        - ClusterDiscoveryEndpoint
+  Arn:
+    Value:
+      GetAtt:
+        - Resource
+        - Arn

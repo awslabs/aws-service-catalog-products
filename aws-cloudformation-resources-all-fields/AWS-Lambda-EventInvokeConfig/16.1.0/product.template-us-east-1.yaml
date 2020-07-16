@@ -1,0 +1,39 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-eventinvokeconfig.html
+Parameters:
+  FunctionName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-eventinvokeconfig.html#cfn-lambda-eventinvokeconfig-functionname
+  MaximumRetryAttempts:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-eventinvokeconfig.html#cfn-lambda-eventinvokeconfig-maximumretryattempts
+    Default: null
+  DestinationConfigOnSuccessDestination:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-lambda-eventinvokeconfig-destinationconfig-onsuccess.html#cfn-lambda-eventinvokeconfig-destinationconfig-onsuccess-destination
+  DestinationConfigOnFailureDestination:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-lambda-eventinvokeconfig-destinationconfig-onfailure.html#cfn-lambda-eventinvokeconfig-destinationconfig-onfailure-destination
+  Qualifier:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-eventinvokeconfig.html#cfn-lambda-eventinvokeconfig-qualifier
+  MaximumEventAgeInSeconds:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-eventinvokeconfig.html#cfn-lambda-eventinvokeconfig-maximumeventageinseconds
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::Lambda::EventInvokeConfig
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-eventinvokeconfig.html
+    Properties:
+      FunctionName: !Ref 'FunctionName'
+      MaximumRetryAttempts: !Ref 'MaximumRetryAttempts'
+      DestinationConfig:
+        OnSuccess:
+          Destination: !Ref 'DestinationConfigOnSuccessDestination'
+        OnFailure:
+          Destination: !Ref 'DestinationConfigOnFailureDestination'
+      Qualifier: !Ref 'Qualifier'
+      MaximumEventAgeInSeconds: !Ref 'MaximumEventAgeInSeconds'

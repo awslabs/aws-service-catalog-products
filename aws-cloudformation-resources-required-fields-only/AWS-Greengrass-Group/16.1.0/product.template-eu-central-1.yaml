@@ -1,0 +1,43 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-greengrass-group.html
+Parameters:
+  Name:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-greengrass-group.html#cfn-greengrass-group-name
+Resources:
+  Resource:
+    Type: AWS::Greengrass::Group
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-greengrass-group.html
+    Properties:
+      Name: !Ref 'Name'
+Outputs:
+  RoleAttachedAt:
+    Value:
+      GetAtt:
+        - Resource
+        - RoleAttachedAt
+  LatestVersionArn:
+    Value:
+      GetAtt:
+        - Resource
+        - LatestVersionArn
+  Id:
+    Value:
+      GetAtt:
+        - Resource
+        - Id
+  Arn:
+    Value:
+      GetAtt:
+        - Resource
+        - Arn
+  RoleArn:
+    Value:
+      GetAtt:
+        - Resource
+        - RoleArn
+  Name:
+    Value:
+      GetAtt:
+        - Resource
+        - Name

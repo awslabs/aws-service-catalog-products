@@ -1,0 +1,59 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-transfer-server.html
+Parameters:
+  LoggingRole:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-transfer-server.html#cfn-transfer-server-loggingrole
+    Default: null
+  IdentityProviderDetailsInvocationRole:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-transfer-server-identityproviderdetails.html#cfn-transfer-server-identityproviderdetails-invocationrole
+  IdentityProviderDetailsUrl:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-transfer-server-identityproviderdetails.html#cfn-transfer-server-identityproviderdetails-url
+  EndpointType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-transfer-server.html#cfn-transfer-server-endpointtype
+    Default: null
+  EndpointDetailsVpcId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-transfer-server-endpointdetails.html#cfn-transfer-server-endpointdetails-vpcid
+    Default: null
+  EndpointDetailsVpcEndpointId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-transfer-server-endpointdetails.html#cfn-transfer-server-endpointdetails-vpcendpointid
+    Default: null
+  IdentityProviderType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-transfer-server.html#cfn-transfer-server-identityprovidertype
+    Default: null
+  Certificate:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-transfer-server.html#cfn-transfer-server-certificate
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::Transfer::Server
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-transfer-server.html
+    Properties:
+      LoggingRole: !Ref 'LoggingRole'
+      IdentityProviderDetails:
+        InvocationRole: !Ref 'IdentityProviderDetailsInvocationRole'
+        Url: !Ref 'IdentityProviderDetailsUrl'
+      EndpointType: !Ref 'EndpointType'
+      EndpointDetails:
+        VpcId: !Ref 'EndpointDetailsVpcId'
+        VpcEndpointId: !Ref 'EndpointDetailsVpcEndpointId'
+      IdentityProviderType: !Ref 'IdentityProviderType'
+      Certificate: !Ref 'Certificate'
+Outputs:
+  ServerId:
+    Value:
+      GetAtt:
+        - Resource
+        - ServerId
+  Arn:
+    Value:
+      GetAtt:
+        - Resource
+        - Arn

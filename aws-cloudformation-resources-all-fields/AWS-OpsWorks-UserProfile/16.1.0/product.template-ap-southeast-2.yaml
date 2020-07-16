@@ -1,0 +1,36 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opsworks-userprofile.html
+Parameters:
+  AllowSelfManagement:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opsworks-userprofile.html#cfn-opsworks-userprofile-allowselfmanagement
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  IamUserArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opsworks-userprofile.html#cfn-opsworks-userprofile-iamuserarn
+  SshPublicKey:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opsworks-userprofile.html#cfn-opsworks-userprofile-sshpublickey
+    Default: null
+  SshUsername:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opsworks-userprofile.html#cfn-opsworks-userprofile-sshusername
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::OpsWorks::UserProfile
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opsworks-userprofile.html
+    Properties:
+      AllowSelfManagement: !Ref 'AllowSelfManagement'
+      IamUserArn: !Ref 'IamUserArn'
+      SshPublicKey: !Ref 'SshPublicKey'
+      SshUsername: !Ref 'SshUsername'
+Outputs:
+  SshUsername:
+    Value:
+      GetAtt:
+        - Resource
+        - SshUsername

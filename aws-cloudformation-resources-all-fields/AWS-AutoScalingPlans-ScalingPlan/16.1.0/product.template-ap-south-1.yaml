@@ -1,0 +1,26 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-autoscalingplans-scalingplan.html
+Parameters:
+  ApplicationSourceCloudFormationStackARN:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-autoscalingplans-scalingplan-applicationsource.html#cfn-autoscalingplans-scalingplan-applicationsource-cloudformationstackarn
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::AutoScalingPlans::ScalingPlan
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-autoscalingplans-scalingplan.html
+    Properties:
+      ApplicationSource:
+        CloudFormationStackARN: !Ref 'ApplicationSourceCloudFormationStackARN'
+Outputs:
+  ScalingPlanName:
+    Value:
+      GetAtt:
+        - Resource
+        - ScalingPlanName
+  ScalingPlanVersion:
+    Value:
+      GetAtt:
+        - Resource
+        - ScalingPlanVersion

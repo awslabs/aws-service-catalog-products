@@ -1,0 +1,42 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-glue-connection.html
+Parameters:
+  ConnectionInputDescription:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-glue-connection-connectioninput.html#cfn-glue-connection-connectioninput-description
+    Default: null
+  ConnectionInputConnectionType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-glue-connection-connectioninput.html#cfn-glue-connection-connectioninput-connectiontype
+  ConnectionInputPhysicalConnectionRequirementsAvailabilityZone:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-glue-connection-physicalconnectionrequirements.html#cfn-glue-connection-physicalconnectionrequirements-availabilityzone
+    Default: null
+  ConnectionInputPhysicalConnectionRequirementsSubnetId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-glue-connection-physicalconnectionrequirements.html#cfn-glue-connection-physicalconnectionrequirements-subnetid
+    Default: null
+  ConnectionInputConnectionProperties:
+    Type: Json
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-glue-connection-connectioninput.html#cfn-glue-connection-connectioninput-connectionproperties
+  ConnectionInputName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-glue-connection-connectioninput.html#cfn-glue-connection-connectioninput-name
+    Default: null
+  CatalogId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-glue-connection.html#cfn-glue-connection-catalogid
+Resources:
+  Resource:
+    Type: AWS::Glue::Connection
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-glue-connection.html
+    Properties:
+      ConnectionInput:
+        Description: !Ref 'ConnectionInputDescription'
+        ConnectionType: !Ref 'ConnectionInputConnectionType'
+        PhysicalConnectionRequirements:
+          AvailabilityZone: !Ref 'ConnectionInputPhysicalConnectionRequirementsAvailabilityZone'
+          SubnetId: !Ref 'ConnectionInputPhysicalConnectionRequirementsSubnetId'
+        ConnectionProperties: !Ref 'ConnectionInputConnectionProperties'
+        Name: !Ref 'ConnectionInputName'
+      CatalogId: !Ref 'CatalogId'

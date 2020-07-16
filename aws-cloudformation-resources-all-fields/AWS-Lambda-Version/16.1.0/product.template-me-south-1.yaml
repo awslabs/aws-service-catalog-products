@@ -1,0 +1,34 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-version.html
+Parameters:
+  CodeSha256:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-version.html#cfn-lambda-version-codesha256
+    Default: null
+  Description:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-version.html#cfn-lambda-version-description
+    Default: null
+  FunctionName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-version.html#cfn-lambda-version-functionname
+  ProvisionedConcurrencyConfigurationProvisionedConcurrentExecutions:
+    Type: Number
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-lambda-version-provisionedconcurrencyconfiguration.html#cfn-lambda-version-provisionedconcurrencyconfiguration-provisionedconcurrentexecutions
+Resources:
+  Resource:
+    Type: AWS::Lambda::Version
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-version.html
+    Properties:
+      CodeSha256: !Ref 'CodeSha256'
+      Description: !Ref 'Description'
+      FunctionName: !Ref 'FunctionName'
+      ProvisionedConcurrencyConfig:
+        ProvisionedConcurrentExecutions: !Ref 'ProvisionedConcurrencyConfigurationProvisionedConcurrentExecutions'
+Outputs:
+  Version:
+    Value:
+      GetAtt:
+        - Resource
+        - Version

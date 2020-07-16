@@ -1,0 +1,61 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-network-interface.html
+Parameters:
+  Description:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-network-interface.html#cfn-awsec2networkinterface-description
+    Default: null
+  InterfaceType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-network-interface.html#cfn-ec2-networkinterface-interfacetype
+    Default: null
+  Ipv6AddressCount:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-network-interface.html#cfn-ec2-networkinterface-ipv6addresscount
+    Default: null
+  InstanceIpv6AddressIpv6Address:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-networkinterface-instanceipv6address.html#cfn-ec2-networkinterface-instanceipv6address-ipv6address
+  PrivateIpAddress:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-network-interface.html#cfn-awsec2networkinterface-privateipaddress
+    Default: null
+  SecondaryPrivateIpAddressCount:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-network-interface.html#cfn-awsec2networkinterface-secondaryprivateipcount
+    Default: null
+  SourceDestCheck:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-network-interface.html#cfn-awsec2networkinterface-sourcedestcheck
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  SubnetId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-network-interface.html#cfn-awsec2networkinterface-subnetid
+Resources:
+  Resource:
+    Type: AWS::EC2::NetworkInterface
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-network-interface.html
+    Properties:
+      Description: !Ref 'Description'
+      InterfaceType: !Ref 'InterfaceType'
+      Ipv6AddressCount: !Ref 'Ipv6AddressCount'
+      Ipv6Addresses:
+        Ipv6Address: !Ref 'InstanceIpv6AddressIpv6Address'
+      PrivateIpAddress: !Ref 'PrivateIpAddress'
+      SecondaryPrivateIpAddressCount: !Ref 'SecondaryPrivateIpAddressCount'
+      SourceDestCheck: !Ref 'SourceDestCheck'
+      SubnetId: !Ref 'SubnetId'
+Outputs:
+  PrimaryPrivateIpAddress:
+    Value:
+      GetAtt:
+        - Resource
+        - PrimaryPrivateIpAddress
+  SecondaryPrivateIpAddresses:
+    Value:
+      GetAtt:
+        - Resource
+        - SecondaryPrivateIpAddresses

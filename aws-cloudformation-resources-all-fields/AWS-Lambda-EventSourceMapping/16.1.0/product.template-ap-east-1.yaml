@@ -1,0 +1,68 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-eventsourcemapping.html
+Parameters:
+  BatchSize:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-eventsourcemapping.html#cfn-lambda-eventsourcemapping-batchsize
+    Default: null
+  BisectBatchOnFunctionError:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-eventsourcemapping.html#cfn-lambda-eventsourcemapping-bisectbatchonfunctionerror
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  DestinationConfigOnFailureDestination:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-lambda-eventsourcemapping-onfailure.html#cfn-lambda-eventsourcemapping-onfailure-destination
+  Enabled:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-eventsourcemapping.html#cfn-lambda-eventsourcemapping-enabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  EventSourceArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-eventsourcemapping.html#cfn-lambda-eventsourcemapping-eventsourcearn
+  FunctionName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-eventsourcemapping.html#cfn-lambda-eventsourcemapping-functionname
+  MaximumBatchingWindowInSeconds:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-eventsourcemapping.html#cfn-lambda-eventsourcemapping-maximumbatchingwindowinseconds
+    Default: null
+  MaximumRecordAgeInSeconds:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-eventsourcemapping.html#cfn-lambda-eventsourcemapping-maximumrecordageinseconds
+    Default: null
+  MaximumRetryAttempts:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-eventsourcemapping.html#cfn-lambda-eventsourcemapping-maximumretryattempts
+    Default: null
+  ParallelizationFactor:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-eventsourcemapping.html#cfn-lambda-eventsourcemapping-parallelizationfactor
+    Default: null
+  StartingPosition:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-eventsourcemapping.html#cfn-lambda-eventsourcemapping-startingposition
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::Lambda::EventSourceMapping
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-eventsourcemapping.html
+    Properties:
+      BatchSize: !Ref 'BatchSize'
+      BisectBatchOnFunctionError: !Ref 'BisectBatchOnFunctionError'
+      DestinationConfig:
+        OnFailure:
+          Destination: !Ref 'DestinationConfigOnFailureDestination'
+      Enabled: !Ref 'Enabled'
+      EventSourceArn: !Ref 'EventSourceArn'
+      FunctionName: !Ref 'FunctionName'
+      MaximumBatchingWindowInSeconds: !Ref 'MaximumBatchingWindowInSeconds'
+      MaximumRecordAgeInSeconds: !Ref 'MaximumRecordAgeInSeconds'
+      MaximumRetryAttempts: !Ref 'MaximumRetryAttempts'
+      ParallelizationFactor: !Ref 'ParallelizationFactor'
+      StartingPosition: !Ref 'StartingPosition'

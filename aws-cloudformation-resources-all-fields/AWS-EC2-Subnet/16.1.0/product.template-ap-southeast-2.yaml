@@ -1,0 +1,63 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-subnet.html
+Parameters:
+  AssignIpv6AddressOnCreation:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-subnet.html#cfn-ec2-subnet-assignipv6addressoncreation
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  AvailabilityZone:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-subnet.html#cfn-ec2-subnet-availabilityzone
+    Default: null
+  CidrBlock:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-subnet.html#cfn-ec2-subnet-cidrblock
+  Ipv6CidrBlock:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-subnet.html#cfn-ec2-subnet-ipv6cidrblock
+    Default: null
+  MapPublicIpOnLaunch:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-subnet.html#cfn-ec2-subnet-mappubliciponlaunch
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  VpcId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-subnet.html#cfn-awsec2subnet-prop-vpcid
+Resources:
+  Resource:
+    Type: AWS::EC2::Subnet
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-subnet.html
+    Properties:
+      AssignIpv6AddressOnCreation: !Ref 'AssignIpv6AddressOnCreation'
+      AvailabilityZone: !Ref 'AvailabilityZone'
+      CidrBlock: !Ref 'CidrBlock'
+      Ipv6CidrBlock: !Ref 'Ipv6CidrBlock'
+      MapPublicIpOnLaunch: !Ref 'MapPublicIpOnLaunch'
+      VpcId: !Ref 'VpcId'
+Outputs:
+  AvailabilityZone:
+    Value:
+      GetAtt:
+        - Resource
+        - AvailabilityZone
+  Ipv6CidrBlocks:
+    Value:
+      GetAtt:
+        - Resource
+        - Ipv6CidrBlocks
+  NetworkAclAssociationId:
+    Value:
+      GetAtt:
+        - Resource
+        - NetworkAclAssociationId
+  VpcId:
+    Value:
+      GetAtt:
+        - Resource
+        - VpcId

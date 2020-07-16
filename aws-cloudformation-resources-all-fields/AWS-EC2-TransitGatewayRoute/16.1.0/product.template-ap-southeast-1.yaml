@@ -1,0 +1,30 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-transitgatewayroute.html
+Parameters:
+  TransitGatewayRouteTableId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-transitgatewayroute.html#cfn-ec2-transitgatewayroute-transitgatewayroutetableid
+  DestinationCidrBlock:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-transitgatewayroute.html#cfn-ec2-transitgatewayroute-destinationcidrblock
+    Default: null
+  Blackhole:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-transitgatewayroute.html#cfn-ec2-transitgatewayroute-blackhole
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  TransitGatewayAttachmentId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-transitgatewayroute.html#cfn-ec2-transitgatewayroute-transitgatewayattachmentid
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::EC2::TransitGatewayRoute
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-transitgatewayroute.html
+    Properties:
+      TransitGatewayRouteTableId: !Ref 'TransitGatewayRouteTableId'
+      DestinationCidrBlock: !Ref 'DestinationCidrBlock'
+      Blackhole: !Ref 'Blackhole'
+      TransitGatewayAttachmentId: !Ref 'TransitGatewayAttachmentId'

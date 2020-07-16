@@ -1,0 +1,43 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iotanalytics-datastore.html
+Parameters:
+  DatastoreStorageCustomerManagedS3Bucket:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iotanalytics-datastore-customermanageds3.html#cfn-iotanalytics-datastore-customermanageds3-bucket
+  DatastoreStorageCustomerManagedS3RoleArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iotanalytics-datastore-customermanageds3.html#cfn-iotanalytics-datastore-customermanageds3-rolearn
+  DatastoreStorageCustomerManagedS3KeyPrefix:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iotanalytics-datastore-customermanageds3.html#cfn-iotanalytics-datastore-customermanageds3-keyprefix
+    Default: null
+  DatastoreName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iotanalytics-datastore.html#cfn-iotanalytics-datastore-datastorename
+    Default: null
+  RetentionPeriodNumberOfDays:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iotanalytics-datastore-retentionperiod.html#cfn-iotanalytics-datastore-retentionperiod-numberofdays
+    Default: null
+  RetentionPeriodUnlimited:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iotanalytics-datastore-retentionperiod.html#cfn-iotanalytics-datastore-retentionperiod-unlimited
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::IoTAnalytics::Datastore
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iotanalytics-datastore.html
+    Properties:
+      DatastoreStorage:
+        CustomerManagedS3:
+          Bucket: !Ref 'DatastoreStorageCustomerManagedS3Bucket'
+          RoleArn: !Ref 'DatastoreStorageCustomerManagedS3RoleArn'
+          KeyPrefix: !Ref 'DatastoreStorageCustomerManagedS3KeyPrefix'
+        ServiceManagedS3: {}
+      DatastoreName: !Ref 'DatastoreName'
+      RetentionPeriod:
+        NumberOfDays: !Ref 'RetentionPeriodNumberOfDays'
+        Unlimited: !Ref 'RetentionPeriodUnlimited'

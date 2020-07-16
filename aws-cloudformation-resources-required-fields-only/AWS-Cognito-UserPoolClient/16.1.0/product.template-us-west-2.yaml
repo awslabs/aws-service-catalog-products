@@ -1,0 +1,23 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cognito-userpoolclient.html
+Parameters:
+  UserPoolId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cognito-userpoolclient.html#cfn-cognito-userpoolclient-userpoolid
+Resources:
+  Resource:
+    Type: AWS::Cognito::UserPoolClient
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cognito-userpoolclient.html
+    Properties:
+      UserPoolId: !Ref 'UserPoolId'
+Outputs:
+  ClientSecret:
+    Value:
+      GetAtt:
+        - Resource
+        - ClientSecret
+  Name:
+    Value:
+      GetAtt:
+        - Resource
+        - Name

@@ -1,0 +1,36 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-directoryservice-simplead.html
+Parameters:
+  Name:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-directoryservice-simplead.html#cfn-directoryservice-simplead-name
+  Password:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-directoryservice-simplead.html#cfn-directoryservice-simplead-password
+  Size:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-directoryservice-simplead.html#cfn-directoryservice-simplead-size
+  VpcSettingsVpcId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-directoryservice-simplead-vpcsettings.html#cfn-directoryservice-simplead-vpcsettings-vpcid
+Resources:
+  Resource:
+    Type: AWS::DirectoryService::SimpleAD
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-directoryservice-simplead.html
+    Properties:
+      Name: !Ref 'Name'
+      Password: !Ref 'Password'
+      Size: !Ref 'Size'
+      VpcSettings:
+        VpcId: !Ref 'VpcSettingsVpcId'
+Outputs:
+  Alias:
+    Value:
+      GetAtt:
+        - Resource
+        - Alias
+  DnsIpAddresses:
+    Value:
+      GetAtt:
+        - Resource
+        - DnsIpAddresses

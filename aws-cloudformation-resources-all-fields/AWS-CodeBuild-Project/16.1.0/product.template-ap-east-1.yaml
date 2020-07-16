@@ -1,0 +1,276 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codebuild-project.html
+Parameters:
+  Description:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codebuild-project.html#cfn-codebuild-project-description
+    Default: null
+  VpcConfigVpcId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-vpcconfig.html#cfn-codebuild-project-vpcconfig-vpcid
+    Default: null
+  EncryptionKey:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codebuild-project.html#cfn-codebuild-project-encryptionkey
+    Default: null
+  SourceVersion:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codebuild-project.html#cfn-codebuild-project-sourceversion
+    Default: null
+  ProjectTriggersWebhook:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-projecttriggers.html#cfn-codebuild-project-projecttriggers-webhook
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  SourceType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-source.html#cfn-codebuild-project-source-type
+  SourceReportBuildStatus:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-source.html#cfn-codebuild-project-source-reportbuildstatus
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  SourceSourceAuthType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-sourceauth.html#cfn-codebuild-project-sourceauth-type
+  SourceSourceAuthResource:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-sourceauth.html#cfn-codebuild-project-sourceauth-resource
+    Default: null
+  SourceSourceIdentifier:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-source.html#cfn-codebuild-project-source-sourceidentifier
+    Default: null
+  SourceBuildSpec:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-source.html#cfn-codebuild-project-source-buildspec
+    Default: null
+  SourceGitCloneDepth:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-source.html#cfn-codebuild-project-source-gitclonedepth
+    Default: null
+  SourceBuildStatusConfigContext:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-buildstatusconfig.html#cfn-codebuild-project-buildstatusconfig-context
+    Default: null
+  SourceBuildStatusConfigTargetUrl:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-buildstatusconfig.html#cfn-codebuild-project-buildstatusconfig-targeturl
+    Default: null
+  SourceGitSubmodulesConfigFetchSubmodules:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-gitsubmodulesconfig.html#cfn-codebuild-project-gitsubmodulesconfig-fetchsubmodules
+    AllowedValues:
+      - 'true'
+      - 'false'
+  SourceInsecureSsl:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-source.html#cfn-codebuild-project-source-insecuressl
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  SourceLocation:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-source.html#cfn-codebuild-project-source-location
+    Default: null
+  Name:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codebuild-project.html#cfn-codebuild-project-name
+    Default: null
+  ArtifactsPath:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-artifacts.html#cfn-codebuild-project-artifacts-path
+    Default: null
+  ArtifactsType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-artifacts.html#cfn-codebuild-project-artifacts-type
+  ArtifactsArtifactIdentifier:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-artifacts.html#cfn-codebuild-project-artifacts-artifactidentifier
+    Default: null
+  ArtifactsOverrideArtifactName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-artifacts.html#cfn-codebuild-project-artifacts-overrideartifactname
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  ArtifactsPackaging:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-artifacts.html#cfn-codebuild-project-artifacts-packaging
+    Default: null
+  ArtifactsEncryptionDisabled:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-artifacts.html#cfn-codebuild-project-artifacts-encryptiondisabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  ArtifactsLocation:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-artifacts.html#cfn-codebuild-project-artifacts-location
+    Default: null
+  ArtifactsName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-artifacts.html#cfn-codebuild-project-artifacts-name
+    Default: null
+  ArtifactsNamespaceType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-artifacts.html#cfn-codebuild-project-artifacts-namespacetype
+    Default: null
+  BadgeEnabled:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codebuild-project.html#cfn-codebuild-project-badgeenabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  LogsConfigCloudWatchLogsConfigStatus:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-cloudwatchlogsconfig.html#cfn-codebuild-project-cloudwatchlogsconfig-status
+  LogsConfigCloudWatchLogsConfigGroupName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-cloudwatchlogsconfig.html#cfn-codebuild-project-cloudwatchlogsconfig-groupname
+    Default: null
+  LogsConfigCloudWatchLogsConfigStreamName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-cloudwatchlogsconfig.html#cfn-codebuild-project-cloudwatchlogsconfig-streamname
+    Default: null
+  LogsConfigS3LogsConfigStatus:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-s3logsconfig.html#cfn-codebuild-project-s3logsconfig-status
+  LogsConfigS3LogsConfigEncryptionDisabled:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-s3logsconfig.html#cfn-codebuild-project-s3logsconfig-encryptiondisabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  LogsConfigS3LogsConfigLocation:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-s3logsconfig.html#cfn-codebuild-project-s3logsconfig-location
+    Default: null
+  ServiceRole:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codebuild-project.html#cfn-codebuild-project-servicerole
+  QueuedTimeoutInMinutes:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codebuild-project.html#cfn-codebuild-project-queuedtimeoutinminutes
+    Default: null
+  EnvironmentType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-environment.html#cfn-codebuild-project-environment-type
+  EnvironmentPrivilegedMode:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-environment.html#cfn-codebuild-project-environment-privilegedmode
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  EnvironmentImagePullCredentialsType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-environment.html#cfn-codebuild-project-environment-imagepullcredentialstype
+    Default: null
+  EnvironmentImage:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-environment.html#cfn-codebuild-project-environment-image
+  EnvironmentRegistryCredentialCredential:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-registrycredential.html#cfn-codebuild-project-registrycredential-credential
+  EnvironmentRegistryCredentialCredentialProvider:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-registrycredential.html#cfn-codebuild-project-registrycredential-credentialprovider
+  EnvironmentComputeType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-environment.html#cfn-codebuild-project-environment-computetype
+  EnvironmentCertificate:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-environment.html#cfn-codebuild-project-environment-certificate
+    Default: null
+  TimeoutInMinutes:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codebuild-project.html#cfn-codebuild-project-timeoutinminutes
+    Default: null
+  ProjectCacheType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-projectcache.html#cfn-codebuild-project-projectcache-type
+  ProjectCacheLocation:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-projectcache.html#cfn-codebuild-project-projectcache-location
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::CodeBuild::Project
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codebuild-project.html
+    Properties:
+      Description: !Ref 'Description'
+      VpcConfig:
+        VpcId: !Ref 'VpcConfigVpcId'
+      EncryptionKey: !Ref 'EncryptionKey'
+      SourceVersion: !Ref 'SourceVersion'
+      Triggers:
+        Webhook: !Ref 'ProjectTriggersWebhook'
+      Source:
+        Type: !Ref 'SourceType'
+        ReportBuildStatus: !Ref 'SourceReportBuildStatus'
+        Auth:
+          Type: !Ref 'SourceSourceAuthType'
+          Resource: !Ref 'SourceSourceAuthResource'
+        SourceIdentifier: !Ref 'SourceSourceIdentifier'
+        BuildSpec: !Ref 'SourceBuildSpec'
+        GitCloneDepth: !Ref 'SourceGitCloneDepth'
+        BuildStatusConfig:
+          Context: !Ref 'SourceBuildStatusConfigContext'
+          TargetUrl: !Ref 'SourceBuildStatusConfigTargetUrl'
+        GitSubmodulesConfig:
+          FetchSubmodules: !Ref 'SourceGitSubmodulesConfigFetchSubmodules'
+        InsecureSsl: !Ref 'SourceInsecureSsl'
+        Location: !Ref 'SourceLocation'
+      Name: !Ref 'Name'
+      Artifacts:
+        Path: !Ref 'ArtifactsPath'
+        Type: !Ref 'ArtifactsType'
+        ArtifactIdentifier: !Ref 'ArtifactsArtifactIdentifier'
+        OverrideArtifactName: !Ref 'ArtifactsOverrideArtifactName'
+        Packaging: !Ref 'ArtifactsPackaging'
+        EncryptionDisabled: !Ref 'ArtifactsEncryptionDisabled'
+        Location: !Ref 'ArtifactsLocation'
+        Name: !Ref 'ArtifactsName'
+        NamespaceType: !Ref 'ArtifactsNamespaceType'
+      BadgeEnabled: !Ref 'BadgeEnabled'
+      LogsConfig:
+        CloudWatchLogs:
+          Status: !Ref 'LogsConfigCloudWatchLogsConfigStatus'
+          GroupName: !Ref 'LogsConfigCloudWatchLogsConfigGroupName'
+          StreamName: !Ref 'LogsConfigCloudWatchLogsConfigStreamName'
+        S3Logs:
+          Status: !Ref 'LogsConfigS3LogsConfigStatus'
+          EncryptionDisabled: !Ref 'LogsConfigS3LogsConfigEncryptionDisabled'
+          Location: !Ref 'LogsConfigS3LogsConfigLocation'
+      ServiceRole: !Ref 'ServiceRole'
+      QueuedTimeoutInMinutes: !Ref 'QueuedTimeoutInMinutes'
+      Environment:
+        Type: !Ref 'EnvironmentType'
+        PrivilegedMode: !Ref 'EnvironmentPrivilegedMode'
+        ImagePullCredentialsType: !Ref 'EnvironmentImagePullCredentialsType'
+        Image: !Ref 'EnvironmentImage'
+        RegistryCredential:
+          Credential: !Ref 'EnvironmentRegistryCredentialCredential'
+          CredentialProvider: !Ref 'EnvironmentRegistryCredentialCredentialProvider'
+        ComputeType: !Ref 'EnvironmentComputeType'
+        Certificate: !Ref 'EnvironmentCertificate'
+      TimeoutInMinutes: !Ref 'TimeoutInMinutes'
+      Cache:
+        Type: !Ref 'ProjectCacheType'
+        Location: !Ref 'ProjectCacheLocation'
+Outputs:
+  Arn:
+    Value:
+      GetAtt:
+        - Resource
+        - Arn

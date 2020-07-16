@@ -1,0 +1,181 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appmesh-route.html
+Parameters:
+  MeshName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appmesh-route.html#cfn-appmesh-route-meshname
+  VirtualRouterName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appmesh-route.html#cfn-appmesh-route-virtualroutername
+  MeshOwner:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appmesh-route.html#cfn-appmesh-route-meshowner
+    Default: null
+  RouteName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appmesh-route.html#cfn-appmesh-route-routename
+  RouteSpecHttpRouteHttpTimeoutDurationValue:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-appmesh-route-duration.html#cfn-appmesh-route-duration-value
+  RouteSpecHttpRouteHttpTimeoutDurationUnit:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-appmesh-route-duration.html#cfn-appmesh-route-duration-unit
+  RouteSpecHttpRouteHttpRetryPolicyMaxRetries:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-appmesh-route-httpretrypolicy.html#cfn-appmesh-route-httpretrypolicy-maxretries
+  RouteSpecHttpRouteHttpRetryPolicyDurationValue:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-appmesh-route-duration.html#cfn-appmesh-route-duration-value
+  RouteSpecHttpRouteHttpRetryPolicyDurationUnit:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-appmesh-route-duration.html#cfn-appmesh-route-duration-unit
+  RouteSpecHttpRouteHttpRouteMatchScheme:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-appmesh-route-httproutematch.html#cfn-appmesh-route-httproutematch-scheme
+    Default: null
+  RouteSpecHttpRouteHttpRouteMatchPrefix:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-appmesh-route-httproutematch.html#cfn-appmesh-route-httproutematch-prefix
+  RouteSpecHttpRouteHttpRouteMatchMethod:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-appmesh-route-httproutematch.html#cfn-appmesh-route-httproutematch-method
+    Default: null
+  RouteSpecPriority:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-appmesh-route-routespec.html#cfn-appmesh-route-routespec-priority
+    Default: null
+  RouteSpecGrpcRouteGrpcTimeoutDurationValue:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-appmesh-route-duration.html#cfn-appmesh-route-duration-value
+  RouteSpecGrpcRouteGrpcTimeoutDurationUnit:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-appmesh-route-duration.html#cfn-appmesh-route-duration-unit
+  RouteSpecGrpcRouteGrpcRetryPolicyMaxRetries:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-appmesh-route-grpcretrypolicy.html#cfn-appmesh-route-grpcretrypolicy-maxretries
+  RouteSpecGrpcRouteGrpcRetryPolicyDurationValue:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-appmesh-route-duration.html#cfn-appmesh-route-duration-value
+  RouteSpecGrpcRouteGrpcRetryPolicyDurationUnit:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-appmesh-route-duration.html#cfn-appmesh-route-duration-unit
+  RouteSpecGrpcRouteGrpcRouteMatchServiceName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-appmesh-route-grpcroutematch.html#cfn-appmesh-route-grpcroutematch-servicename
+    Default: null
+  RouteSpecGrpcRouteGrpcRouteMatchMethodName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-appmesh-route-grpcroutematch.html#cfn-appmesh-route-grpcroutematch-methodname
+    Default: null
+  RouteSpecTcpRouteTcpTimeoutDurationValue:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-appmesh-route-duration.html#cfn-appmesh-route-duration-value
+  RouteSpecTcpRouteTcpTimeoutDurationUnit:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-appmesh-route-duration.html#cfn-appmesh-route-duration-unit
+Resources:
+  Resource:
+    Type: AWS::AppMesh::Route
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appmesh-route.html
+    Properties:
+      MeshName: !Ref 'MeshName'
+      VirtualRouterName: !Ref 'VirtualRouterName'
+      MeshOwner: !Ref 'MeshOwner'
+      RouteName: !Ref 'RouteName'
+      Spec:
+        HttpRoute:
+          Action: {}
+          Timeout:
+            PerRequest:
+              Value: !Ref 'RouteSpecHttpRouteHttpTimeoutDurationValue'
+              Unit: !Ref 'RouteSpecHttpRouteHttpTimeoutDurationUnit'
+            Idle:
+              Value: !Ref 'RouteSpecHttpRouteHttpTimeoutDurationValue'
+              Unit: !Ref 'RouteSpecHttpRouteHttpTimeoutDurationUnit'
+          RetryPolicy:
+            MaxRetries: !Ref 'RouteSpecHttpRouteHttpRetryPolicyMaxRetries'
+            PerRetryTimeout:
+              Value: !Ref 'RouteSpecHttpRouteHttpRetryPolicyDurationValue'
+              Unit: !Ref 'RouteSpecHttpRouteHttpRetryPolicyDurationUnit'
+          Match:
+            Scheme: !Ref 'RouteSpecHttpRouteHttpRouteMatchScheme'
+            Prefix: !Ref 'RouteSpecHttpRouteHttpRouteMatchPrefix'
+            Method: !Ref 'RouteSpecHttpRouteHttpRouteMatchMethod'
+        Priority: !Ref 'RouteSpecPriority'
+        Http2Route:
+          Action: {}
+          Timeout:
+            PerRequest:
+              Value: !Ref 'RouteSpecHttpRouteHttpTimeoutDurationValue'
+              Unit: !Ref 'RouteSpecHttpRouteHttpTimeoutDurationUnit'
+            Idle:
+              Value: !Ref 'RouteSpecHttpRouteHttpTimeoutDurationValue'
+              Unit: !Ref 'RouteSpecHttpRouteHttpTimeoutDurationUnit'
+          RetryPolicy:
+            MaxRetries: !Ref 'RouteSpecHttpRouteHttpRetryPolicyMaxRetries'
+            PerRetryTimeout:
+              Value: !Ref 'RouteSpecHttpRouteHttpRetryPolicyDurationValue'
+              Unit: !Ref 'RouteSpecHttpRouteHttpRetryPolicyDurationUnit'
+          Match:
+            Scheme: !Ref 'RouteSpecHttpRouteHttpRouteMatchScheme'
+            Prefix: !Ref 'RouteSpecHttpRouteHttpRouteMatchPrefix'
+            Method: !Ref 'RouteSpecHttpRouteHttpRouteMatchMethod'
+        GrpcRoute:
+          Action: {}
+          Timeout:
+            PerRequest:
+              Value: !Ref 'RouteSpecGrpcRouteGrpcTimeoutDurationValue'
+              Unit: !Ref 'RouteSpecGrpcRouteGrpcTimeoutDurationUnit'
+            Idle:
+              Value: !Ref 'RouteSpecGrpcRouteGrpcTimeoutDurationValue'
+              Unit: !Ref 'RouteSpecGrpcRouteGrpcTimeoutDurationUnit'
+          RetryPolicy:
+            MaxRetries: !Ref 'RouteSpecGrpcRouteGrpcRetryPolicyMaxRetries'
+            PerRetryTimeout:
+              Value: !Ref 'RouteSpecGrpcRouteGrpcRetryPolicyDurationValue'
+              Unit: !Ref 'RouteSpecGrpcRouteGrpcRetryPolicyDurationUnit'
+          Match:
+            ServiceName: !Ref 'RouteSpecGrpcRouteGrpcRouteMatchServiceName'
+            MethodName: !Ref 'RouteSpecGrpcRouteGrpcRouteMatchMethodName'
+        TcpRoute:
+          Action: {}
+          Timeout:
+            Idle:
+              Value: !Ref 'RouteSpecTcpRouteTcpTimeoutDurationValue'
+              Unit: !Ref 'RouteSpecTcpRouteTcpTimeoutDurationUnit'
+Outputs:
+  Uid:
+    Value:
+      GetAtt:
+        - Resource
+        - Uid
+  MeshName:
+    Value:
+      GetAtt:
+        - Resource
+        - MeshName
+  VirtualRouterName:
+    Value:
+      GetAtt:
+        - Resource
+        - VirtualRouterName
+  MeshOwner:
+    Value:
+      GetAtt:
+        - Resource
+        - MeshOwner
+  ResourceOwner:
+    Value:
+      GetAtt:
+        - Resource
+        - ResourceOwner
+  RouteName:
+    Value:
+      GetAtt:
+        - Resource
+        - RouteName
+  Arn:
+    Value:
+      GetAtt:
+        - Resource
+        - Arn

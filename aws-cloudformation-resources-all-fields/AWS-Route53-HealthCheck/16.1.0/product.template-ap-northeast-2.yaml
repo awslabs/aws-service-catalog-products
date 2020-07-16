@@ -1,0 +1,91 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-route53-healthcheck.html
+Parameters:
+  HealthCheckConfigAlarmIdentifierName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-route53-healthcheck-alarmidentifier.html#cfn-route53-healthcheck-alarmidentifier-name
+  HealthCheckConfigAlarmIdentifierRegion:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-route53-healthcheck-alarmidentifier.html#cfn-route53-healthcheck-alarmidentifier-region
+  HealthCheckConfigEnableSNI:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-route53-healthcheck-healthcheckconfig.html#cfn-route53-healthcheck-healthcheckconfig-enablesni
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  HealthCheckConfigFailureThreshold:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-route53-healthcheck-healthcheckconfig.html#cfn-route53-healthcheck-healthcheckconfig-failurethreshold
+    Default: null
+  HealthCheckConfigFullyQualifiedDomainName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-route53-healthcheck-healthcheckconfig.html#cfn-route53-healthcheck-healthcheckconfig-fullyqualifieddomainname
+    Default: null
+  HealthCheckConfigHealthThreshold:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-route53-healthcheck-healthcheckconfig.html#cfn-route53-healthcheck-healthcheckconfig-healththreshold
+    Default: null
+  HealthCheckConfigIPAddress:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-route53-healthcheck-healthcheckconfig.html#cfn-route53-healthcheck-healthcheckconfig-ipaddress
+    Default: null
+  HealthCheckConfigInsufficientDataHealthStatus:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-route53-healthcheck-healthcheckconfig.html#cfn-route53-healthcheck-healthcheckconfig-insufficientdatahealthstatus
+    Default: null
+  HealthCheckConfigInverted:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-route53-healthcheck-healthcheckconfig.html#cfn-route53-healthcheck-healthcheckconfig-inverted
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  HealthCheckConfigMeasureLatency:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-route53-healthcheck-healthcheckconfig.html#cfn-route53-healthcheck-healthcheckconfig-measurelatency
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  HealthCheckConfigPort:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-route53-healthcheck-healthcheckconfig.html#cfn-route53-healthcheck-healthcheckconfig-port
+    Default: null
+  HealthCheckConfigRequestInterval:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-route53-healthcheck-healthcheckconfig.html#cfn-route53-healthcheck-healthcheckconfig-requestinterval
+    Default: null
+  HealthCheckConfigResourcePath:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-route53-healthcheck-healthcheckconfig.html#cfn-route53-healthcheck-healthcheckconfig-resourcepath
+    Default: null
+  HealthCheckConfigSearchString:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-route53-healthcheck-healthcheckconfig.html#cfn-route53-healthcheck-healthcheckconfig-searchstring
+    Default: null
+  HealthCheckConfigType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-route53-healthcheck-healthcheckconfig.html#cfn-route53-healthcheck-healthcheckconfig-type
+Resources:
+  Resource:
+    Type: AWS::Route53::HealthCheck
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-route53-healthcheck.html
+    Properties:
+      HealthCheckConfig:
+        AlarmIdentifier:
+          Name: !Ref 'HealthCheckConfigAlarmIdentifierName'
+          Region: !Ref 'HealthCheckConfigAlarmIdentifierRegion'
+        EnableSNI: !Ref 'HealthCheckConfigEnableSNI'
+        FailureThreshold: !Ref 'HealthCheckConfigFailureThreshold'
+        FullyQualifiedDomainName: !Ref 'HealthCheckConfigFullyQualifiedDomainName'
+        HealthThreshold: !Ref 'HealthCheckConfigHealthThreshold'
+        IPAddress: !Ref 'HealthCheckConfigIPAddress'
+        InsufficientDataHealthStatus: !Ref 'HealthCheckConfigInsufficientDataHealthStatus'
+        Inverted: !Ref 'HealthCheckConfigInverted'
+        MeasureLatency: !Ref 'HealthCheckConfigMeasureLatency'
+        Port: !Ref 'HealthCheckConfigPort'
+        RequestInterval: !Ref 'HealthCheckConfigRequestInterval'
+        ResourcePath: !Ref 'HealthCheckConfigResourcePath'
+        SearchString: !Ref 'HealthCheckConfigSearchString'
+        Type: !Ref 'HealthCheckConfigType'

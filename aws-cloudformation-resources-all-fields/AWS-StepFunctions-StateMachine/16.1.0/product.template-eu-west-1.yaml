@@ -1,0 +1,74 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-stepfunctions-statemachine.html
+Parameters:
+  DefinitionString:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-stepfunctions-statemachine.html#cfn-stepfunctions-statemachine-definitionstring
+    Default: null
+  LoggingConfigurationIncludeExecutionData:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-stepfunctions-statemachine-loggingconfiguration.html#cfn-stepfunctions-statemachine-loggingconfiguration-includeexecutiondata
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  LoggingConfigurationLevel:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-stepfunctions-statemachine-loggingconfiguration.html#cfn-stepfunctions-statemachine-loggingconfiguration-level
+    Default: null
+  S3LocationBucket:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-stepfunctions-statemachine-s3location.html#cfn-stepfunctions-statemachine-s3location-bucket
+  S3LocationVersion:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-stepfunctions-statemachine-s3location.html#cfn-stepfunctions-statemachine-s3location-version
+    Default: null
+  S3LocationKey:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-stepfunctions-statemachine-s3location.html#cfn-stepfunctions-statemachine-s3location-key
+  StateMachineName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-stepfunctions-statemachine.html#cfn-stepfunctions-statemachine-statemachinename
+    Default: null
+  RoleArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-stepfunctions-statemachine.html#cfn-stepfunctions-statemachine-rolearn
+  StateMachineType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-stepfunctions-statemachine.html#cfn-stepfunctions-statemachine-statemachinetype
+    Default: null
+  TracingConfigurationEnabled:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-stepfunctions-statemachine-tracingconfiguration.html#cfn-stepfunctions-statemachine-tracingconfiguration-enabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+Resources:
+  Resource:
+    Type: AWS::StepFunctions::StateMachine
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-stepfunctions-statemachine.html
+    Properties:
+      DefinitionString: |-
+        {
+          "Ref": "DefinitionString"
+        }
+      LoggingConfiguration:
+        IncludeExecutionData: !Ref 'LoggingConfigurationIncludeExecutionData'
+        Level: !Ref 'LoggingConfigurationLevel'
+      DefinitionSubstitutions: {}
+      DefinitionS3Location:
+        Bucket: !Ref 'S3LocationBucket'
+        Version: !Ref 'S3LocationVersion'
+        Key: !Ref 'S3LocationKey'
+      StateMachineName: !Ref 'StateMachineName'
+      RoleArn: !Ref 'RoleArn'
+      StateMachineType: !Ref 'StateMachineType'
+      TracingConfiguration:
+        Enabled: !Ref 'TracingConfigurationEnabled'
+Outputs:
+  Name:
+    Value:
+      GetAtt:
+        - Resource
+        - Name

@@ -1,0 +1,17 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-spotfleet.html
+Parameters:
+  SpotFleetRequestConfigDataIamFleetRole:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-spotfleet-spotfleetrequestconfigdata.html#cfn-ec2-spotfleet-spotfleetrequestconfigdata-iamfleetrole
+  SpotFleetRequestConfigDataTargetCapacity:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-spotfleet-spotfleetrequestconfigdata.html#cfn-ec2-spotfleet-spotfleetrequestconfigdata-targetcapacity
+Resources:
+  Resource:
+    Type: AWS::EC2::SpotFleet
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-spotfleet.html
+    Properties:
+      SpotFleetRequestConfigData:
+        IamFleetRole: !Ref 'SpotFleetRequestConfigDataIamFleetRole'
+        TargetCapacity: !Ref 'SpotFleetRequestConfigDataTargetCapacity'

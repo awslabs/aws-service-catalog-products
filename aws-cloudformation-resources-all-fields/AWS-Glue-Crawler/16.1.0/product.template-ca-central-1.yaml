@@ -1,0 +1,65 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-glue-crawler.html
+Parameters:
+  Role:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-glue-crawler.html#cfn-glue-crawler-role
+  Description:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-glue-crawler.html#cfn-glue-crawler-description
+    Default: null
+  SchemaChangePolicyUpdateBehavior:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-glue-crawler-schemachangepolicy.html#cfn-glue-crawler-schemachangepolicy-updatebehavior
+    Default: null
+  SchemaChangePolicyDeleteBehavior:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-glue-crawler-schemachangepolicy.html#cfn-glue-crawler-schemachangepolicy-deletebehavior
+    Default: null
+  Configuration:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-glue-crawler.html#cfn-glue-crawler-configuration
+    Default: null
+  ScheduleScheduleExpression:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-glue-crawler-schedule.html#cfn-glue-crawler-schedule-scheduleexpression
+    Default: null
+  DatabaseName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-glue-crawler.html#cfn-glue-crawler-databasename
+    Default: null
+  CrawlerSecurityConfiguration:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-glue-crawler.html#cfn-glue-crawler-crawlersecurityconfiguration
+    Default: null
+  TablePrefix:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-glue-crawler.html#cfn-glue-crawler-tableprefix
+    Default: null
+  Tags:
+    Type: Json
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-glue-crawler.html#cfn-glue-crawler-tags
+    Default: null
+  Name:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-glue-crawler.html#cfn-glue-crawler-name
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::Glue::Crawler
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-glue-crawler.html
+    Properties:
+      Role: !Ref 'Role'
+      Description: !Ref 'Description'
+      SchemaChangePolicy:
+        UpdateBehavior: !Ref 'SchemaChangePolicyUpdateBehavior'
+        DeleteBehavior: !Ref 'SchemaChangePolicyDeleteBehavior'
+      Configuration: !Ref 'Configuration'
+      Schedule:
+        ScheduleExpression: !Ref 'ScheduleScheduleExpression'
+      DatabaseName: !Ref 'DatabaseName'
+      Targets: {}
+      CrawlerSecurityConfiguration: !Ref 'CrawlerSecurityConfiguration'
+      TablePrefix: !Ref 'TablePrefix'
+      Tags: !Ref 'Tags'
+      Name: !Ref 'Name'

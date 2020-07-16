@@ -1,0 +1,71 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cognito-identitypool.html
+Parameters:
+  PushSyncRoleArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cognito-identitypool-pushsync.html#cfn-cognito-identitypool-pushsync-rolearn
+    Default: null
+  CognitoEvents:
+    Type: Json
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cognito-identitypool.html#cfn-cognito-identitypool-cognitoevents
+    Default: null
+  DeveloperProviderName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cognito-identitypool.html#cfn-cognito-identitypool-developerprovidername
+    Default: null
+  CognitoStreamsStreamingStatus:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cognito-identitypool-cognitostreams.html#cfn-cognito-identitypool-cognitostreams-streamingstatus
+    Default: null
+  CognitoStreamsStreamName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cognito-identitypool-cognitostreams.html#cfn-cognito-identitypool-cognitostreams-streamname
+    Default: null
+  CognitoStreamsRoleArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cognito-identitypool-cognitostreams.html#cfn-cognito-identitypool-cognitostreams-rolearn
+    Default: null
+  IdentityPoolName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cognito-identitypool.html#cfn-cognito-identitypool-identitypoolname
+    Default: null
+  AllowUnauthenticatedIdentities:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cognito-identitypool.html#cfn-cognito-identitypool-allowunauthenticatedidentities
+    AllowedValues:
+      - 'true'
+      - 'false'
+  SupportedLoginProviders:
+    Type: Json
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cognito-identitypool.html#cfn-cognito-identitypool-supportedloginproviders
+    Default: null
+  AllowClassicFlow:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cognito-identitypool.html#cfn-cognito-identitypool-allowclassicflow
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::Cognito::IdentityPool
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cognito-identitypool.html
+    Properties:
+      PushSync:
+        RoleArn: !Ref 'PushSyncRoleArn'
+      CognitoEvents: !Ref 'CognitoEvents'
+      DeveloperProviderName: !Ref 'DeveloperProviderName'
+      CognitoStreams:
+        StreamingStatus: !Ref 'CognitoStreamsStreamingStatus'
+        StreamName: !Ref 'CognitoStreamsStreamName'
+        RoleArn: !Ref 'CognitoStreamsRoleArn'
+      IdentityPoolName: !Ref 'IdentityPoolName'
+      AllowUnauthenticatedIdentities: !Ref 'AllowUnauthenticatedIdentities'
+      SupportedLoginProviders: !Ref 'SupportedLoginProviders'
+      AllowClassicFlow: !Ref 'AllowClassicFlow'
+Outputs:
+  Name:
+    Value:
+      GetAtt:
+        - Resource
+        - Name

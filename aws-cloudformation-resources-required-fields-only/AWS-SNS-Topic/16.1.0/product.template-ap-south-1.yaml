@@ -1,0 +1,12 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sns-topic.html
+Resources:
+  Resource:
+    Type: AWS::SNS::Topic
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sns-topic.html
+Outputs:
+  TopicName:
+    Value:
+      GetAtt:
+        - Resource
+        - TopicName

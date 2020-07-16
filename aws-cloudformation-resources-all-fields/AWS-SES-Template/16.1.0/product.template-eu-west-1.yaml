@@ -1,0 +1,29 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ses-template.html
+Parameters:
+  TemplateHtmlPart:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ses-template-template.html#cfn-ses-template-template-htmlpart
+    Default: null
+  TemplateTextPart:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ses-template-template.html#cfn-ses-template-template-textpart
+    Default: null
+  TemplateTemplateName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ses-template-template.html#cfn-ses-template-template-templatename
+    Default: null
+  TemplateSubjectPart:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ses-template-template.html#cfn-ses-template-template-subjectpart
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::SES::Template
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ses-template.html
+    Properties:
+      Template:
+        HtmlPart: !Ref 'TemplateHtmlPart'
+        TextPart: !Ref 'TemplateTextPart'
+        TemplateName: !Ref 'TemplateTemplateName'
+        SubjectPart: !Ref 'TemplateSubjectPart'

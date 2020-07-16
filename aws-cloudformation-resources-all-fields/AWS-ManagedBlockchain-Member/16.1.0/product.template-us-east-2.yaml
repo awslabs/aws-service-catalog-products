@@ -1,0 +1,95 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-managedblockchain-member.html
+Parameters:
+  MemberConfigurationDescription:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-managedblockchain-member-memberconfiguration.html#cfn-managedblockchain-member-memberconfiguration-description
+    Default: null
+  MemberConfigurationMemberFrameworkConfigurationMemberFabricConfigurationAdminUsername:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-managedblockchain-member-memberfabricconfiguration.html#cfn-managedblockchain-member-memberfabricconfiguration-adminusername
+  MemberConfigurationMemberFrameworkConfigurationMemberFabricConfigurationAdminPassword:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-managedblockchain-member-memberfabricconfiguration.html#cfn-managedblockchain-member-memberfabricconfiguration-adminpassword
+  MemberConfigurationName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-managedblockchain-member-memberconfiguration.html#cfn-managedblockchain-member-memberconfiguration-name
+  NetworkConfigurationDescription:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-managedblockchain-member-networkconfiguration.html#cfn-managedblockchain-member-networkconfiguration-description
+    Default: null
+  NetworkConfigurationFrameworkVersion:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-managedblockchain-member-networkconfiguration.html#cfn-managedblockchain-member-networkconfiguration-frameworkversion
+  NetworkConfigurationVotingPolicyApprovalThresholdPolicyThresholdComparator:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-managedblockchain-member-approvalthresholdpolicy.html#cfn-managedblockchain-member-approvalthresholdpolicy-thresholdcomparator
+    Default: null
+  NetworkConfigurationVotingPolicyApprovalThresholdPolicyThresholdPercentage:
+    Type: Number
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-managedblockchain-member-approvalthresholdpolicy.html#cfn-managedblockchain-member-approvalthresholdpolicy-thresholdpercentage
+    Default: null
+  NetworkConfigurationVotingPolicyApprovalThresholdPolicyProposalDurationInHours:
+    Type: Number
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-managedblockchain-member-approvalthresholdpolicy.html#cfn-managedblockchain-member-approvalthresholdpolicy-proposaldurationinhours
+    Default: null
+  NetworkConfigurationFramework:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-managedblockchain-member-networkconfiguration.html#cfn-managedblockchain-member-networkconfiguration-framework
+  NetworkConfigurationName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-managedblockchain-member-networkconfiguration.html#cfn-managedblockchain-member-networkconfiguration-name
+  NetworkConfigurationNetworkFrameworkConfigurationNetworkFabricConfigurationEdition:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-managedblockchain-member-networkfabricconfiguration.html#cfn-managedblockchain-member-networkfabricconfiguration-edition
+  NetworkId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-managedblockchain-member.html#cfn-managedblockchain-member-networkid
+    Default: null
+  InvitationId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-managedblockchain-member.html#cfn-managedblockchain-member-invitationid
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::ManagedBlockchain::Member
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-managedblockchain-member.html
+    Properties:
+      MemberConfiguration:
+        Description: !Ref 'MemberConfigurationDescription'
+        MemberFrameworkConfiguration:
+          MemberFabricConfiguration:
+            AdminUsername: !Ref 'MemberConfigurationMemberFrameworkConfigurationMemberFabricConfigurationAdminUsername'
+            AdminPassword: !Ref 'MemberConfigurationMemberFrameworkConfigurationMemberFabricConfigurationAdminPassword'
+        Name: !Ref 'MemberConfigurationName'
+      NetworkConfiguration:
+        Description: !Ref 'NetworkConfigurationDescription'
+        FrameworkVersion: !Ref 'NetworkConfigurationFrameworkVersion'
+        VotingPolicy:
+          ApprovalThresholdPolicy:
+            ThresholdComparator: !Ref 'NetworkConfigurationVotingPolicyApprovalThresholdPolicyThresholdComparator'
+            ThresholdPercentage: !Ref 'NetworkConfigurationVotingPolicyApprovalThresholdPolicyThresholdPercentage'
+            ProposalDurationInHours: !Ref 'NetworkConfigurationVotingPolicyApprovalThresholdPolicyProposalDurationInHours'
+        Framework: !Ref 'NetworkConfigurationFramework'
+        Name: !Ref 'NetworkConfigurationName'
+        NetworkFrameworkConfiguration:
+          NetworkFabricConfiguration:
+            Edition: !Ref 'NetworkConfigurationNetworkFrameworkConfigurationNetworkFabricConfigurationEdition'
+      NetworkId: !Ref 'NetworkId'
+      InvitationId: !Ref 'InvitationId'
+Outputs:
+  MemberId:
+    Value:
+      GetAtt:
+        - Resource
+        - MemberId
+  NetworkId:
+    Value:
+      GetAtt:
+        - Resource
+        - NetworkId

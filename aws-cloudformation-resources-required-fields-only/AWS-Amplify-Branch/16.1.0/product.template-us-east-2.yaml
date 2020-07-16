@@ -1,0 +1,27 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-amplify-branch.html
+Parameters:
+  AppId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-amplify-branch.html#cfn-amplify-branch-appid
+  BranchName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-amplify-branch.html#cfn-amplify-branch-branchname
+Resources:
+  Resource:
+    Type: AWS::Amplify::Branch
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-amplify-branch.html
+    Properties:
+      AppId: !Ref 'AppId'
+      BranchName: !Ref 'BranchName'
+Outputs:
+  BranchName:
+    Value:
+      GetAtt:
+        - Resource
+        - BranchName
+  Arn:
+    Value:
+      GetAtt:
+        - Resource
+        - Arn

@@ -1,0 +1,83 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cognito-userpoolclient.html
+Parameters:
+  AnalyticsConfigurationUserDataShared:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cognito-userpoolclient-analyticsconfiguration.html#cfn-cognito-userpoolclient-analyticsconfiguration-userdatashared
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  AnalyticsConfigurationExternalId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cognito-userpoolclient-analyticsconfiguration.html#cfn-cognito-userpoolclient-analyticsconfiguration-externalid
+    Default: null
+  AnalyticsConfigurationApplicationId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cognito-userpoolclient-analyticsconfiguration.html#cfn-cognito-userpoolclient-analyticsconfiguration-applicationid
+    Default: null
+  AnalyticsConfigurationRoleArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cognito-userpoolclient-analyticsconfiguration.html#cfn-cognito-userpoolclient-analyticsconfiguration-rolearn
+    Default: null
+  GenerateSecret:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cognito-userpoolclient.html#cfn-cognito-userpoolclient-generatesecret
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  AllowedOAuthFlowsUserPoolClient:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cognito-userpoolclient.html#cfn-cognito-userpoolclient-allowedoauthflowsuserpoolclient
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  DefaultRedirectURI:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cognito-userpoolclient.html#cfn-cognito-userpoolclient-defaultredirecturi
+    Default: null
+  ClientName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cognito-userpoolclient.html#cfn-cognito-userpoolclient-clientname
+    Default: null
+  UserPoolId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cognito-userpoolclient.html#cfn-cognito-userpoolclient-userpoolid
+  RefreshTokenValidity:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cognito-userpoolclient.html#cfn-cognito-userpoolclient-refreshtokenvalidity
+    Default: null
+  PreventUserExistenceErrors:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cognito-userpoolclient.html#cfn-cognito-userpoolclient-preventuserexistenceerrors
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::Cognito::UserPoolClient
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cognito-userpoolclient.html
+    Properties:
+      AnalyticsConfiguration:
+        UserDataShared: !Ref 'AnalyticsConfigurationUserDataShared'
+        ExternalId: !Ref 'AnalyticsConfigurationExternalId'
+        ApplicationId: !Ref 'AnalyticsConfigurationApplicationId'
+        RoleArn: !Ref 'AnalyticsConfigurationRoleArn'
+      GenerateSecret: !Ref 'GenerateSecret'
+      AllowedOAuthFlowsUserPoolClient: !Ref 'AllowedOAuthFlowsUserPoolClient'
+      DefaultRedirectURI: !Ref 'DefaultRedirectURI'
+      ClientName: !Ref 'ClientName'
+      UserPoolId: !Ref 'UserPoolId'
+      RefreshTokenValidity: !Ref 'RefreshTokenValidity'
+      PreventUserExistenceErrors: !Ref 'PreventUserExistenceErrors'
+Outputs:
+  ClientSecret:
+    Value:
+      GetAtt:
+        - Resource
+        - ClientSecret
+  Name:
+    Value:
+      GetAtt:
+        - Resource
+        - Name

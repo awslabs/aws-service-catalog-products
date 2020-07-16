@@ -1,0 +1,198 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticache-replicationgroup.html
+Parameters:
+  AtRestEncryptionEnabled:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticache-replicationgroup.html#cfn-elasticache-replicationgroup-atrestencryptionenabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  AuthToken:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticache-replicationgroup.html#cfn-elasticache-replicationgroup-authtoken
+    Default: null
+  AutoMinorVersionUpgrade:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticache-replicationgroup.html#cfn-elasticache-replicationgroup-autominorversionupgrade
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  AutomaticFailoverEnabled:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticache-replicationgroup.html#cfn-elasticache-replicationgroup-automaticfailoverenabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  CacheNodeType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticache-replicationgroup.html#cfn-elasticache-replicationgroup-cachenodetype
+    Default: null
+  CacheParameterGroupName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticache-replicationgroup.html#cfn-elasticache-replicationgroup-cacheparametergroupname
+    Default: null
+  CacheSubnetGroupName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticache-replicationgroup.html#cfn-elasticache-replicationgroup-cachesubnetgroupname
+    Default: null
+  Engine:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticache-replicationgroup.html#cfn-elasticache-replicationgroup-engine
+    Default: null
+  EngineVersion:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticache-replicationgroup.html#cfn-elasticache-replicationgroup-engineversion
+    Default: null
+  KmsKeyId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticache-replicationgroup.html#cfn-elasticache-replicationgroup-kmskeyid
+    Default: null
+  MultiAZEnabled:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticache-replicationgroup.html#cfn-elasticache-replicationgroup-multiazenabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  NotificationTopicArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticache-replicationgroup.html#cfn-elasticache-replicationgroup-notificationtopicarn
+    Default: null
+  NumCacheClusters:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticache-replicationgroup.html#cfn-elasticache-replicationgroup-numcacheclusters
+    Default: null
+  NumNodeGroups:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticache-replicationgroup.html#cfn-elasticache-replicationgroup-numnodegroups
+    Default: null
+  Port:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticache-replicationgroup.html#cfn-elasticache-replicationgroup-port
+    Default: null
+  PreferredMaintenanceWindow:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticache-replicationgroup.html#cfn-elasticache-replicationgroup-preferredmaintenancewindow
+    Default: null
+  PrimaryClusterId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticache-replicationgroup.html#cfn-elasticache-replicationgroup-primaryclusterid
+    Default: null
+  ReplicasPerNodeGroup:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticache-replicationgroup.html#cfn-elasticache-replicationgroup-replicaspernodegroup
+    Default: null
+  ReplicationGroupDescription:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticache-replicationgroup.html#cfn-elasticache-replicationgroup-replicationgroupdescription
+  ReplicationGroupId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticache-replicationgroup.html#cfn-elasticache-replicationgroup-replicationgroupid
+    Default: null
+  SnapshotName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticache-replicationgroup.html#cfn-elasticache-replicationgroup-snapshotname
+    Default: null
+  SnapshotRetentionLimit:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticache-replicationgroup.html#cfn-elasticache-replicationgroup-snapshotretentionlimit
+    Default: null
+  SnapshotWindow:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticache-replicationgroup.html#cfn-elasticache-replicationgroup-snapshotwindow
+    Default: null
+  SnapshottingClusterId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticache-replicationgroup.html#cfn-elasticache-replicationgroup-snapshottingclusterid
+    Default: null
+  TransitEncryptionEnabled:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticache-replicationgroup.html#cfn-elasticache-replicationgroup-transitencryptionenabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::ElastiCache::ReplicationGroup
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticache-replicationgroup.html
+    Properties:
+      AtRestEncryptionEnabled: !Ref 'AtRestEncryptionEnabled'
+      AuthToken: !Ref 'AuthToken'
+      AutoMinorVersionUpgrade: !Ref 'AutoMinorVersionUpgrade'
+      AutomaticFailoverEnabled: !Ref 'AutomaticFailoverEnabled'
+      CacheNodeType: !Ref 'CacheNodeType'
+      CacheParameterGroupName: !Ref 'CacheParameterGroupName'
+      CacheSubnetGroupName: !Ref 'CacheSubnetGroupName'
+      Engine: !Ref 'Engine'
+      EngineVersion: !Ref 'EngineVersion'
+      KmsKeyId: !Ref 'KmsKeyId'
+      MultiAZEnabled: !Ref 'MultiAZEnabled'
+      NotificationTopicArn: !Ref 'NotificationTopicArn'
+      NumCacheClusters: !Ref 'NumCacheClusters'
+      NumNodeGroups: !Ref 'NumNodeGroups'
+      Port: !Ref 'Port'
+      PreferredMaintenanceWindow: !Ref 'PreferredMaintenanceWindow'
+      PrimaryClusterId: !Ref 'PrimaryClusterId'
+      ReplicasPerNodeGroup: !Ref 'ReplicasPerNodeGroup'
+      ReplicationGroupDescription: !Ref 'ReplicationGroupDescription'
+      ReplicationGroupId: !Ref 'ReplicationGroupId'
+      SnapshotName: !Ref 'SnapshotName'
+      SnapshotRetentionLimit: !Ref 'SnapshotRetentionLimit'
+      SnapshotWindow: !Ref 'SnapshotWindow'
+      SnapshottingClusterId: !Ref 'SnapshottingClusterId'
+      TransitEncryptionEnabled: !Ref 'TransitEncryptionEnabled'
+Outputs:
+  ConfigurationEndPoint.Address:
+    Value:
+      GetAtt:
+        - Resource
+        - ConfigurationEndPoint.Address
+  ConfigurationEndPoint.Port:
+    Value:
+      GetAtt:
+        - Resource
+        - ConfigurationEndPoint.Port
+  PrimaryEndPoint.Address:
+    Value:
+      GetAtt:
+        - Resource
+        - PrimaryEndPoint.Address
+  PrimaryEndPoint.Port:
+    Value:
+      GetAtt:
+        - Resource
+        - PrimaryEndPoint.Port
+  ReadEndPoint.Addresses:
+    Value:
+      GetAtt:
+        - Resource
+        - ReadEndPoint.Addresses
+  ReadEndPoint.Addresses.List:
+    Value:
+      GetAtt:
+        - Resource
+        - ReadEndPoint.Addresses.List
+  ReadEndPoint.Ports:
+    Value:
+      GetAtt:
+        - Resource
+        - ReadEndPoint.Ports
+  ReadEndPoint.Ports.List:
+    Value:
+      GetAtt:
+        - Resource
+        - ReadEndPoint.Ports.List
+  ReaderEndPoint.Address:
+    Value:
+      GetAtt:
+        - Resource
+        - ReaderEndPoint.Address
+  ReaderEndPoint.Port:
+    Value:
+      GetAtt:
+        - Resource
+        - ReaderEndPoint.Port

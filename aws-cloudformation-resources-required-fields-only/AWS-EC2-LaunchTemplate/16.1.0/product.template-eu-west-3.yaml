@@ -1,0 +1,17 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-launchtemplate.html
+Resources:
+  Resource:
+    Type: AWS::EC2::LaunchTemplate
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-launchtemplate.html
+Outputs:
+  LatestVersionNumber:
+    Value:
+      GetAtt:
+        - Resource
+        - LatestVersionNumber
+  DefaultVersionNumber:
+    Value:
+      GetAtt:
+        - Resource
+        - DefaultVersionNumber

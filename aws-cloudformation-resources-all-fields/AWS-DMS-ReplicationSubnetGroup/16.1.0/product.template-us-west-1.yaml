@@ -1,0 +1,17 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dms-replicationsubnetgroup.html
+Parameters:
+  ReplicationSubnetGroupDescription:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dms-replicationsubnetgroup.html#cfn-dms-replicationsubnetgroup-replicationsubnetgroupdescription
+  ReplicationSubnetGroupIdentifier:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dms-replicationsubnetgroup.html#cfn-dms-replicationsubnetgroup-replicationsubnetgroupidentifier
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::DMS::ReplicationSubnetGroup
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dms-replicationsubnetgroup.html
+    Properties:
+      ReplicationSubnetGroupDescription: !Ref 'ReplicationSubnetGroupDescription'
+      ReplicationSubnetGroupIdentifier: !Ref 'ReplicationSubnetGroupIdentifier'

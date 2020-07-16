@@ -1,0 +1,54 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appstream-stack.html
+Parameters:
+  Description:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appstream-stack.html#cfn-appstream-stack-description
+    Default: null
+  DeleteStorageConnectors:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appstream-stack.html#cfn-appstream-stack-deletestorageconnectors
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  RedirectURL:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appstream-stack.html#cfn-appstream-stack-redirecturl
+    Default: null
+  Name:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appstream-stack.html#cfn-appstream-stack-name
+    Default: null
+  FeedbackURL:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appstream-stack.html#cfn-appstream-stack-feedbackurl
+    Default: null
+  ApplicationSettingsSettingsGroup:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-appstream-stack-applicationsettings.html#cfn-appstream-stack-applicationsettings-settingsgroup
+    Default: null
+  ApplicationSettingsEnabled:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-appstream-stack-applicationsettings.html#cfn-appstream-stack-applicationsettings-enabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+  DisplayName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appstream-stack.html#cfn-appstream-stack-displayname
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::AppStream::Stack
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appstream-stack.html
+    Properties:
+      Description: !Ref 'Description'
+      DeleteStorageConnectors: !Ref 'DeleteStorageConnectors'
+      RedirectURL: !Ref 'RedirectURL'
+      Name: !Ref 'Name'
+      FeedbackURL: !Ref 'FeedbackURL'
+      ApplicationSettings:
+        SettingsGroup: !Ref 'ApplicationSettingsSettingsGroup'
+        Enabled: !Ref 'ApplicationSettingsEnabled'
+      DisplayName: !Ref 'DisplayName'

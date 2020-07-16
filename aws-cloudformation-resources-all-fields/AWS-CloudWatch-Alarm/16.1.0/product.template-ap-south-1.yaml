@@ -1,0 +1,95 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cw-alarm.html
+Parameters:
+  ActionsEnabled:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cw-alarm.html#cfn-cloudwatch-alarms-actionsenabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  AlarmDescription:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cw-alarm.html#cfn-cloudwatch-alarms-alarmdescription
+    Default: null
+  AlarmName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cw-alarm.html#cfn-cloudwatch-alarms-alarmname
+    Default: null
+  ComparisonOperator:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cw-alarm.html#cfn-cloudwatch-alarms-comparisonoperator
+  DatapointsToAlarm:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cw-alarm.html#cfn-cloudwatch-alarm-datapointstoalarm
+    Default: null
+  EvaluateLowSampleCountPercentile:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cw-alarm.html#cfn-cloudwatch-alarms-evaluatelowsamplecountpercentile
+    Default: null
+  EvaluationPeriods:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cw-alarm.html#cfn-cloudwatch-alarms-evaluationperiods
+  ExtendedStatistic:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cw-alarm.html#cfn-cloudwatch-alarms-extendedstatistic
+    Default: null
+  MetricName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cw-alarm.html#cfn-cloudwatch-alarms-metricname
+    Default: null
+  Namespace:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cw-alarm.html#cfn-cloudwatch-alarms-namespace
+    Default: null
+  Period:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cw-alarm.html#cfn-cloudwatch-alarms-period
+    Default: null
+  Statistic:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cw-alarm.html#cfn-cloudwatch-alarms-statistic
+    Default: null
+  Threshold:
+    Type: Double
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cw-alarm.html#cfn-cloudwatch-alarms-threshold
+    Default: null
+  ThresholdMetricId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cw-alarm.html#cfn-cloudwatch-alarms-dynamic-threshold
+    Default: null
+  TreatMissingData:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cw-alarm.html#cfn-cloudwatch-alarms-treatmissingdata
+    Default: null
+  Unit:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cw-alarm.html#cfn-cloudwatch-alarms-unit
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::CloudWatch::Alarm
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cw-alarm.html
+    Properties:
+      ActionsEnabled: !Ref 'ActionsEnabled'
+      AlarmDescription: !Ref 'AlarmDescription'
+      AlarmName: !Ref 'AlarmName'
+      ComparisonOperator: !Ref 'ComparisonOperator'
+      DatapointsToAlarm: !Ref 'DatapointsToAlarm'
+      EvaluateLowSampleCountPercentile: !Ref 'EvaluateLowSampleCountPercentile'
+      EvaluationPeriods: !Ref 'EvaluationPeriods'
+      ExtendedStatistic: !Ref 'ExtendedStatistic'
+      MetricName: !Ref 'MetricName'
+      Namespace: !Ref 'Namespace'
+      Period: !Ref 'Period'
+      Statistic: !Ref 'Statistic'
+      Threshold: !Ref 'Threshold'
+      ThresholdMetricId: !Ref 'ThresholdMetricId'
+      TreatMissingData: !Ref 'TreatMissingData'
+      Unit: !Ref 'Unit'
+Outputs:
+  Arn:
+    Value:
+      GetAtt:
+        - Resource
+        - Arn

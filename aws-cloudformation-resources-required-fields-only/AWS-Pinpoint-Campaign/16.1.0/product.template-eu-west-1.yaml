@@ -1,0 +1,33 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-pinpoint-campaign.html
+Parameters:
+  SegmentId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-pinpoint-campaign.html#cfn-pinpoint-campaign-segmentid
+  Name:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-pinpoint-campaign.html#cfn-pinpoint-campaign-name
+  ApplicationId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-pinpoint-campaign.html#cfn-pinpoint-campaign-applicationid
+Resources:
+  Resource:
+    Type: AWS::Pinpoint::Campaign
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-pinpoint-campaign.html
+    Properties:
+      SegmentId: !Ref 'SegmentId'
+      Name: !Ref 'Name'
+      MessageConfiguration: {}
+      Schedule: {}
+      ApplicationId: !Ref 'ApplicationId'
+Outputs:
+  CampaignId:
+    Value:
+      GetAtt:
+        - Resource
+        - CampaignId
+  Arn:
+    Value:
+      GetAtt:
+        - Resource
+        - Arn

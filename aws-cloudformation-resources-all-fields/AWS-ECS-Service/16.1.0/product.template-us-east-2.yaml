@@ -1,0 +1,96 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ecs-service.html
+Parameters:
+  Cluster:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ecs-service.html#cfn-ecs-service-cluster
+    Default: null
+  DeploymentConfigurationMaximumPercent:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ecs-service-deploymentconfiguration.html#cfn-ecs-service-deploymentconfiguration-maximumpercent
+    Default: null
+  DeploymentConfigurationMinimumHealthyPercent:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ecs-service-deploymentconfiguration.html#cfn-ecs-service-deploymentconfiguration-minimumhealthypercent
+    Default: null
+  DeploymentControllerType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ecs-service-deploymentcontroller.html#cfn-ecs-service-deploymentcontroller-type
+    Default: null
+  DesiredCount:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ecs-service.html#cfn-ecs-service-desiredcount
+    Default: null
+  EnableECSManagedTags:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ecs-service.html#cfn-ecs-service-enableecsmanagedtags
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  HealthCheckGracePeriodSeconds:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ecs-service.html#cfn-ecs-service-healthcheckgraceperiodseconds
+    Default: null
+  LaunchType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ecs-service.html#cfn-ecs-service-launchtype
+    Default: null
+  NetworkConfigurationAwsVpcConfigurationAssignPublicIp:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ecs-service-awsvpcconfiguration.html#cfn-ecs-service-awsvpcconfiguration-assignpublicip
+    Default: null
+  PlatformVersion:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ecs-service.html#cfn-ecs-service-platformversion
+    Default: null
+  PropagateTags:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ecs-service.html#cfn-ecs-service-propagatetags
+    Default: null
+  Role:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ecs-service.html#cfn-ecs-service-role
+    Default: null
+  SchedulingStrategy:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ecs-service.html#cfn-ecs-service-schedulingstrategy
+    Default: null
+  ServiceName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ecs-service.html#cfn-ecs-service-servicename
+    Default: null
+  TaskDefinition:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ecs-service.html#cfn-ecs-service-taskdefinition
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::ECS::Service
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ecs-service.html
+    Properties:
+      Cluster: !Ref 'Cluster'
+      DeploymentConfiguration:
+        MaximumPercent: !Ref 'DeploymentConfigurationMaximumPercent'
+        MinimumHealthyPercent: !Ref 'DeploymentConfigurationMinimumHealthyPercent'
+      DeploymentController:
+        Type: !Ref 'DeploymentControllerType'
+      DesiredCount: !Ref 'DesiredCount'
+      EnableECSManagedTags: !Ref 'EnableECSManagedTags'
+      HealthCheckGracePeriodSeconds: !Ref 'HealthCheckGracePeriodSeconds'
+      LaunchType: !Ref 'LaunchType'
+      NetworkConfiguration:
+        AwsvpcConfiguration:
+          AssignPublicIp: !Ref 'NetworkConfigurationAwsVpcConfigurationAssignPublicIp'
+      PlatformVersion: !Ref 'PlatformVersion'
+      PropagateTags: !Ref 'PropagateTags'
+      Role: !Ref 'Role'
+      SchedulingStrategy: !Ref 'SchedulingStrategy'
+      ServiceName: !Ref 'ServiceName'
+      TaskDefinition: !Ref 'TaskDefinition'
+Outputs:
+  Name:
+    Value:
+      GetAtt:
+        - Resource
+        - Name

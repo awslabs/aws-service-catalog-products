@@ -1,0 +1,81 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appstream-fleet.html
+Parameters:
+  Description:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appstream-fleet.html#cfn-appstream-fleet-description
+    Default: null
+  ComputeCapacityDesiredInstances:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-appstream-fleet-computecapacity.html#cfn-appstream-fleet-computecapacity-desiredinstances
+  FleetType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appstream-fleet.html#cfn-appstream-fleet-fleettype
+    Default: null
+  EnableDefaultInternetAccess:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appstream-fleet.html#cfn-appstream-fleet-enabledefaultinternetaccess
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  DomainJoinInfoOrganizationalUnitDistinguishedName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-appstream-fleet-domainjoininfo.html#cfn-appstream-fleet-domainjoininfo-organizationalunitdistinguishedname
+    Default: null
+  DomainJoinInfoDirectoryName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-appstream-fleet-domainjoininfo.html#cfn-appstream-fleet-domainjoininfo-directoryname
+    Default: null
+  Name:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appstream-fleet.html#cfn-appstream-fleet-name
+  ImageName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appstream-fleet.html#cfn-appstream-fleet-imagename
+    Default: null
+  MaxUserDurationInSeconds:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appstream-fleet.html#cfn-appstream-fleet-maxuserdurationinseconds
+    Default: null
+  IdleDisconnectTimeoutInSeconds:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appstream-fleet.html#cfn-appstream-fleet-idledisconnecttimeoutinseconds
+    Default: null
+  DisconnectTimeoutInSeconds:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appstream-fleet.html#cfn-appstream-fleet-disconnecttimeoutinseconds
+    Default: null
+  DisplayName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appstream-fleet.html#cfn-appstream-fleet-displayname
+    Default: null
+  InstanceType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appstream-fleet.html#cfn-appstream-fleet-instancetype
+  ImageArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appstream-fleet.html#cfn-appstream-fleet-imagearn
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::AppStream::Fleet
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appstream-fleet.html
+    Properties:
+      Description: !Ref 'Description'
+      ComputeCapacity:
+        DesiredInstances: !Ref 'ComputeCapacityDesiredInstances'
+      VpcConfig: {}
+      FleetType: !Ref 'FleetType'
+      EnableDefaultInternetAccess: !Ref 'EnableDefaultInternetAccess'
+      DomainJoinInfo:
+        OrganizationalUnitDistinguishedName: !Ref 'DomainJoinInfoOrganizationalUnitDistinguishedName'
+        DirectoryName: !Ref 'DomainJoinInfoDirectoryName'
+      Name: !Ref 'Name'
+      ImageName: !Ref 'ImageName'
+      MaxUserDurationInSeconds: !Ref 'MaxUserDurationInSeconds'
+      IdleDisconnectTimeoutInSeconds: !Ref 'IdleDisconnectTimeoutInSeconds'
+      DisconnectTimeoutInSeconds: !Ref 'DisconnectTimeoutInSeconds'
+      DisplayName: !Ref 'DisplayName'
+      InstanceType: !Ref 'InstanceType'
+      ImageArn: !Ref 'ImageArn'

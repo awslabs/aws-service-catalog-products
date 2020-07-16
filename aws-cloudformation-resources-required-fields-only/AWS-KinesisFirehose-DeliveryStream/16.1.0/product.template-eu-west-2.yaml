@@ -1,0 +1,12 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-kinesisfirehose-deliverystream.html
+Resources:
+  Resource:
+    Type: AWS::KinesisFirehose::DeliveryStream
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-kinesisfirehose-deliverystream.html
+Outputs:
+  Arn:
+    Value:
+      GetAtt:
+        - Resource
+        - Arn

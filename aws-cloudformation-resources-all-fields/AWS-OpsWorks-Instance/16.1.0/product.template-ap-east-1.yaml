@@ -1,0 +1,119 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opsworks-instance.html
+Parameters:
+  AgentVersion:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opsworks-instance.html#cfn-opsworks-instance-agentversion
+    Default: null
+  AmiId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opsworks-instance.html#cfn-opsworks-instance-amiid
+    Default: null
+  Architecture:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opsworks-instance.html#cfn-opsworks-instance-architecture
+    Default: null
+  AutoScalingType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opsworks-instance.html#cfn-opsworks-instance-autoscalingtype
+    Default: null
+  AvailabilityZone:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opsworks-instance.html#cfn-opsworks-instance-availabilityzone
+    Default: null
+  EbsOptimized:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opsworks-instance.html#cfn-opsworks-instance-ebsoptimized
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  Hostname:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opsworks-instance.html#cfn-opsworks-instance-hostname
+    Default: null
+  InstallUpdatesOnBoot:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opsworks-instance.html#cfn-opsworks-instance-installupdatesonboot
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  InstanceType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opsworks-instance.html#cfn-opsworks-instance-instancetype
+  Os:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opsworks-instance.html#cfn-opsworks-instance-os
+    Default: null
+  RootDeviceType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opsworks-instance.html#cfn-opsworks-instance-rootdevicetype
+    Default: null
+  SshKeyName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opsworks-instance.html#cfn-opsworks-instance-sshkeyname
+    Default: null
+  StackId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opsworks-instance.html#cfn-opsworks-instance-stackid
+  SubnetId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opsworks-instance.html#cfn-opsworks-instance-subnetid
+    Default: null
+  Tenancy:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opsworks-instance.html#cfn-opsworks-instance-tenancy
+    Default: null
+  VirtualizationType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opsworks-instance.html#cfn-opsworks-instance-virtualizationtype
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::OpsWorks::Instance
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opsworks-instance.html
+    Properties:
+      AgentVersion: !Ref 'AgentVersion'
+      AmiId: !Ref 'AmiId'
+      Architecture: !Ref 'Architecture'
+      AutoScalingType: !Ref 'AutoScalingType'
+      AvailabilityZone: !Ref 'AvailabilityZone'
+      EbsOptimized: !Ref 'EbsOptimized'
+      Hostname: !Ref 'Hostname'
+      InstallUpdatesOnBoot: !Ref 'InstallUpdatesOnBoot'
+      InstanceType: !Ref 'InstanceType'
+      Os: !Ref 'Os'
+      RootDeviceType: !Ref 'RootDeviceType'
+      SshKeyName: !Ref 'SshKeyName'
+      StackId: !Ref 'StackId'
+      SubnetId: !Ref 'SubnetId'
+      Tenancy: !Ref 'Tenancy'
+      TimeBasedAutoScaling: {}
+      VirtualizationType: !Ref 'VirtualizationType'
+Outputs:
+  AvailabilityZone:
+    Value:
+      GetAtt:
+        - Resource
+        - AvailabilityZone
+  PrivateDnsName:
+    Value:
+      GetAtt:
+        - Resource
+        - PrivateDnsName
+  PrivateIp:
+    Value:
+      GetAtt:
+        - Resource
+        - PrivateIp
+  PublicDnsName:
+    Value:
+      GetAtt:
+        - Resource
+        - PublicDnsName
+  PublicIp:
+    Value:
+      GetAtt:
+        - Resource
+        - PublicIp

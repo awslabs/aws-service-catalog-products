@@ -1,0 +1,42 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-kinesis-streamconsumer.html
+Parameters:
+  ConsumerName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-kinesis-streamconsumer.html#cfn-kinesis-streamconsumer-consumername
+  StreamARN:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-kinesis-streamconsumer.html#cfn-kinesis-streamconsumer-streamarn
+Resources:
+  Resource:
+    Type: AWS::Kinesis::StreamConsumer
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-kinesis-streamconsumer.html
+    Properties:
+      ConsumerName: !Ref 'ConsumerName'
+      StreamARN: !Ref 'StreamARN'
+Outputs:
+  ConsumerCreationTimestamp:
+    Value:
+      GetAtt:
+        - Resource
+        - ConsumerCreationTimestamp
+  ConsumerName:
+    Value:
+      GetAtt:
+        - Resource
+        - ConsumerName
+  ConsumerARN:
+    Value:
+      GetAtt:
+        - Resource
+        - ConsumerARN
+  ConsumerStatus:
+    Value:
+      GetAtt:
+        - Resource
+        - ConsumerStatus
+  StreamARN:
+    Value:
+      GetAtt:
+        - Resource
+        - StreamARN

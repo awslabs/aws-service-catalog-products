@@ -1,0 +1,38 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-glue-securityconfiguration.html
+Parameters:
+  EncryptionConfigurationCloudWatchEncryptionKmsKeyArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-glue-securityconfiguration-cloudwatchencryption.html#cfn-glue-securityconfiguration-cloudwatchencryption-kmskeyarn
+    Default: null
+  EncryptionConfigurationCloudWatchEncryptionCloudWatchEncryptionMode:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-glue-securityconfiguration-cloudwatchencryption.html#cfn-glue-securityconfiguration-cloudwatchencryption-cloudwatchencryptionmode
+    Default: null
+  EncryptionConfigurationJobBookmarksEncryptionKmsKeyArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-glue-securityconfiguration-jobbookmarksencryption.html#cfn-glue-securityconfiguration-jobbookmarksencryption-kmskeyarn
+    Default: null
+  EncryptionConfigurationJobBookmarksEncryptionJobBookmarksEncryptionMode:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-glue-securityconfiguration-jobbookmarksencryption.html#cfn-glue-securityconfiguration-jobbookmarksencryption-jobbookmarksencryptionmode
+    Default: null
+  Name:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-glue-securityconfiguration.html#cfn-glue-securityconfiguration-name
+Resources:
+  Resource:
+    Type: AWS::Glue::SecurityConfiguration
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-glue-securityconfiguration.html
+    Properties:
+      EncryptionConfiguration:
+        S3Encryptions: {}
+        CloudWatchEncryption:
+          KmsKeyArn: !Ref 'EncryptionConfigurationCloudWatchEncryptionKmsKeyArn'
+          CloudWatchEncryptionMode: !Ref 'EncryptionConfigurationCloudWatchEncryptionCloudWatchEncryptionMode'
+        JobBookmarksEncryption:
+          KmsKeyArn: !Ref 'EncryptionConfigurationJobBookmarksEncryptionKmsKeyArn'
+          JobBookmarksEncryptionMode: !Ref 'EncryptionConfigurationJobBookmarksEncryptionJobBookmarksEncryptionMode'
+      Name: !Ref 'Name'

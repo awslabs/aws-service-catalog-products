@@ -1,0 +1,40 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iot1click-project.html
+Parameters:
+  Description:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iot1click-project.html#cfn-iot1click-project-description
+    Default: null
+  PlacementTemplateDeviceTemplates:
+    Type: Json
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot1click-project-placementtemplate.html#cfn-iot1click-project-placementtemplate-devicetemplates
+    Default: null
+  PlacementTemplateDefaultAttributes:
+    Type: Json
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot1click-project-placementtemplate.html#cfn-iot1click-project-placementtemplate-defaultattributes
+    Default: null
+  ProjectName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iot1click-project.html#cfn-iot1click-project-projectname
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::IoT1Click::Project
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iot1click-project.html
+    Properties:
+      Description: !Ref 'Description'
+      PlacementTemplate:
+        DeviceTemplates: !Ref 'PlacementTemplateDeviceTemplates'
+        DefaultAttributes: !Ref 'PlacementTemplateDefaultAttributes'
+      ProjectName: !Ref 'ProjectName'
+Outputs:
+  ProjectName:
+    Value:
+      GetAtt:
+        - Resource
+        - ProjectName
+  Arn:
+    Value:
+      GetAtt:
+        - Resource
+        - Arn

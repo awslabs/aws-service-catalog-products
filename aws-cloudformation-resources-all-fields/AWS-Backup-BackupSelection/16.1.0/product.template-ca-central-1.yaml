@@ -1,0 +1,33 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-backup-backupselection.html
+Parameters:
+  BackupSelectionResourceTypeSelectionName:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-backup-backupselection-backupselectionresourcetype.html#cfn-backup-backupselection-backupselectionresourcetype-selectionname
+  BackupSelectionResourceTypeIamRoleArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-backup-backupselection-backupselectionresourcetype.html#cfn-backup-backupselection-backupselectionresourcetype-iamrolearn
+  BackupPlanId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-backup-backupselection.html#cfn-backup-backupselection-backupplanid
+Resources:
+  Resource:
+    Type: AWS::Backup::BackupSelection
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-backup-backupselection.html
+    Properties:
+      BackupSelection:
+        SelectionName: !Ref 'BackupSelectionResourceTypeSelectionName'
+        IamRoleArn: !Ref 'BackupSelectionResourceTypeIamRoleArn'
+      BackupPlanId: !Ref 'BackupPlanId'
+Outputs:
+  BackupPlanId:
+    Value:
+      GetAtt:
+        - Resource
+        - BackupPlanId
+  SelectionId:
+    Value:
+      GetAtt:
+        - Resource
+        - SelectionId

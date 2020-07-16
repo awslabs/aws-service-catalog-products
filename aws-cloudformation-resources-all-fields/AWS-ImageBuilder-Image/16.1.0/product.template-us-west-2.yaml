@@ -1,0 +1,54 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-imagebuilder-image.html
+Parameters:
+  ImageTestsConfigurationImageTestsEnabled:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-imagebuilder-image-imagetestsconfiguration.html#cfn-imagebuilder-image-imagetestsconfiguration-imagetestsenabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  ImageTestsConfigurationTimeoutMinutes:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-imagebuilder-image-imagetestsconfiguration.html#cfn-imagebuilder-image-imagetestsconfiguration-timeoutminutes
+    Default: null
+  ImageRecipeArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-imagebuilder-image.html#cfn-imagebuilder-image-imagerecipearn
+  DistributionConfigurationArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-imagebuilder-image.html#cfn-imagebuilder-image-distributionconfigurationarn
+    Default: null
+  InfrastructureConfigurationArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-imagebuilder-image.html#cfn-imagebuilder-image-infrastructureconfigurationarn
+  EnhancedImageMetadataEnabled:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-imagebuilder-image.html#cfn-imagebuilder-image-enhancedimagemetadataenabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::ImageBuilder::Image
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-imagebuilder-image.html
+    Properties:
+      ImageTestsConfiguration:
+        ImageTestsEnabled: !Ref 'ImageTestsConfigurationImageTestsEnabled'
+        TimeoutMinutes: !Ref 'ImageTestsConfigurationTimeoutMinutes'
+      ImageRecipeArn: !Ref 'ImageRecipeArn'
+      DistributionConfigurationArn: !Ref 'DistributionConfigurationArn'
+      InfrastructureConfigurationArn: !Ref 'InfrastructureConfigurationArn'
+      EnhancedImageMetadataEnabled: !Ref 'EnhancedImageMetadataEnabled'
+Outputs:
+  Arn:
+    Value:
+      GetAtt:
+        - Resource
+        - Arn
+  ImageId:
+    Value:
+      GetAtt:
+        - Resource
+        - ImageId

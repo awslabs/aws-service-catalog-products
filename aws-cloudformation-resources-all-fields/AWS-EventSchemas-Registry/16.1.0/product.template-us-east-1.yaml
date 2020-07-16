@@ -1,0 +1,29 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-eventschemas-registry.html
+Parameters:
+  Description:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-eventschemas-registry.html#cfn-eventschemas-registry-description
+    Default: null
+  RegistryName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-eventschemas-registry.html#cfn-eventschemas-registry-registryname
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::EventSchemas::Registry
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-eventschemas-registry.html
+    Properties:
+      Description: !Ref 'Description'
+      RegistryName: !Ref 'RegistryName'
+Outputs:
+  RegistryName:
+    Value:
+      GetAtt:
+        - Resource
+        - RegistryName
+  RegistryArn:
+    Value:
+      GetAtt:
+        - Resource
+        - RegistryArn

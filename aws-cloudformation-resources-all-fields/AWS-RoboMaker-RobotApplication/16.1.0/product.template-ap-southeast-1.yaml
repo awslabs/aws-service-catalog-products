@@ -1,0 +1,43 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-robomaker-robotapplication.html
+Parameters:
+  CurrentRevisionId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-robomaker-robotapplication.html#cfn-robomaker-robotapplication-currentrevisionid
+    Default: null
+  RobotSoftwareSuiteVersion:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-robomaker-robotapplication-robotsoftwaresuite.html#cfn-robomaker-robotapplication-robotsoftwaresuite-version
+  RobotSoftwareSuiteName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-robomaker-robotapplication-robotsoftwaresuite.html#cfn-robomaker-robotapplication-robotsoftwaresuite-name
+  Tags:
+    Type: Json
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-robomaker-robotapplication.html#cfn-robomaker-robotapplication-tags
+    Default: null
+  Name:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-robomaker-robotapplication.html#cfn-robomaker-robotapplication-name
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::RoboMaker::RobotApplication
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-robomaker-robotapplication.html
+    Properties:
+      CurrentRevisionId: !Ref 'CurrentRevisionId'
+      RobotSoftwareSuite:
+        Version: !Ref 'RobotSoftwareSuiteVersion'
+        Name: !Ref 'RobotSoftwareSuiteName'
+      Tags: !Ref 'Tags'
+      Name: !Ref 'Name'
+Outputs:
+  CurrentRevisionId:
+    Value:
+      GetAtt:
+        - Resource
+        - CurrentRevisionId
+  Arn:
+    Value:
+      GetAtt:
+        - Resource
+        - Arn

@@ -1,0 +1,31 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-config-organizationconformancepack.html
+Parameters:
+  OrganizationConformancePackName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-config-organizationconformancepack.html#cfn-config-organizationconformancepack-organizationconformancepackname
+  TemplateS3Uri:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-config-organizationconformancepack.html#cfn-config-organizationconformancepack-templates3uri
+    Default: null
+  TemplateBody:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-config-organizationconformancepack.html#cfn-config-organizationconformancepack-templatebody
+    Default: null
+  DeliveryS3Bucket:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-config-organizationconformancepack.html#cfn-config-organizationconformancepack-deliverys3bucket
+  DeliveryS3KeyPrefix:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-config-organizationconformancepack.html#cfn-config-organizationconformancepack-deliverys3keyprefix
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::Config::OrganizationConformancePack
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-config-organizationconformancepack.html
+    Properties:
+      OrganizationConformancePackName: !Ref 'OrganizationConformancePackName'
+      TemplateS3Uri: !Ref 'TemplateS3Uri'
+      TemplateBody: !Ref 'TemplateBody'
+      DeliveryS3Bucket: !Ref 'DeliveryS3Bucket'
+      DeliveryS3KeyPrefix: !Ref 'DeliveryS3KeyPrefix'

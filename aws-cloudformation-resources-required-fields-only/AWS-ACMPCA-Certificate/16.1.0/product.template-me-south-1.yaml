@@ -1,0 +1,35 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-acmpca-certificate.html
+Parameters:
+  CertificateAuthorityArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-acmpca-certificate.html#cfn-acmpca-certificate-certificateauthorityarn
+  CertificateSigningRequest:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-acmpca-certificate.html#cfn-acmpca-certificate-certificatesigningrequest
+  SigningAlgorithm:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-acmpca-certificate.html#cfn-acmpca-certificate-signingalgorithm
+  Validity:
+    Type: Json
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-acmpca-certificate.html#cfn-acmpca-certificate-validity
+Resources:
+  Resource:
+    Type: AWS::ACMPCA::Certificate
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-acmpca-certificate.html
+    Properties:
+      CertificateAuthorityArn: !Ref 'CertificateAuthorityArn'
+      CertificateSigningRequest: !Ref 'CertificateSigningRequest'
+      SigningAlgorithm: !Ref 'SigningAlgorithm'
+      Validity: !Ref 'Validity'
+Outputs:
+  Certificate:
+    Value:
+      GetAtt:
+        - Resource
+        - Certificate
+  Arn:
+    Value:
+      GetAtt:
+        - Resource
+        - Arn

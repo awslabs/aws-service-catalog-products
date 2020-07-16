@@ -1,0 +1,88 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-amazonmq-broker.html
+Parameters:
+  EngineVersion:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-amazonmq-broker.html#cfn-amazonmq-broker-engineversion
+  HostInstanceType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-amazonmq-broker.html#cfn-amazonmq-broker-hostinstancetype
+  AutoMinorVersionUpgrade:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-amazonmq-broker.html#cfn-amazonmq-broker-autominorversionupgrade
+    AllowedValues:
+      - 'true'
+      - 'false'
+  BrokerName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-amazonmq-broker.html#cfn-amazonmq-broker-brokername
+  DeploymentMode:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-amazonmq-broker.html#cfn-amazonmq-broker-deploymentmode
+  EngineType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-amazonmq-broker.html#cfn-amazonmq-broker-enginetype
+  PubliclyAccessible:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-amazonmq-broker.html#cfn-amazonmq-broker-publiclyaccessible
+    AllowedValues:
+      - 'true'
+      - 'false'
+Resources:
+  Resource:
+    Type: AWS::AmazonMQ::Broker
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-amazonmq-broker.html
+    Properties:
+      EngineVersion: !Ref 'EngineVersion'
+      HostInstanceType: !Ref 'HostInstanceType'
+      AutoMinorVersionUpgrade: !Ref 'AutoMinorVersionUpgrade'
+      BrokerName: !Ref 'BrokerName'
+      DeploymentMode: !Ref 'DeploymentMode'
+      EngineType: !Ref 'EngineType'
+      PubliclyAccessible: !Ref 'PubliclyAccessible'
+Outputs:
+  IpAddresses:
+    Value:
+      GetAtt:
+        - Resource
+        - IpAddresses
+  OpenWireEndpoints:
+    Value:
+      GetAtt:
+        - Resource
+        - OpenWireEndpoints
+  ConfigurationRevision:
+    Value:
+      GetAtt:
+        - Resource
+        - ConfigurationRevision
+  StompEndpoints:
+    Value:
+      GetAtt:
+        - Resource
+        - StompEndpoints
+  MqttEndpoints:
+    Value:
+      GetAtt:
+        - Resource
+        - MqttEndpoints
+  AmqpEndpoints:
+    Value:
+      GetAtt:
+        - Resource
+        - AmqpEndpoints
+  Arn:
+    Value:
+      GetAtt:
+        - Resource
+        - Arn
+  ConfigurationId:
+    Value:
+      GetAtt:
+        - Resource
+        - ConfigurationId
+  WssEndpoints:
+    Value:
+      GetAtt:
+        - Resource
+        - WssEndpoints

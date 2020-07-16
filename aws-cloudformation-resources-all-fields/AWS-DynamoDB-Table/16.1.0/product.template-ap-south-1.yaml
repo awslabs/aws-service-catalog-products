@@ -1,0 +1,83 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dynamodb-table.html
+Parameters:
+  BillingMode:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dynamodb-table.html#cfn-dynamodb-table-billingmode
+    Default: null
+  PointInTimeRecoverySpecificationPointInTimeRecoveryEnabled:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-dynamodb-table-pointintimerecoveryspecification.html#cfn-dynamodb-table-pointintimerecoveryspecification-pointintimerecoveryenabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  ProvisionedThroughputReadCapacityUnits:
+    Type: Long
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-dynamodb-provisionedthroughput.html#cfn-dynamodb-provisionedthroughput-readcapacityunits
+  ProvisionedThroughputWriteCapacityUnits:
+    Type: Long
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-dynamodb-provisionedthroughput.html#cfn-dynamodb-provisionedthroughput-writecapacityunits
+  SSESpecificationKMSMasterKeyId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-dynamodb-table-ssespecification.html#cfn-dynamodb-table-ssespecification-kmsmasterkeyid
+    Default: null
+  SSESpecificationSSEEnabled:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-dynamodb-table-ssespecification.html#cfn-dynamodb-table-ssespecification-sseenabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+  SSESpecificationSSEType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-dynamodb-table-ssespecification.html#cfn-dynamodb-table-ssespecification-ssetype
+    Default: null
+  StreamSpecificationStreamViewType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-dynamodb-streamspecification.html#cfn-dynamodb-streamspecification-streamviewtype
+  TableName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dynamodb-table.html#cfn-dynamodb-table-tablename
+    Default: null
+  TimeToLiveSpecificationAttributeName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-dynamodb-timetolivespecification.html#cfn-dynamodb-timetolivespecification-attributename
+  TimeToLiveSpecificationEnabled:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-dynamodb-timetolivespecification.html#cfn-dynamodb-timetolivespecification-enabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+Resources:
+  Resource:
+    Type: AWS::DynamoDB::Table
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dynamodb-table.html
+    Properties:
+      BillingMode: !Ref 'BillingMode'
+      PointInTimeRecoverySpecification:
+        PointInTimeRecoveryEnabled: !Ref 'PointInTimeRecoverySpecificationPointInTimeRecoveryEnabled'
+      ProvisionedThroughput:
+        ReadCapacityUnits: !Ref 'ProvisionedThroughputReadCapacityUnits'
+        WriteCapacityUnits: !Ref 'ProvisionedThroughputWriteCapacityUnits'
+      SSESpecification:
+        KMSMasterKeyId: !Ref 'SSESpecificationKMSMasterKeyId'
+        SSEEnabled: !Ref 'SSESpecificationSSEEnabled'
+        SSEType: !Ref 'SSESpecificationSSEType'
+      StreamSpecification:
+        StreamViewType: !Ref 'StreamSpecificationStreamViewType'
+      TableName: !Ref 'TableName'
+      TimeToLiveSpecification:
+        AttributeName: !Ref 'TimeToLiveSpecificationAttributeName'
+        Enabled: !Ref 'TimeToLiveSpecificationEnabled'
+Outputs:
+  Arn:
+    Value:
+      GetAtt:
+        - Resource
+        - Arn
+  StreamArn:
+    Value:
+      GetAtt:
+        - Resource
+        - StreamArn

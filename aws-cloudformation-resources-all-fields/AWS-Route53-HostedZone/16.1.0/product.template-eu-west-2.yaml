@@ -1,0 +1,29 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-route53-hostedzone.html
+Parameters:
+  HostedZoneConfigComment:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-route53-hostedzone-hostedzoneconfig.html#cfn-route53-hostedzone-hostedzoneconfig-comment
+    Default: null
+  Name:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-route53-hostedzone.html#cfn-route53-hostedzone-name
+  QueryLoggingConfigCloudWatchLogsLogGroupArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-route53-hostedzone-queryloggingconfig.html#cfn-route53-hostedzone-queryloggingconfig-cloudwatchlogsloggrouparn
+Resources:
+  Resource:
+    Type: AWS::Route53::HostedZone
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-route53-hostedzone.html
+    Properties:
+      HostedZoneConfig:
+        Comment: !Ref 'HostedZoneConfigComment'
+      Name: !Ref 'Name'
+      QueryLoggingConfig:
+        CloudWatchLogsLogGroupArn: !Ref 'QueryLoggingConfigCloudWatchLogsLogGroupArn'
+Outputs:
+  NameServers:
+    Value:
+      GetAtt:
+        - Resource
+        - NameServers

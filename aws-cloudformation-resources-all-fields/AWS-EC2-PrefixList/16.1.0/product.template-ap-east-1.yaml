@@ -1,0 +1,41 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-prefixlist.html
+Parameters:
+  PrefixListName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-prefixlist.html#cfn-ec2-prefixlist-prefixlistname
+  AddressFamily:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-prefixlist.html#cfn-ec2-prefixlist-addressfamily
+  MaxEntries:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-prefixlist.html#cfn-ec2-prefixlist-maxentries
+Resources:
+  Resource:
+    Type: AWS::EC2::PrefixList
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-prefixlist.html
+    Properties:
+      PrefixListName: !Ref 'PrefixListName'
+      AddressFamily: !Ref 'AddressFamily'
+      MaxEntries: !Ref 'MaxEntries'
+Outputs:
+  PrefixListId:
+    Value:
+      GetAtt:
+        - Resource
+        - PrefixListId
+  OwnerId:
+    Value:
+      GetAtt:
+        - Resource
+        - OwnerId
+  Version:
+    Value:
+      GetAtt:
+        - Resource
+        - Version
+  Arn:
+    Value:
+      GetAtt:
+        - Resource
+        - Arn

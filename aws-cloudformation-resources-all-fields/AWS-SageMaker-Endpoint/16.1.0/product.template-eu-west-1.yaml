@@ -1,0 +1,31 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-sagemaker-endpoint.html
+Parameters:
+  RetainAllVariantProperties:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-sagemaker-endpoint.html#cfn-sagemaker-endpoint-retainallvariantproperties
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  EndpointName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-sagemaker-endpoint.html#cfn-sagemaker-endpoint-endpointname
+    Default: null
+  EndpointConfigName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-sagemaker-endpoint.html#cfn-sagemaker-endpoint-endpointconfigname
+Resources:
+  Resource:
+    Type: AWS::SageMaker::Endpoint
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-sagemaker-endpoint.html
+    Properties:
+      RetainAllVariantProperties: !Ref 'RetainAllVariantProperties'
+      EndpointName: !Ref 'EndpointName'
+      EndpointConfigName: !Ref 'EndpointConfigName'
+Outputs:
+  EndpointName:
+    Value:
+      GetAtt:
+        - Resource
+        - EndpointName

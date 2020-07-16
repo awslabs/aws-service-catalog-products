@@ -1,0 +1,91 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-function.html
+Parameters:
+  CodeS3Bucket:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-lambda-function-code.html#cfn-lambda-function-code-s3bucket
+    Default: null
+  CodeS3Key:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-lambda-function-code.html#cfn-lambda-function-code-s3key
+    Default: null
+  CodeS3ObjectVersion:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-lambda-function-code.html#cfn-lambda-function-code-s3objectversion
+    Default: null
+  CodeZipFile:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-lambda-function-code.html#cfn-lambda-function-code-zipfile
+    Default: null
+  DeadLetterConfigTargetArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-lambda-function-deadletterconfig.html#cfn-lambda-function-deadletterconfig-targetarn
+    Default: null
+  Description:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-function.html#cfn-lambda-function-description
+    Default: null
+  FunctionName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-function.html#cfn-lambda-function-functionname
+    Default: null
+  Handler:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-function.html#cfn-lambda-function-handler
+  KmsKeyArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-function.html#cfn-lambda-function-kmskeyarn
+    Default: null
+  MemorySize:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-function.html#cfn-lambda-function-memorysize
+    Default: null
+  ReservedConcurrentExecutions:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-function.html#cfn-lambda-function-reservedconcurrentexecutions
+    Default: null
+  Role:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-function.html#cfn-lambda-function-role
+  Runtime:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-function.html#cfn-lambda-function-runtime
+  Timeout:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-function.html#cfn-lambda-function-timeout
+    Default: null
+  TracingConfigMode:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-lambda-function-tracingconfig.html#cfn-lambda-function-tracingconfig-mode
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::Lambda::Function
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-function.html
+    Properties:
+      Code:
+        S3Bucket: !Ref 'CodeS3Bucket'
+        S3Key: !Ref 'CodeS3Key'
+        S3ObjectVersion: !Ref 'CodeS3ObjectVersion'
+        ZipFile: !Ref 'CodeZipFile'
+      DeadLetterConfig:
+        TargetArn: !Ref 'DeadLetterConfigTargetArn'
+      Description: !Ref 'Description'
+      Environment: {}
+      FunctionName: !Ref 'FunctionName'
+      Handler: !Ref 'Handler'
+      KmsKeyArn: !Ref 'KmsKeyArn'
+      MemorySize: !Ref 'MemorySize'
+      ReservedConcurrentExecutions: !Ref 'ReservedConcurrentExecutions'
+      Role: !Ref 'Role'
+      Runtime: !Ref 'Runtime'
+      Timeout: !Ref 'Timeout'
+      TracingConfig:
+        Mode: !Ref 'TracingConfigMode'
+      VpcConfig: {}
+Outputs:
+  Arn:
+    Value:
+      GetAtt:
+        - Resource
+        - Arn

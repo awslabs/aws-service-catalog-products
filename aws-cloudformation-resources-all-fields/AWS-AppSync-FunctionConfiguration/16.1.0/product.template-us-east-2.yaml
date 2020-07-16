@@ -1,0 +1,70 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appsync-functionconfiguration.html
+Parameters:
+  ResponseMappingTemplateS3Location:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appsync-functionconfiguration.html#cfn-appsync-functionconfiguration-responsemappingtemplates3location
+    Default: null
+  Description:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appsync-functionconfiguration.html#cfn-appsync-functionconfiguration-description
+    Default: null
+  DataSourceName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appsync-functionconfiguration.html#cfn-appsync-functionconfiguration-datasourcename
+  RequestMappingTemplate:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appsync-functionconfiguration.html#cfn-appsync-functionconfiguration-requestmappingtemplate
+    Default: null
+  ResponseMappingTemplate:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appsync-functionconfiguration.html#cfn-appsync-functionconfiguration-responsemappingtemplate
+    Default: null
+  FunctionVersion:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appsync-functionconfiguration.html#cfn-appsync-functionconfiguration-functionversion
+  RequestMappingTemplateS3Location:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appsync-functionconfiguration.html#cfn-appsync-functionconfiguration-requestmappingtemplates3location
+    Default: null
+  ApiId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appsync-functionconfiguration.html#cfn-appsync-functionconfiguration-apiid
+  Name:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appsync-functionconfiguration.html#cfn-appsync-functionconfiguration-name
+Resources:
+  Resource:
+    Type: AWS::AppSync::FunctionConfiguration
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appsync-functionconfiguration.html
+    Properties:
+      ResponseMappingTemplateS3Location: !Ref 'ResponseMappingTemplateS3Location'
+      Description: !Ref 'Description'
+      DataSourceName: !Ref 'DataSourceName'
+      RequestMappingTemplate: !Ref 'RequestMappingTemplate'
+      ResponseMappingTemplate: !Ref 'ResponseMappingTemplate'
+      FunctionVersion: !Ref 'FunctionVersion'
+      RequestMappingTemplateS3Location: !Ref 'RequestMappingTemplateS3Location'
+      ApiId: !Ref 'ApiId'
+      Name: !Ref 'Name'
+Outputs:
+  FunctionId:
+    Value:
+      GetAtt:
+        - Resource
+        - FunctionId
+  FunctionArn:
+    Value:
+      GetAtt:
+        - Resource
+        - FunctionArn
+  DataSourceName:
+    Value:
+      GetAtt:
+        - Resource
+        - DataSourceName
+  Name:
+    Value:
+      GetAtt:
+        - Resource
+        - Name

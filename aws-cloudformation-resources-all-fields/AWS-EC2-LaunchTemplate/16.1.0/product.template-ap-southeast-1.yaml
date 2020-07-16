@@ -1,0 +1,238 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-launchtemplate.html
+Parameters:
+  LaunchTemplateName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-launchtemplate.html#cfn-ec2-launchtemplate-launchtemplatename
+    Default: null
+  LaunchTemplateDataUserData:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-launchtemplate-launchtemplatedata.html#cfn-ec2-launchtemplate-launchtemplatedata-userdata
+    Default: null
+  LaunchTemplateDataIamInstanceProfileArn:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-launchtemplate-launchtemplatedata-iaminstanceprofile.html#cfn-ec2-launchtemplate-launchtemplatedata-iaminstanceprofile-arn
+    Default: null
+  LaunchTemplateDataIamInstanceProfileName:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-launchtemplate-launchtemplatedata-iaminstanceprofile.html#cfn-ec2-launchtemplate-launchtemplatedata-iaminstanceprofile-name
+    Default: null
+  LaunchTemplateDataKernelId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-launchtemplate-launchtemplatedata.html#cfn-ec2-launchtemplate-launchtemplatedata-kernelid
+    Default: null
+  LaunchTemplateDataEbsOptimized:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-launchtemplate-launchtemplatedata.html#cfn-ec2-launchtemplate-launchtemplatedata-ebsoptimized
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  LaunchTemplateDataPlacementGroupName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-launchtemplate-launchtemplatedata-placement.html#cfn-ec2-launchtemplate-launchtemplatedata-placement-groupname
+    Default: null
+  LaunchTemplateDataPlacementTenancy:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-launchtemplate-launchtemplatedata-placement.html#cfn-ec2-launchtemplate-launchtemplatedata-placement-tenancy
+    Default: null
+  LaunchTemplateDataPlacementSpreadDomain:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-launchtemplate-launchtemplatedata-placement.html#cfn-ec2-launchtemplate-launchtemplatedata-placement-spreaddomain
+    Default: null
+  LaunchTemplateDataPlacementPartitionNumber:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-launchtemplate-launchtemplatedata-placement.html#cfn-ec2-launchtemplate-launchtemplatedata-placement-partitionnumber
+    Default: null
+  LaunchTemplateDataPlacementAvailabilityZone:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-launchtemplate-launchtemplatedata-placement.html#cfn-ec2-launchtemplate-launchtemplatedata-placement-availabilityzone
+    Default: null
+  LaunchTemplateDataPlacementAffinity:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-launchtemplate-launchtemplatedata-placement.html#cfn-ec2-launchtemplate-launchtemplatedata-placement-affinity
+    Default: null
+  LaunchTemplateDataPlacementHostId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-launchtemplate-launchtemplatedata-placement.html#cfn-ec2-launchtemplate-launchtemplatedata-placement-hostid
+    Default: null
+  LaunchTemplateDataPlacementHostResourceGroupArn:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-launchtemplate-launchtemplatedata-placement.html#cfn-ec2-launchtemplate-launchtemplatedata-placement-hostresourcegrouparn
+    Default: null
+  LaunchTemplateDataImageId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-launchtemplate-launchtemplatedata.html#cfn-ec2-launchtemplate-launchtemplatedata-imageid
+    Default: null
+  LaunchTemplateDataInstanceType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-launchtemplate-launchtemplatedata.html#cfn-ec2-launchtemplate-launchtemplatedata-instancetype
+    Default: null
+  LaunchTemplateDataMonitoringEnabled:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-launchtemplate-launchtemplatedata-monitoring.html#cfn-ec2-launchtemplate-launchtemplatedata-monitoring-enabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  LaunchTemplateDataHibernationOptionsConfigured:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-launchtemplate-launchtemplatedata-hibernationoptions.html#cfn-ec2-launchtemplate-launchtemplatedata-hibernationoptions-configured
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  LaunchTemplateDataMetadataOptionsHttpPutResponseHopLimit:
+    Type: Number
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-launchtemplate-launchtemplatedata-metadataoptions.html#cfn-ec2-launchtemplate-launchtemplatedata-metadataoptions-httpputresponsehoplimit
+    Default: null
+  LaunchTemplateDataMetadataOptionsHttpTokens:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-launchtemplate-launchtemplatedata-metadataoptions.html#cfn-ec2-launchtemplate-launchtemplatedata-metadataoptions-httptokens
+    Default: null
+  LaunchTemplateDataMetadataOptionsHttpEndpoint:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-launchtemplate-launchtemplatedata-metadataoptions.html#cfn-ec2-launchtemplate-launchtemplatedata-metadataoptions-httpendpoint
+    Default: null
+  LaunchTemplateDataInstanceInitiatedShutdownBehavior:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-launchtemplate-launchtemplatedata.html#cfn-ec2-launchtemplate-launchtemplatedata-instanceinitiatedshutdownbehavior
+    Default: null
+  LaunchTemplateDataCpuOptionsThreadsPerCore:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-launchtemplate-launchtemplatedata-cpuoptions.html#cfn-ec2-launchtemplate-launchtemplatedata-cpuoptions-threadspercore
+    Default: null
+  LaunchTemplateDataCpuOptionsCoreCount:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-launchtemplate-launchtemplatedata-cpuoptions.html#cfn-ec2-launchtemplate-launchtemplatedata-cpuoptions-corecount
+    Default: null
+  LaunchTemplateDataKeyName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-launchtemplate-launchtemplatedata.html#cfn-ec2-launchtemplate-launchtemplatedata-keyname
+    Default: null
+  LaunchTemplateDataDisableApiTermination:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-launchtemplate-launchtemplatedata.html#cfn-ec2-launchtemplate-launchtemplatedata-disableapitermination
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  LaunchTemplateDataInstanceMarketOptionsSpotOptionsSpotInstanceType:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-launchtemplate-launchtemplatedata-instancemarketoptions-spotoptions.html#cfn-ec2-launchtemplate-launchtemplatedata-instancemarketoptions-spotoptions-spotinstancetype
+    Default: null
+  LaunchTemplateDataInstanceMarketOptionsSpotOptionsInstanceInterruptionBehavior:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-launchtemplate-launchtemplatedata-instancemarketoptions-spotoptions.html#cfn-ec2-launchtemplate-launchtemplatedata-instancemarketoptions-spotoptions-instanceinterruptionbehavior
+    Default: null
+  LaunchTemplateDataInstanceMarketOptionsSpotOptionsMaxPrice:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-launchtemplate-launchtemplatedata-instancemarketoptions-spotoptions.html#cfn-ec2-launchtemplate-launchtemplatedata-instancemarketoptions-spotoptions-maxprice
+    Default: null
+  LaunchTemplateDataInstanceMarketOptionsSpotOptionsBlockDurationMinutes:
+    Type: Number
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-launchtemplate-launchtemplatedata-instancemarketoptions-spotoptions.html#cfn-ec2-launchtemplate-launchtemplatedata-instancemarketoptions-spotoptions-blockdurationminutes
+    Default: null
+  LaunchTemplateDataInstanceMarketOptionsSpotOptionsValidUntil:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-launchtemplate-launchtemplatedata-instancemarketoptions-spotoptions.html#cfn-ec2-launchtemplate-launchtemplatedata-instancemarketoptions-spotoptions-validuntil
+    Default: null
+  LaunchTemplateDataInstanceMarketOptionsMarketType:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-launchtemplate-launchtemplatedata-instancemarketoptions.html#cfn-ec2-launchtemplate-launchtemplatedata-instancemarketoptions-markettype
+    Default: null
+  LaunchTemplateDataRamDiskId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-launchtemplate-launchtemplatedata.html#cfn-ec2-launchtemplate-launchtemplatedata-ramdiskid
+    Default: null
+  LaunchTemplateDataCapacityReservationSpecificationCapacityReservationPreference:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-launchtemplate-launchtemplatedata-capacityreservationspecification.html#cfn-ec2-launchtemplate-launchtemplatedata-capacityreservationspecification-capacityreservationpreference
+    Default: null
+  LaunchTemplateDataCapacityReservationSpecificationCapacityReservationTargetCapacityReservationId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-launchtemplate-capacityreservationtarget.html#cfn-ec2-launchtemplate-capacityreservationtarget-capacityreservationid
+    Default: null
+  LaunchTemplateDataCreditSpecificationCpuCredits:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-launchtemplate-launchtemplatedata-creditspecification.html#cfn-ec2-launchtemplate-launchtemplatedata-creditspecification-cpucredits
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::EC2::LaunchTemplate
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-launchtemplate.html
+    Properties:
+      LaunchTemplateName: !Ref 'LaunchTemplateName'
+      LaunchTemplateData:
+        UserData: !Ref 'LaunchTemplateDataUserData'
+        IamInstanceProfile:
+          Arn: !Ref 'LaunchTemplateDataIamInstanceProfileArn'
+          Name: !Ref 'LaunchTemplateDataIamInstanceProfileName'
+        KernelId: !Ref 'LaunchTemplateDataKernelId'
+        EbsOptimized: !Ref 'LaunchTemplateDataEbsOptimized'
+        Placement:
+          GroupName: !Ref 'LaunchTemplateDataPlacementGroupName'
+          Tenancy: !Ref 'LaunchTemplateDataPlacementTenancy'
+          SpreadDomain: !Ref 'LaunchTemplateDataPlacementSpreadDomain'
+          PartitionNumber: !Ref 'LaunchTemplateDataPlacementPartitionNumber'
+          AvailabilityZone: !Ref 'LaunchTemplateDataPlacementAvailabilityZone'
+          Affinity: !Ref 'LaunchTemplateDataPlacementAffinity'
+          HostId: !Ref 'LaunchTemplateDataPlacementHostId'
+          HostResourceGroupArn: !Ref 'LaunchTemplateDataPlacementHostResourceGroupArn'
+        ImageId: !Ref 'LaunchTemplateDataImageId'
+        InstanceType: !Ref 'LaunchTemplateDataInstanceType'
+        Monitoring:
+          Enabled: !Ref 'LaunchTemplateDataMonitoringEnabled'
+        HibernationOptions:
+          Configured: !Ref 'LaunchTemplateDataHibernationOptionsConfigured'
+        MetadataOptions:
+          HttpPutResponseHopLimit: !Ref 'LaunchTemplateDataMetadataOptionsHttpPutResponseHopLimit'
+          HttpTokens: !Ref 'LaunchTemplateDataMetadataOptionsHttpTokens'
+          HttpEndpoint: !Ref 'LaunchTemplateDataMetadataOptionsHttpEndpoint'
+        InstanceInitiatedShutdownBehavior: !Ref 'LaunchTemplateDataInstanceInitiatedShutdownBehavior'
+        CpuOptions:
+          ThreadsPerCore: !Ref 'LaunchTemplateDataCpuOptionsThreadsPerCore'
+          CoreCount: !Ref 'LaunchTemplateDataCpuOptionsCoreCount'
+        KeyName: !Ref 'LaunchTemplateDataKeyName'
+        DisableApiTermination: !Ref 'LaunchTemplateDataDisableApiTermination'
+        InstanceMarketOptions:
+          SpotOptions:
+            SpotInstanceType: !Ref 'LaunchTemplateDataInstanceMarketOptionsSpotOptionsSpotInstanceType'
+            InstanceInterruptionBehavior: !Ref 'LaunchTemplateDataInstanceMarketOptionsSpotOptionsInstanceInterruptionBehavior'
+            MaxPrice: !Ref 'LaunchTemplateDataInstanceMarketOptionsSpotOptionsMaxPrice'
+            BlockDurationMinutes: !Ref 'LaunchTemplateDataInstanceMarketOptionsSpotOptionsBlockDurationMinutes'
+            ValidUntil: !Ref 'LaunchTemplateDataInstanceMarketOptionsSpotOptionsValidUntil'
+          MarketType: !Ref 'LaunchTemplateDataInstanceMarketOptionsMarketType'
+        RamDiskId: !Ref 'LaunchTemplateDataRamDiskId'
+        CapacityReservationSpecification:
+          CapacityReservationPreference: !Ref 'LaunchTemplateDataCapacityReservationSpecificationCapacityReservationPreference'
+          CapacityReservationTarget:
+            CapacityReservationId: !Ref 'LaunchTemplateDataCapacityReservationSpecificationCapacityReservationTargetCapacityReservationId'
+        CreditSpecification:
+          CpuCredits: !Ref 'LaunchTemplateDataCreditSpecificationCpuCredits'
+Outputs:
+  LatestVersionNumber:
+    Value:
+      GetAtt:
+        - Resource
+        - LatestVersionNumber
+  DefaultVersionNumber:
+    Value:
+      GetAtt:
+        - Resource
+        - DefaultVersionNumber

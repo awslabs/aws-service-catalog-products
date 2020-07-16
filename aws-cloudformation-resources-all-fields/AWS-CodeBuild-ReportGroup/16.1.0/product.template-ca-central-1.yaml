@@ -1,0 +1,56 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codebuild-reportgroup.html
+Parameters:
+  Type:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codebuild-reportgroup.html#cfn-codebuild-reportgroup-type
+  ReportExportConfigS3ReportExportConfigPath:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-reportgroup-s3reportexportconfig.html#cfn-codebuild-reportgroup-s3reportexportconfig-path
+    Default: null
+  ReportExportConfigS3ReportExportConfigBucket:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-reportgroup-s3reportexportconfig.html#cfn-codebuild-reportgroup-s3reportexportconfig-bucket
+  ReportExportConfigS3ReportExportConfigPackaging:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-reportgroup-s3reportexportconfig.html#cfn-codebuild-reportgroup-s3reportexportconfig-packaging
+    Default: null
+  ReportExportConfigS3ReportExportConfigEncryptionKey:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-reportgroup-s3reportexportconfig.html#cfn-codebuild-reportgroup-s3reportexportconfig-encryptionkey
+    Default: null
+  ReportExportConfigS3ReportExportConfigEncryptionDisabled:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-reportgroup-s3reportexportconfig.html#cfn-codebuild-reportgroup-s3reportexportconfig-encryptiondisabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  ReportExportConfigExportConfigType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-reportgroup-reportexportconfig.html#cfn-codebuild-reportgroup-reportexportconfig-exportconfigtype
+  Name:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codebuild-reportgroup.html#cfn-codebuild-reportgroup-name
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::CodeBuild::ReportGroup
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codebuild-reportgroup.html
+    Properties:
+      Type: !Ref 'Type'
+      ExportConfig:
+        S3Destination:
+          Path: !Ref 'ReportExportConfigS3ReportExportConfigPath'
+          Bucket: !Ref 'ReportExportConfigS3ReportExportConfigBucket'
+          Packaging: !Ref 'ReportExportConfigS3ReportExportConfigPackaging'
+          EncryptionKey: !Ref 'ReportExportConfigS3ReportExportConfigEncryptionKey'
+          EncryptionDisabled: !Ref 'ReportExportConfigS3ReportExportConfigEncryptionDisabled'
+        ExportConfigType: !Ref 'ReportExportConfigExportConfigType'
+      Name: !Ref 'Name'
+Outputs:
+  Arn:
+    Value:
+      GetAtt:
+        - Resource
+        - Arn

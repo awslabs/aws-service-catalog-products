@@ -1,0 +1,150 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigateway-deployment.html
+Parameters:
+  DeploymentCanarySettingsPercentTraffic:
+    Type: Double
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-apigateway-deployment-deploymentcanarysettings.html#cfn-apigateway-deployment-deploymentcanarysettings-percenttraffic
+    Default: null
+  DeploymentCanarySettingsUseStageCache:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-apigateway-deployment-deploymentcanarysettings.html#cfn-apigateway-deployment-deploymentcanarysettings-usestagecache
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  Description:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigateway-deployment.html#cfn-apigateway-deployment-description
+    Default: null
+  RestApiId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigateway-deployment.html#cfn-apigateway-deployment-restapiid
+  StageDescriptionAccessLogSettingDestinationArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-apigateway-deployment-accesslogsetting.html#cfn-apigateway-deployment-accesslogsetting-destinationarn
+    Default: null
+  StageDescriptionAccessLogSettingFormat:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-apigateway-deployment-accesslogsetting.html#cfn-apigateway-deployment-accesslogsetting-format
+    Default: null
+  StageDescriptionCacheClusterEnabled:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-apigateway-deployment-stagedescription.html#cfn-apigateway-deployment-stagedescription-cacheclusterenabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  StageDescriptionCacheClusterSize:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-apigateway-deployment-stagedescription.html#cfn-apigateway-deployment-stagedescription-cacheclustersize
+    Default: null
+  StageDescriptionCacheDataEncrypted:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-apigateway-deployment-stagedescription.html#cfn-apigateway-deployment-stagedescription-cachedataencrypted
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  StageDescriptionCacheTtlInSeconds:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-apigateway-deployment-stagedescription.html#cfn-apigateway-deployment-stagedescription-cachettlinseconds
+    Default: null
+  StageDescriptionCachingEnabled:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-apigateway-deployment-stagedescription.html#cfn-apigateway-deployment-stagedescription-cachingenabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  StageDescriptionCanarySettingPercentTraffic:
+    Type: Double
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-apigateway-deployment-canarysetting.html#cfn-apigateway-deployment-canarysetting-percenttraffic
+    Default: null
+  StageDescriptionCanarySettingUseStageCache:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-apigateway-deployment-canarysetting.html#cfn-apigateway-deployment-canarysetting-usestagecache
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  StageDescriptionClientCertificateId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-apigateway-deployment-stagedescription.html#cfn-apigateway-deployment-stagedescription-clientcertificateid
+    Default: null
+  StageDescriptionDataTraceEnabled:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-apigateway-deployment-stagedescription.html#cfn-apigateway-deployment-stagedescription-datatraceenabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  StageDescriptionDescription:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-apigateway-deployment-stagedescription.html#cfn-apigateway-deployment-stagedescription-description
+    Default: null
+  StageDescriptionDocumentationVersion:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-apigateway-deployment-stagedescription.html#cfn-apigateway-deployment-stagedescription-documentationversion
+    Default: null
+  StageDescriptionLoggingLevel:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-apigateway-deployment-stagedescription.html#cfn-apigateway-deployment-stagedescription-logginglevel
+    Default: null
+  StageDescriptionMetricsEnabled:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-apigateway-deployment-stagedescription.html#cfn-apigateway-deployment-stagedescription-metricsenabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  StageDescriptionThrottlingBurstLimit:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-apigateway-deployment-stagedescription.html#cfn-apigateway-deployment-stagedescription-throttlingburstlimit
+    Default: null
+  StageDescriptionThrottlingRateLimit:
+    Type: Double
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-apigateway-deployment-stagedescription.html#cfn-apigateway-deployment-stagedescription-throttlingratelimit
+    Default: null
+  StageDescriptionTracingEnabled:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-apigateway-deployment-stagedescription.html#cfn-apigateway-deployment-stagedescription-tracingenabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  StageName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigateway-deployment.html#cfn-apigateway-deployment-stagename
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::ApiGateway::Deployment
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigateway-deployment.html
+    Properties:
+      DeploymentCanarySettings:
+        PercentTraffic: !Ref 'DeploymentCanarySettingsPercentTraffic'
+        UseStageCache: !Ref 'DeploymentCanarySettingsUseStageCache'
+      Description: !Ref 'Description'
+      RestApiId: !Ref 'RestApiId'
+      StageDescription:
+        AccessLogSetting:
+          DestinationArn: !Ref 'StageDescriptionAccessLogSettingDestinationArn'
+          Format: !Ref 'StageDescriptionAccessLogSettingFormat'
+        CacheClusterEnabled: !Ref 'StageDescriptionCacheClusterEnabled'
+        CacheClusterSize: !Ref 'StageDescriptionCacheClusterSize'
+        CacheDataEncrypted: !Ref 'StageDescriptionCacheDataEncrypted'
+        CacheTtlInSeconds: !Ref 'StageDescriptionCacheTtlInSeconds'
+        CachingEnabled: !Ref 'StageDescriptionCachingEnabled'
+        CanarySetting:
+          PercentTraffic: !Ref 'StageDescriptionCanarySettingPercentTraffic'
+          UseStageCache: !Ref 'StageDescriptionCanarySettingUseStageCache'
+        ClientCertificateId: !Ref 'StageDescriptionClientCertificateId'
+        DataTraceEnabled: !Ref 'StageDescriptionDataTraceEnabled'
+        Description: !Ref 'StageDescriptionDescription'
+        DocumentationVersion: !Ref 'StageDescriptionDocumentationVersion'
+        LoggingLevel: !Ref 'StageDescriptionLoggingLevel'
+        MetricsEnabled: !Ref 'StageDescriptionMetricsEnabled'
+        ThrottlingBurstLimit: !Ref 'StageDescriptionThrottlingBurstLimit'
+        ThrottlingRateLimit: !Ref 'StageDescriptionThrottlingRateLimit'
+        TracingEnabled: !Ref 'StageDescriptionTracingEnabled'
+      StageName: !Ref 'StageName'

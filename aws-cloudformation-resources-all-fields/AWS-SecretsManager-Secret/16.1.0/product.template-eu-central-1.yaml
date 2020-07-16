@@ -1,0 +1,97 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-secretsmanager-secret.html
+Parameters:
+  Description:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-secretsmanager-secret.html#cfn-secretsmanager-secret-description
+    Default: null
+  KmsKeyId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-secretsmanager-secret.html#cfn-secretsmanager-secret-kmskeyid
+    Default: null
+  SecretString:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-secretsmanager-secret.html#cfn-secretsmanager-secret-secretstring
+    Default: null
+  GenerateSecretStringExcludeUppercase:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-secretsmanager-secret-generatesecretstring.html#cfn-secretsmanager-secret-generatesecretstring-excludeuppercase
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  GenerateSecretStringRequireEachIncludedType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-secretsmanager-secret-generatesecretstring.html#cfn-secretsmanager-secret-generatesecretstring-requireeachincludedtype
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  GenerateSecretStringIncludeSpace:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-secretsmanager-secret-generatesecretstring.html#cfn-secretsmanager-secret-generatesecretstring-includespace
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  GenerateSecretStringExcludeCharacters:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-secretsmanager-secret-generatesecretstring.html#cfn-secretsmanager-secret-generatesecretstring-excludecharacters
+    Default: null
+  GenerateSecretStringGenerateStringKey:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-secretsmanager-secret-generatesecretstring.html#cfn-secretsmanager-secret-generatesecretstring-generatestringkey
+    Default: null
+  GenerateSecretStringPasswordLength:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-secretsmanager-secret-generatesecretstring.html#cfn-secretsmanager-secret-generatesecretstring-passwordlength
+    Default: null
+  GenerateSecretStringExcludePunctuation:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-secretsmanager-secret-generatesecretstring.html#cfn-secretsmanager-secret-generatesecretstring-excludepunctuation
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  GenerateSecretStringExcludeLowercase:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-secretsmanager-secret-generatesecretstring.html#cfn-secretsmanager-secret-generatesecretstring-excludelowercase
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  GenerateSecretStringSecretStringTemplate:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-secretsmanager-secret-generatesecretstring.html#cfn-secretsmanager-secret-generatesecretstring-secretstringtemplate
+    Default: null
+  GenerateSecretStringExcludeNumbers:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-secretsmanager-secret-generatesecretstring.html#cfn-secretsmanager-secret-generatesecretstring-excludenumbers
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  Name:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-secretsmanager-secret.html#cfn-secretsmanager-secret-name
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::SecretsManager::Secret
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-secretsmanager-secret.html
+    Properties:
+      Description: !Ref 'Description'
+      KmsKeyId: !Ref 'KmsKeyId'
+      SecretString: !Ref 'SecretString'
+      GenerateSecretString:
+        ExcludeUppercase: !Ref 'GenerateSecretStringExcludeUppercase'
+        RequireEachIncludedType: !Ref 'GenerateSecretStringRequireEachIncludedType'
+        IncludeSpace: !Ref 'GenerateSecretStringIncludeSpace'
+        ExcludeCharacters: !Ref 'GenerateSecretStringExcludeCharacters'
+        GenerateStringKey: !Ref 'GenerateSecretStringGenerateStringKey'
+        PasswordLength: !Ref 'GenerateSecretStringPasswordLength'
+        ExcludePunctuation: !Ref 'GenerateSecretStringExcludePunctuation'
+        ExcludeLowercase: !Ref 'GenerateSecretStringExcludeLowercase'
+        SecretStringTemplate: !Ref 'GenerateSecretStringSecretStringTemplate'
+        ExcludeNumbers: !Ref 'GenerateSecretStringExcludeNumbers'
+      Name: !Ref 'Name'

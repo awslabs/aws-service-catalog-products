@@ -1,0 +1,321 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-pinpoint-campaign.html
+Parameters:
+  Description:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-pinpoint-campaign.html#cfn-pinpoint-campaign-description
+    Default: null
+  SegmentId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-pinpoint-campaign.html#cfn-pinpoint-campaign-segmentid
+  IsPaused:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-pinpoint-campaign.html#cfn-pinpoint-campaign-ispaused
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  Name:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-pinpoint-campaign.html#cfn-pinpoint-campaign-name
+  SegmentVersion:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-pinpoint-campaign.html#cfn-pinpoint-campaign-segmentversion
+    Default: null
+  TreatmentDescription:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-pinpoint-campaign.html#cfn-pinpoint-campaign-treatmentdescription
+    Default: null
+  MessageConfigurationMessageJsonBody:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-campaign-message.html#cfn-pinpoint-campaign-message-jsonbody
+    Default: null
+  MessageConfigurationMessageAction:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-campaign-message.html#cfn-pinpoint-campaign-message-action
+    Default: null
+  MessageConfigurationMessageMediaUrl:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-campaign-message.html#cfn-pinpoint-campaign-message-mediaurl
+    Default: null
+  MessageConfigurationMessageTimeToLive:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-campaign-message.html#cfn-pinpoint-campaign-message-timetolive
+    Default: null
+  MessageConfigurationMessageImageSmallIconUrl:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-campaign-message.html#cfn-pinpoint-campaign-message-imagesmalliconurl
+    Default: null
+  MessageConfigurationMessageImageUrl:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-campaign-message.html#cfn-pinpoint-campaign-message-imageurl
+    Default: null
+  MessageConfigurationMessageTitle:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-campaign-message.html#cfn-pinpoint-campaign-message-title
+    Default: null
+  MessageConfigurationMessageImageIconUrl:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-campaign-message.html#cfn-pinpoint-campaign-message-imageiconurl
+    Default: null
+  MessageConfigurationMessageSilentPush:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-campaign-message.html#cfn-pinpoint-campaign-message-silentpush
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  MessageConfigurationMessageBody:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-campaign-message.html#cfn-pinpoint-campaign-message-body
+    Default: null
+  MessageConfigurationMessageRawContent:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-campaign-message.html#cfn-pinpoint-campaign-message-rawcontent
+    Default: null
+  MessageConfigurationMessageUrl:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-campaign-message.html#cfn-pinpoint-campaign-message-url
+    Default: null
+  MessageConfigurationCampaignEmailMessageFromAddress:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-campaign-campaignemailmessage.html#cfn-pinpoint-campaign-campaignemailmessage-fromaddress
+    Default: null
+  MessageConfigurationCampaignEmailMessageHtmlBody:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-campaign-campaignemailmessage.html#cfn-pinpoint-campaign-campaignemailmessage-htmlbody
+    Default: null
+  MessageConfigurationCampaignEmailMessageTitle:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-campaign-campaignemailmessage.html#cfn-pinpoint-campaign-campaignemailmessage-title
+    Default: null
+  MessageConfigurationCampaignEmailMessageBody:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-campaign-campaignemailmessage.html#cfn-pinpoint-campaign-campaignemailmessage-body
+    Default: null
+  MessageConfigurationCampaignSmsMessageSenderId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-campaign-campaignsmsmessage.html#cfn-pinpoint-campaign-campaignsmsmessage-senderid
+    Default: null
+  MessageConfigurationCampaignSmsMessageBody:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-campaign-campaignsmsmessage.html#cfn-pinpoint-campaign-campaignsmsmessage-body
+    Default: null
+  MessageConfigurationCampaignSmsMessageMessageType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-campaign-campaignsmsmessage.html#cfn-pinpoint-campaign-campaignsmsmessage-messagetype
+    Default: null
+  LimitsDaily:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-campaign-limits.html#cfn-pinpoint-campaign-limits-daily
+    Default: null
+  LimitsMaximumDuration:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-campaign-limits.html#cfn-pinpoint-campaign-limits-maximumduration
+    Default: null
+  LimitsTotal:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-campaign-limits.html#cfn-pinpoint-campaign-limits-total
+    Default: null
+  LimitsMessagesPerSecond:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-campaign-limits.html#cfn-pinpoint-campaign-limits-messagespersecond
+    Default: null
+  HoldoutPercent:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-pinpoint-campaign.html#cfn-pinpoint-campaign-holdoutpercent
+    Default: null
+  ScheduleTimeZone:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-campaign-schedule.html#cfn-pinpoint-campaign-schedule-timezone
+    Default: null
+  ScheduleQuietTimeStart:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-campaign-schedule-quiettime.html#cfn-pinpoint-campaign-schedule-quiettime-start
+  ScheduleQuietTimeEnd:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-campaign-schedule-quiettime.html#cfn-pinpoint-campaign-schedule-quiettime-end
+  ScheduleEndTime:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-campaign-schedule.html#cfn-pinpoint-campaign-schedule-endtime
+    Default: null
+  ScheduleStartTime:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-campaign-schedule.html#cfn-pinpoint-campaign-schedule-starttime
+    Default: null
+  ScheduleFrequency:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-campaign-schedule.html#cfn-pinpoint-campaign-schedule-frequency
+    Default: null
+  ScheduleCampaignEventFilterFilterType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-campaign-campaigneventfilter.html#cfn-pinpoint-campaign-campaigneventfilter-filtertype
+    Default: null
+  ScheduleCampaignEventFilterEventDimensionsMetrics:
+    Type: Json
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-campaign-eventdimensions.html#cfn-pinpoint-campaign-eventdimensions-metrics
+    Default: null
+  ScheduleCampaignEventFilterEventDimensionsSetDimensionDimensionType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-campaign-setdimension.html#cfn-pinpoint-campaign-setdimension-dimensiontype
+    Default: null
+  ScheduleCampaignEventFilterEventDimensionsAttributes:
+    Type: Json
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-campaign-eventdimensions.html#cfn-pinpoint-campaign-eventdimensions-attributes
+    Default: null
+  ScheduleIsLocalTime:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-campaign-schedule.html#cfn-pinpoint-campaign-schedule-islocaltime
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  ApplicationId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-pinpoint-campaign.html#cfn-pinpoint-campaign-applicationid
+  CampaignHookMode:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-campaign-campaignhook.html#cfn-pinpoint-campaign-campaignhook-mode
+    Default: null
+  CampaignHookWebUrl:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-campaign-campaignhook.html#cfn-pinpoint-campaign-campaignhook-weburl
+    Default: null
+  CampaignHookLambdaFunctionName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-campaign-campaignhook.html#cfn-pinpoint-campaign-campaignhook-lambdafunctionname
+    Default: null
+  Tags:
+    Type: Json
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-pinpoint-campaign.html#cfn-pinpoint-campaign-tags
+    Default: null
+  TreatmentName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-pinpoint-campaign.html#cfn-pinpoint-campaign-treatmentname
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::Pinpoint::Campaign
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-pinpoint-campaign.html
+    Properties:
+      Description: !Ref 'Description'
+      SegmentId: !Ref 'SegmentId'
+      IsPaused: !Ref 'IsPaused'
+      Name: !Ref 'Name'
+      SegmentVersion: !Ref 'SegmentVersion'
+      TreatmentDescription: !Ref 'TreatmentDescription'
+      MessageConfiguration:
+        APNSMessage:
+          JsonBody: !Ref 'MessageConfigurationMessageJsonBody'
+          Action: !Ref 'MessageConfigurationMessageAction'
+          MediaUrl: !Ref 'MessageConfigurationMessageMediaUrl'
+          TimeToLive: !Ref 'MessageConfigurationMessageTimeToLive'
+          ImageSmallIconUrl: !Ref 'MessageConfigurationMessageImageSmallIconUrl'
+          ImageUrl: !Ref 'MessageConfigurationMessageImageUrl'
+          Title: !Ref 'MessageConfigurationMessageTitle'
+          ImageIconUrl: !Ref 'MessageConfigurationMessageImageIconUrl'
+          SilentPush: !Ref 'MessageConfigurationMessageSilentPush'
+          Body: !Ref 'MessageConfigurationMessageBody'
+          RawContent: !Ref 'MessageConfigurationMessageRawContent'
+          Url: !Ref 'MessageConfigurationMessageUrl'
+        BaiduMessage:
+          JsonBody: !Ref 'MessageConfigurationMessageJsonBody'
+          Action: !Ref 'MessageConfigurationMessageAction'
+          MediaUrl: !Ref 'MessageConfigurationMessageMediaUrl'
+          TimeToLive: !Ref 'MessageConfigurationMessageTimeToLive'
+          ImageSmallIconUrl: !Ref 'MessageConfigurationMessageImageSmallIconUrl'
+          ImageUrl: !Ref 'MessageConfigurationMessageImageUrl'
+          Title: !Ref 'MessageConfigurationMessageTitle'
+          ImageIconUrl: !Ref 'MessageConfigurationMessageImageIconUrl'
+          SilentPush: !Ref 'MessageConfigurationMessageSilentPush'
+          Body: !Ref 'MessageConfigurationMessageBody'
+          RawContent: !Ref 'MessageConfigurationMessageRawContent'
+          Url: !Ref 'MessageConfigurationMessageUrl'
+        DefaultMessage:
+          JsonBody: !Ref 'MessageConfigurationMessageJsonBody'
+          Action: !Ref 'MessageConfigurationMessageAction'
+          MediaUrl: !Ref 'MessageConfigurationMessageMediaUrl'
+          TimeToLive: !Ref 'MessageConfigurationMessageTimeToLive'
+          ImageSmallIconUrl: !Ref 'MessageConfigurationMessageImageSmallIconUrl'
+          ImageUrl: !Ref 'MessageConfigurationMessageImageUrl'
+          Title: !Ref 'MessageConfigurationMessageTitle'
+          ImageIconUrl: !Ref 'MessageConfigurationMessageImageIconUrl'
+          SilentPush: !Ref 'MessageConfigurationMessageSilentPush'
+          Body: !Ref 'MessageConfigurationMessageBody'
+          RawContent: !Ref 'MessageConfigurationMessageRawContent'
+          Url: !Ref 'MessageConfigurationMessageUrl'
+        EmailMessage:
+          FromAddress: !Ref 'MessageConfigurationCampaignEmailMessageFromAddress'
+          HtmlBody: !Ref 'MessageConfigurationCampaignEmailMessageHtmlBody'
+          Title: !Ref 'MessageConfigurationCampaignEmailMessageTitle'
+          Body: !Ref 'MessageConfigurationCampaignEmailMessageBody'
+        GCMMessage:
+          JsonBody: !Ref 'MessageConfigurationMessageJsonBody'
+          Action: !Ref 'MessageConfigurationMessageAction'
+          MediaUrl: !Ref 'MessageConfigurationMessageMediaUrl'
+          TimeToLive: !Ref 'MessageConfigurationMessageTimeToLive'
+          ImageSmallIconUrl: !Ref 'MessageConfigurationMessageImageSmallIconUrl'
+          ImageUrl: !Ref 'MessageConfigurationMessageImageUrl'
+          Title: !Ref 'MessageConfigurationMessageTitle'
+          ImageIconUrl: !Ref 'MessageConfigurationMessageImageIconUrl'
+          SilentPush: !Ref 'MessageConfigurationMessageSilentPush'
+          Body: !Ref 'MessageConfigurationMessageBody'
+          RawContent: !Ref 'MessageConfigurationMessageRawContent'
+          Url: !Ref 'MessageConfigurationMessageUrl'
+        SMSMessage:
+          SenderId: !Ref 'MessageConfigurationCampaignSmsMessageSenderId'
+          Body: !Ref 'MessageConfigurationCampaignSmsMessageBody'
+          MessageType: !Ref 'MessageConfigurationCampaignSmsMessageMessageType'
+        ADMMessage:
+          JsonBody: !Ref 'MessageConfigurationMessageJsonBody'
+          Action: !Ref 'MessageConfigurationMessageAction'
+          MediaUrl: !Ref 'MessageConfigurationMessageMediaUrl'
+          TimeToLive: !Ref 'MessageConfigurationMessageTimeToLive'
+          ImageSmallIconUrl: !Ref 'MessageConfigurationMessageImageSmallIconUrl'
+          ImageUrl: !Ref 'MessageConfigurationMessageImageUrl'
+          Title: !Ref 'MessageConfigurationMessageTitle'
+          ImageIconUrl: !Ref 'MessageConfigurationMessageImageIconUrl'
+          SilentPush: !Ref 'MessageConfigurationMessageSilentPush'
+          Body: !Ref 'MessageConfigurationMessageBody'
+          RawContent: !Ref 'MessageConfigurationMessageRawContent'
+          Url: !Ref 'MessageConfigurationMessageUrl'
+      Limits:
+        Daily: !Ref 'LimitsDaily'
+        MaximumDuration: !Ref 'LimitsMaximumDuration'
+        Total: !Ref 'LimitsTotal'
+        MessagesPerSecond: !Ref 'LimitsMessagesPerSecond'
+      HoldoutPercent: !Ref 'HoldoutPercent'
+      Schedule:
+        TimeZone: !Ref 'ScheduleTimeZone'
+        QuietTime:
+          Start: !Ref 'ScheduleQuietTimeStart'
+          End: !Ref 'ScheduleQuietTimeEnd'
+        EndTime: !Ref 'ScheduleEndTime'
+        StartTime: !Ref 'ScheduleStartTime'
+        Frequency: !Ref 'ScheduleFrequency'
+        EventFilter:
+          FilterType: !Ref 'ScheduleCampaignEventFilterFilterType'
+          Dimensions:
+            Metrics: !Ref 'ScheduleCampaignEventFilterEventDimensionsMetrics'
+            EventType:
+              DimensionType: !Ref 'ScheduleCampaignEventFilterEventDimensionsSetDimensionDimensionType'
+            Attributes: !Ref 'ScheduleCampaignEventFilterEventDimensionsAttributes'
+        IsLocalTime: !Ref 'ScheduleIsLocalTime'
+      ApplicationId: !Ref 'ApplicationId'
+      CampaignHook:
+        Mode: !Ref 'CampaignHookMode'
+        WebUrl: !Ref 'CampaignHookWebUrl'
+        LambdaFunctionName: !Ref 'CampaignHookLambdaFunctionName'
+      Tags: !Ref 'Tags'
+      TreatmentName: !Ref 'TreatmentName'
+Outputs:
+  CampaignId:
+    Value:
+      GetAtt:
+        - Resource
+        - CampaignId
+  Arn:
+    Value:
+      GetAtt:
+        - Resource
+        - Arn

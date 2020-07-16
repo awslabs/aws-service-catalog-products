@@ -1,0 +1,23 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-neptune-dbinstance.html
+Parameters:
+  DBInstanceClass:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-neptune-dbinstance.html#cfn-neptune-dbinstance-dbinstanceclass
+Resources:
+  Resource:
+    Type: AWS::Neptune::DBInstance
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-neptune-dbinstance.html
+    Properties:
+      DBInstanceClass: !Ref 'DBInstanceClass'
+Outputs:
+  Endpoint:
+    Value:
+      GetAtt:
+        - Resource
+        - Endpoint
+  Port:
+    Value:
+      GetAtt:
+        - Resource
+        - Port

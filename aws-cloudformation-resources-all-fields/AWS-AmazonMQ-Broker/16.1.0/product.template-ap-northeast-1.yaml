@@ -1,0 +1,145 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-amazonmq-broker.html
+Parameters:
+  StorageType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-amazonmq-broker.html#cfn-amazonmq-broker-storagetype
+    Default: null
+  EngineVersion:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-amazonmq-broker.html#cfn-amazonmq-broker-engineversion
+  ConfigurationIdRevision:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-amazonmq-broker-configurationid.html#cfn-amazonmq-broker-configurationid-revision
+  ConfigurationIdId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-amazonmq-broker-configurationid.html#cfn-amazonmq-broker-configurationid-id
+  MaintenanceWindowDayOfWeek:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-amazonmq-broker-maintenancewindow.html#cfn-amazonmq-broker-maintenancewindow-dayofweek
+  MaintenanceWindowTimeOfDay:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-amazonmq-broker-maintenancewindow.html#cfn-amazonmq-broker-maintenancewindow-timeofday
+  MaintenanceWindowTimeZone:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-amazonmq-broker-maintenancewindow.html#cfn-amazonmq-broker-maintenancewindow-timezone
+  HostInstanceType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-amazonmq-broker.html#cfn-amazonmq-broker-hostinstancetype
+  AutoMinorVersionUpgrade:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-amazonmq-broker.html#cfn-amazonmq-broker-autominorversionupgrade
+    AllowedValues:
+      - 'true'
+      - 'false'
+  LogListAudit:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-amazonmq-broker-loglist.html#cfn-amazonmq-broker-loglist-audit
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  LogListGeneral:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-amazonmq-broker-loglist.html#cfn-amazonmq-broker-loglist-general
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  BrokerName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-amazonmq-broker.html#cfn-amazonmq-broker-brokername
+  DeploymentMode:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-amazonmq-broker.html#cfn-amazonmq-broker-deploymentmode
+  EngineType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-amazonmq-broker.html#cfn-amazonmq-broker-enginetype
+  PubliclyAccessible:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-amazonmq-broker.html#cfn-amazonmq-broker-publiclyaccessible
+    AllowedValues:
+      - 'true'
+      - 'false'
+  EncryptionOptionsKmsKeyId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-amazonmq-broker-encryptionoptions.html#cfn-amazonmq-broker-encryptionoptions-kmskeyid
+    Default: null
+  EncryptionOptionsUseAwsOwnedKey:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-amazonmq-broker-encryptionoptions.html#cfn-amazonmq-broker-encryptionoptions-useawsownedkey
+    AllowedValues:
+      - 'true'
+      - 'false'
+Resources:
+  Resource:
+    Type: AWS::AmazonMQ::Broker
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-amazonmq-broker.html
+    Properties:
+      StorageType: !Ref 'StorageType'
+      EngineVersion: !Ref 'EngineVersion'
+      Configuration:
+        Revision: !Ref 'ConfigurationIdRevision'
+        Id: !Ref 'ConfigurationIdId'
+      MaintenanceWindowStartTime:
+        DayOfWeek: !Ref 'MaintenanceWindowDayOfWeek'
+        TimeOfDay: !Ref 'MaintenanceWindowTimeOfDay'
+        TimeZone: !Ref 'MaintenanceWindowTimeZone'
+      HostInstanceType: !Ref 'HostInstanceType'
+      AutoMinorVersionUpgrade: !Ref 'AutoMinorVersionUpgrade'
+      Logs:
+        Audit: !Ref 'LogListAudit'
+        General: !Ref 'LogListGeneral'
+      BrokerName: !Ref 'BrokerName'
+      DeploymentMode: !Ref 'DeploymentMode'
+      EngineType: !Ref 'EngineType'
+      PubliclyAccessible: !Ref 'PubliclyAccessible'
+      EncryptionOptions:
+        KmsKeyId: !Ref 'EncryptionOptionsKmsKeyId'
+        UseAwsOwnedKey: !Ref 'EncryptionOptionsUseAwsOwnedKey'
+Outputs:
+  IpAddresses:
+    Value:
+      GetAtt:
+        - Resource
+        - IpAddresses
+  OpenWireEndpoints:
+    Value:
+      GetAtt:
+        - Resource
+        - OpenWireEndpoints
+  ConfigurationRevision:
+    Value:
+      GetAtt:
+        - Resource
+        - ConfigurationRevision
+  StompEndpoints:
+    Value:
+      GetAtt:
+        - Resource
+        - StompEndpoints
+  MqttEndpoints:
+    Value:
+      GetAtt:
+        - Resource
+        - MqttEndpoints
+  AmqpEndpoints:
+    Value:
+      GetAtt:
+        - Resource
+        - AmqpEndpoints
+  Arn:
+    Value:
+      GetAtt:
+        - Resource
+        - Arn
+  ConfigurationId:
+    Value:
+      GetAtt:
+        - Resource
+        - ConfigurationId
+  WssEndpoints:
+    Value:
+      GetAtt:
+        - Resource
+        - WssEndpoints

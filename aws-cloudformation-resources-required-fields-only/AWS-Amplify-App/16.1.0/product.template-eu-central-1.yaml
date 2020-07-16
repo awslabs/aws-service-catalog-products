@@ -1,0 +1,33 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-amplify-app.html
+Parameters:
+  Name:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-amplify-app.html#cfn-amplify-app-name
+Resources:
+  Resource:
+    Type: AWS::Amplify::App
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-amplify-app.html
+    Properties:
+      Name: !Ref 'Name'
+Outputs:
+  AppId:
+    Value:
+      GetAtt:
+        - Resource
+        - AppId
+  Arn:
+    Value:
+      GetAtt:
+        - Resource
+        - Arn
+  DefaultDomain:
+    Value:
+      GetAtt:
+        - Resource
+        - DefaultDomain
+  AppName:
+    Value:
+      GetAtt:
+        - Resource
+        - AppName

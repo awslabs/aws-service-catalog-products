@@ -1,0 +1,153 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-redshift-cluster.html
+Parameters:
+  AllowVersionUpgrade:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-redshift-cluster.html#cfn-redshift-cluster-allowversionupgrade
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  AutomatedSnapshotRetentionPeriod:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-redshift-cluster.html#cfn-redshift-cluster-automatedsnapshotretentionperiod
+    Default: null
+  AvailabilityZone:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-redshift-cluster.html#cfn-redshift-cluster-availabilityzone
+    Default: null
+  ClusterIdentifier:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-redshift-cluster.html#cfn-redshift-cluster-clusteridentifier
+    Default: null
+  ClusterParameterGroupName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-redshift-cluster.html#cfn-redshift-cluster-clusterparametergroupname
+    Default: null
+  ClusterSubnetGroupName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-redshift-cluster.html#cfn-redshift-cluster-clustersubnetgroupname
+    Default: null
+  ClusterType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-redshift-cluster.html#cfn-redshift-cluster-clustertype
+  ClusterVersion:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-redshift-cluster.html#cfn-redshift-cluster-clusterversion
+    Default: null
+  DBName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-redshift-cluster.html#cfn-redshift-cluster-dbname
+  ElasticIp:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-redshift-cluster.html#cfn-redshift-cluster-elasticip
+    Default: null
+  Encrypted:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-redshift-cluster.html#cfn-redshift-cluster-encrypted
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  HsmClientCertificateIdentifier:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-redshift-cluster.html#cfn-redshift-cluster-hsmclientcertidentifier
+    Default: null
+  HsmConfigurationIdentifier:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-redshift-cluster.html#cfn-redshift-cluster-HsmConfigurationIdentifier
+    Default: null
+  KmsKeyId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-redshift-cluster.html#cfn-redshift-cluster-kmskeyid
+    Default: null
+  LoggingPropertiesBucketName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-redshift-cluster-loggingproperties.html#cfn-redshift-cluster-loggingproperties-bucketname
+  LoggingPropertiesS3KeyPrefix:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-redshift-cluster-loggingproperties.html#cfn-redshift-cluster-loggingproperties-s3keyprefix
+    Default: null
+  MasterUserPassword:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-redshift-cluster.html#cfn-redshift-cluster-masteruserpassword
+  MasterUsername:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-redshift-cluster.html#cfn-redshift-cluster-masterusername
+  NodeType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-redshift-cluster.html#cfn-redshift-cluster-nodetype
+  NumberOfNodes:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-redshift-cluster.html#cfn-redshift-cluster-nodetype
+    Default: null
+  OwnerAccount:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-redshift-cluster.html#cfn-redshift-cluster-owneraccount
+    Default: null
+  Port:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-redshift-cluster.html#cfn-redshift-cluster-port
+    Default: null
+  PreferredMaintenanceWindow:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-redshift-cluster.html#cfn-redshift-cluster-preferredmaintenancewindow
+    Default: null
+  PubliclyAccessible:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-redshift-cluster.html#cfn-redshift-cluster-publiclyaccessible
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  SnapshotClusterIdentifier:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-redshift-cluster.html#cfn-redshift-cluster-snapshotclusteridentifier
+    Default: null
+  SnapshotIdentifier:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-redshift-cluster.html#cfn-redshift-cluster-snapshotidentifier
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::Redshift::Cluster
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-redshift-cluster.html
+    Properties:
+      AllowVersionUpgrade: !Ref 'AllowVersionUpgrade'
+      AutomatedSnapshotRetentionPeriod: !Ref 'AutomatedSnapshotRetentionPeriod'
+      AvailabilityZone: !Ref 'AvailabilityZone'
+      ClusterIdentifier: !Ref 'ClusterIdentifier'
+      ClusterParameterGroupName: !Ref 'ClusterParameterGroupName'
+      ClusterSubnetGroupName: !Ref 'ClusterSubnetGroupName'
+      ClusterType: !Ref 'ClusterType'
+      ClusterVersion: !Ref 'ClusterVersion'
+      DBName: !Ref 'DBName'
+      ElasticIp: !Ref 'ElasticIp'
+      Encrypted: !Ref 'Encrypted'
+      HsmClientCertificateIdentifier: !Ref 'HsmClientCertificateIdentifier'
+      HsmConfigurationIdentifier: !Ref 'HsmConfigurationIdentifier'
+      KmsKeyId: !Ref 'KmsKeyId'
+      LoggingProperties:
+        BucketName: !Ref 'LoggingPropertiesBucketName'
+        S3KeyPrefix: !Ref 'LoggingPropertiesS3KeyPrefix'
+      MasterUserPassword: !Ref 'MasterUserPassword'
+      MasterUsername: !Ref 'MasterUsername'
+      NodeType: !Ref 'NodeType'
+      NumberOfNodes: !Ref 'NumberOfNodes'
+      OwnerAccount: !Ref 'OwnerAccount'
+      Port: !Ref 'Port'
+      PreferredMaintenanceWindow: !Ref 'PreferredMaintenanceWindow'
+      PubliclyAccessible: !Ref 'PubliclyAccessible'
+      SnapshotClusterIdentifier: !Ref 'SnapshotClusterIdentifier'
+      SnapshotIdentifier: !Ref 'SnapshotIdentifier'
+Outputs:
+  Endpoint.Address:
+    Value:
+      GetAtt:
+        - Resource
+        - Endpoint.Address
+  Endpoint.Port:
+    Value:
+      GetAtt:
+        - Resource
+        - Endpoint.Port

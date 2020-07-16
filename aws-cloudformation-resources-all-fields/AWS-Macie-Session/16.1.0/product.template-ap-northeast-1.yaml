@@ -1,0 +1,29 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-macie-session.html
+Parameters:
+  Status:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-macie-session.html#cfn-macie-session-status
+    Default: null
+  FindingPublishingFrequency:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-macie-session.html#cfn-macie-session-findingpublishingfrequency
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::Macie::Session
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-macie-session.html
+    Properties:
+      Status: !Ref 'Status'
+      FindingPublishingFrequency: !Ref 'FindingPublishingFrequency'
+Outputs:
+  AwsAccountId:
+    Value:
+      GetAtt:
+        - Resource
+        - AwsAccountId
+  ServiceRole:
+    Value:
+      GetAtt:
+        - Resource
+        - ServiceRole

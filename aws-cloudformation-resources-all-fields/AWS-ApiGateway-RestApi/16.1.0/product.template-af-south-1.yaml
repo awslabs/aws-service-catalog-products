@@ -1,0 +1,79 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigateway-restapi.html
+Parameters:
+  ApiKeySourceType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigateway-restapi.html#cfn-apigateway-restapi-apikeysourcetype
+    Default: null
+  Body:
+    Type: Json
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigateway-restapi.html#cfn-apigateway-restapi-body
+    Default: null
+  S3LocationBucket:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-apigateway-restapi-s3location.html#cfn-apigateway-restapi-s3location-bucket
+    Default: null
+  S3LocationETag:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-apigateway-restapi-s3location.html#cfn-apigateway-restapi-s3location-etag
+    Default: null
+  S3LocationKey:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-apigateway-restapi-s3location.html#cfn-apigateway-restapi-s3location-key
+    Default: null
+  S3LocationVersion:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-apigateway-restapi-s3location.html#cfn-apigateway-restapi-s3location-version
+    Default: null
+  CloneFrom:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigateway-restapi.html#cfn-apigateway-restapi-clonefrom
+    Default: null
+  Description:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigateway-restapi.html#cfn-apigateway-restapi-description
+    Default: null
+  FailOnWarnings:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigateway-restapi.html#cfn-apigateway-restapi-failonwarnings
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  MinimumCompressionSize:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigateway-restapi.html#cfn-apigateway-restapi-minimumcompressionsize
+    Default: null
+  Name:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigateway-restapi.html#cfn-apigateway-restapi-name
+    Default: null
+  Policy:
+    Type: Json
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigateway-restapi.html#cfn-apigateway-restapi-policy
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::ApiGateway::RestApi
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigateway-restapi.html
+    Properties:
+      ApiKeySourceType: !Ref 'ApiKeySourceType'
+      Body: !Ref 'Body'
+      BodyS3Location:
+        Bucket: !Ref 'S3LocationBucket'
+        ETag: !Ref 'S3LocationETag'
+        Key: !Ref 'S3LocationKey'
+        Version: !Ref 'S3LocationVersion'
+      CloneFrom: !Ref 'CloneFrom'
+      Description: !Ref 'Description'
+      EndpointConfiguration: {}
+      FailOnWarnings: !Ref 'FailOnWarnings'
+      MinimumCompressionSize: !Ref 'MinimumCompressionSize'
+      Name: !Ref 'Name'
+      Policy: !Ref 'Policy'
+Outputs:
+  RootResourceId:
+    Value:
+      GetAtt:
+        - Resource
+        - RootResourceId

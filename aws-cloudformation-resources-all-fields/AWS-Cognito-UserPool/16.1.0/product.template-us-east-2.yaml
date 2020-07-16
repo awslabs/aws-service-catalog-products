@@ -1,0 +1,285 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cognito-userpool.html
+Parameters:
+  UserPoolTags:
+    Type: Json
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cognito-userpool.html#cfn-cognito-userpool-userpooltags
+    Default: null
+  PoliciesPasswordPolicyRequireNumbers:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cognito-userpool-passwordpolicy.html#cfn-cognito-userpool-passwordpolicy-requirenumbers
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  PoliciesPasswordPolicyMinimumLength:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cognito-userpool-passwordpolicy.html#cfn-cognito-userpool-passwordpolicy-minimumlength
+    Default: null
+  PoliciesPasswordPolicyTemporaryPasswordValidityDays:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cognito-userpool-passwordpolicy.html#cfn-cognito-userpool-passwordpolicy-temporarypasswordvaliditydays
+    Default: null
+  PoliciesPasswordPolicyRequireUppercase:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cognito-userpool-passwordpolicy.html#cfn-cognito-userpool-passwordpolicy-requireuppercase
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  PoliciesPasswordPolicyRequireLowercase:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cognito-userpool-passwordpolicy.html#cfn-cognito-userpool-passwordpolicy-requirelowercase
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  PoliciesPasswordPolicyRequireSymbols:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cognito-userpool-passwordpolicy.html#cfn-cognito-userpool-passwordpolicy-requiresymbols
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  VerificationMessageTemplateEmailMessageByLink:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cognito-userpool-verificationmessagetemplate.html#cfn-cognito-userpool-verificationmessagetemplate-emailmessagebylink
+    Default: null
+  VerificationMessageTemplateEmailMessage:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cognito-userpool-verificationmessagetemplate.html#cfn-cognito-userpool-verificationmessagetemplate-emailmessage
+    Default: null
+  VerificationMessageTemplateSmsMessage:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cognito-userpool-verificationmessagetemplate.html#cfn-cognito-userpool-verificationmessagetemplate-smsmessage
+    Default: null
+  VerificationMessageTemplateEmailSubject:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cognito-userpool-verificationmessagetemplate.html#cfn-cognito-userpool-verificationmessagetemplate-emailsubject
+    Default: null
+  VerificationMessageTemplateDefaultEmailOption:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cognito-userpool-verificationmessagetemplate.html#cfn-cognito-userpool-verificationmessagetemplate-defaultemailoption
+    Default: null
+  VerificationMessageTemplateEmailSubjectByLink:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cognito-userpool-verificationmessagetemplate.html#cfn-cognito-userpool-verificationmessagetemplate-emailsubjectbylink
+    Default: null
+  MfaConfiguration:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cognito-userpool.html#cfn-cognito-userpool-mfaconfiguration
+    Default: null
+  AdminCreateUserConfigInviteMessageTemplateEmailMessage:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cognito-userpool-invitemessagetemplate.html#cfn-cognito-userpool-invitemessagetemplate-emailmessage
+    Default: null
+  AdminCreateUserConfigInviteMessageTemplateSMSMessage:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cognito-userpool-invitemessagetemplate.html#cfn-cognito-userpool-invitemessagetemplate-smsmessage
+    Default: null
+  AdminCreateUserConfigInviteMessageTemplateEmailSubject:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cognito-userpool-invitemessagetemplate.html#cfn-cognito-userpool-invitemessagetemplate-emailsubject
+    Default: null
+  AdminCreateUserConfigUnusedAccountValidityDays:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cognito-userpool-admincreateuserconfig.html#cfn-cognito-userpool-admincreateuserconfig-unusedaccountvaliditydays
+    Default: null
+  AdminCreateUserConfigAllowAdminCreateUserOnly:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cognito-userpool-admincreateuserconfig.html#cfn-cognito-userpool-admincreateuserconfig-allowadmincreateuseronly
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  SmsAuthenticationMessage:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cognito-userpool.html#cfn-cognito-userpool-smsauthenticationmessage
+    Default: null
+  UsernameConfigurationCaseSensitive:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cognito-userpool-usernameconfiguration.html#cfn-cognito-userpool-usernameconfiguration-casesensitive
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  UserPoolName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cognito-userpool.html#cfn-cognito-userpool-userpoolname
+    Default: null
+  SmsVerificationMessage:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cognito-userpool.html#cfn-cognito-userpool-smsverificationmessage
+    Default: null
+  UserPoolAddOnsAdvancedSecurityMode:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cognito-userpool-userpooladdons.html#cfn-cognito-userpool-userpooladdons-advancedsecuritymode
+    Default: null
+  EmailConfigurationReplyToEmailAddress:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cognito-userpool-emailconfiguration.html#cfn-cognito-userpool-emailconfiguration-replytoemailaddress
+    Default: null
+  EmailConfigurationConfigurationSet:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cognito-userpool-emailconfiguration.html#cfn-cognito-userpool-emailconfiguration-configurationset
+    Default: null
+  EmailConfigurationEmailSendingAccount:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cognito-userpool-emailconfiguration.html#cfn-cognito-userpool-emailconfiguration-emailsendingaccount
+    Default: null
+  EmailConfigurationSourceArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cognito-userpool-emailconfiguration.html#cfn-cognito-userpool-emailconfiguration-sourcearn
+    Default: null
+  EmailConfigurationFrom:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cognito-userpool-emailconfiguration.html#cfn-cognito-userpool-emailconfiguration-from
+    Default: null
+  SmsConfigurationExternalId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cognito-userpool-smsconfiguration.html#cfn-cognito-userpool-smsconfiguration-externalid
+    Default: null
+  SmsConfigurationSnsCallerArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cognito-userpool-smsconfiguration.html#cfn-cognito-userpool-smsconfiguration-snscallerarn
+    Default: null
+  EmailVerificationSubject:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cognito-userpool.html#cfn-cognito-userpool-emailverificationsubject
+    Default: null
+  LambdaConfigCreateAuthChallenge:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cognito-userpool-lambdaconfig.html#cfn-cognito-userpool-lambdaconfig-createauthchallenge
+    Default: null
+  LambdaConfigPreAuthentication:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cognito-userpool-lambdaconfig.html#cfn-cognito-userpool-lambdaconfig-preauthentication
+    Default: null
+  LambdaConfigDefineAuthChallenge:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cognito-userpool-lambdaconfig.html#cfn-cognito-userpool-lambdaconfig-defineauthchallenge
+    Default: null
+  LambdaConfigPreSignUp:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cognito-userpool-lambdaconfig.html#cfn-cognito-userpool-lambdaconfig-presignup
+    Default: null
+  LambdaConfigPreTokenGeneration:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cognito-userpool-lambdaconfig.html#cfn-cognito-userpool-lambdaconfig-pretokengeneration
+    Default: null
+  LambdaConfigUserMigration:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cognito-userpool-lambdaconfig.html#cfn-cognito-userpool-lambdaconfig-usermigration
+    Default: null
+  LambdaConfigPostAuthentication:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cognito-userpool-lambdaconfig.html#cfn-cognito-userpool-lambdaconfig-postauthentication
+    Default: null
+  LambdaConfigPostConfirmation:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cognito-userpool-lambdaconfig.html#cfn-cognito-userpool-lambdaconfig-postconfirmation
+    Default: null
+  LambdaConfigCustomMessage:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cognito-userpool-lambdaconfig.html#cfn-cognito-userpool-lambdaconfig-custommessage
+    Default: null
+  LambdaConfigVerifyAuthChallengeResponse:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cognito-userpool-lambdaconfig.html#cfn-cognito-userpool-lambdaconfig-verifyauthchallengeresponse
+    Default: null
+  DeviceConfigurationDeviceOnlyRememberedOnUserPrompt:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cognito-userpool-deviceconfiguration.html#cfn-cognito-userpool-deviceconfiguration-deviceonlyrememberedonuserprompt
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  DeviceConfigurationChallengeRequiredOnNewDevice:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cognito-userpool-deviceconfiguration.html#cfn-cognito-userpool-deviceconfiguration-challengerequiredonnewdevice
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  EmailVerificationMessage:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cognito-userpool.html#cfn-cognito-userpool-emailverificationmessage
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::Cognito::UserPool
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cognito-userpool.html
+    Properties:
+      UserPoolTags: !Ref 'UserPoolTags'
+      Policies:
+        PasswordPolicy:
+          RequireNumbers: !Ref 'PoliciesPasswordPolicyRequireNumbers'
+          MinimumLength: !Ref 'PoliciesPasswordPolicyMinimumLength'
+          TemporaryPasswordValidityDays: !Ref 'PoliciesPasswordPolicyTemporaryPasswordValidityDays'
+          RequireUppercase: !Ref 'PoliciesPasswordPolicyRequireUppercase'
+          RequireLowercase: !Ref 'PoliciesPasswordPolicyRequireLowercase'
+          RequireSymbols: !Ref 'PoliciesPasswordPolicyRequireSymbols'
+      VerificationMessageTemplate:
+        EmailMessageByLink: !Ref 'VerificationMessageTemplateEmailMessageByLink'
+        EmailMessage: !Ref 'VerificationMessageTemplateEmailMessage'
+        SmsMessage: !Ref 'VerificationMessageTemplateSmsMessage'
+        EmailSubject: !Ref 'VerificationMessageTemplateEmailSubject'
+        DefaultEmailOption: !Ref 'VerificationMessageTemplateDefaultEmailOption'
+        EmailSubjectByLink: !Ref 'VerificationMessageTemplateEmailSubjectByLink'
+      MfaConfiguration: !Ref 'MfaConfiguration'
+      AdminCreateUserConfig:
+        InviteMessageTemplate:
+          EmailMessage: !Ref 'AdminCreateUserConfigInviteMessageTemplateEmailMessage'
+          SMSMessage: !Ref 'AdminCreateUserConfigInviteMessageTemplateSMSMessage'
+          EmailSubject: !Ref 'AdminCreateUserConfigInviteMessageTemplateEmailSubject'
+        UnusedAccountValidityDays: !Ref 'AdminCreateUserConfigUnusedAccountValidityDays'
+        AllowAdminCreateUserOnly: !Ref 'AdminCreateUserConfigAllowAdminCreateUserOnly'
+      SmsAuthenticationMessage: !Ref 'SmsAuthenticationMessage'
+      UsernameConfiguration:
+        CaseSensitive: !Ref 'UsernameConfigurationCaseSensitive'
+      UserPoolName: !Ref 'UserPoolName'
+      SmsVerificationMessage: !Ref 'SmsVerificationMessage'
+      UserPoolAddOns:
+        AdvancedSecurityMode: !Ref 'UserPoolAddOnsAdvancedSecurityMode'
+      EmailConfiguration:
+        ReplyToEmailAddress: !Ref 'EmailConfigurationReplyToEmailAddress'
+        ConfigurationSet: !Ref 'EmailConfigurationConfigurationSet'
+        EmailSendingAccount: !Ref 'EmailConfigurationEmailSendingAccount'
+        SourceArn: !Ref 'EmailConfigurationSourceArn'
+        From: !Ref 'EmailConfigurationFrom'
+      SmsConfiguration:
+        ExternalId: !Ref 'SmsConfigurationExternalId'
+        SnsCallerArn: !Ref 'SmsConfigurationSnsCallerArn'
+      EmailVerificationSubject: !Ref 'EmailVerificationSubject'
+      LambdaConfig:
+        CreateAuthChallenge: !Ref 'LambdaConfigCreateAuthChallenge'
+        PreAuthentication: !Ref 'LambdaConfigPreAuthentication'
+        DefineAuthChallenge: !Ref 'LambdaConfigDefineAuthChallenge'
+        PreSignUp: !Ref 'LambdaConfigPreSignUp'
+        PreTokenGeneration: !Ref 'LambdaConfigPreTokenGeneration'
+        UserMigration: !Ref 'LambdaConfigUserMigration'
+        PostAuthentication: !Ref 'LambdaConfigPostAuthentication'
+        PostConfirmation: !Ref 'LambdaConfigPostConfirmation'
+        CustomMessage: !Ref 'LambdaConfigCustomMessage'
+        VerifyAuthChallengeResponse: !Ref 'LambdaConfigVerifyAuthChallengeResponse'
+      DeviceConfiguration:
+        DeviceOnlyRememberedOnUserPrompt: !Ref 'DeviceConfigurationDeviceOnlyRememberedOnUserPrompt'
+        ChallengeRequiredOnNewDevice: !Ref 'DeviceConfigurationChallengeRequiredOnNewDevice'
+      EmailVerificationMessage: !Ref 'EmailVerificationMessage'
+      AccountRecoverySetting: {}
+Outputs:
+  ProviderName:
+    Value:
+      GetAtt:
+        - Resource
+        - ProviderName
+  ProviderURL:
+    Value:
+      GetAtt:
+        - Resource
+        - ProviderURL
+  Arn:
+    Value:
+      GetAtt:
+        - Resource
+        - Arn

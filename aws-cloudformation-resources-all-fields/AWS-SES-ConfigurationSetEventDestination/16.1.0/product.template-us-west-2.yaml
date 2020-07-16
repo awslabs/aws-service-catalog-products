@@ -1,0 +1,39 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ses-configurationseteventdestination.html
+Parameters:
+  ConfigurationSetName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ses-configurationseteventdestination.html#cfn-ses-configurationseteventdestination-configurationsetname
+  EventDestinationEnabled:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ses-configurationseteventdestination-eventdestination.html#cfn-ses-configurationseteventdestination-eventdestination-enabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  EventDestinationName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ses-configurationseteventdestination-eventdestination.html#cfn-ses-configurationseteventdestination-eventdestination-name
+    Default: null
+  EventDestinationKinesisFirehoseDestinationIAMRoleARN:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ses-configurationseteventdestination-kinesisfirehosedestination.html#cfn-ses-configurationseteventdestination-kinesisfirehosedestination-iamrolearn
+  EventDestinationKinesisFirehoseDestinationDeliveryStreamARN:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ses-configurationseteventdestination-kinesisfirehosedestination.html#cfn-ses-configurationseteventdestination-kinesisfirehosedestination-deliverystreamarn
+Resources:
+  Resource:
+    Type: AWS::SES::ConfigurationSetEventDestination
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ses-configurationseteventdestination.html
+    Properties:
+      ConfigurationSetName: !Ref 'ConfigurationSetName'
+      EventDestination:
+        CloudWatchDestination: {}
+        Enabled: !Ref 'EventDestinationEnabled'
+        Name: !Ref 'EventDestinationName'
+        KinesisFirehoseDestination:
+          IAMRoleARN: !Ref 'EventDestinationKinesisFirehoseDestinationIAMRoleARN'
+          DeliveryStreamARN: !Ref 'EventDestinationKinesisFirehoseDestinationDeliveryStreamARN'

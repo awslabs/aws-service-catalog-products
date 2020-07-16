@@ -1,0 +1,106 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-pinpoint-segment.html
+Parameters:
+  SegmentGroupsInclude:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-segment-segmentgroups.html#cfn-pinpoint-segment-segmentgroups-include
+    Default: null
+  SegmentDimensionsDemographicSetDimensionDimensionType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-segment-setdimension.html#cfn-pinpoint-segment-setdimension-dimensiontype
+    Default: null
+  SegmentDimensionsMetrics:
+    Type: Json
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-segment-segmentdimensions.html#cfn-pinpoint-segment-segmentdimensions-metrics
+    Default: null
+  SegmentDimensionsAttributes:
+    Type: Json
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-segment-segmentdimensions.html#cfn-pinpoint-segment-segmentdimensions-attributes
+    Default: null
+  SegmentDimensionsBehaviorRecencyDuration:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-segment-segmentdimensions-behavior-recency.html#cfn-pinpoint-segment-segmentdimensions-behavior-recency-duration
+  SegmentDimensionsBehaviorRecencyRecencyType:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-segment-segmentdimensions-behavior-recency.html#cfn-pinpoint-segment-segmentdimensions-behavior-recency-recencytype
+  SegmentDimensionsUserAttributes:
+    Type: Json
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-segment-segmentdimensions.html#cfn-pinpoint-segment-segmentdimensions-userattributes
+    Default: null
+  SegmentDimensionsLocationGPSPointRangeInKilometers:
+    Type: Double
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-segment-segmentdimensions-location-gpspoint.html#cfn-pinpoint-segment-segmentdimensions-location-gpspoint-rangeinkilometers
+  SegmentDimensionsLocationGPSPointCoordinatesLatitude:
+    Type: Double
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-segment-segmentdimensions-location-gpspoint-coordinates.html#cfn-pinpoint-segment-segmentdimensions-location-gpspoint-coordinates-latitude
+  SegmentDimensionsLocationGPSPointCoordinatesLongitude:
+    Type: Double
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-segment-segmentdimensions-location-gpspoint-coordinates.html#cfn-pinpoint-segment-segmentdimensions-location-gpspoint-coordinates-longitude
+  SegmentDimensionsLocationSetDimensionDimensionType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpoint-segment-setdimension.html#cfn-pinpoint-segment-setdimension-dimensiontype
+    Default: null
+  ApplicationId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-pinpoint-segment.html#cfn-pinpoint-segment-applicationid
+  Tags:
+    Type: Json
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-pinpoint-segment.html#cfn-pinpoint-segment-tags
+    Default: null
+  Name:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-pinpoint-segment.html#cfn-pinpoint-segment-name
+Resources:
+  Resource:
+    Type: AWS::Pinpoint::Segment
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-pinpoint-segment.html
+    Properties:
+      SegmentGroups:
+        Include: !Ref 'SegmentGroupsInclude'
+      Dimensions:
+        Demographic:
+          AppVersion:
+            DimensionType: !Ref 'SegmentDimensionsDemographicSetDimensionDimensionType'
+          DeviceType:
+            DimensionType: !Ref 'SegmentDimensionsDemographicSetDimensionDimensionType'
+          Platform:
+            DimensionType: !Ref 'SegmentDimensionsDemographicSetDimensionDimensionType'
+          Channel:
+            DimensionType: !Ref 'SegmentDimensionsDemographicSetDimensionDimensionType'
+          Model:
+            DimensionType: !Ref 'SegmentDimensionsDemographicSetDimensionDimensionType'
+          Make:
+            DimensionType: !Ref 'SegmentDimensionsDemographicSetDimensionDimensionType'
+        Metrics: !Ref 'SegmentDimensionsMetrics'
+        Attributes: !Ref 'SegmentDimensionsAttributes'
+        Behavior:
+          Recency:
+            Duration: !Ref 'SegmentDimensionsBehaviorRecencyDuration'
+            RecencyType: !Ref 'SegmentDimensionsBehaviorRecencyRecencyType'
+        UserAttributes: !Ref 'SegmentDimensionsUserAttributes'
+        Location:
+          GPSPoint:
+            RangeInKilometers: !Ref 'SegmentDimensionsLocationGPSPointRangeInKilometers'
+            Coordinates:
+              Latitude: !Ref 'SegmentDimensionsLocationGPSPointCoordinatesLatitude'
+              Longitude: !Ref 'SegmentDimensionsLocationGPSPointCoordinatesLongitude'
+          Country:
+            DimensionType: !Ref 'SegmentDimensionsLocationSetDimensionDimensionType'
+      ApplicationId: !Ref 'ApplicationId'
+      Tags: !Ref 'Tags'
+      Name: !Ref 'Name'
+Outputs:
+  SegmentId:
+    Value:
+      GetAtt:
+        - Resource
+        - SegmentId
+  Arn:
+    Value:
+      GetAtt:
+        - Resource
+        - Arn

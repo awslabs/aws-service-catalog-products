@@ -1,0 +1,23 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-networkmanager-site.html
+Parameters:
+  GlobalNetworkId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-networkmanager-site.html#cfn-networkmanager-site-globalnetworkid
+Resources:
+  Resource:
+    Type: AWS::NetworkManager::Site
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-networkmanager-site.html
+    Properties:
+      GlobalNetworkId: !Ref 'GlobalNetworkId'
+Outputs:
+  SiteArn:
+    Value:
+      GetAtt:
+        - Resource
+        - SiteArn
+  SiteId:
+    Value:
+      GetAtt:
+        - Resource
+        - SiteId

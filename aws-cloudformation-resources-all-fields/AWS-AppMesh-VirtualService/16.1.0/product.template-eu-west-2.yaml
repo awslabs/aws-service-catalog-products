@@ -1,0 +1,66 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appmesh-virtualservice.html
+Parameters:
+  MeshName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appmesh-virtualservice.html#cfn-appmesh-virtualservice-meshname
+  MeshOwner:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appmesh-virtualservice.html#cfn-appmesh-virtualservice-meshowner
+    Default: null
+  VirtualServiceName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appmesh-virtualservice.html#cfn-appmesh-virtualservice-virtualservicename
+  VirtualServiceSpecVirtualServiceProviderVirtualNodeServiceProviderVirtualNodeName:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-appmesh-virtualservice-virtualnodeserviceprovider.html#cfn-appmesh-virtualservice-virtualnodeserviceprovider-virtualnodename
+  VirtualServiceSpecVirtualServiceProviderVirtualRouterServiceProviderVirtualRouterName:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-appmesh-virtualservice-virtualrouterserviceprovider.html#cfn-appmesh-virtualservice-virtualrouterserviceprovider-virtualroutername
+Resources:
+  Resource:
+    Type: AWS::AppMesh::VirtualService
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appmesh-virtualservice.html
+    Properties:
+      MeshName: !Ref 'MeshName'
+      MeshOwner: !Ref 'MeshOwner'
+      VirtualServiceName: !Ref 'VirtualServiceName'
+      Spec:
+        Provider:
+          VirtualNode:
+            VirtualNodeName: !Ref 'VirtualServiceSpecVirtualServiceProviderVirtualNodeServiceProviderVirtualNodeName'
+          VirtualRouter:
+            VirtualRouterName: !Ref 'VirtualServiceSpecVirtualServiceProviderVirtualRouterServiceProviderVirtualRouterName'
+Outputs:
+  Uid:
+    Value:
+      GetAtt:
+        - Resource
+        - Uid
+  MeshName:
+    Value:
+      GetAtt:
+        - Resource
+        - MeshName
+  MeshOwner:
+    Value:
+      GetAtt:
+        - Resource
+        - MeshOwner
+  ResourceOwner:
+    Value:
+      GetAtt:
+        - Resource
+        - ResourceOwner
+  VirtualServiceName:
+    Value:
+      GetAtt:
+        - Resource
+        - VirtualServiceName
+  Arn:
+    Value:
+      GetAtt:
+        - Resource
+        - Arn

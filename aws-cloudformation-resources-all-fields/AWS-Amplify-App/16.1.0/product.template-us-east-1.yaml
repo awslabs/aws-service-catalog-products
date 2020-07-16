@@ -1,0 +1,149 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-amplify-app.html
+Parameters:
+  AutoBranchCreationConfigEnableAutoBranchCreation:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-amplify-app-autobranchcreationconfig.html#cfn-amplify-app-autobranchcreationconfig-enableautobranchcreation
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  AutoBranchCreationConfigPullRequestEnvironmentName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-amplify-app-autobranchcreationconfig.html#cfn-amplify-app-autobranchcreationconfig-pullrequestenvironmentname
+    Default: null
+  AutoBranchCreationConfigEnablePullRequestPreview:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-amplify-app-autobranchcreationconfig.html#cfn-amplify-app-autobranchcreationconfig-enablepullrequestpreview
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  AutoBranchCreationConfigEnableAutoBuild:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-amplify-app-autobranchcreationconfig.html#cfn-amplify-app-autobranchcreationconfig-enableautobuild
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  AutoBranchCreationConfigBuildSpec:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-amplify-app-autobranchcreationconfig.html#cfn-amplify-app-autobranchcreationconfig-buildspec
+    Default: null
+  AutoBranchCreationConfigStage:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-amplify-app-autobranchcreationconfig.html#cfn-amplify-app-autobranchcreationconfig-stage
+    Default: null
+  AutoBranchCreationConfigBasicAuthConfigUsername:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-amplify-app-basicauthconfig.html#cfn-amplify-app-basicauthconfig-username
+    Default: null
+  AutoBranchCreationConfigBasicAuthConfigEnableBasicAuth:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-amplify-app-basicauthconfig.html#cfn-amplify-app-basicauthconfig-enablebasicauth
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  AutoBranchCreationConfigBasicAuthConfigPassword:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-amplify-app-basicauthconfig.html#cfn-amplify-app-basicauthconfig-password
+    Default: null
+  OauthToken:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-amplify-app.html#cfn-amplify-app-oauthtoken
+    Default: null
+  Description:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-amplify-app.html#cfn-amplify-app-description
+    Default: null
+  EnableBranchAutoDeletion:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-amplify-app.html#cfn-amplify-app-enablebranchautodeletion
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  Name:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-amplify-app.html#cfn-amplify-app-name
+  Repository:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-amplify-app.html#cfn-amplify-app-repository
+    Default: null
+  AccessToken:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-amplify-app.html#cfn-amplify-app-accesstoken
+    Default: null
+  BuildSpec:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-amplify-app.html#cfn-amplify-app-buildspec
+    Default: null
+  BasicAuthConfigUsername:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-amplify-app-basicauthconfig.html#cfn-amplify-app-basicauthconfig-username
+    Default: null
+  BasicAuthConfigEnableBasicAuth:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-amplify-app-basicauthconfig.html#cfn-amplify-app-basicauthconfig-enablebasicauth
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  BasicAuthConfigPassword:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-amplify-app-basicauthconfig.html#cfn-amplify-app-basicauthconfig-password
+    Default: null
+  IAMServiceRole:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-amplify-app.html#cfn-amplify-app-iamservicerole
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::Amplify::App
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-amplify-app.html
+    Properties:
+      AutoBranchCreationConfig:
+        EnableAutoBranchCreation: !Ref 'AutoBranchCreationConfigEnableAutoBranchCreation'
+        PullRequestEnvironmentName: !Ref 'AutoBranchCreationConfigPullRequestEnvironmentName'
+        EnablePullRequestPreview: !Ref 'AutoBranchCreationConfigEnablePullRequestPreview'
+        EnableAutoBuild: !Ref 'AutoBranchCreationConfigEnableAutoBuild'
+        BuildSpec: !Ref 'AutoBranchCreationConfigBuildSpec'
+        Stage: !Ref 'AutoBranchCreationConfigStage'
+        BasicAuthConfig:
+          Username: !Ref 'AutoBranchCreationConfigBasicAuthConfigUsername'
+          EnableBasicAuth: !Ref 'AutoBranchCreationConfigBasicAuthConfigEnableBasicAuth'
+          Password: !Ref 'AutoBranchCreationConfigBasicAuthConfigPassword'
+      OauthToken: !Ref 'OauthToken'
+      Description: !Ref 'Description'
+      EnableBranchAutoDeletion: !Ref 'EnableBranchAutoDeletion'
+      Name: !Ref 'Name'
+      Repository: !Ref 'Repository'
+      AccessToken: !Ref 'AccessToken'
+      BuildSpec: !Ref 'BuildSpec'
+      BasicAuthConfig:
+        Username: !Ref 'BasicAuthConfigUsername'
+        EnableBasicAuth: !Ref 'BasicAuthConfigEnableBasicAuth'
+        Password: !Ref 'BasicAuthConfigPassword'
+      IAMServiceRole: !Ref 'IAMServiceRole'
+Outputs:
+  AppId:
+    Value:
+      GetAtt:
+        - Resource
+        - AppId
+  Arn:
+    Value:
+      GetAtt:
+        - Resource
+        - Arn
+  DefaultDomain:
+    Value:
+      GetAtt:
+        - Resource
+        - DefaultDomain
+  AppName:
+    Value:
+      GetAtt:
+        - Resource
+        - AppName

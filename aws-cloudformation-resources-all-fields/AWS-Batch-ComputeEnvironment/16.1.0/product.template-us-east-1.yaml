@@ -1,0 +1,101 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-batch-computeenvironment.html
+Parameters:
+  Type:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-batch-computeenvironment.html#cfn-batch-computeenvironment-type
+  ServiceRole:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-batch-computeenvironment.html#cfn-batch-computeenvironment-servicerole
+  ComputeEnvironmentName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-batch-computeenvironment.html#cfn-batch-computeenvironment-computeenvironmentname
+    Default: null
+  ComputeResourcesSpotIamFleetRole:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-batch-computeenvironment-computeresources.html#cfn-batch-computeenvironment-computeresources-spotiamfleetrole
+    Default: null
+  ComputeResourcesMaxvCpus:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-batch-computeenvironment-computeresources.html#cfn-batch-computeenvironment-computeresources-maxvcpus
+  ComputeResourcesBidPercentage:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-batch-computeenvironment-computeresources.html#cfn-batch-computeenvironment-computeresources-bidpercentage
+    Default: null
+  ComputeResourcesType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-batch-computeenvironment-computeresources.html#cfn-batch-computeenvironment-computeresources-type
+  ComputeResourcesAllocationStrategy:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-batch-computeenvironment-computeresources.html#cfn-batch-computeenvironment-computeresources-allocationstrategy
+    Default: null
+  ComputeResourcesMinvCpus:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-batch-computeenvironment-computeresources.html#cfn-batch-computeenvironment-computeresources-minvcpus
+  ComputeResourcesLaunchTemplateSpecificationLaunchTemplateName:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-batch-computeenvironment-launchtemplatespecification.html#cfn-batch-computeenvironment-launchtemplatespecification-launchtemplatename
+    Default: null
+  ComputeResourcesLaunchTemplateSpecificationVersion:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-batch-computeenvironment-launchtemplatespecification.html#cfn-batch-computeenvironment-launchtemplatespecification-version
+    Default: null
+  ComputeResourcesLaunchTemplateSpecificationLaunchTemplateId:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-batch-computeenvironment-launchtemplatespecification.html#cfn-batch-computeenvironment-launchtemplatespecification-launchtemplateid
+    Default: null
+  ComputeResourcesImageId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-batch-computeenvironment-computeresources.html#cfn-batch-computeenvironment-computeresources-imageid
+    Default: null
+  ComputeResourcesInstanceRole:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-batch-computeenvironment-computeresources.html#cfn-batch-computeenvironment-computeresources-instancerole
+  ComputeResourcesEc2KeyPair:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-batch-computeenvironment-computeresources.html#cfn-batch-computeenvironment-computeresources-ec2keypair
+    Default: null
+  ComputeResourcesPlacementGroup:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-batch-computeenvironment-computeresources.html#cfn-batch-computeenvironment-computeresources-placementgroup
+    Default: null
+  ComputeResourcesTags:
+    Type: Json
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-batch-computeenvironment-computeresources.html#cfn-batch-computeenvironment-computeresources-tags
+    Default: null
+  ComputeResourcesDesiredvCpus:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-batch-computeenvironment-computeresources.html#cfn-batch-computeenvironment-computeresources-desiredvcpus
+    Default: null
+  State:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-batch-computeenvironment.html#cfn-batch-computeenvironment-state
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::Batch::ComputeEnvironment
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-batch-computeenvironment.html
+    Properties:
+      Type: !Ref 'Type'
+      ServiceRole: !Ref 'ServiceRole'
+      ComputeEnvironmentName: !Ref 'ComputeEnvironmentName'
+      ComputeResources:
+        SpotIamFleetRole: !Ref 'ComputeResourcesSpotIamFleetRole'
+        MaxvCpus: !Ref 'ComputeResourcesMaxvCpus'
+        BidPercentage: !Ref 'ComputeResourcesBidPercentage'
+        Type: !Ref 'ComputeResourcesType'
+        AllocationStrategy: !Ref 'ComputeResourcesAllocationStrategy'
+        MinvCpus: !Ref 'ComputeResourcesMinvCpus'
+        LaunchTemplate:
+          LaunchTemplateName: !Ref 'ComputeResourcesLaunchTemplateSpecificationLaunchTemplateName'
+          Version: !Ref 'ComputeResourcesLaunchTemplateSpecificationVersion'
+          LaunchTemplateId: !Ref 'ComputeResourcesLaunchTemplateSpecificationLaunchTemplateId'
+        ImageId: !Ref 'ComputeResourcesImageId'
+        InstanceRole: !Ref 'ComputeResourcesInstanceRole'
+        Ec2KeyPair: !Ref 'ComputeResourcesEc2KeyPair'
+        PlacementGroup: !Ref 'ComputeResourcesPlacementGroup'
+        Tags: !Ref 'ComputeResourcesTags'
+        DesiredvCpus: !Ref 'ComputeResourcesDesiredvCpus'
+      State: !Ref 'State'

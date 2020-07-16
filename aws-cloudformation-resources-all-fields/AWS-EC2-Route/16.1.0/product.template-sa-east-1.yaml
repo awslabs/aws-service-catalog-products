@@ -1,0 +1,57 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-route.html
+Parameters:
+  DestinationCidrBlock:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-route.html#cfn-ec2-route-destinationcidrblock
+    Default: null
+  DestinationIpv6CidrBlock:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-route.html#cfn-ec2-route-destinationipv6cidrblock
+    Default: null
+  EgressOnlyInternetGatewayId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-route.html#cfn-ec2-route-egressonlyinternetgatewayid
+    Default: null
+  GatewayId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-route.html#cfn-ec2-route-gatewayid
+    Default: null
+  InstanceId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-route.html#cfn-ec2-route-instanceid
+    Default: null
+  NatGatewayId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-route.html#cfn-ec2-route-natgatewayid
+    Default: null
+  NetworkInterfaceId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-route.html#cfn-ec2-route-networkinterfaceid
+    Default: null
+  RouteTableId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-route.html#cfn-ec2-route-routetableid
+  TransitGatewayId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-route.html#cfn-ec2-route-transitgatewayid
+    Default: null
+  VpcPeeringConnectionId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-route.html#cfn-ec2-route-vpcpeeringconnectionid
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::EC2::Route
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-route.html
+    Properties:
+      DestinationCidrBlock: !Ref 'DestinationCidrBlock'
+      DestinationIpv6CidrBlock: !Ref 'DestinationIpv6CidrBlock'
+      EgressOnlyInternetGatewayId: !Ref 'EgressOnlyInternetGatewayId'
+      GatewayId: !Ref 'GatewayId'
+      InstanceId: !Ref 'InstanceId'
+      NatGatewayId: !Ref 'NatGatewayId'
+      NetworkInterfaceId: !Ref 'NetworkInterfaceId'
+      RouteTableId: !Ref 'RouteTableId'
+      TransitGatewayId: !Ref 'TransitGatewayId'
+      VpcPeeringConnectionId: !Ref 'VpcPeeringConnectionId'

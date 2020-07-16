@@ -1,0 +1,18 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-accesskey.html
+Parameters:
+  UserName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-accesskey.html#cfn-iam-accesskey-username
+Resources:
+  Resource:
+    Type: AWS::IAM::AccessKey
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-accesskey.html
+    Properties:
+      UserName: !Ref 'UserName'
+Outputs:
+  SecretAccessKey:
+    Value:
+      GetAtt:
+        - Resource
+        - SecretAccessKey

@@ -1,0 +1,36 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-eventschemas-schema.html
+Parameters:
+  Type:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-eventschemas-schema.html#cfn-eventschemas-schema-type
+  Content:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-eventschemas-schema.html#cfn-eventschemas-schema-content
+  RegistryName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-eventschemas-schema.html#cfn-eventschemas-schema-registryname
+Resources:
+  Resource:
+    Type: AWS::EventSchemas::Schema
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-eventschemas-schema.html
+    Properties:
+      Type: !Ref 'Type'
+      Content: !Ref 'Content'
+      RegistryName: !Ref 'RegistryName'
+Outputs:
+  SchemaVersion:
+    Value:
+      GetAtt:
+        - Resource
+        - SchemaVersion
+  SchemaArn:
+    Value:
+      GetAtt:
+        - Resource
+        - SchemaArn
+  SchemaName:
+    Value:
+      GetAtt:
+        - Resource
+        - SchemaName

@@ -1,0 +1,33 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigateway-domainname.html
+Parameters:
+  DomainName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigateway-domainname.html#cfn-apigateway-domainname-domainname
+Resources:
+  Resource:
+    Type: AWS::ApiGateway::DomainName
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigateway-domainname.html
+    Properties:
+      DomainName: !Ref 'DomainName'
+Outputs:
+  DistributionDomainName:
+    Value:
+      GetAtt:
+        - Resource
+        - DistributionDomainName
+  DistributionHostedZoneId:
+    Value:
+      GetAtt:
+        - Resource
+        - DistributionHostedZoneId
+  RegionalDomainName:
+    Value:
+      GetAtt:
+        - Resource
+        - RegionalDomainName
+  RegionalHostedZoneId:
+    Value:
+      GetAtt:
+        - Resource
+        - RegionalHostedZoneId

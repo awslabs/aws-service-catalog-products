@@ -1,0 +1,187 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-rds-dbcluster.html
+Parameters:
+  BacktrackWindow:
+    Type: Long
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-rds-dbcluster.html#cfn-rds-dbcluster-backtrackwindow
+    Default: null
+  BackupRetentionPeriod:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-rds-dbcluster.html#cfn-rds-dbcluster-backuprententionperiod
+    Default: null
+  DBClusterIdentifier:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-rds-dbcluster.html#cfn-rds-dbcluster-dbclusteridentifier
+    Default: null
+  DBClusterParameterGroupName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-rds-dbcluster.html#cfn-rds-dbcluster-dbclusterparametergroupname
+    Default: null
+  DBSubnetGroupName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-rds-dbcluster.html#cfn-rds-dbcluster-dbsubnetgroupname
+    Default: null
+  DatabaseName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-rds-dbcluster.html#cfn-rds-dbcluster-databasename
+    Default: null
+  DeletionProtection:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-rds-dbcluster.html#cfn-rds-dbcluster-deletionprotection
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  EnableHttpEndpoint:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-rds-dbcluster.html#cfn-rds-dbcluster-enablehttpendpoint
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  EnableIAMDatabaseAuthentication:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-rds-dbcluster.html#cfn-rds-dbcluster-enableiamdatabaseauthentication
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  Engine:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-rds-dbcluster.html#cfn-rds-dbcluster-engine
+  EngineMode:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-rds-dbcluster.html#cfn-rds-dbcluster-enginemode
+    Default: null
+  EngineVersion:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-rds-dbcluster.html#cfn-rds-dbcluster-engineversion
+    Default: null
+  KmsKeyId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-rds-dbcluster.html#cfn-rds-dbcluster-kmskeyid
+    Default: null
+  MasterUserPassword:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-rds-dbcluster.html#cfn-rds-dbcluster-masteruserpassword
+    Default: null
+  MasterUsername:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-rds-dbcluster.html#cfn-rds-dbcluster-masterusername
+    Default: null
+  Port:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-rds-dbcluster.html#cfn-rds-dbcluster-port
+    Default: null
+  PreferredBackupWindow:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-rds-dbcluster.html#cfn-rds-dbcluster-preferredbackupwindow
+    Default: null
+  PreferredMaintenanceWindow:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-rds-dbcluster.html#cfn-rds-dbcluster-preferredmaintenancewindow
+    Default: null
+  ReplicationSourceIdentifier:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-rds-dbcluster.html#cfn-rds-dbcluster-replicationsourceidentifier
+    Default: null
+  RestoreType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-rds-dbcluster.html#cfn-rds-dbcluster-restoretype
+    Default: null
+  ScalingConfigurationAutoPause:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-dbcluster-scalingconfiguration.html#cfn-rds-dbcluster-scalingconfiguration-autopause
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  ScalingConfigurationMaxCapacity:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-dbcluster-scalingconfiguration.html#cfn-rds-dbcluster-scalingconfiguration-maxcapacity
+    Default: null
+  ScalingConfigurationMinCapacity:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-dbcluster-scalingconfiguration.html#cfn-rds-dbcluster-scalingconfiguration-mincapacity
+    Default: null
+  ScalingConfigurationSecondsUntilAutoPause:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-dbcluster-scalingconfiguration.html#cfn-rds-dbcluster-scalingconfiguration-secondsuntilautopause
+    Default: null
+  SnapshotIdentifier:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-rds-dbcluster.html#cfn-rds-dbcluster-snapshotidentifier
+    Default: null
+  SourceDBClusterIdentifier:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-rds-dbcluster.html#cfn-rds-dbcluster-sourcedbclusteridentifier
+    Default: null
+  SourceRegion:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-rds-dbcluster.html#cfn-rds-dbcluster-sourceregion
+    Default: null
+  StorageEncrypted:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-rds-dbcluster.html#cfn-rds-dbcluster-storageencrypted
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  UseLatestRestorableTime:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-rds-dbcluster.html#cfn-rds-dbcluster-uselatestrestorabletime
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::RDS::DBCluster
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-rds-dbcluster.html
+    Properties:
+      BacktrackWindow: !Ref 'BacktrackWindow'
+      BackupRetentionPeriod: !Ref 'BackupRetentionPeriod'
+      DBClusterIdentifier: !Ref 'DBClusterIdentifier'
+      DBClusterParameterGroupName: !Ref 'DBClusterParameterGroupName'
+      DBSubnetGroupName: !Ref 'DBSubnetGroupName'
+      DatabaseName: !Ref 'DatabaseName'
+      DeletionProtection: !Ref 'DeletionProtection'
+      EnableHttpEndpoint: !Ref 'EnableHttpEndpoint'
+      EnableIAMDatabaseAuthentication: !Ref 'EnableIAMDatabaseAuthentication'
+      Engine: !Ref 'Engine'
+      EngineMode: !Ref 'EngineMode'
+      EngineVersion: !Ref 'EngineVersion'
+      KmsKeyId: !Ref 'KmsKeyId'
+      MasterUserPassword: !Ref 'MasterUserPassword'
+      MasterUsername: !Ref 'MasterUsername'
+      Port: !Ref 'Port'
+      PreferredBackupWindow: !Ref 'PreferredBackupWindow'
+      PreferredMaintenanceWindow: !Ref 'PreferredMaintenanceWindow'
+      ReplicationSourceIdentifier: !Ref 'ReplicationSourceIdentifier'
+      RestoreType: !Ref 'RestoreType'
+      ScalingConfiguration:
+        AutoPause: !Ref 'ScalingConfigurationAutoPause'
+        MaxCapacity: !Ref 'ScalingConfigurationMaxCapacity'
+        MinCapacity: !Ref 'ScalingConfigurationMinCapacity'
+        SecondsUntilAutoPause: !Ref 'ScalingConfigurationSecondsUntilAutoPause'
+      SnapshotIdentifier: !Ref 'SnapshotIdentifier'
+      SourceDBClusterIdentifier: !Ref 'SourceDBClusterIdentifier'
+      SourceRegion: !Ref 'SourceRegion'
+      StorageEncrypted: !Ref 'StorageEncrypted'
+      UseLatestRestorableTime: !Ref 'UseLatestRestorableTime'
+Outputs:
+  Endpoint.Address:
+    Value:
+      GetAtt:
+        - Resource
+        - Endpoint.Address
+  Endpoint.Port:
+    Value:
+      GetAtt:
+        - Resource
+        - Endpoint.Port
+  ReadEndpoint.Address:
+    Value:
+      GetAtt:
+        - Resource
+        - ReadEndpoint.Address

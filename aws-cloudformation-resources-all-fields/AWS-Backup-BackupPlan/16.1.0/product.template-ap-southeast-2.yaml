@@ -1,0 +1,34 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-backup-backupplan.html
+Parameters:
+  BackupPlanResourceTypeBackupPlanName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-backup-backupplan-backupplanresourcetype.html#cfn-backup-backupplan-backupplanresourcetype-backupplanname
+  BackupPlanTags:
+    Type: Json
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-backup-backupplan.html#cfn-backup-backupplan-backupplantags
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::Backup::BackupPlan
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-backup-backupplan.html
+    Properties:
+      BackupPlan:
+        BackupPlanName: !Ref 'BackupPlanResourceTypeBackupPlanName'
+      BackupPlanTags: !Ref 'BackupPlanTags'
+Outputs:
+  VersionId:
+    Value:
+      GetAtt:
+        - Resource
+        - VersionId
+  BackupPlanId:
+    Value:
+      GetAtt:
+        - Resource
+        - BackupPlanId
+  BackupPlanArn:
+    Value:
+      GetAtt:
+        - Resource
+        - BackupPlanArn

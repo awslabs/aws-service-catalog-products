@@ -1,0 +1,43 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-pinpointemail-identity.html
+Parameters:
+  Name:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-pinpointemail-identity.html#cfn-pinpointemail-identity-name
+Resources:
+  Resource:
+    Type: AWS::PinpointEmail::Identity
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-pinpointemail-identity.html
+    Properties:
+      Name: !Ref 'Name'
+Outputs:
+  IdentityDNSRecordName3:
+    Value:
+      GetAtt:
+        - Resource
+        - IdentityDNSRecordName3
+  IdentityDNSRecordName1:
+    Value:
+      GetAtt:
+        - Resource
+        - IdentityDNSRecordName1
+  IdentityDNSRecordName2:
+    Value:
+      GetAtt:
+        - Resource
+        - IdentityDNSRecordName2
+  IdentityDNSRecordValue3:
+    Value:
+      GetAtt:
+        - Resource
+        - IdentityDNSRecordValue3
+  IdentityDNSRecordValue2:
+    Value:
+      GetAtt:
+        - Resource
+        - IdentityDNSRecordValue2
+  IdentityDNSRecordValue1:
+    Value:
+      GetAtt:
+        - Resource
+        - IdentityDNSRecordValue1

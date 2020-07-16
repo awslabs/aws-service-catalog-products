@@ -1,0 +1,49 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigateway-domainname.html
+Parameters:
+  CertificateArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigateway-domainname.html#cfn-apigateway-domainname-certificatearn
+    Default: null
+  DomainName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigateway-domainname.html#cfn-apigateway-domainname-domainname
+  RegionalCertificateArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigateway-domainname.html#cfn-apigateway-domainname-regionalcertificatearn
+    Default: null
+  SecurityPolicy:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigateway-domainname.html#cfn-apigateway-domainname-securitypolicy
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::ApiGateway::DomainName
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigateway-domainname.html
+    Properties:
+      CertificateArn: !Ref 'CertificateArn'
+      DomainName: !Ref 'DomainName'
+      EndpointConfiguration: {}
+      RegionalCertificateArn: !Ref 'RegionalCertificateArn'
+      SecurityPolicy: !Ref 'SecurityPolicy'
+Outputs:
+  DistributionDomainName:
+    Value:
+      GetAtt:
+        - Resource
+        - DistributionDomainName
+  DistributionHostedZoneId:
+    Value:
+      GetAtt:
+        - Resource
+        - DistributionHostedZoneId
+  RegionalDomainName:
+    Value:
+      GetAtt:
+        - Resource
+        - RegionalDomainName
+  RegionalHostedZoneId:
+    Value:
+      GetAtt:
+        - Resource
+        - RegionalHostedZoneId

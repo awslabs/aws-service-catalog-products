@@ -1,0 +1,32 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codepipeline-customactiontype.html
+Parameters:
+  Category:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codepipeline-customactiontype.html#cfn-codepipeline-customactiontype-category
+  ArtifactDetailsMaximumCount:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codepipeline-customactiontype-artifactdetails.html#cfn-codepipeline-customactiontype-artifactdetails-maximumcount
+  ArtifactDetailsMinimumCount:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codepipeline-customactiontype-artifactdetails.html#cfn-codepipeline-customactiontype-artifactdetails-minimumcount
+  Provider:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codepipeline-customactiontype.html#cfn-codepipeline-customactiontype-provider
+  Version:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codepipeline-customactiontype.html#cfn-codepipeline-customactiontype-version
+Resources:
+  Resource:
+    Type: AWS::CodePipeline::CustomActionType
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codepipeline-customactiontype.html
+    Properties:
+      Category: !Ref 'Category'
+      InputArtifactDetails:
+        MaximumCount: !Ref 'ArtifactDetailsMaximumCount'
+        MinimumCount: !Ref 'ArtifactDetailsMinimumCount'
+      OutputArtifactDetails:
+        MaximumCount: !Ref 'ArtifactDetailsMaximumCount'
+        MinimumCount: !Ref 'ArtifactDetailsMinimumCount'
+      Provider: !Ref 'Provider'
+      Version: !Ref 'Version'

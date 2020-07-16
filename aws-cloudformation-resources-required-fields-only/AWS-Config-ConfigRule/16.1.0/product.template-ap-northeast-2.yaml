@@ -1,0 +1,33 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-config-configrule.html
+Parameters:
+  SourceOwner:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-config-configrule-source.html#cfn-config-configrule-source-owner
+  SourceSourceIdentifier:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-config-configrule-source.html#cfn-config-configrule-source-sourceidentifier
+Resources:
+  Resource:
+    Type: AWS::Config::ConfigRule
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-config-configrule.html
+    Properties:
+      Source:
+        Owner: !Ref 'SourceOwner'
+        SourceIdentifier: !Ref 'SourceSourceIdentifier'
+Outputs:
+  Arn:
+    Value:
+      GetAtt:
+        - Resource
+        - Arn
+  Compliance.Type:
+    Value:
+      GetAtt:
+        - Resource
+        - Compliance.Type
+  ConfigRuleId:
+    Value:
+      GetAtt:
+        - Resource
+        - ConfigRuleId

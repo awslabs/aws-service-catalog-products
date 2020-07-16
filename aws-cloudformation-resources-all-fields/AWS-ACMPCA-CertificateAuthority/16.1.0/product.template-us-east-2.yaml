@@ -1,0 +1,127 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-acmpca-certificateauthority.html
+Parameters:
+  Type:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-acmpca-certificateauthority.html#cfn-acmpca-certificateauthority-type
+  KeyAlgorithm:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-acmpca-certificateauthority.html#cfn-acmpca-certificateauthority-keyalgorithm
+  SigningAlgorithm:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-acmpca-certificateauthority.html#cfn-acmpca-certificateauthority-signingalgorithm
+  SubjectCountry:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-acmpca-certificateauthority-subject.html#cfn-acmpca-certificateauthority-subject-country
+    Default: null
+  SubjectOrganization:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-acmpca-certificateauthority-subject.html#cfn-acmpca-certificateauthority-subject-organization
+    Default: null
+  SubjectOrganizationalUnit:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-acmpca-certificateauthority-subject.html#cfn-acmpca-certificateauthority-subject-organizationalunit
+    Default: null
+  SubjectDistinguishedNameQualifier:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-acmpca-certificateauthority-subject.html#cfn-acmpca-certificateauthority-subject-distinguishednamequalifier
+    Default: null
+  SubjectState:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-acmpca-certificateauthority-subject.html#cfn-acmpca-certificateauthority-subject-state
+    Default: null
+  SubjectCommonName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-acmpca-certificateauthority-subject.html#cfn-acmpca-certificateauthority-subject-commonname
+    Default: null
+  SubjectSerialNumber:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-acmpca-certificateauthority-subject.html#cfn-acmpca-certificateauthority-subject-serialnumber
+    Default: null
+  SubjectLocality:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-acmpca-certificateauthority-subject.html#cfn-acmpca-certificateauthority-subject-locality
+    Default: null
+  SubjectTitle:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-acmpca-certificateauthority-subject.html#cfn-acmpca-certificateauthority-subject-title
+    Default: null
+  SubjectSurname:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-acmpca-certificateauthority-subject.html#cfn-acmpca-certificateauthority-subject-surname
+    Default: null
+  SubjectGivenName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-acmpca-certificateauthority-subject.html#cfn-acmpca-certificateauthority-subject-givenname
+    Default: null
+  SubjectInitials:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-acmpca-certificateauthority-subject.html#cfn-acmpca-certificateauthority-subject-initials
+    Default: null
+  SubjectPseudonym:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-acmpca-certificateauthority-subject.html#cfn-acmpca-certificateauthority-subject-pseudonym
+    Default: null
+  SubjectGenerationQualifier:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-acmpca-certificateauthority-subject.html#cfn-acmpca-certificateauthority-subject-generationqualifier
+    Default: null
+  RevocationConfigurationCrlConfigurationEnabled:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-acmpca-certificateauthority-crlconfiguration.html#cfn-acmpca-certificateauthority-crlconfiguration-enabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  RevocationConfigurationCrlConfigurationExpirationInDays:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-acmpca-certificateauthority-crlconfiguration.html#cfn-acmpca-certificateauthority-crlconfiguration-expirationindays
+    Default: null
+  RevocationConfigurationCrlConfigurationCustomCname:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-acmpca-certificateauthority-crlconfiguration.html#cfn-acmpca-certificateauthority-crlconfiguration-customcname
+    Default: null
+  RevocationConfigurationCrlConfigurationS3BucketName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-acmpca-certificateauthority-crlconfiguration.html#cfn-acmpca-certificateauthority-crlconfiguration-s3bucketname
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::ACMPCA::CertificateAuthority
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-acmpca-certificateauthority.html
+    Properties:
+      Type: !Ref 'Type'
+      KeyAlgorithm: !Ref 'KeyAlgorithm'
+      SigningAlgorithm: !Ref 'SigningAlgorithm'
+      Subject:
+        Country: !Ref 'SubjectCountry'
+        Organization: !Ref 'SubjectOrganization'
+        OrganizationalUnit: !Ref 'SubjectOrganizationalUnit'
+        DistinguishedNameQualifier: !Ref 'SubjectDistinguishedNameQualifier'
+        State: !Ref 'SubjectState'
+        CommonName: !Ref 'SubjectCommonName'
+        SerialNumber: !Ref 'SubjectSerialNumber'
+        Locality: !Ref 'SubjectLocality'
+        Title: !Ref 'SubjectTitle'
+        Surname: !Ref 'SubjectSurname'
+        GivenName: !Ref 'SubjectGivenName'
+        Initials: !Ref 'SubjectInitials'
+        Pseudonym: !Ref 'SubjectPseudonym'
+        GenerationQualifier: !Ref 'SubjectGenerationQualifier'
+      RevocationConfiguration:
+        CrlConfiguration:
+          Enabled: !Ref 'RevocationConfigurationCrlConfigurationEnabled'
+          ExpirationInDays: !Ref 'RevocationConfigurationCrlConfigurationExpirationInDays'
+          CustomCname: !Ref 'RevocationConfigurationCrlConfigurationCustomCname'
+          S3BucketName: !Ref 'RevocationConfigurationCrlConfigurationS3BucketName'
+Outputs:
+  Arn:
+    Value:
+      GetAtt:
+        - Resource
+        - Arn
+  CertificateSigningRequest:
+    Value:
+      GetAtt:
+        - Resource
+        - CertificateSigningRequest

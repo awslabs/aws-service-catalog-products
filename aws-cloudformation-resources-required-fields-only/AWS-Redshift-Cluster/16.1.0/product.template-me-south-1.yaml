@@ -1,0 +1,39 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-redshift-cluster.html
+Parameters:
+  ClusterType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-redshift-cluster.html#cfn-redshift-cluster-clustertype
+  DBName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-redshift-cluster.html#cfn-redshift-cluster-dbname
+  MasterUserPassword:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-redshift-cluster.html#cfn-redshift-cluster-masteruserpassword
+  MasterUsername:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-redshift-cluster.html#cfn-redshift-cluster-masterusername
+  NodeType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-redshift-cluster.html#cfn-redshift-cluster-nodetype
+Resources:
+  Resource:
+    Type: AWS::Redshift::Cluster
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-redshift-cluster.html
+    Properties:
+      ClusterType: !Ref 'ClusterType'
+      DBName: !Ref 'DBName'
+      MasterUserPassword: !Ref 'MasterUserPassword'
+      MasterUsername: !Ref 'MasterUsername'
+      NodeType: !Ref 'NodeType'
+Outputs:
+  Endpoint.Address:
+    Value:
+      GetAtt:
+        - Resource
+        - Endpoint.Address
+  Endpoint.Port:
+    Value:
+      GetAtt:
+        - Resource
+        - Endpoint.Port

@@ -1,0 +1,12 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-sagemaker-workteam.html
+Resources:
+  Resource:
+    Type: AWS::SageMaker::Workteam
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-sagemaker-workteam.html
+Outputs:
+  WorkteamName:
+    Value:
+      GetAtt:
+        - Resource
+        - WorkteamName

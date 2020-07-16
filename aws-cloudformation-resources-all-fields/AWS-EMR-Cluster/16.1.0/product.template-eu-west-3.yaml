@@ -1,0 +1,254 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticmapreduce-cluster.html
+Parameters:
+  AdditionalInfo:
+    Type: Json
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticmapreduce-cluster.html#cfn-elasticmapreduce-cluster-additionalinfo
+    Default: null
+  AutoScalingRole:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticmapreduce-cluster.html#cfn-elasticmapreduce-cluster-autoscalingrole
+    Default: null
+  CustomAmiId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticmapreduce-cluster.html#cfn-elasticmapreduce-cluster-customamiid
+    Default: null
+  EbsRootVolumeSize:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticmapreduce-cluster.html#cfn-elasticmapreduce-cluster-ebsrootvolumesize
+    Default: null
+  ? JobFlowInstancesConfigInstanceFleetConfigInstanceFleetProvisioningSpecificationsSpotProvisioningSpecificationBlockDurationMinutes
+  : Type: Number
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticmapreduce-cluster-spotprovisioningspecification.html#cfn-elasticmapreduce-cluster-spotprovisioningspecification-blockdurationminutes
+    Default: null
+  JobFlowInstancesConfigInstanceFleetConfigInstanceFleetProvisioningSpecificationsSpotProvisioningSpecificationTimeoutAction:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticmapreduce-cluster-spotprovisioningspecification.html#cfn-elasticmapreduce-cluster-spotprovisioningspecification-timeoutaction
+  ? JobFlowInstancesConfigInstanceFleetConfigInstanceFleetProvisioningSpecificationsSpotProvisioningSpecificationTimeoutDurationMinutes
+  : Type: Number
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticmapreduce-cluster-spotprovisioningspecification.html#cfn-elasticmapreduce-cluster-spotprovisioningspecification-timeoutdurationminutes
+  JobFlowInstancesConfigInstanceFleetConfigName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticmapreduce-cluster-instancefleetconfig.html#cfn-elasticmapreduce-cluster-instancefleetconfig-name
+    Default: null
+  JobFlowInstancesConfigInstanceFleetConfigTargetOnDemandCapacity:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticmapreduce-cluster-instancefleetconfig.html#cfn-elasticmapreduce-cluster-instancefleetconfig-targetondemandcapacity
+    Default: null
+  JobFlowInstancesConfigInstanceFleetConfigTargetSpotCapacity:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticmapreduce-cluster-instancefleetconfig.html#cfn-elasticmapreduce-cluster-instancefleetconfig-targetspotcapacity
+    Default: null
+  JobFlowInstancesConfigInstanceGroupConfigAutoScalingPolicyScalingConstraintsMaxCapacity:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticmapreduce-cluster-scalingconstraints.html#cfn-elasticmapreduce-cluster-scalingconstraints-maxcapacity
+  JobFlowInstancesConfigInstanceGroupConfigAutoScalingPolicyScalingConstraintsMinCapacity:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticmapreduce-cluster-scalingconstraints.html#cfn-elasticmapreduce-cluster-scalingconstraints-mincapacity
+  JobFlowInstancesConfigInstanceGroupConfigBidPrice:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticmapreduce-cluster-instancegroupconfig.html#cfn-elasticmapreduce-cluster-instancegroupconfig-bidprice
+    Default: null
+  JobFlowInstancesConfigInstanceGroupConfigEbsConfigurationEbsOptimized:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticmapreduce-cluster-ebsconfiguration.html#cfn-elasticmapreduce-cluster-ebsconfiguration-ebsoptimized
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  JobFlowInstancesConfigInstanceGroupConfigInstanceCount:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticmapreduce-cluster-instancegroupconfig.html#cfn-elasticmapreduce-cluster-instancegroupconfig-instancecount
+  JobFlowInstancesConfigInstanceGroupConfigInstanceType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticmapreduce-cluster-instancegroupconfig.html#cfn-elasticmapreduce-cluster-instancegroupconfig-instancetype
+  JobFlowInstancesConfigInstanceGroupConfigMarket:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticmapreduce-cluster-instancegroupconfig.html#cfn-elasticmapreduce-cluster-instancegroupconfig-market
+    Default: null
+  JobFlowInstancesConfigInstanceGroupConfigName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticmapreduce-cluster-instancegroupconfig.html#cfn-elasticmapreduce-cluster-instancegroupconfig-name
+    Default: null
+  JobFlowInstancesConfigEc2KeyName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticmapreduce-cluster-jobflowinstancesconfig.html#cfn-elasticmapreduce-cluster-jobflowinstancesconfig-ec2keyname
+    Default: null
+  JobFlowInstancesConfigEc2SubnetId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticmapreduce-cluster-jobflowinstancesconfig.html#cfn-elasticmapreduce-cluster-jobflowinstancesconfig-ec2subnetid
+    Default: null
+  JobFlowInstancesConfigEmrManagedMasterSecurityGroup:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticmapreduce-cluster-jobflowinstancesconfig.html#cfn-elasticmapreduce-cluster-jobflowinstancesconfig-emrmanagedmastersecuritygroup
+    Default: null
+  JobFlowInstancesConfigEmrManagedSlaveSecurityGroup:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticmapreduce-cluster-jobflowinstancesconfig.html#cfn-elasticmapreduce-cluster-jobflowinstancesconfig-emrmanagedslavesecuritygroup
+    Default: null
+  JobFlowInstancesConfigHadoopVersion:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticmapreduce-cluster-jobflowinstancesconfig.html#cfn-elasticmapreduce-cluster-jobflowinstancesconfig-hadoopversion
+    Default: null
+  JobFlowInstancesConfigKeepJobFlowAliveWhenNoSteps:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticmapreduce-cluster-jobflowinstancesconfig.html#cfn-elasticmapreduce-cluster-jobflowinstancesconfig-keepjobflowalivewhennosteps
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  JobFlowInstancesConfigPlacementTypeAvailabilityZone:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticmapreduce-cluster-placementtype.html#cfn-elasticmapreduce-cluster-placementtype-availabilityzone
+  JobFlowInstancesConfigServiceAccessSecurityGroup:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticmapreduce-cluster-jobflowinstancesconfig.html#cfn-elasticmapreduce-cluster-jobflowinstancesconfig-serviceaccesssecuritygroup
+    Default: null
+  JobFlowInstancesConfigTerminationProtected:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticmapreduce-cluster-jobflowinstancesconfig.html#cfn-elasticmapreduce-cluster-jobflowinstancesconfig-terminationprotected
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  JobFlowRole:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticmapreduce-cluster.html#cfn-elasticmapreduce-cluster-jobflowrole
+  KerberosAttributesADDomainJoinPassword:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticmapreduce-cluster-kerberosattributes.html#cfn-elasticmapreduce-cluster-kerberosattributes-addomainjoinpassword
+    Default: null
+  KerberosAttributesADDomainJoinUser:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticmapreduce-cluster-kerberosattributes.html#cfn-elasticmapreduce-cluster-kerberosattributes-addomainjoinuser
+    Default: null
+  KerberosAttributesCrossRealmTrustPrincipalPassword:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticmapreduce-cluster-kerberosattributes.html#cfn-elasticmapreduce-cluster-kerberosattributes-crossrealmtrustprincipalpassword
+    Default: null
+  KerberosAttributesKdcAdminPassword:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticmapreduce-cluster-kerberosattributes.html#cfn-elasticmapreduce-cluster-kerberosattributes-kdcadminpassword
+  KerberosAttributesRealm:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticmapreduce-cluster-kerberosattributes.html#cfn-elasticmapreduce-cluster-kerberosattributes-realm
+  LogUri:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticmapreduce-cluster.html#cfn-elasticmapreduce-cluster-loguri
+    Default: null
+  Name:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticmapreduce-cluster.html#cfn-elasticmapreduce-cluster-name
+  ReleaseLabel:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticmapreduce-cluster.html#cfn-elasticmapreduce-cluster-releaselabel
+    Default: null
+  ScaleDownBehavior:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticmapreduce-cluster.html#cfn-elasticmapreduce-cluster-scaledownbehavior
+    Default: null
+  SecurityConfiguration:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticmapreduce-cluster.html#cfn-elasticmapreduce-cluster-securityconfiguration
+    Default: null
+  ServiceRole:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticmapreduce-cluster.html#cfn-elasticmapreduce-cluster-servicerole
+  VisibleToAllUsers:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticmapreduce-cluster.html#cfn-elasticmapreduce-cluster-visibletoallusers
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::EMR::Cluster
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticmapreduce-cluster.html
+    Properties:
+      AdditionalInfo: !Ref 'AdditionalInfo'
+      AutoScalingRole: !Ref 'AutoScalingRole'
+      CustomAmiId: !Ref 'CustomAmiId'
+      EbsRootVolumeSize: !Ref 'EbsRootVolumeSize'
+      Instances:
+        CoreInstanceFleet:
+          LaunchSpecifications:
+            SpotSpecification:
+              BlockDurationMinutes: !Ref 'JobFlowInstancesConfigInstanceFleetConfigInstanceFleetProvisioningSpecificationsSpotProvisioningSpecificationBlockDurationMinutes'
+              TimeoutAction: !Ref 'JobFlowInstancesConfigInstanceFleetConfigInstanceFleetProvisioningSpecificationsSpotProvisioningSpecificationTimeoutAction'
+              TimeoutDurationMinutes: !Ref 'JobFlowInstancesConfigInstanceFleetConfigInstanceFleetProvisioningSpecificationsSpotProvisioningSpecificationTimeoutDurationMinutes'
+          Name: !Ref 'JobFlowInstancesConfigInstanceFleetConfigName'
+          TargetOnDemandCapacity: !Ref 'JobFlowInstancesConfigInstanceFleetConfigTargetOnDemandCapacity'
+          TargetSpotCapacity: !Ref 'JobFlowInstancesConfigInstanceFleetConfigTargetSpotCapacity'
+        CoreInstanceGroup:
+          AutoScalingPolicy:
+            Constraints:
+              MaxCapacity: !Ref 'JobFlowInstancesConfigInstanceGroupConfigAutoScalingPolicyScalingConstraintsMaxCapacity'
+              MinCapacity: !Ref 'JobFlowInstancesConfigInstanceGroupConfigAutoScalingPolicyScalingConstraintsMinCapacity'
+          BidPrice: !Ref 'JobFlowInstancesConfigInstanceGroupConfigBidPrice'
+          EbsConfiguration:
+            EbsOptimized: !Ref 'JobFlowInstancesConfigInstanceGroupConfigEbsConfigurationEbsOptimized'
+          InstanceCount: !Ref 'JobFlowInstancesConfigInstanceGroupConfigInstanceCount'
+          InstanceType: !Ref 'JobFlowInstancesConfigInstanceGroupConfigInstanceType'
+          Market: !Ref 'JobFlowInstancesConfigInstanceGroupConfigMarket'
+          Name: !Ref 'JobFlowInstancesConfigInstanceGroupConfigName'
+        Ec2KeyName: !Ref 'JobFlowInstancesConfigEc2KeyName'
+        Ec2SubnetId: !Ref 'JobFlowInstancesConfigEc2SubnetId'
+        EmrManagedMasterSecurityGroup: !Ref 'JobFlowInstancesConfigEmrManagedMasterSecurityGroup'
+        EmrManagedSlaveSecurityGroup: !Ref 'JobFlowInstancesConfigEmrManagedSlaveSecurityGroup'
+        HadoopVersion: !Ref 'JobFlowInstancesConfigHadoopVersion'
+        KeepJobFlowAliveWhenNoSteps: !Ref 'JobFlowInstancesConfigKeepJobFlowAliveWhenNoSteps'
+        MasterInstanceFleet:
+          LaunchSpecifications:
+            SpotSpecification:
+              BlockDurationMinutes: !Ref 'JobFlowInstancesConfigInstanceFleetConfigInstanceFleetProvisioningSpecificationsSpotProvisioningSpecificationBlockDurationMinutes'
+              TimeoutAction: !Ref 'JobFlowInstancesConfigInstanceFleetConfigInstanceFleetProvisioningSpecificationsSpotProvisioningSpecificationTimeoutAction'
+              TimeoutDurationMinutes: !Ref 'JobFlowInstancesConfigInstanceFleetConfigInstanceFleetProvisioningSpecificationsSpotProvisioningSpecificationTimeoutDurationMinutes'
+          Name: !Ref 'JobFlowInstancesConfigInstanceFleetConfigName'
+          TargetOnDemandCapacity: !Ref 'JobFlowInstancesConfigInstanceFleetConfigTargetOnDemandCapacity'
+          TargetSpotCapacity: !Ref 'JobFlowInstancesConfigInstanceFleetConfigTargetSpotCapacity'
+        MasterInstanceGroup:
+          AutoScalingPolicy:
+            Constraints:
+              MaxCapacity: !Ref 'JobFlowInstancesConfigInstanceGroupConfigAutoScalingPolicyScalingConstraintsMaxCapacity'
+              MinCapacity: !Ref 'JobFlowInstancesConfigInstanceGroupConfigAutoScalingPolicyScalingConstraintsMinCapacity'
+          BidPrice: !Ref 'JobFlowInstancesConfigInstanceGroupConfigBidPrice'
+          EbsConfiguration:
+            EbsOptimized: !Ref 'JobFlowInstancesConfigInstanceGroupConfigEbsConfigurationEbsOptimized'
+          InstanceCount: !Ref 'JobFlowInstancesConfigInstanceGroupConfigInstanceCount'
+          InstanceType: !Ref 'JobFlowInstancesConfigInstanceGroupConfigInstanceType'
+          Market: !Ref 'JobFlowInstancesConfigInstanceGroupConfigMarket'
+          Name: !Ref 'JobFlowInstancesConfigInstanceGroupConfigName'
+        Placement:
+          AvailabilityZone: !Ref 'JobFlowInstancesConfigPlacementTypeAvailabilityZone'
+        ServiceAccessSecurityGroup: !Ref 'JobFlowInstancesConfigServiceAccessSecurityGroup'
+        TerminationProtected: !Ref 'JobFlowInstancesConfigTerminationProtected'
+      JobFlowRole: !Ref 'JobFlowRole'
+      KerberosAttributes:
+        ADDomainJoinPassword: !Ref 'KerberosAttributesADDomainJoinPassword'
+        ADDomainJoinUser: !Ref 'KerberosAttributesADDomainJoinUser'
+        CrossRealmTrustPrincipalPassword: !Ref 'KerberosAttributesCrossRealmTrustPrincipalPassword'
+        KdcAdminPassword: !Ref 'KerberosAttributesKdcAdminPassword'
+        Realm: !Ref 'KerberosAttributesRealm'
+      LogUri: !Ref 'LogUri'
+      Name: !Ref 'Name'
+      ReleaseLabel: !Ref 'ReleaseLabel'
+      ScaleDownBehavior: !Ref 'ScaleDownBehavior'
+      SecurityConfiguration: !Ref 'SecurityConfiguration'
+      ServiceRole: !Ref 'ServiceRole'
+      VisibleToAllUsers: !Ref 'VisibleToAllUsers'
+Outputs:
+  MasterPublicDNS:
+    Value:
+      GetAtt:
+        - Resource
+        - MasterPublicDNS

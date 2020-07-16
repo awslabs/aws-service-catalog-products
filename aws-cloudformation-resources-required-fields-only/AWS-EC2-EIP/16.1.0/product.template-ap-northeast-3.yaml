@@ -1,0 +1,12 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-eip.html
+Resources:
+  Resource:
+    Type: AWS::EC2::EIP
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-eip.html
+Outputs:
+  AllocationId:
+    Value:
+      GetAtt:
+        - Resource
+        - AllocationId

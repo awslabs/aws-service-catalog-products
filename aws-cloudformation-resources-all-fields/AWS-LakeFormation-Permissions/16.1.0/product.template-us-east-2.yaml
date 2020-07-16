@@ -1,0 +1,33 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lakeformation-permissions.html
+Parameters:
+  DataLakePrincipalDataLakePrincipalIdentifier:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-lakeformation-permissions-datalakeprincipal.html#cfn-lakeformation-permissions-datalakeprincipal-datalakeprincipalidentifier
+    Default: null
+  ResourceTableResourceDatabaseName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-lakeformation-permissions-tableresource.html#cfn-lakeformation-permissions-tableresource-databasename
+    Default: null
+  ResourceTableResourceName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-lakeformation-permissions-tableresource.html#cfn-lakeformation-permissions-tableresource-name
+    Default: null
+  ResourceDatabaseResourceName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-lakeformation-permissions-databaseresource.html#cfn-lakeformation-permissions-databaseresource-name
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::LakeFormation::Permissions
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lakeformation-permissions.html
+    Properties:
+      DataLakePrincipal:
+        DataLakePrincipalIdentifier: !Ref 'DataLakePrincipalDataLakePrincipalIdentifier'
+      Resource:
+        TableResource:
+          DatabaseName: !Ref 'ResourceTableResourceDatabaseName'
+          Name: !Ref 'ResourceTableResourceName'
+        DatabaseResource:
+          Name: !Ref 'ResourceDatabaseResourceName'

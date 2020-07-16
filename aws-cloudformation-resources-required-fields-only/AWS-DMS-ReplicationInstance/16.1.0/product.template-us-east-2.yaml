@@ -1,0 +1,23 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dms-replicationinstance.html
+Parameters:
+  ReplicationInstanceClass:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dms-replicationinstance.html#cfn-dms-replicationinstance-replicationinstanceclass
+Resources:
+  Resource:
+    Type: AWS::DMS::ReplicationInstance
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dms-replicationinstance.html
+    Properties:
+      ReplicationInstanceClass: !Ref 'ReplicationInstanceClass'
+Outputs:
+  ReplicationInstancePublicIpAddresses:
+    Value:
+      GetAtt:
+        - Resource
+        - ReplicationInstancePublicIpAddresses
+  ReplicationInstancePrivateIpAddresses:
+    Value:
+      GetAtt:
+        - Resource
+        - ReplicationInstancePrivateIpAddresses

@@ -1,0 +1,18 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-mediastore-container.html
+Parameters:
+  ContainerName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-mediastore-container.html#cfn-mediastore-container-containername
+Resources:
+  Resource:
+    Type: AWS::MediaStore::Container
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-mediastore-container.html
+    Properties:
+      ContainerName: !Ref 'ContainerName'
+Outputs:
+  Endpoint:
+    Value:
+      GetAtt:
+        - Resource
+        - Endpoint

@@ -1,0 +1,20 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-sagemaker-notebookinstancelifecycleconfig.html
+Parameters:
+  NotebookInstanceLifecycleConfigName:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-sagemaker-notebookinstancelifecycleconfig.html#cfn-sagemaker-notebookinstancelifecycleconfig-notebookinstancelifecycleconfigname
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::SageMaker::NotebookInstanceLifecycleConfig
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-sagemaker-notebookinstancelifecycleconfig.html
+    Properties:
+      NotebookInstanceLifecycleConfigName: !Ref 'NotebookInstanceLifecycleConfigName'
+Outputs:
+  NotebookInstanceLifecycleConfigName:
+    Value:
+      GetAtt:
+        - Resource
+        - NotebookInstanceLifecycleConfigName

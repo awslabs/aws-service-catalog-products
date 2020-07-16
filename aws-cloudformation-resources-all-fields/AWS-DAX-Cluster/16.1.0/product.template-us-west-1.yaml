@@ -1,0 +1,75 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dax-cluster.html
+Parameters:
+  SSESpecificationSSEEnabled:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-dax-cluster-ssespecification.html#cfn-dax-cluster-ssespecification-sseenabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  Description:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dax-cluster.html#cfn-dax-cluster-description
+    Default: null
+  ReplicationFactor:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dax-cluster.html#cfn-dax-cluster-replicationfactor
+  ParameterGroupName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dax-cluster.html#cfn-dax-cluster-parametergroupname
+    Default: null
+  IAMRoleARN:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dax-cluster.html#cfn-dax-cluster-iamrolearn
+  SubnetGroupName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dax-cluster.html#cfn-dax-cluster-subnetgroupname
+    Default: null
+  PreferredMaintenanceWindow:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dax-cluster.html#cfn-dax-cluster-preferredmaintenancewindow
+    Default: null
+  NotificationTopicARN:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dax-cluster.html#cfn-dax-cluster-notificationtopicarn
+    Default: null
+  NodeType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dax-cluster.html#cfn-dax-cluster-nodetype
+  ClusterName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dax-cluster.html#cfn-dax-cluster-clustername
+    Default: null
+  Tags:
+    Type: Json
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dax-cluster.html#cfn-dax-cluster-tags
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::DAX::Cluster
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dax-cluster.html
+    Properties:
+      SSESpecification:
+        SSEEnabled: !Ref 'SSESpecificationSSEEnabled'
+      Description: !Ref 'Description'
+      ReplicationFactor: !Ref 'ReplicationFactor'
+      ParameterGroupName: !Ref 'ParameterGroupName'
+      IAMRoleARN: !Ref 'IAMRoleARN'
+      SubnetGroupName: !Ref 'SubnetGroupName'
+      PreferredMaintenanceWindow: !Ref 'PreferredMaintenanceWindow'
+      NotificationTopicARN: !Ref 'NotificationTopicARN'
+      NodeType: !Ref 'NodeType'
+      ClusterName: !Ref 'ClusterName'
+      Tags: !Ref 'Tags'
+Outputs:
+  ClusterDiscoveryEndpoint:
+    Value:
+      GetAtt:
+        - Resource
+        - ClusterDiscoveryEndpoint
+  Arn:
+    Value:
+      GetAtt:
+        - Resource
+        - Arn

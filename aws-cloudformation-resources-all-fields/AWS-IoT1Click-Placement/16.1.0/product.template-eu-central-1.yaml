@@ -1,0 +1,38 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iot1click-placement.html
+Parameters:
+  PlacementName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iot1click-placement.html#cfn-iot1click-placement-placementname
+    Default: null
+  ProjectName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iot1click-placement.html#cfn-iot1click-placement-projectname
+  AssociatedDevices:
+    Type: Json
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iot1click-placement.html#cfn-iot1click-placement-associateddevices
+    Default: null
+  Attributes:
+    Type: Json
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iot1click-placement.html#cfn-iot1click-placement-attributes
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::IoT1Click::Placement
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iot1click-placement.html
+    Properties:
+      PlacementName: !Ref 'PlacementName'
+      ProjectName: !Ref 'ProjectName'
+      AssociatedDevices: !Ref 'AssociatedDevices'
+      Attributes: !Ref 'Attributes'
+Outputs:
+  PlacementName:
+    Value:
+      GetAtt:
+        - Resource
+        - PlacementName
+  ProjectName:
+    Value:
+      GetAtt:
+        - Resource
+        - ProjectName

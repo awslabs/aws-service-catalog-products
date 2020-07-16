@@ -1,0 +1,47 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-efs-filesystem.html
+Parameters:
+  Encrypted:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-efs-filesystem.html#cfn-efs-filesystem-encrypted
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  KmsKeyId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-efs-filesystem.html#cfn-efs-filesystem-kmskeyid
+    Default: null
+  PerformanceMode:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-efs-filesystem.html#cfn-efs-filesystem-performancemode
+    Default: null
+  ProvisionedThroughputInMibps:
+    Type: Double
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-efs-filesystem.html#cfn-efs-filesystem-provisionedthroughputinmibps
+    Default: null
+  ThroughputMode:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-efs-filesystem.html#cfn-efs-filesystem-throughputmode
+    Default: null
+  FileSystemPolicy:
+    Type: Json
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-efs-filesystem.html#cfn-efs-filesystem-filesystempolicy
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::EFS::FileSystem
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-efs-filesystem.html
+    Properties:
+      Encrypted: !Ref 'Encrypted'
+      KmsKeyId: !Ref 'KmsKeyId'
+      PerformanceMode: !Ref 'PerformanceMode'
+      ProvisionedThroughputInMibps: !Ref 'ProvisionedThroughputInMibps'
+      ThroughputMode: !Ref 'ThroughputMode'
+      FileSystemPolicy: !Ref 'FileSystemPolicy'
+Outputs:
+  FileSystemId:
+    Value:
+      GetAtt:
+        - Resource
+        - FileSystemId

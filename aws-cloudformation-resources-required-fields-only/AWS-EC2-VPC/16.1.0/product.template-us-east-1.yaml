@@ -1,0 +1,38 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-vpc.html
+Parameters:
+  CidrBlock:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-vpc.html#cfn-aws-ec2-vpc-cidrblock
+Resources:
+  Resource:
+    Type: AWS::EC2::VPC
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-vpc.html
+    Properties:
+      CidrBlock: !Ref 'CidrBlock'
+Outputs:
+  CidrBlock:
+    Value:
+      GetAtt:
+        - Resource
+        - CidrBlock
+  CidrBlockAssociations:
+    Value:
+      GetAtt:
+        - Resource
+        - CidrBlockAssociations
+  DefaultNetworkAcl:
+    Value:
+      GetAtt:
+        - Resource
+        - DefaultNetworkAcl
+  DefaultSecurityGroup:
+    Value:
+      GetAtt:
+        - Resource
+        - DefaultSecurityGroup
+  Ipv6CidrBlocks:
+    Value:
+      GetAtt:
+        - Resource
+        - Ipv6CidrBlocks

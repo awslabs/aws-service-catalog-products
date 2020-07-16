@@ -1,0 +1,90 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-as-launchconfig.html
+Parameters:
+  AssociatePublicIpAddress:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-as-launchconfig.html#cf-as-launchconfig-associatepubip
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  ClassicLinkVPCId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-as-launchconfig.html#cfn-as-launchconfig-classiclinkvpcid
+    Default: null
+  EbsOptimized:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-as-launchconfig.html#cfn-as-launchconfig-ebsoptimized
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  IamInstanceProfile:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-as-launchconfig.html#cfn-as-launchconfig-iaminstanceprofile
+    Default: null
+  ImageId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-as-launchconfig.html#cfn-as-launchconfig-imageid
+  InstanceId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-as-launchconfig.html#cfn-as-launchconfig-instanceid
+    Default: null
+  InstanceMonitoring:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-as-launchconfig.html#cfn-as-launchconfig-instancemonitoring
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  InstanceType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-as-launchconfig.html#cfn-as-launchconfig-instancetype
+  KernelId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-as-launchconfig.html#cfn-as-launchconfig-kernelid
+    Default: null
+  KeyName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-as-launchconfig.html#cfn-as-launchconfig-keyname
+    Default: null
+  LaunchConfigurationName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-as-launchconfig.html#cfn-autoscaling-launchconfig-launchconfigurationname
+    Default: null
+  PlacementTenancy:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-as-launchconfig.html#cfn-as-launchconfig-placementtenancy
+    Default: null
+  RamDiskId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-as-launchconfig.html#cfn-as-launchconfig-ramdiskid
+    Default: null
+  SpotPrice:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-as-launchconfig.html#cfn-as-launchconfig-spotprice
+    Default: null
+  UserData:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-as-launchconfig.html#cfn-as-launchconfig-userdata
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::AutoScaling::LaunchConfiguration
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-as-launchconfig.html
+    Properties:
+      AssociatePublicIpAddress: !Ref 'AssociatePublicIpAddress'
+      ClassicLinkVPCId: !Ref 'ClassicLinkVPCId'
+      EbsOptimized: !Ref 'EbsOptimized'
+      IamInstanceProfile: !Ref 'IamInstanceProfile'
+      ImageId: !Ref 'ImageId'
+      InstanceId: !Ref 'InstanceId'
+      InstanceMonitoring: !Ref 'InstanceMonitoring'
+      InstanceType: !Ref 'InstanceType'
+      KernelId: !Ref 'KernelId'
+      KeyName: !Ref 'KeyName'
+      LaunchConfigurationName: !Ref 'LaunchConfigurationName'
+      PlacementTenancy: !Ref 'PlacementTenancy'
+      RamDiskId: !Ref 'RamDiskId'
+      SpotPrice: !Ref 'SpotPrice'
+      UserData: !Ref 'UserData'

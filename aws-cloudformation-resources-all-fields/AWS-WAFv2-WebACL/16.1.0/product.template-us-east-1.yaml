@@ -1,0 +1,68 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-wafv2-webacl.html
+Parameters:
+  DefaultActionAllow:
+    Type: Json
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-wafv2-webacl-defaultaction.html#cfn-wafv2-webacl-defaultaction-allow
+    Default: null
+  DefaultActionBlock:
+    Type: Json
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-wafv2-webacl-defaultaction.html#cfn-wafv2-webacl-defaultaction-block
+    Default: null
+  Description:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-wafv2-webacl.html#cfn-wafv2-webacl-description
+    Default: null
+  Name:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-wafv2-webacl.html#cfn-wafv2-webacl-name
+    Default: null
+  Scope:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-wafv2-webacl.html#cfn-wafv2-webacl-scope
+  VisibilityConfigSampledRequestsEnabled:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-wafv2-webacl-visibilityconfig.html#cfn-wafv2-webacl-visibilityconfig-sampledrequestsenabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+  VisibilityConfigCloudWatchMetricsEnabled:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-wafv2-webacl-visibilityconfig.html#cfn-wafv2-webacl-visibilityconfig-cloudwatchmetricsenabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+  VisibilityConfigMetricName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-wafv2-webacl-visibilityconfig.html#cfn-wafv2-webacl-visibilityconfig-metricname
+Resources:
+  Resource:
+    Type: AWS::WAFv2::WebACL
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-wafv2-webacl.html
+    Properties:
+      DefaultAction:
+        Allow: !Ref 'DefaultActionAllow'
+        Block: !Ref 'DefaultActionBlock'
+      Description: !Ref 'Description'
+      Name: !Ref 'Name'
+      Scope: !Ref 'Scope'
+      VisibilityConfig:
+        SampledRequestsEnabled: !Ref 'VisibilityConfigSampledRequestsEnabled'
+        CloudWatchMetricsEnabled: !Ref 'VisibilityConfigCloudWatchMetricsEnabled'
+        MetricName: !Ref 'VisibilityConfigMetricName'
+Outputs:
+  Arn:
+    Value:
+      GetAtt:
+        - Resource
+        - Arn
+  Capacity:
+    Value:
+      GetAtt:
+        - Resource
+        - Capacity
+  Id:
+    Value:
+      GetAtt:
+        - Resource
+        - Id

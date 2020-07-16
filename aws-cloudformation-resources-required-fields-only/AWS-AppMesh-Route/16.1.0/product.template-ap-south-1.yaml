@@ -1,0 +1,57 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appmesh-route.html
+Parameters:
+  MeshName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appmesh-route.html#cfn-appmesh-route-meshname
+  VirtualRouterName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appmesh-route.html#cfn-appmesh-route-virtualroutername
+  RouteName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appmesh-route.html#cfn-appmesh-route-routename
+Resources:
+  Resource:
+    Type: AWS::AppMesh::Route
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appmesh-route.html
+    Properties:
+      MeshName: !Ref 'MeshName'
+      VirtualRouterName: !Ref 'VirtualRouterName'
+      RouteName: !Ref 'RouteName'
+      Spec: {}
+Outputs:
+  Uid:
+    Value:
+      GetAtt:
+        - Resource
+        - Uid
+  MeshName:
+    Value:
+      GetAtt:
+        - Resource
+        - MeshName
+  VirtualRouterName:
+    Value:
+      GetAtt:
+        - Resource
+        - VirtualRouterName
+  MeshOwner:
+    Value:
+      GetAtt:
+        - Resource
+        - MeshOwner
+  ResourceOwner:
+    Value:
+      GetAtt:
+        - Resource
+        - ResourceOwner
+  RouteName:
+    Value:
+      GetAtt:
+        - Resource
+        - RouteName
+  Arn:
+    Value:
+      GetAtt:
+        - Resource
+        - Arn

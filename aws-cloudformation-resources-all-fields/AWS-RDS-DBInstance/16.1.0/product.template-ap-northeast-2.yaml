@@ -1,0 +1,281 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-database-instance.html
+Parameters:
+  AllocatedStorage:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-database-instance.html#cfn-rds-dbinstance-allocatedstorage
+    Default: null
+  AllowMajorVersionUpgrade:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-database-instance.html#cfn-rds-dbinstance-allowmajorversionupgrade
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  AutoMinorVersionUpgrade:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-database-instance.html#cfn-rds-dbinstance-autominorversionupgrade
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  AvailabilityZone:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-database-instance.html#cfn-rds-dbinstance-availabilityzone
+    Default: null
+  BackupRetentionPeriod:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-database-instance.html#cfn-rds-dbinstance-backupretentionperiod
+    Default: null
+  CACertificateIdentifier:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-database-instance.html#cfn-rds-dbinstance-cacertificateidentifier
+    Default: null
+  CharacterSetName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-database-instance.html#cfn-rds-dbinstance-charactersetname
+    Default: null
+  CopyTagsToSnapshot:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-database-instance.html#cfn-rds-dbinstance-copytagstosnapshot
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  DBClusterIdentifier:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-database-instance.html#cfn-rds-dbinstance-dbclusteridentifier
+    Default: null
+  DBInstanceClass:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-database-instance.html#cfn-rds-dbinstance-dbinstanceclass
+  DBInstanceIdentifier:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-database-instance.html#cfn-rds-dbinstance-dbinstanceidentifier
+    Default: null
+  DBName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-database-instance.html#cfn-rds-dbinstance-dbname
+    Default: null
+  DBParameterGroupName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-database-instance.html#cfn-rds-dbinstance-dbparametergroupname
+    Default: null
+  DBSnapshotIdentifier:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-database-instance.html#cfn-rds-dbinstance-dbsnapshotidentifier
+    Default: null
+  DBSubnetGroupName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-database-instance.html#cfn-rds-dbinstance-dbsubnetgroupname
+    Default: null
+  DeleteAutomatedBackups:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-database-instance.html#cfn-rds-dbinstance-deleteautomatedbackups
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  DeletionProtection:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-database-instance.html#cfn-rds-dbinstance-deletionprotection
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  Domain:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-database-instance.html#cfn-rds-dbinstance-domain
+    Default: null
+  DomainIAMRoleName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-database-instance.html#cfn-rds-dbinstance-domainiamrolename
+    Default: null
+  EnableIAMDatabaseAuthentication:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-database-instance.html#cfn-rds-dbinstance-enableiamdatabaseauthentication
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  EnablePerformanceInsights:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-database-instance.html#cfn-rds-dbinstance-enableperformanceinsights
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  Engine:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-database-instance.html#cfn-rds-dbinstance-engine
+    Default: null
+  EngineVersion:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-database-instance.html#cfn-rds-dbinstance-engineversion
+    Default: null
+  Iops:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-database-instance.html#cfn-rds-dbinstance-iops
+    Default: null
+  KmsKeyId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-database-instance.html#cfn-rds-dbinstance-kmskeyid
+    Default: null
+  LicenseModel:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-database-instance.html#cfn-rds-dbinstance-licensemodel
+    Default: null
+  MasterUserPassword:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-database-instance.html#cfn-rds-dbinstance-masteruserpassword
+    Default: null
+  MasterUsername:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-database-instance.html#cfn-rds-dbinstance-masterusername
+    Default: null
+  MaxAllocatedStorage:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-database-instance.html#cfn-rds-dbinstance-maxallocatedstorage
+    Default: null
+  MonitoringInterval:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-database-instance.html#cfn-rds-dbinstance-monitoringinterval
+    Default: null
+  MonitoringRoleArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-database-instance.html#cfn-rds-dbinstance-monitoringrolearn
+    Default: null
+  MultiAZ:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-database-instance.html#cfn-rds-dbinstance-multiaz
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  OptionGroupName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-database-instance.html#cfn-rds-dbinstance-optiongroupname
+    Default: null
+  PerformanceInsightsKMSKeyId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-database-instance.html#cfn-rds-dbinstance-performanceinsightskmskeyid
+    Default: null
+  PerformanceInsightsRetentionPeriod:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-database-instance.html#cfn-rds-dbinstance-performanceinsightsretentionperiod
+    Default: null
+  Port:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-database-instance.html#cfn-rds-dbinstance-port
+    Default: null
+  PreferredBackupWindow:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-database-instance.html#cfn-rds-dbinstance-preferredbackupwindow
+    Default: null
+  PreferredMaintenanceWindow:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-database-instance.html#cfn-rds-dbinstance-preferredmaintenancewindow
+    Default: null
+  PromotionTier:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-database-instance.html#cfn-rds-dbinstance-promotiontier
+    Default: null
+  PubliclyAccessible:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-database-instance.html#cfn-rds-dbinstance-publiclyaccessible
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  SourceDBInstanceIdentifier:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-database-instance.html#cfn-rds-dbinstance-sourcedbinstanceidentifier
+    Default: null
+  SourceRegion:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-database-instance.html#cfn-rds-dbinstance-sourceregion
+    Default: null
+  StorageEncrypted:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-database-instance.html#cfn-rds-dbinstance-storageencrypted
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  StorageType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-database-instance.html#cfn-rds-dbinstance-storagetype
+    Default: null
+  Timezone:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-database-instance.html#cfn-rds-dbinstance-timezone
+    Default: null
+  UseDefaultProcessorFeatures:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-database-instance.html#cfn-rds-dbinstance-usedefaultprocessorfeatures
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::RDS::DBInstance
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-database-instance.html
+    Properties:
+      AllocatedStorage: !Ref 'AllocatedStorage'
+      AllowMajorVersionUpgrade: !Ref 'AllowMajorVersionUpgrade'
+      AutoMinorVersionUpgrade: !Ref 'AutoMinorVersionUpgrade'
+      AvailabilityZone: !Ref 'AvailabilityZone'
+      BackupRetentionPeriod: !Ref 'BackupRetentionPeriod'
+      CACertificateIdentifier: !Ref 'CACertificateIdentifier'
+      CharacterSetName: !Ref 'CharacterSetName'
+      CopyTagsToSnapshot: !Ref 'CopyTagsToSnapshot'
+      DBClusterIdentifier: !Ref 'DBClusterIdentifier'
+      DBInstanceClass: !Ref 'DBInstanceClass'
+      DBInstanceIdentifier: !Ref 'DBInstanceIdentifier'
+      DBName: !Ref 'DBName'
+      DBParameterGroupName: !Ref 'DBParameterGroupName'
+      DBSnapshotIdentifier: !Ref 'DBSnapshotIdentifier'
+      DBSubnetGroupName: !Ref 'DBSubnetGroupName'
+      DeleteAutomatedBackups: !Ref 'DeleteAutomatedBackups'
+      DeletionProtection: !Ref 'DeletionProtection'
+      Domain: !Ref 'Domain'
+      DomainIAMRoleName: !Ref 'DomainIAMRoleName'
+      EnableIAMDatabaseAuthentication: !Ref 'EnableIAMDatabaseAuthentication'
+      EnablePerformanceInsights: !Ref 'EnablePerformanceInsights'
+      Engine: !Ref 'Engine'
+      EngineVersion: !Ref 'EngineVersion'
+      Iops: !Ref 'Iops'
+      KmsKeyId: !Ref 'KmsKeyId'
+      LicenseModel: !Ref 'LicenseModel'
+      MasterUserPassword: !Ref 'MasterUserPassword'
+      MasterUsername: !Ref 'MasterUsername'
+      MaxAllocatedStorage: !Ref 'MaxAllocatedStorage'
+      MonitoringInterval: !Ref 'MonitoringInterval'
+      MonitoringRoleArn: !Ref 'MonitoringRoleArn'
+      MultiAZ: !Ref 'MultiAZ'
+      OptionGroupName: !Ref 'OptionGroupName'
+      PerformanceInsightsKMSKeyId: !Ref 'PerformanceInsightsKMSKeyId'
+      PerformanceInsightsRetentionPeriod: !Ref 'PerformanceInsightsRetentionPeriod'
+      Port: !Ref 'Port'
+      PreferredBackupWindow: !Ref 'PreferredBackupWindow'
+      PreferredMaintenanceWindow: !Ref 'PreferredMaintenanceWindow'
+      PromotionTier: !Ref 'PromotionTier'
+      PubliclyAccessible: !Ref 'PubliclyAccessible'
+      SourceDBInstanceIdentifier: !Ref 'SourceDBInstanceIdentifier'
+      SourceRegion: !Ref 'SourceRegion'
+      StorageEncrypted: !Ref 'StorageEncrypted'
+      StorageType: !Ref 'StorageType'
+      Timezone: !Ref 'Timezone'
+      UseDefaultProcessorFeatures: !Ref 'UseDefaultProcessorFeatures'
+Outputs:
+  Endpoint.Address:
+    Value:
+      GetAtt:
+        - Resource
+        - Endpoint.Address
+  Endpoint.Port:
+    Value:
+      GetAtt:
+        - Resource
+        - Endpoint.Port

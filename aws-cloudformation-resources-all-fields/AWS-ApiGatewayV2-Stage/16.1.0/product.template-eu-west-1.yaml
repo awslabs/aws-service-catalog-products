@@ -1,0 +1,97 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigatewayv2-stage.html
+Parameters:
+  ClientCertificateId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigatewayv2-stage.html#cfn-apigatewayv2-stage-clientcertificateid
+    Default: null
+  DeploymentId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigatewayv2-stage.html#cfn-apigatewayv2-stage-deploymentid
+    Default: null
+  Description:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigatewayv2-stage.html#cfn-apigatewayv2-stage-description
+    Default: null
+  AccessLogSettingsFormat:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-apigatewayv2-stage-accesslogsettings.html#cfn-apigatewayv2-stage-accesslogsettings-format
+    Default: null
+  AccessLogSettingsDestinationArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-apigatewayv2-stage-accesslogsettings.html#cfn-apigatewayv2-stage-accesslogsettings-destinationarn
+    Default: null
+  AutoDeploy:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigatewayv2-stage.html#cfn-apigatewayv2-stage-autodeploy
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  RouteSettings:
+    Type: Json
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigatewayv2-stage.html#cfn-apigatewayv2-stage-routesettings
+    Default: null
+  StageName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigatewayv2-stage.html#cfn-apigatewayv2-stage-stagename
+  StageVariables:
+    Type: Json
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigatewayv2-stage.html#cfn-apigatewayv2-stage-stagevariables
+    Default: null
+  ApiId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigatewayv2-stage.html#cfn-apigatewayv2-stage-apiid
+  RouteSettingsLoggingLevel:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-apigatewayv2-stage-routesettings.html#cfn-apigatewayv2-stage-routesettings-logginglevel
+    Default: null
+  RouteSettingsDataTraceEnabled:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-apigatewayv2-stage-routesettings.html#cfn-apigatewayv2-stage-routesettings-datatraceenabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  RouteSettingsThrottlingBurstLimit:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-apigatewayv2-stage-routesettings.html#cfn-apigatewayv2-stage-routesettings-throttlingburstlimit
+    Default: null
+  RouteSettingsDetailedMetricsEnabled:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-apigatewayv2-stage-routesettings.html#cfn-apigatewayv2-stage-routesettings-detailedmetricsenabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  RouteSettingsThrottlingRateLimit:
+    Type: Double
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-apigatewayv2-stage-routesettings.html#cfn-apigatewayv2-stage-routesettings-throttlingratelimit
+    Default: null
+  Tags:
+    Type: Json
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigatewayv2-stage.html#cfn-apigatewayv2-stage-tags
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::ApiGatewayV2::Stage
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigatewayv2-stage.html
+    Properties:
+      ClientCertificateId: !Ref 'ClientCertificateId'
+      DeploymentId: !Ref 'DeploymentId'
+      Description: !Ref 'Description'
+      AccessLogSettings:
+        Format: !Ref 'AccessLogSettingsFormat'
+        DestinationArn: !Ref 'AccessLogSettingsDestinationArn'
+      AutoDeploy: !Ref 'AutoDeploy'
+      RouteSettings: !Ref 'RouteSettings'
+      StageName: !Ref 'StageName'
+      StageVariables: !Ref 'StageVariables'
+      ApiId: !Ref 'ApiId'
+      DefaultRouteSettings:
+        LoggingLevel: !Ref 'RouteSettingsLoggingLevel'
+        DataTraceEnabled: !Ref 'RouteSettingsDataTraceEnabled'
+        ThrottlingBurstLimit: !Ref 'RouteSettingsThrottlingBurstLimit'
+        DetailedMetricsEnabled: !Ref 'RouteSettingsDetailedMetricsEnabled'
+        ThrottlingRateLimit: !Ref 'RouteSettingsThrottlingRateLimit'
+      Tags: !Ref 'Tags'

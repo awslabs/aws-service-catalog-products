@@ -1,0 +1,44 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-networkmanager-site.html
+Parameters:
+  Description:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-networkmanager-site.html#cfn-networkmanager-site-description
+    Default: null
+  GlobalNetworkId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-networkmanager-site.html#cfn-networkmanager-site-globalnetworkid
+  LocationAddress:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-networkmanager-site-location.html#cfn-networkmanager-site-location-address
+    Default: null
+  LocationLatitude:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-networkmanager-site-location.html#cfn-networkmanager-site-location-latitude
+    Default: null
+  LocationLongitude:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-networkmanager-site-location.html#cfn-networkmanager-site-location-longitude
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::NetworkManager::Site
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-networkmanager-site.html
+    Properties:
+      Description: !Ref 'Description'
+      GlobalNetworkId: !Ref 'GlobalNetworkId'
+      Location:
+        Address: !Ref 'LocationAddress'
+        Latitude: !Ref 'LocationLatitude'
+        Longitude: !Ref 'LocationLongitude'
+Outputs:
+  SiteArn:
+    Value:
+      GetAtt:
+        - Resource
+        - SiteArn
+  SiteId:
+    Value:
+      GetAtt:
+        - Resource
+        - SiteId

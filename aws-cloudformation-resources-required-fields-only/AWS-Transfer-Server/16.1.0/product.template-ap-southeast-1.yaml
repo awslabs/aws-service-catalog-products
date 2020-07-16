@@ -1,0 +1,17 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-transfer-server.html
+Resources:
+  Resource:
+    Type: AWS::Transfer::Server
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-transfer-server.html
+Outputs:
+  ServerId:
+    Value:
+      GetAtt:
+        - Resource
+        - ServerId
+  Arn:
+    Value:
+      GetAtt:
+        - Resource
+        - Arn

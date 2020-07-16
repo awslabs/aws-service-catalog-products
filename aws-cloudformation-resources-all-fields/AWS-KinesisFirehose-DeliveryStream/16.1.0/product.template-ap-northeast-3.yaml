@@ -1,0 +1,840 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-kinesisfirehose-deliverystream.html
+Parameters:
+  DeliveryStreamName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-kinesisfirehose-deliverystream.html#cfn-kinesisfirehose-deliverystream-deliverystreamname
+    Default: null
+  DeliveryStreamType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-kinesisfirehose-deliverystream.html#cfn-kinesisfirehose-deliverystream-deliverystreamtype
+    Default: null
+  ElasticsearchDestinationConfigurationElasticsearchBufferingHintsIntervalInSeconds:
+    Type: Number
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-elasticsearchbufferinghints.html#cfn-kinesisfirehose-deliverystream-elasticsearchbufferinghints-intervalinseconds
+  ElasticsearchDestinationConfigurationElasticsearchBufferingHintsSizeInMBs:
+    Type: Number
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-elasticsearchbufferinghints.html#cfn-kinesisfirehose-deliverystream-elasticsearchbufferinghints-sizeinmbs
+  ElasticsearchDestinationConfigurationCloudWatchLoggingOptionsEnabled:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-cloudwatchloggingoptions.html#cfn-kinesisfirehose-deliverystream-cloudwatchloggingoptions-enabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  ElasticsearchDestinationConfigurationCloudWatchLoggingOptionsLogGroupName:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-cloudwatchloggingoptions.html#cfn-kinesisfirehose-deliverystream-cloudwatchloggingoptions-loggroupname
+    Default: null
+  ElasticsearchDestinationConfigurationCloudWatchLoggingOptionsLogStreamName:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-cloudwatchloggingoptions.html#cfn-kinesisfirehose-deliverystream-cloudwatchloggingoptions-logstreamname
+    Default: null
+  ElasticsearchDestinationConfigurationDomainARN:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-elasticsearchdestinationconfiguration.html#cfn-kinesisfirehose-deliverystream-elasticsearchdestinationconfiguration-domainarn
+  ElasticsearchDestinationConfigurationIndexName:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-elasticsearchdestinationconfiguration.html#cfn-kinesisfirehose-deliverystream-elasticsearchdestinationconfiguration-indexname
+  ElasticsearchDestinationConfigurationIndexRotationPeriod:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-elasticsearchdestinationconfiguration.html#cfn-kinesisfirehose-deliverystream-elasticsearchdestinationconfiguration-indexrotationperiod
+  ElasticsearchDestinationConfigurationProcessingConfigurationEnabled:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-processingconfiguration.html#cfn-kinesisfirehose-deliverystream-processingconfiguration-enabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  ElasticsearchDestinationConfigurationElasticsearchRetryOptionsDurationInSeconds:
+    Type: Number
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-elasticsearchretryoptions.html#cfn-kinesisfirehose-deliverystream-elasticsearchretryoptions-durationinseconds
+  ElasticsearchDestinationConfigurationRoleARN:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-elasticsearchdestinationconfiguration.html#cfn-kinesisfirehose-deliverystream-elasticsearchdestinationconfiguration-rolearn
+  ElasticsearchDestinationConfigurationS3BackupMode:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-elasticsearchdestinationconfiguration.html#cfn-kinesisfirehose-deliverystream-elasticsearchdestinationconfiguration-s3backupmode
+  ElasticsearchDestinationConfigurationS3DestinationConfigurationBucketARN:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-s3destinationconfiguration.html#cfn-kinesisfirehose-deliverystream-s3destinationconfiguration-bucketarn
+  ElasticsearchDestinationConfigurationS3DestinationConfigurationBufferingHintsIntervalInSeconds:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-bufferinghints.html#cfn-kinesisfirehose-deliverystream-bufferinghints-intervalinseconds
+  ElasticsearchDestinationConfigurationS3DestinationConfigurationBufferingHintsSizeInMBs:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-bufferinghints.html#cfn-kinesisfirehose-deliverystream-bufferinghints-sizeinmbs
+  ElasticsearchDestinationConfigurationS3DestinationConfigurationCloudWatchLoggingOptionsEnabled:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-cloudwatchloggingoptions.html#cfn-kinesisfirehose-deliverystream-cloudwatchloggingoptions-enabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  ElasticsearchDestinationConfigurationS3DestinationConfigurationCloudWatchLoggingOptionsLogGroupName:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-cloudwatchloggingoptions.html#cfn-kinesisfirehose-deliverystream-cloudwatchloggingoptions-loggroupname
+    Default: null
+  ElasticsearchDestinationConfigurationS3DestinationConfigurationCloudWatchLoggingOptionsLogStreamName:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-cloudwatchloggingoptions.html#cfn-kinesisfirehose-deliverystream-cloudwatchloggingoptions-logstreamname
+    Default: null
+  ElasticsearchDestinationConfigurationS3DestinationConfigurationCompressionFormat:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-s3destinationconfiguration.html#cfn-kinesisfirehose-deliverystream-s3destinationconfiguration-compressionformat
+  ElasticsearchDestinationConfigurationS3DestinationConfigurationEncryptionConfigurationKMSEncryptionConfigAWSKMSKeyARN:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-kmsencryptionconfig.html#cfn-kinesisfirehose-deliverystream-kmsencryptionconfig-awskmskeyarn
+  ElasticsearchDestinationConfigurationS3DestinationConfigurationEncryptionConfigurationNoEncryptionConfig:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-encryptionconfiguration.html#cfn-kinesisfirehose-deliverystream-encryptionconfiguration-noencryptionconfig
+    Default: null
+  ElasticsearchDestinationConfigurationS3DestinationConfigurationErrorOutputPrefix:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-s3destinationconfiguration.html#cfn-kinesisfirehose-deliverystream-s3destinationconfiguration-erroroutputprefix
+    Default: null
+  ElasticsearchDestinationConfigurationS3DestinationConfigurationPrefix:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-s3destinationconfiguration.html#cfn-kinesisfirehose-deliverystream-s3destinationconfiguration-prefix
+    Default: null
+  ElasticsearchDestinationConfigurationS3DestinationConfigurationRoleARN:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-s3destinationconfiguration.html#cfn-kinesisfirehose-deliverystream-s3destinationconfiguration-rolearn
+  ElasticsearchDestinationConfigurationTypeName:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-elasticsearchdestinationconfiguration.html#cfn-kinesisfirehose-deliverystream-elasticsearchdestinationconfiguration-typename
+  ExtendedS3DestinationConfigurationBucketARN:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-extendeds3destinationconfiguration.html#cfn-kinesisfirehose-deliverystream-extendeds3destinationconfiguration-bucketarn
+  ExtendedS3DestinationConfigurationBufferingHintsIntervalInSeconds:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-bufferinghints.html#cfn-kinesisfirehose-deliverystream-bufferinghints-intervalinseconds
+  ExtendedS3DestinationConfigurationBufferingHintsSizeInMBs:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-bufferinghints.html#cfn-kinesisfirehose-deliverystream-bufferinghints-sizeinmbs
+  ExtendedS3DestinationConfigurationCloudWatchLoggingOptionsEnabled:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-cloudwatchloggingoptions.html#cfn-kinesisfirehose-deliverystream-cloudwatchloggingoptions-enabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  ExtendedS3DestinationConfigurationCloudWatchLoggingOptionsLogGroupName:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-cloudwatchloggingoptions.html#cfn-kinesisfirehose-deliverystream-cloudwatchloggingoptions-loggroupname
+    Default: null
+  ExtendedS3DestinationConfigurationCloudWatchLoggingOptionsLogStreamName:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-cloudwatchloggingoptions.html#cfn-kinesisfirehose-deliverystream-cloudwatchloggingoptions-logstreamname
+    Default: null
+  ExtendedS3DestinationConfigurationCompressionFormat:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-extendeds3destinationconfiguration.html#cfn-kinesisfirehose-deliverystream-extendeds3destinationconfiguration-compressionformat
+  ExtendedS3DestinationConfigurationDataFormatConversionConfigurationEnabled:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-dataformatconversionconfiguration.html#cfn-kinesisfirehose-deliverystream-dataformatconversionconfiguration-enabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+  ? ExtendedS3DestinationConfigurationDataFormatConversionConfigurationInputFormatConfigurationDeserializerOpenXJsonSerDeCaseInsensitive
+  : Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-openxjsonserde.html#cfn-kinesisfirehose-deliverystream-openxjsonserde-caseinsensitive
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  ? ExtendedS3DestinationConfigurationDataFormatConversionConfigurationInputFormatConfigurationDeserializerOpenXJsonSerDeConvertDotsInJsonKeysToUnderscores
+  : Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-openxjsonserde.html#cfn-kinesisfirehose-deliverystream-openxjsonserde-convertdotsinjsonkeystounderscores
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  ? ExtendedS3DestinationConfigurationDataFormatConversionConfigurationOutputFormatConfigurationSerializerOrcSerDeBlockSizeBytes
+  : Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-orcserde.html#cfn-kinesisfirehose-deliverystream-orcserde-blocksizebytes
+    Default: null
+  ? ExtendedS3DestinationConfigurationDataFormatConversionConfigurationOutputFormatConfigurationSerializerOrcSerDeBloomFilterFalsePositiveProbability
+  : Type: Double
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-orcserde.html#cfn-kinesisfirehose-deliverystream-orcserde-bloomfilterfalsepositiveprobability
+    Default: null
+  ExtendedS3DestinationConfigurationDataFormatConversionConfigurationOutputFormatConfigurationSerializerOrcSerDeCompression:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-orcserde.html#cfn-kinesisfirehose-deliverystream-orcserde-compression
+    Default: null
+  ? ExtendedS3DestinationConfigurationDataFormatConversionConfigurationOutputFormatConfigurationSerializerOrcSerDeDictionaryKeyThreshold
+  : Type: Double
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-orcserde.html#cfn-kinesisfirehose-deliverystream-orcserde-dictionarykeythreshold
+    Default: null
+  ? ExtendedS3DestinationConfigurationDataFormatConversionConfigurationOutputFormatConfigurationSerializerOrcSerDeEnablePadding
+  : Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-orcserde.html#cfn-kinesisfirehose-deliverystream-orcserde-enablepadding
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  ? ExtendedS3DestinationConfigurationDataFormatConversionConfigurationOutputFormatConfigurationSerializerOrcSerDeFormatVersion
+  : Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-orcserde.html#cfn-kinesisfirehose-deliverystream-orcserde-formatversion
+    Default: null
+  ? ExtendedS3DestinationConfigurationDataFormatConversionConfigurationOutputFormatConfigurationSerializerOrcSerDePaddingTolerance
+  : Type: Double
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-orcserde.html#cfn-kinesisfirehose-deliverystream-orcserde-paddingtolerance
+    Default: null
+  ? ExtendedS3DestinationConfigurationDataFormatConversionConfigurationOutputFormatConfigurationSerializerOrcSerDeRowIndexStride
+  : Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-orcserde.html#cfn-kinesisfirehose-deliverystream-orcserde-rowindexstride
+    Default: null
+  ? ExtendedS3DestinationConfigurationDataFormatConversionConfigurationOutputFormatConfigurationSerializerOrcSerDeStripeSizeBytes
+  : Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-orcserde.html#cfn-kinesisfirehose-deliverystream-orcserde-stripesizebytes
+    Default: null
+  ? ExtendedS3DestinationConfigurationDataFormatConversionConfigurationOutputFormatConfigurationSerializerParquetSerDeBlockSizeBytes
+  : Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-parquetserde.html#cfn-kinesisfirehose-deliverystream-parquetserde-blocksizebytes
+    Default: null
+  ? ExtendedS3DestinationConfigurationDataFormatConversionConfigurationOutputFormatConfigurationSerializerParquetSerDeCompression
+  : Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-parquetserde.html#cfn-kinesisfirehose-deliverystream-parquetserde-compression
+    Default: null
+  ? ExtendedS3DestinationConfigurationDataFormatConversionConfigurationOutputFormatConfigurationSerializerParquetSerDeEnableDictionaryCompression
+  : Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-parquetserde.html#cfn-kinesisfirehose-deliverystream-parquetserde-enabledictionarycompression
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  ? ExtendedS3DestinationConfigurationDataFormatConversionConfigurationOutputFormatConfigurationSerializerParquetSerDeMaxPaddingBytes
+  : Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-parquetserde.html#cfn-kinesisfirehose-deliverystream-parquetserde-maxpaddingbytes
+    Default: null
+  ? ExtendedS3DestinationConfigurationDataFormatConversionConfigurationOutputFormatConfigurationSerializerParquetSerDePageSizeBytes
+  : Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-parquetserde.html#cfn-kinesisfirehose-deliverystream-parquetserde-pagesizebytes
+    Default: null
+  ? ExtendedS3DestinationConfigurationDataFormatConversionConfigurationOutputFormatConfigurationSerializerParquetSerDeWriterVersion
+  : Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-parquetserde.html#cfn-kinesisfirehose-deliverystream-parquetserde-writerversion
+    Default: null
+  ExtendedS3DestinationConfigurationDataFormatConversionConfigurationSchemaConfigurationCatalogId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-schemaconfiguration.html#cfn-kinesisfirehose-deliverystream-schemaconfiguration-catalogid
+  ExtendedS3DestinationConfigurationDataFormatConversionConfigurationSchemaConfigurationDatabaseName:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-schemaconfiguration.html#cfn-kinesisfirehose-deliverystream-schemaconfiguration-databasename
+  ExtendedS3DestinationConfigurationDataFormatConversionConfigurationSchemaConfigurationRegion:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-schemaconfiguration.html#cfn-kinesisfirehose-deliverystream-schemaconfiguration-region
+  ExtendedS3DestinationConfigurationDataFormatConversionConfigurationSchemaConfigurationRoleARN:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-schemaconfiguration.html#cfn-kinesisfirehose-deliverystream-schemaconfiguration-rolearn
+  ExtendedS3DestinationConfigurationDataFormatConversionConfigurationSchemaConfigurationTableName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-schemaconfiguration.html#cfn-kinesisfirehose-deliverystream-schemaconfiguration-tablename
+  ExtendedS3DestinationConfigurationDataFormatConversionConfigurationSchemaConfigurationVersionId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-schemaconfiguration.html#cfn-kinesisfirehose-deliverystream-schemaconfiguration-versionid
+  ExtendedS3DestinationConfigurationEncryptionConfigurationKMSEncryptionConfigAWSKMSKeyARN:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-kmsencryptionconfig.html#cfn-kinesisfirehose-deliverystream-kmsencryptionconfig-awskmskeyarn
+  ExtendedS3DestinationConfigurationEncryptionConfigurationNoEncryptionConfig:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-encryptionconfiguration.html#cfn-kinesisfirehose-deliverystream-encryptionconfiguration-noencryptionconfig
+    Default: null
+  ExtendedS3DestinationConfigurationErrorOutputPrefix:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-extendeds3destinationconfiguration.html#cfn-kinesisfirehose-deliverystream-extendeds3destinationconfiguration-erroroutputprefix
+    Default: null
+  ExtendedS3DestinationConfigurationPrefix:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-extendeds3destinationconfiguration.html#cfn-kinesisfirehose-deliverystream-extendeds3destinationconfiguration-prefix
+    Default: null
+  ExtendedS3DestinationConfigurationProcessingConfigurationEnabled:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-processingconfiguration.html#cfn-kinesisfirehose-deliverystream-processingconfiguration-enabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  ExtendedS3DestinationConfigurationRoleARN:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-extendeds3destinationconfiguration.html#cfn-kinesisfirehose-deliverystream-extendeds3destinationconfiguration-rolearn
+  ExtendedS3DestinationConfigurationS3DestinationConfigurationBucketARN:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-s3destinationconfiguration.html#cfn-kinesisfirehose-deliverystream-s3destinationconfiguration-bucketarn
+  ExtendedS3DestinationConfigurationS3DestinationConfigurationBufferingHintsIntervalInSeconds:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-bufferinghints.html#cfn-kinesisfirehose-deliverystream-bufferinghints-intervalinseconds
+  ExtendedS3DestinationConfigurationS3DestinationConfigurationBufferingHintsSizeInMBs:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-bufferinghints.html#cfn-kinesisfirehose-deliverystream-bufferinghints-sizeinmbs
+  ExtendedS3DestinationConfigurationS3DestinationConfigurationCloudWatchLoggingOptionsEnabled:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-cloudwatchloggingoptions.html#cfn-kinesisfirehose-deliverystream-cloudwatchloggingoptions-enabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  ExtendedS3DestinationConfigurationS3DestinationConfigurationCloudWatchLoggingOptionsLogGroupName:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-cloudwatchloggingoptions.html#cfn-kinesisfirehose-deliverystream-cloudwatchloggingoptions-loggroupname
+    Default: null
+  ExtendedS3DestinationConfigurationS3DestinationConfigurationCloudWatchLoggingOptionsLogStreamName:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-cloudwatchloggingoptions.html#cfn-kinesisfirehose-deliverystream-cloudwatchloggingoptions-logstreamname
+    Default: null
+  ExtendedS3DestinationConfigurationS3DestinationConfigurationCompressionFormat:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-s3destinationconfiguration.html#cfn-kinesisfirehose-deliverystream-s3destinationconfiguration-compressionformat
+  ExtendedS3DestinationConfigurationS3DestinationConfigurationEncryptionConfigurationKMSEncryptionConfigAWSKMSKeyARN:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-kmsencryptionconfig.html#cfn-kinesisfirehose-deliverystream-kmsencryptionconfig-awskmskeyarn
+  ExtendedS3DestinationConfigurationS3DestinationConfigurationEncryptionConfigurationNoEncryptionConfig:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-encryptionconfiguration.html#cfn-kinesisfirehose-deliverystream-encryptionconfiguration-noencryptionconfig
+    Default: null
+  ExtendedS3DestinationConfigurationS3DestinationConfigurationErrorOutputPrefix:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-s3destinationconfiguration.html#cfn-kinesisfirehose-deliverystream-s3destinationconfiguration-erroroutputprefix
+    Default: null
+  ExtendedS3DestinationConfigurationS3DestinationConfigurationPrefix:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-s3destinationconfiguration.html#cfn-kinesisfirehose-deliverystream-s3destinationconfiguration-prefix
+    Default: null
+  ExtendedS3DestinationConfigurationS3DestinationConfigurationRoleARN:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-s3destinationconfiguration.html#cfn-kinesisfirehose-deliverystream-s3destinationconfiguration-rolearn
+  ExtendedS3DestinationConfigurationS3BackupMode:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-extendeds3destinationconfiguration.html#cfn-kinesisfirehose-deliverystream-extendeds3destinationconfiguration-s3backupmode
+    Default: null
+  KinesisStreamSourceConfigurationKinesisStreamARN:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-kinesisstreamsourceconfiguration.html#cfn-kinesisfirehose-deliverystream-kinesisstreamsourceconfiguration-kinesisstreamarn
+  KinesisStreamSourceConfigurationRoleARN:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-kinesisstreamsourceconfiguration.html#cfn-kinesisfirehose-deliverystream-kinesisstreamsourceconfiguration-rolearn
+  RedshiftDestinationConfigurationCloudWatchLoggingOptionsEnabled:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-cloudwatchloggingoptions.html#cfn-kinesisfirehose-deliverystream-cloudwatchloggingoptions-enabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  RedshiftDestinationConfigurationCloudWatchLoggingOptionsLogGroupName:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-cloudwatchloggingoptions.html#cfn-kinesisfirehose-deliverystream-cloudwatchloggingoptions-loggroupname
+    Default: null
+  RedshiftDestinationConfigurationCloudWatchLoggingOptionsLogStreamName:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-cloudwatchloggingoptions.html#cfn-kinesisfirehose-deliverystream-cloudwatchloggingoptions-logstreamname
+    Default: null
+  RedshiftDestinationConfigurationClusterJDBCURL:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-redshiftdestinationconfiguration.html#cfn-kinesisfirehose-deliverystream-redshiftdestinationconfiguration-clusterjdbcurl
+  RedshiftDestinationConfigurationCopyCommandCopyOptions:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-copycommand.html#cfn-kinesisfirehose-deliverystream-copycommand-copyoptions
+    Default: null
+  RedshiftDestinationConfigurationCopyCommandDataTableColumns:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-copycommand.html#cfn-kinesisfirehose-deliverystream-copycommand-datatablecolumns
+    Default: null
+  RedshiftDestinationConfigurationCopyCommandDataTableName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-copycommand.html#cfn-kinesisfirehose-deliverystream-copycommand-datatablename
+  RedshiftDestinationConfigurationPassword:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-redshiftdestinationconfiguration.html#cfn-kinesisfirehose-deliverystream-redshiftdestinationconfiguration-password
+  RedshiftDestinationConfigurationProcessingConfigurationEnabled:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-processingconfiguration.html#cfn-kinesisfirehose-deliverystream-processingconfiguration-enabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  RedshiftDestinationConfigurationRoleARN:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-redshiftdestinationconfiguration.html#cfn-kinesisfirehose-deliverystream-redshiftdestinationconfiguration-rolearn
+  RedshiftDestinationConfigurationS3DestinationConfigurationBucketARN:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-s3destinationconfiguration.html#cfn-kinesisfirehose-deliverystream-s3destinationconfiguration-bucketarn
+  RedshiftDestinationConfigurationS3DestinationConfigurationBufferingHintsIntervalInSeconds:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-bufferinghints.html#cfn-kinesisfirehose-deliverystream-bufferinghints-intervalinseconds
+  RedshiftDestinationConfigurationS3DestinationConfigurationBufferingHintsSizeInMBs:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-bufferinghints.html#cfn-kinesisfirehose-deliverystream-bufferinghints-sizeinmbs
+  RedshiftDestinationConfigurationS3DestinationConfigurationCloudWatchLoggingOptionsEnabled:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-cloudwatchloggingoptions.html#cfn-kinesisfirehose-deliverystream-cloudwatchloggingoptions-enabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  RedshiftDestinationConfigurationS3DestinationConfigurationCloudWatchLoggingOptionsLogGroupName:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-cloudwatchloggingoptions.html#cfn-kinesisfirehose-deliverystream-cloudwatchloggingoptions-loggroupname
+    Default: null
+  RedshiftDestinationConfigurationS3DestinationConfigurationCloudWatchLoggingOptionsLogStreamName:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-cloudwatchloggingoptions.html#cfn-kinesisfirehose-deliverystream-cloudwatchloggingoptions-logstreamname
+    Default: null
+  RedshiftDestinationConfigurationS3DestinationConfigurationCompressionFormat:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-s3destinationconfiguration.html#cfn-kinesisfirehose-deliverystream-s3destinationconfiguration-compressionformat
+  RedshiftDestinationConfigurationS3DestinationConfigurationEncryptionConfigurationKMSEncryptionConfigAWSKMSKeyARN:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-kmsencryptionconfig.html#cfn-kinesisfirehose-deliverystream-kmsencryptionconfig-awskmskeyarn
+  RedshiftDestinationConfigurationS3DestinationConfigurationEncryptionConfigurationNoEncryptionConfig:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-encryptionconfiguration.html#cfn-kinesisfirehose-deliverystream-encryptionconfiguration-noencryptionconfig
+    Default: null
+  RedshiftDestinationConfigurationS3DestinationConfigurationErrorOutputPrefix:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-s3destinationconfiguration.html#cfn-kinesisfirehose-deliverystream-s3destinationconfiguration-erroroutputprefix
+    Default: null
+  RedshiftDestinationConfigurationS3DestinationConfigurationPrefix:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-s3destinationconfiguration.html#cfn-kinesisfirehose-deliverystream-s3destinationconfiguration-prefix
+    Default: null
+  RedshiftDestinationConfigurationS3DestinationConfigurationRoleARN:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-s3destinationconfiguration.html#cfn-kinesisfirehose-deliverystream-s3destinationconfiguration-rolearn
+  RedshiftDestinationConfigurationUsername:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-redshiftdestinationconfiguration.html#cfn-kinesisfirehose-deliverystream-redshiftdestinationconfiguration-username
+  S3DestinationConfigurationBucketARN:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-s3destinationconfiguration.html#cfn-kinesisfirehose-deliverystream-s3destinationconfiguration-bucketarn
+  S3DestinationConfigurationBufferingHintsIntervalInSeconds:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-bufferinghints.html#cfn-kinesisfirehose-deliverystream-bufferinghints-intervalinseconds
+  S3DestinationConfigurationBufferingHintsSizeInMBs:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-bufferinghints.html#cfn-kinesisfirehose-deliverystream-bufferinghints-sizeinmbs
+  S3DestinationConfigurationCloudWatchLoggingOptionsEnabled:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-cloudwatchloggingoptions.html#cfn-kinesisfirehose-deliverystream-cloudwatchloggingoptions-enabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  S3DestinationConfigurationCloudWatchLoggingOptionsLogGroupName:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-cloudwatchloggingoptions.html#cfn-kinesisfirehose-deliverystream-cloudwatchloggingoptions-loggroupname
+    Default: null
+  S3DestinationConfigurationCloudWatchLoggingOptionsLogStreamName:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-cloudwatchloggingoptions.html#cfn-kinesisfirehose-deliverystream-cloudwatchloggingoptions-logstreamname
+    Default: null
+  S3DestinationConfigurationCompressionFormat:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-s3destinationconfiguration.html#cfn-kinesisfirehose-deliverystream-s3destinationconfiguration-compressionformat
+  S3DestinationConfigurationEncryptionConfigurationKMSEncryptionConfigAWSKMSKeyARN:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-kmsencryptionconfig.html#cfn-kinesisfirehose-deliverystream-kmsencryptionconfig-awskmskeyarn
+  S3DestinationConfigurationEncryptionConfigurationNoEncryptionConfig:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-encryptionconfiguration.html#cfn-kinesisfirehose-deliverystream-encryptionconfiguration-noencryptionconfig
+    Default: null
+  S3DestinationConfigurationErrorOutputPrefix:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-s3destinationconfiguration.html#cfn-kinesisfirehose-deliverystream-s3destinationconfiguration-erroroutputprefix
+    Default: null
+  S3DestinationConfigurationPrefix:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-s3destinationconfiguration.html#cfn-kinesisfirehose-deliverystream-s3destinationconfiguration-prefix
+    Default: null
+  S3DestinationConfigurationRoleARN:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-s3destinationconfiguration.html#cfn-kinesisfirehose-deliverystream-s3destinationconfiguration-rolearn
+  SplunkDestinationConfigurationCloudWatchLoggingOptionsEnabled:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-cloudwatchloggingoptions.html#cfn-kinesisfirehose-deliverystream-cloudwatchloggingoptions-enabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  SplunkDestinationConfigurationCloudWatchLoggingOptionsLogGroupName:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-cloudwatchloggingoptions.html#cfn-kinesisfirehose-deliverystream-cloudwatchloggingoptions-loggroupname
+    Default: null
+  SplunkDestinationConfigurationCloudWatchLoggingOptionsLogStreamName:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-cloudwatchloggingoptions.html#cfn-kinesisfirehose-deliverystream-cloudwatchloggingoptions-logstreamname
+    Default: null
+  SplunkDestinationConfigurationHECAcknowledgmentTimeoutInSeconds:
+    Type: Number
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-splunkdestinationconfiguration.html#cfn-kinesisfirehose-deliverystream-splunkdestinationconfiguration-hecacknowledgmenttimeoutinseconds
+    Default: null
+  SplunkDestinationConfigurationHECEndpoint:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-splunkdestinationconfiguration.html#cfn-kinesisfirehose-deliverystream-splunkdestinationconfiguration-hecendpoint
+  SplunkDestinationConfigurationHECEndpointType:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-splunkdestinationconfiguration.html#cfn-kinesisfirehose-deliverystream-splunkdestinationconfiguration-hecendpointtype
+  SplunkDestinationConfigurationHECToken:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-splunkdestinationconfiguration.html#cfn-kinesisfirehose-deliverystream-splunkdestinationconfiguration-hectoken
+  SplunkDestinationConfigurationProcessingConfigurationEnabled:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-processingconfiguration.html#cfn-kinesisfirehose-deliverystream-processingconfiguration-enabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  SplunkDestinationConfigurationSplunkRetryOptionsDurationInSeconds:
+    Type: Number
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-splunkretryoptions.html#cfn-kinesisfirehose-deliverystream-splunkretryoptions-durationinseconds
+  SplunkDestinationConfigurationS3BackupMode:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-splunkdestinationconfiguration.html#cfn-kinesisfirehose-deliverystream-splunkdestinationconfiguration-s3backupmode
+    Default: null
+  SplunkDestinationConfigurationS3DestinationConfigurationBucketARN:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-s3destinationconfiguration.html#cfn-kinesisfirehose-deliverystream-s3destinationconfiguration-bucketarn
+  SplunkDestinationConfigurationS3DestinationConfigurationBufferingHintsIntervalInSeconds:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-bufferinghints.html#cfn-kinesisfirehose-deliverystream-bufferinghints-intervalinseconds
+  SplunkDestinationConfigurationS3DestinationConfigurationBufferingHintsSizeInMBs:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-bufferinghints.html#cfn-kinesisfirehose-deliverystream-bufferinghints-sizeinmbs
+  SplunkDestinationConfigurationS3DestinationConfigurationCloudWatchLoggingOptionsEnabled:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-cloudwatchloggingoptions.html#cfn-kinesisfirehose-deliverystream-cloudwatchloggingoptions-enabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  SplunkDestinationConfigurationS3DestinationConfigurationCloudWatchLoggingOptionsLogGroupName:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-cloudwatchloggingoptions.html#cfn-kinesisfirehose-deliverystream-cloudwatchloggingoptions-loggroupname
+    Default: null
+  SplunkDestinationConfigurationS3DestinationConfigurationCloudWatchLoggingOptionsLogStreamName:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-cloudwatchloggingoptions.html#cfn-kinesisfirehose-deliverystream-cloudwatchloggingoptions-logstreamname
+    Default: null
+  SplunkDestinationConfigurationS3DestinationConfigurationCompressionFormat:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-s3destinationconfiguration.html#cfn-kinesisfirehose-deliverystream-s3destinationconfiguration-compressionformat
+  SplunkDestinationConfigurationS3DestinationConfigurationEncryptionConfigurationKMSEncryptionConfigAWSKMSKeyARN:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-kmsencryptionconfig.html#cfn-kinesisfirehose-deliverystream-kmsencryptionconfig-awskmskeyarn
+  SplunkDestinationConfigurationS3DestinationConfigurationEncryptionConfigurationNoEncryptionConfig:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-encryptionconfiguration.html#cfn-kinesisfirehose-deliverystream-encryptionconfiguration-noencryptionconfig
+    Default: null
+  SplunkDestinationConfigurationS3DestinationConfigurationErrorOutputPrefix:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-s3destinationconfiguration.html#cfn-kinesisfirehose-deliverystream-s3destinationconfiguration-erroroutputprefix
+    Default: null
+  SplunkDestinationConfigurationS3DestinationConfigurationPrefix:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-s3destinationconfiguration.html#cfn-kinesisfirehose-deliverystream-s3destinationconfiguration-prefix
+    Default: null
+  SplunkDestinationConfigurationS3DestinationConfigurationRoleARN:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-s3destinationconfiguration.html#cfn-kinesisfirehose-deliverystream-s3destinationconfiguration-rolearn
+Resources:
+  Resource:
+    Type: AWS::KinesisFirehose::DeliveryStream
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-kinesisfirehose-deliverystream.html
+    Properties:
+      DeliveryStreamName: !Ref 'DeliveryStreamName'
+      DeliveryStreamType: !Ref 'DeliveryStreamType'
+      ElasticsearchDestinationConfiguration:
+        BufferingHints:
+          IntervalInSeconds: !Ref 'ElasticsearchDestinationConfigurationElasticsearchBufferingHintsIntervalInSeconds'
+          SizeInMBs: !Ref 'ElasticsearchDestinationConfigurationElasticsearchBufferingHintsSizeInMBs'
+        CloudWatchLoggingOptions:
+          Enabled: !Ref 'ElasticsearchDestinationConfigurationCloudWatchLoggingOptionsEnabled'
+          LogGroupName: !Ref 'ElasticsearchDestinationConfigurationCloudWatchLoggingOptionsLogGroupName'
+          LogStreamName: !Ref 'ElasticsearchDestinationConfigurationCloudWatchLoggingOptionsLogStreamName'
+        DomainARN: !Ref 'ElasticsearchDestinationConfigurationDomainARN'
+        IndexName: !Ref 'ElasticsearchDestinationConfigurationIndexName'
+        IndexRotationPeriod: !Ref 'ElasticsearchDestinationConfigurationIndexRotationPeriod'
+        ProcessingConfiguration:
+          Enabled: !Ref 'ElasticsearchDestinationConfigurationProcessingConfigurationEnabled'
+        RetryOptions:
+          DurationInSeconds: !Ref 'ElasticsearchDestinationConfigurationElasticsearchRetryOptionsDurationInSeconds'
+        RoleARN: !Ref 'ElasticsearchDestinationConfigurationRoleARN'
+        S3BackupMode: !Ref 'ElasticsearchDestinationConfigurationS3BackupMode'
+        S3Configuration:
+          BucketARN: !Ref 'ElasticsearchDestinationConfigurationS3DestinationConfigurationBucketARN'
+          BufferingHints:
+            IntervalInSeconds: !Ref 'ElasticsearchDestinationConfigurationS3DestinationConfigurationBufferingHintsIntervalInSeconds'
+            SizeInMBs: !Ref 'ElasticsearchDestinationConfigurationS3DestinationConfigurationBufferingHintsSizeInMBs'
+          CloudWatchLoggingOptions:
+            Enabled: !Ref 'ElasticsearchDestinationConfigurationS3DestinationConfigurationCloudWatchLoggingOptionsEnabled'
+            LogGroupName: !Ref 'ElasticsearchDestinationConfigurationS3DestinationConfigurationCloudWatchLoggingOptionsLogGroupName'
+            LogStreamName: !Ref 'ElasticsearchDestinationConfigurationS3DestinationConfigurationCloudWatchLoggingOptionsLogStreamName'
+          CompressionFormat: !Ref 'ElasticsearchDestinationConfigurationS3DestinationConfigurationCompressionFormat'
+          EncryptionConfiguration:
+            KMSEncryptionConfig:
+              AWSKMSKeyARN: !Ref 'ElasticsearchDestinationConfigurationS3DestinationConfigurationEncryptionConfigurationKMSEncryptionConfigAWSKMSKeyARN'
+            NoEncryptionConfig: !Ref 'ElasticsearchDestinationConfigurationS3DestinationConfigurationEncryptionConfigurationNoEncryptionConfig'
+          ErrorOutputPrefix: !Ref 'ElasticsearchDestinationConfigurationS3DestinationConfigurationErrorOutputPrefix'
+          Prefix: !Ref 'ElasticsearchDestinationConfigurationS3DestinationConfigurationPrefix'
+          RoleARN: !Ref 'ElasticsearchDestinationConfigurationS3DestinationConfigurationRoleARN'
+        TypeName: !Ref 'ElasticsearchDestinationConfigurationTypeName'
+      ExtendedS3DestinationConfiguration:
+        BucketARN: !Ref 'ExtendedS3DestinationConfigurationBucketARN'
+        BufferingHints:
+          IntervalInSeconds: !Ref 'ExtendedS3DestinationConfigurationBufferingHintsIntervalInSeconds'
+          SizeInMBs: !Ref 'ExtendedS3DestinationConfigurationBufferingHintsSizeInMBs'
+        CloudWatchLoggingOptions:
+          Enabled: !Ref 'ExtendedS3DestinationConfigurationCloudWatchLoggingOptionsEnabled'
+          LogGroupName: !Ref 'ExtendedS3DestinationConfigurationCloudWatchLoggingOptionsLogGroupName'
+          LogStreamName: !Ref 'ExtendedS3DestinationConfigurationCloudWatchLoggingOptionsLogStreamName'
+        CompressionFormat: !Ref 'ExtendedS3DestinationConfigurationCompressionFormat'
+        DataFormatConversionConfiguration:
+          Enabled: !Ref 'ExtendedS3DestinationConfigurationDataFormatConversionConfigurationEnabled'
+          InputFormatConfiguration:
+            Deserializer:
+              HiveJsonSerDe: {}
+              OpenXJsonSerDe:
+                CaseInsensitive: !Ref 'ExtendedS3DestinationConfigurationDataFormatConversionConfigurationInputFormatConfigurationDeserializerOpenXJsonSerDeCaseInsensitive'
+                ConvertDotsInJsonKeysToUnderscores: !Ref 'ExtendedS3DestinationConfigurationDataFormatConversionConfigurationInputFormatConfigurationDeserializerOpenXJsonSerDeConvertDotsInJsonKeysToUnderscores'
+          OutputFormatConfiguration:
+            Serializer:
+              OrcSerDe:
+                BlockSizeBytes: !Ref 'ExtendedS3DestinationConfigurationDataFormatConversionConfigurationOutputFormatConfigurationSerializerOrcSerDeBlockSizeBytes'
+                BloomFilterFalsePositiveProbability: !Ref 'ExtendedS3DestinationConfigurationDataFormatConversionConfigurationOutputFormatConfigurationSerializerOrcSerDeBloomFilterFalsePositiveProbability'
+                Compression: !Ref 'ExtendedS3DestinationConfigurationDataFormatConversionConfigurationOutputFormatConfigurationSerializerOrcSerDeCompression'
+                DictionaryKeyThreshold: !Ref 'ExtendedS3DestinationConfigurationDataFormatConversionConfigurationOutputFormatConfigurationSerializerOrcSerDeDictionaryKeyThreshold'
+                EnablePadding: !Ref 'ExtendedS3DestinationConfigurationDataFormatConversionConfigurationOutputFormatConfigurationSerializerOrcSerDeEnablePadding'
+                FormatVersion: !Ref 'ExtendedS3DestinationConfigurationDataFormatConversionConfigurationOutputFormatConfigurationSerializerOrcSerDeFormatVersion'
+                PaddingTolerance: !Ref 'ExtendedS3DestinationConfigurationDataFormatConversionConfigurationOutputFormatConfigurationSerializerOrcSerDePaddingTolerance'
+                RowIndexStride: !Ref 'ExtendedS3DestinationConfigurationDataFormatConversionConfigurationOutputFormatConfigurationSerializerOrcSerDeRowIndexStride'
+                StripeSizeBytes: !Ref 'ExtendedS3DestinationConfigurationDataFormatConversionConfigurationOutputFormatConfigurationSerializerOrcSerDeStripeSizeBytes'
+              ParquetSerDe:
+                BlockSizeBytes: !Ref 'ExtendedS3DestinationConfigurationDataFormatConversionConfigurationOutputFormatConfigurationSerializerParquetSerDeBlockSizeBytes'
+                Compression: !Ref 'ExtendedS3DestinationConfigurationDataFormatConversionConfigurationOutputFormatConfigurationSerializerParquetSerDeCompression'
+                EnableDictionaryCompression: !Ref 'ExtendedS3DestinationConfigurationDataFormatConversionConfigurationOutputFormatConfigurationSerializerParquetSerDeEnableDictionaryCompression'
+                MaxPaddingBytes: !Ref 'ExtendedS3DestinationConfigurationDataFormatConversionConfigurationOutputFormatConfigurationSerializerParquetSerDeMaxPaddingBytes'
+                PageSizeBytes: !Ref 'ExtendedS3DestinationConfigurationDataFormatConversionConfigurationOutputFormatConfigurationSerializerParquetSerDePageSizeBytes'
+                WriterVersion: !Ref 'ExtendedS3DestinationConfigurationDataFormatConversionConfigurationOutputFormatConfigurationSerializerParquetSerDeWriterVersion'
+          SchemaConfiguration:
+            CatalogId: !Ref 'ExtendedS3DestinationConfigurationDataFormatConversionConfigurationSchemaConfigurationCatalogId'
+            DatabaseName: !Ref 'ExtendedS3DestinationConfigurationDataFormatConversionConfigurationSchemaConfigurationDatabaseName'
+            Region: !Ref 'ExtendedS3DestinationConfigurationDataFormatConversionConfigurationSchemaConfigurationRegion'
+            RoleARN: !Ref 'ExtendedS3DestinationConfigurationDataFormatConversionConfigurationSchemaConfigurationRoleARN'
+            TableName: !Ref 'ExtendedS3DestinationConfigurationDataFormatConversionConfigurationSchemaConfigurationTableName'
+            VersionId: !Ref 'ExtendedS3DestinationConfigurationDataFormatConversionConfigurationSchemaConfigurationVersionId'
+        EncryptionConfiguration:
+          KMSEncryptionConfig:
+            AWSKMSKeyARN: !Ref 'ExtendedS3DestinationConfigurationEncryptionConfigurationKMSEncryptionConfigAWSKMSKeyARN'
+          NoEncryptionConfig: !Ref 'ExtendedS3DestinationConfigurationEncryptionConfigurationNoEncryptionConfig'
+        ErrorOutputPrefix: !Ref 'ExtendedS3DestinationConfigurationErrorOutputPrefix'
+        Prefix: !Ref 'ExtendedS3DestinationConfigurationPrefix'
+        ProcessingConfiguration:
+          Enabled: !Ref 'ExtendedS3DestinationConfigurationProcessingConfigurationEnabled'
+        RoleARN: !Ref 'ExtendedS3DestinationConfigurationRoleARN'
+        S3BackupConfiguration:
+          BucketARN: !Ref 'ExtendedS3DestinationConfigurationS3DestinationConfigurationBucketARN'
+          BufferingHints:
+            IntervalInSeconds: !Ref 'ExtendedS3DestinationConfigurationS3DestinationConfigurationBufferingHintsIntervalInSeconds'
+            SizeInMBs: !Ref 'ExtendedS3DestinationConfigurationS3DestinationConfigurationBufferingHintsSizeInMBs'
+          CloudWatchLoggingOptions:
+            Enabled: !Ref 'ExtendedS3DestinationConfigurationS3DestinationConfigurationCloudWatchLoggingOptionsEnabled'
+            LogGroupName: !Ref 'ExtendedS3DestinationConfigurationS3DestinationConfigurationCloudWatchLoggingOptionsLogGroupName'
+            LogStreamName: !Ref 'ExtendedS3DestinationConfigurationS3DestinationConfigurationCloudWatchLoggingOptionsLogStreamName'
+          CompressionFormat: !Ref 'ExtendedS3DestinationConfigurationS3DestinationConfigurationCompressionFormat'
+          EncryptionConfiguration:
+            KMSEncryptionConfig:
+              AWSKMSKeyARN: !Ref 'ExtendedS3DestinationConfigurationS3DestinationConfigurationEncryptionConfigurationKMSEncryptionConfigAWSKMSKeyARN'
+            NoEncryptionConfig: !Ref 'ExtendedS3DestinationConfigurationS3DestinationConfigurationEncryptionConfigurationNoEncryptionConfig'
+          ErrorOutputPrefix: !Ref 'ExtendedS3DestinationConfigurationS3DestinationConfigurationErrorOutputPrefix'
+          Prefix: !Ref 'ExtendedS3DestinationConfigurationS3DestinationConfigurationPrefix'
+          RoleARN: !Ref 'ExtendedS3DestinationConfigurationS3DestinationConfigurationRoleARN'
+        S3BackupMode: !Ref 'ExtendedS3DestinationConfigurationS3BackupMode'
+      KinesisStreamSourceConfiguration:
+        KinesisStreamARN: !Ref 'KinesisStreamSourceConfigurationKinesisStreamARN'
+        RoleARN: !Ref 'KinesisStreamSourceConfigurationRoleARN'
+      RedshiftDestinationConfiguration:
+        CloudWatchLoggingOptions:
+          Enabled: !Ref 'RedshiftDestinationConfigurationCloudWatchLoggingOptionsEnabled'
+          LogGroupName: !Ref 'RedshiftDestinationConfigurationCloudWatchLoggingOptionsLogGroupName'
+          LogStreamName: !Ref 'RedshiftDestinationConfigurationCloudWatchLoggingOptionsLogStreamName'
+        ClusterJDBCURL: !Ref 'RedshiftDestinationConfigurationClusterJDBCURL'
+        CopyCommand:
+          CopyOptions: !Ref 'RedshiftDestinationConfigurationCopyCommandCopyOptions'
+          DataTableColumns: !Ref 'RedshiftDestinationConfigurationCopyCommandDataTableColumns'
+          DataTableName: !Ref 'RedshiftDestinationConfigurationCopyCommandDataTableName'
+        Password: !Ref 'RedshiftDestinationConfigurationPassword'
+        ProcessingConfiguration:
+          Enabled: !Ref 'RedshiftDestinationConfigurationProcessingConfigurationEnabled'
+        RoleARN: !Ref 'RedshiftDestinationConfigurationRoleARN'
+        S3Configuration:
+          BucketARN: !Ref 'RedshiftDestinationConfigurationS3DestinationConfigurationBucketARN'
+          BufferingHints:
+            IntervalInSeconds: !Ref 'RedshiftDestinationConfigurationS3DestinationConfigurationBufferingHintsIntervalInSeconds'
+            SizeInMBs: !Ref 'RedshiftDestinationConfigurationS3DestinationConfigurationBufferingHintsSizeInMBs'
+          CloudWatchLoggingOptions:
+            Enabled: !Ref 'RedshiftDestinationConfigurationS3DestinationConfigurationCloudWatchLoggingOptionsEnabled'
+            LogGroupName: !Ref 'RedshiftDestinationConfigurationS3DestinationConfigurationCloudWatchLoggingOptionsLogGroupName'
+            LogStreamName: !Ref 'RedshiftDestinationConfigurationS3DestinationConfigurationCloudWatchLoggingOptionsLogStreamName'
+          CompressionFormat: !Ref 'RedshiftDestinationConfigurationS3DestinationConfigurationCompressionFormat'
+          EncryptionConfiguration:
+            KMSEncryptionConfig:
+              AWSKMSKeyARN: !Ref 'RedshiftDestinationConfigurationS3DestinationConfigurationEncryptionConfigurationKMSEncryptionConfigAWSKMSKeyARN'
+            NoEncryptionConfig: !Ref 'RedshiftDestinationConfigurationS3DestinationConfigurationEncryptionConfigurationNoEncryptionConfig'
+          ErrorOutputPrefix: !Ref 'RedshiftDestinationConfigurationS3DestinationConfigurationErrorOutputPrefix'
+          Prefix: !Ref 'RedshiftDestinationConfigurationS3DestinationConfigurationPrefix'
+          RoleARN: !Ref 'RedshiftDestinationConfigurationS3DestinationConfigurationRoleARN'
+        Username: !Ref 'RedshiftDestinationConfigurationUsername'
+      S3DestinationConfiguration:
+        BucketARN: !Ref 'S3DestinationConfigurationBucketARN'
+        BufferingHints:
+          IntervalInSeconds: !Ref 'S3DestinationConfigurationBufferingHintsIntervalInSeconds'
+          SizeInMBs: !Ref 'S3DestinationConfigurationBufferingHintsSizeInMBs'
+        CloudWatchLoggingOptions:
+          Enabled: !Ref 'S3DestinationConfigurationCloudWatchLoggingOptionsEnabled'
+          LogGroupName: !Ref 'S3DestinationConfigurationCloudWatchLoggingOptionsLogGroupName'
+          LogStreamName: !Ref 'S3DestinationConfigurationCloudWatchLoggingOptionsLogStreamName'
+        CompressionFormat: !Ref 'S3DestinationConfigurationCompressionFormat'
+        EncryptionConfiguration:
+          KMSEncryptionConfig:
+            AWSKMSKeyARN: !Ref 'S3DestinationConfigurationEncryptionConfigurationKMSEncryptionConfigAWSKMSKeyARN'
+          NoEncryptionConfig: !Ref 'S3DestinationConfigurationEncryptionConfigurationNoEncryptionConfig'
+        ErrorOutputPrefix: !Ref 'S3DestinationConfigurationErrorOutputPrefix'
+        Prefix: !Ref 'S3DestinationConfigurationPrefix'
+        RoleARN: !Ref 'S3DestinationConfigurationRoleARN'
+      SplunkDestinationConfiguration:
+        CloudWatchLoggingOptions:
+          Enabled: !Ref 'SplunkDestinationConfigurationCloudWatchLoggingOptionsEnabled'
+          LogGroupName: !Ref 'SplunkDestinationConfigurationCloudWatchLoggingOptionsLogGroupName'
+          LogStreamName: !Ref 'SplunkDestinationConfigurationCloudWatchLoggingOptionsLogStreamName'
+        HECAcknowledgmentTimeoutInSeconds: !Ref 'SplunkDestinationConfigurationHECAcknowledgmentTimeoutInSeconds'
+        HECEndpoint: !Ref 'SplunkDestinationConfigurationHECEndpoint'
+        HECEndpointType: !Ref 'SplunkDestinationConfigurationHECEndpointType'
+        HECToken: !Ref 'SplunkDestinationConfigurationHECToken'
+        ProcessingConfiguration:
+          Enabled: !Ref 'SplunkDestinationConfigurationProcessingConfigurationEnabled'
+        RetryOptions:
+          DurationInSeconds: !Ref 'SplunkDestinationConfigurationSplunkRetryOptionsDurationInSeconds'
+        S3BackupMode: !Ref 'SplunkDestinationConfigurationS3BackupMode'
+        S3Configuration:
+          BucketARN: !Ref 'SplunkDestinationConfigurationS3DestinationConfigurationBucketARN'
+          BufferingHints:
+            IntervalInSeconds: !Ref 'SplunkDestinationConfigurationS3DestinationConfigurationBufferingHintsIntervalInSeconds'
+            SizeInMBs: !Ref 'SplunkDestinationConfigurationS3DestinationConfigurationBufferingHintsSizeInMBs'
+          CloudWatchLoggingOptions:
+            Enabled: !Ref 'SplunkDestinationConfigurationS3DestinationConfigurationCloudWatchLoggingOptionsEnabled'
+            LogGroupName: !Ref 'SplunkDestinationConfigurationS3DestinationConfigurationCloudWatchLoggingOptionsLogGroupName'
+            LogStreamName: !Ref 'SplunkDestinationConfigurationS3DestinationConfigurationCloudWatchLoggingOptionsLogStreamName'
+          CompressionFormat: !Ref 'SplunkDestinationConfigurationS3DestinationConfigurationCompressionFormat'
+          EncryptionConfiguration:
+            KMSEncryptionConfig:
+              AWSKMSKeyARN: !Ref 'SplunkDestinationConfigurationS3DestinationConfigurationEncryptionConfigurationKMSEncryptionConfigAWSKMSKeyARN'
+            NoEncryptionConfig: !Ref 'SplunkDestinationConfigurationS3DestinationConfigurationEncryptionConfigurationNoEncryptionConfig'
+          ErrorOutputPrefix: !Ref 'SplunkDestinationConfigurationS3DestinationConfigurationErrorOutputPrefix'
+          Prefix: !Ref 'SplunkDestinationConfigurationS3DestinationConfigurationPrefix'
+          RoleARN: !Ref 'SplunkDestinationConfigurationS3DestinationConfigurationRoleARN'
+Outputs:
+  Arn:
+    Value:
+      GetAtt:
+        - Resource
+        - Arn

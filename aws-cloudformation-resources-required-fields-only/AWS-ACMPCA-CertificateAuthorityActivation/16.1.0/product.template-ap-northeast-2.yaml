@@ -1,0 +1,22 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-acmpca-certificateauthorityactivation.html
+Parameters:
+  CertificateAuthorityArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-acmpca-certificateauthorityactivation.html#cfn-acmpca-certificateauthorityactivation-certificateauthorityarn
+  Certificate:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-acmpca-certificateauthorityactivation.html#cfn-acmpca-certificateauthorityactivation-certificate
+Resources:
+  Resource:
+    Type: AWS::ACMPCA::CertificateAuthorityActivation
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-acmpca-certificateauthorityactivation.html
+    Properties:
+      CertificateAuthorityArn: !Ref 'CertificateAuthorityArn'
+      Certificate: !Ref 'Certificate'
+Outputs:
+  CompleteCertificateChain:
+    Value:
+      GetAtt:
+        - Resource
+        - CompleteCertificateChain

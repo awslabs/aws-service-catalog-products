@@ -1,0 +1,126 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-neptune-dbcluster.html
+Parameters:
+  StorageEncrypted:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-neptune-dbcluster.html#cfn-neptune-dbcluster-storageencrypted
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  RestoreToTime:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-neptune-dbcluster.html#cfn-neptune-dbcluster-restoretotime
+    Default: null
+  EngineVersion:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-neptune-dbcluster.html#cfn-neptune-dbcluster-engineversion
+    Default: null
+  KmsKeyId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-neptune-dbcluster.html#cfn-neptune-dbcluster-kmskeyid
+    Default: null
+  SnapshotIdentifier:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-neptune-dbcluster.html#cfn-neptune-dbcluster-snapshotidentifier
+    Default: null
+  Port:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-neptune-dbcluster.html#cfn-neptune-dbcluster-port
+    Default: null
+  DBClusterIdentifier:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-neptune-dbcluster.html#cfn-neptune-dbcluster-dbclusteridentifier
+    Default: null
+  PreferredMaintenanceWindow:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-neptune-dbcluster.html#cfn-neptune-dbcluster-preferredmaintenancewindow
+    Default: null
+  IamAuthEnabled:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-neptune-dbcluster.html#cfn-neptune-dbcluster-iamauthenabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  DBSubnetGroupName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-neptune-dbcluster.html#cfn-neptune-dbcluster-dbsubnetgroupname
+    Default: null
+  DeletionProtection:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-neptune-dbcluster.html#cfn-neptune-dbcluster-deletionprotection
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  PreferredBackupWindow:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-neptune-dbcluster.html#cfn-neptune-dbcluster-preferredbackupwindow
+    Default: null
+  UseLatestRestorableTime:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-neptune-dbcluster.html#cfn-neptune-dbcluster-uselatestrestorabletime
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  SourceDBClusterIdentifier:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-neptune-dbcluster.html#cfn-neptune-dbcluster-sourcedbclusteridentifier
+    Default: null
+  DBClusterParameterGroupName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-neptune-dbcluster.html#cfn-neptune-dbcluster-dbclusterparametergroupname
+    Default: null
+  BackupRetentionPeriod:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-neptune-dbcluster.html#cfn-neptune-dbcluster-backupretentionperiod
+    Default: null
+  RestoreType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-neptune-dbcluster.html#cfn-neptune-dbcluster-restoretype
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::Neptune::DBCluster
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-neptune-dbcluster.html
+    Properties:
+      StorageEncrypted: !Ref 'StorageEncrypted'
+      RestoreToTime: !Ref 'RestoreToTime'
+      EngineVersion: !Ref 'EngineVersion'
+      KmsKeyId: !Ref 'KmsKeyId'
+      SnapshotIdentifier: !Ref 'SnapshotIdentifier'
+      Port: !Ref 'Port'
+      DBClusterIdentifier: !Ref 'DBClusterIdentifier'
+      PreferredMaintenanceWindow: !Ref 'PreferredMaintenanceWindow'
+      IamAuthEnabled: !Ref 'IamAuthEnabled'
+      DBSubnetGroupName: !Ref 'DBSubnetGroupName'
+      DeletionProtection: !Ref 'DeletionProtection'
+      PreferredBackupWindow: !Ref 'PreferredBackupWindow'
+      UseLatestRestorableTime: !Ref 'UseLatestRestorableTime'
+      SourceDBClusterIdentifier: !Ref 'SourceDBClusterIdentifier'
+      DBClusterParameterGroupName: !Ref 'DBClusterParameterGroupName'
+      BackupRetentionPeriod: !Ref 'BackupRetentionPeriod'
+      RestoreType: !Ref 'RestoreType'
+Outputs:
+  ClusterResourceId:
+    Value:
+      GetAtt:
+        - Resource
+        - ClusterResourceId
+  Endpoint:
+    Value:
+      GetAtt:
+        - Resource
+        - Endpoint
+  Port:
+    Value:
+      GetAtt:
+        - Resource
+        - Port
+  ReadEndpoint:
+    Value:
+      GetAtt:
+        - Resource
+        - ReadEndpoint

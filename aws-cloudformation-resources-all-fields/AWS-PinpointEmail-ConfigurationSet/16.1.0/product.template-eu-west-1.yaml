@@ -1,0 +1,44 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-pinpointemail-configurationset.html
+Parameters:
+  SendingOptionsSendingEnabled:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpointemail-configurationset-sendingoptions.html#cfn-pinpointemail-configurationset-sendingoptions-sendingenabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  TrackingOptionsCustomRedirectDomain:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpointemail-configurationset-trackingoptions.html#cfn-pinpointemail-configurationset-trackingoptions-customredirectdomain
+    Default: null
+  ReputationOptionsReputationMetricsEnabled:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpointemail-configurationset-reputationoptions.html#cfn-pinpointemail-configurationset-reputationoptions-reputationmetricsenabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  DeliveryOptionsSendingPoolName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-pinpointemail-configurationset-deliveryoptions.html#cfn-pinpointemail-configurationset-deliveryoptions-sendingpoolname
+    Default: null
+  Name:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-pinpointemail-configurationset.html#cfn-pinpointemail-configurationset-name
+Resources:
+  Resource:
+    Type: AWS::PinpointEmail::ConfigurationSet
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-pinpointemail-configurationset.html
+    Properties:
+      SendingOptions:
+        SendingEnabled: !Ref 'SendingOptionsSendingEnabled'
+      TrackingOptions:
+        CustomRedirectDomain: !Ref 'TrackingOptionsCustomRedirectDomain'
+      ReputationOptions:
+        ReputationMetricsEnabled: !Ref 'ReputationOptionsReputationMetricsEnabled'
+      DeliveryOptions:
+        SendingPoolName: !Ref 'DeliveryOptionsSendingPoolName'
+      Name: !Ref 'Name'

@@ -1,0 +1,53 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codepipeline-customactiontype.html
+Parameters:
+  Category:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codepipeline-customactiontype.html#cfn-codepipeline-customactiontype-category
+  ArtifactDetailsMaximumCount:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codepipeline-customactiontype-artifactdetails.html#cfn-codepipeline-customactiontype-artifactdetails-maximumcount
+  ArtifactDetailsMinimumCount:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codepipeline-customactiontype-artifactdetails.html#cfn-codepipeline-customactiontype-artifactdetails-minimumcount
+  Provider:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codepipeline-customactiontype.html#cfn-codepipeline-customactiontype-provider
+  SettingsEntityUrlTemplate:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codepipeline-customactiontype-settings.html#cfn-codepipeline-customactiontype-settings-entityurltemplate
+    Default: null
+  SettingsExecutionUrlTemplate:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codepipeline-customactiontype-settings.html#cfn-codepipeline-customactiontype-settings-executionurltemplate
+    Default: null
+  SettingsRevisionUrlTemplate:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codepipeline-customactiontype-settings.html#cfn-codepipeline-customactiontype-settings-revisionurltemplate
+    Default: null
+  SettingsThirdPartyConfigurationUrl:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codepipeline-customactiontype-settings.html#cfn-codepipeline-customactiontype-settings-thirdpartyconfigurationurl
+    Default: null
+  Version:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codepipeline-customactiontype.html#cfn-codepipeline-customactiontype-version
+Resources:
+  Resource:
+    Type: AWS::CodePipeline::CustomActionType
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codepipeline-customactiontype.html
+    Properties:
+      Category: !Ref 'Category'
+      InputArtifactDetails:
+        MaximumCount: !Ref 'ArtifactDetailsMaximumCount'
+        MinimumCount: !Ref 'ArtifactDetailsMinimumCount'
+      OutputArtifactDetails:
+        MaximumCount: !Ref 'ArtifactDetailsMaximumCount'
+        MinimumCount: !Ref 'ArtifactDetailsMinimumCount'
+      Provider: !Ref 'Provider'
+      Settings:
+        EntityUrlTemplate: !Ref 'SettingsEntityUrlTemplate'
+        ExecutionUrlTemplate: !Ref 'SettingsExecutionUrlTemplate'
+        RevisionUrlTemplate: !Ref 'SettingsRevisionUrlTemplate'
+        ThirdPartyConfigurationUrl: !Ref 'SettingsThirdPartyConfigurationUrl'
+      Version: !Ref 'Version'

@@ -1,0 +1,96 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-eks-nodegroup.html
+Parameters:
+  ScalingConfigMinSize:
+    Type: Double
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-eks-nodegroup-scalingconfig.html#cfn-eks-nodegroup-scalingconfig-minsize
+    Default: null
+  ScalingConfigDesiredSize:
+    Type: Double
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-eks-nodegroup-scalingconfig.html#cfn-eks-nodegroup-scalingconfig-desiredsize
+    Default: null
+  ScalingConfigMaxSize:
+    Type: Double
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-eks-nodegroup-scalingconfig.html#cfn-eks-nodegroup-scalingconfig-maxsize
+    Default: null
+  Labels:
+    Type: Json
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-eks-nodegroup.html#cfn-eks-nodegroup-labels
+    Default: null
+  ReleaseVersion:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-eks-nodegroup.html#cfn-eks-nodegroup-releaseversion
+    Default: null
+  NodegroupName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-eks-nodegroup.html#cfn-eks-nodegroup-nodegroupname
+    Default: null
+  NodeRole:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-eks-nodegroup.html#cfn-eks-nodegroup-noderole
+  AmiType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-eks-nodegroup.html#cfn-eks-nodegroup-amitype
+    Default: null
+  ForceUpdateEnabled:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-eks-nodegroup.html#cfn-eks-nodegroup-forceupdateenabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  Version:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-eks-nodegroup.html#cfn-eks-nodegroup-version
+    Default: null
+  RemoteAccessEc2SshKey:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-eks-nodegroup-remoteaccess.html#cfn-eks-nodegroup-remoteaccess-ec2sshkey
+  DiskSize:
+    Type: Double
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-eks-nodegroup.html#cfn-eks-nodegroup-disksize
+    Default: null
+  ClusterName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-eks-nodegroup.html#cfn-eks-nodegroup-clustername
+  Tags:
+    Type: Json
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-eks-nodegroup.html#cfn-eks-nodegroup-tags
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::EKS::Nodegroup
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-eks-nodegroup.html
+    Properties:
+      ScalingConfig:
+        MinSize: !Ref 'ScalingConfigMinSize'
+        DesiredSize: !Ref 'ScalingConfigDesiredSize'
+        MaxSize: !Ref 'ScalingConfigMaxSize'
+      Labels: !Ref 'Labels'
+      ReleaseVersion: !Ref 'ReleaseVersion'
+      NodegroupName: !Ref 'NodegroupName'
+      NodeRole: !Ref 'NodeRole'
+      AmiType: !Ref 'AmiType'
+      ForceUpdateEnabled: !Ref 'ForceUpdateEnabled'
+      Version: !Ref 'Version'
+      RemoteAccess:
+        Ec2SshKey: !Ref 'RemoteAccessEc2SshKey'
+      DiskSize: !Ref 'DiskSize'
+      ClusterName: !Ref 'ClusterName'
+      Tags: !Ref 'Tags'
+Outputs:
+  NodegroupName:
+    Value:
+      GetAtt:
+        - Resource
+        - NodegroupName
+  ClusterName:
+    Value:
+      GetAtt:
+        - Resource
+        - ClusterName
+  Arn:
+    Value:
+      GetAtt:
+        - Resource
+        - Arn

@@ -1,0 +1,28 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigatewayv2-domainname.html
+Parameters:
+  DomainName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigatewayv2-domainname.html#cfn-apigatewayv2-domainname-domainname
+  Tags:
+    Type: Json
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigatewayv2-domainname.html#cfn-apigatewayv2-domainname-tags
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::ApiGatewayV2::DomainName
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigatewayv2-domainname.html
+    Properties:
+      DomainName: !Ref 'DomainName'
+      Tags: !Ref 'Tags'
+Outputs:
+  RegionalHostedZoneId:
+    Value:
+      GetAtt:
+        - Resource
+        - RegionalHostedZoneId
+  RegionalDomainName:
+    Value:
+      GetAtt:
+        - Resource
+        - RegionalDomainName

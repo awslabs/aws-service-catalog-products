@@ -1,0 +1,197 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html
+Parameters:
+  AdditionalInfo:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#cfn-ec2-instance-additionalinfo
+    Default: null
+  Affinity:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#cfn-ec2-instance-affinity
+    Default: null
+  AvailabilityZone:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#cfn-ec2-instance-availabilityzone
+    Default: null
+  CpuOptionsCoreCount:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance-cpuoptions.html#cfn-ec2-instance-cpuoptions-corecount
+    Default: null
+  CpuOptionsThreadsPerCore:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance-cpuoptions.html#cfn-ec2-instance-cpuoptions-threadspercore
+    Default: null
+  CreditSpecificationCPUCredits:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance-creditspecification.html#cfn-ec2-instance-creditspecification-cpucredits
+    Default: null
+  DisableApiTermination:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#cfn-ec2-instance-disableapitermination
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  EbsOptimized:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#cfn-ec2-instance-ebsoptimized
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  HibernationOptionsConfigured:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance-hibernationoptions.html#cfn-ec2-instance-hibernationoptions-configured
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  HostId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#cfn-ec2-instance-hostid
+    Default: null
+  HostResourceGroupArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#cfn-ec2-instance-hostresourcegrouparn
+    Default: null
+  IamInstanceProfile:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#cfn-ec2-instance-iaminstanceprofile
+    Default: null
+  ImageId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#cfn-ec2-instance-imageid
+    Default: null
+  InstanceInitiatedShutdownBehavior:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#cfn-ec2-instance-instanceinitiatedshutdownbehavior
+    Default: null
+  InstanceType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#cfn-ec2-instance-instancetype
+    Default: null
+  Ipv6AddressCount:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#cfn-ec2-instance-ipv6addresscount
+    Default: null
+  KernelId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#cfn-ec2-instance-kernelid
+    Default: null
+  KeyName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#cfn-ec2-instance-keyname
+    Default: null
+  LaunchTemplateSpecificationLaunchTemplateId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance-launchtemplatespecification.html#cfn-ec2-instance-launchtemplatespecification-launchtemplateid
+    Default: null
+  LaunchTemplateSpecificationLaunchTemplateName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance-launchtemplatespecification.html#cfn-ec2-instance-launchtemplatespecification-launchtemplatename
+    Default: null
+  LaunchTemplateSpecificationVersion:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance-launchtemplatespecification.html#cfn-ec2-instance-launchtemplatespecification-version
+  Monitoring:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#cfn-ec2-instance-monitoring
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  PlacementGroupName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#cfn-ec2-instance-placementgroupname
+    Default: null
+  PrivateIpAddress:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#cfn-ec2-instance-privateipaddress
+    Default: null
+  RamdiskId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#cfn-ec2-instance-ramdiskid
+    Default: null
+  SourceDestCheck:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#cfn-ec2-instance-sourcedestcheck
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  SubnetId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#cfn-ec2-instance-subnetid
+    Default: null
+  Tenancy:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#cfn-ec2-instance-tenancy
+    Default: null
+  UserData:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#cfn-ec2-instance-userdata
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::EC2::Instance
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html
+    Properties:
+      AdditionalInfo: !Ref 'AdditionalInfo'
+      Affinity: !Ref 'Affinity'
+      AvailabilityZone: !Ref 'AvailabilityZone'
+      CpuOptions:
+        CoreCount: !Ref 'CpuOptionsCoreCount'
+        ThreadsPerCore: !Ref 'CpuOptionsThreadsPerCore'
+      CreditSpecification:
+        CPUCredits: !Ref 'CreditSpecificationCPUCredits'
+      DisableApiTermination: !Ref 'DisableApiTermination'
+      EbsOptimized: !Ref 'EbsOptimized'
+      HibernationOptions:
+        Configured: !Ref 'HibernationOptionsConfigured'
+      HostId: !Ref 'HostId'
+      HostResourceGroupArn: !Ref 'HostResourceGroupArn'
+      IamInstanceProfile: !Ref 'IamInstanceProfile'
+      ImageId: !Ref 'ImageId'
+      InstanceInitiatedShutdownBehavior: !Ref 'InstanceInitiatedShutdownBehavior'
+      InstanceType: !Ref 'InstanceType'
+      Ipv6AddressCount: !Ref 'Ipv6AddressCount'
+      KernelId: !Ref 'KernelId'
+      KeyName: !Ref 'KeyName'
+      LaunchTemplate:
+        LaunchTemplateId: !Ref 'LaunchTemplateSpecificationLaunchTemplateId'
+        LaunchTemplateName: !Ref 'LaunchTemplateSpecificationLaunchTemplateName'
+        Version: !Ref 'LaunchTemplateSpecificationVersion'
+      Monitoring: !Ref 'Monitoring'
+      PlacementGroupName: !Ref 'PlacementGroupName'
+      PrivateIpAddress: !Ref 'PrivateIpAddress'
+      RamdiskId: !Ref 'RamdiskId'
+      SourceDestCheck: !Ref 'SourceDestCheck'
+      SubnetId: !Ref 'SubnetId'
+      Tenancy: !Ref 'Tenancy'
+      UserData: !Ref 'UserData'
+Outputs:
+  AvailabilityZone:
+    Value:
+      GetAtt:
+        - Resource
+        - AvailabilityZone
+  PrivateDnsName:
+    Value:
+      GetAtt:
+        - Resource
+        - PrivateDnsName
+  PrivateIp:
+    Value:
+      GetAtt:
+        - Resource
+        - PrivateIp
+  PublicDnsName:
+    Value:
+      GetAtt:
+        - Resource
+        - PublicDnsName
+  PublicIp:
+    Value:
+      GetAtt:
+        - Resource
+        - PublicIp

@@ -1,0 +1,53 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-networkmanager-link.html
+Parameters:
+  GlobalNetworkId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-networkmanager-link.html#cfn-networkmanager-link-globalnetworkid
+  SiteId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-networkmanager-link.html#cfn-networkmanager-link-siteid
+  BandwidthDownloadSpeed:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-networkmanager-link-bandwidth.html#cfn-networkmanager-link-bandwidth-downloadspeed
+    Default: null
+  BandwidthUploadSpeed:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-networkmanager-link-bandwidth.html#cfn-networkmanager-link-bandwidth-uploadspeed
+    Default: null
+  Provider:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-networkmanager-link.html#cfn-networkmanager-link-provider
+    Default: null
+  Description:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-networkmanager-link.html#cfn-networkmanager-link-description
+    Default: null
+  Type:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-networkmanager-link.html#cfn-networkmanager-link-type
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::NetworkManager::Link
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-networkmanager-link.html
+    Properties:
+      GlobalNetworkId: !Ref 'GlobalNetworkId'
+      SiteId: !Ref 'SiteId'
+      Bandwidth:
+        DownloadSpeed: !Ref 'BandwidthDownloadSpeed'
+        UploadSpeed: !Ref 'BandwidthUploadSpeed'
+      Provider: !Ref 'Provider'
+      Description: !Ref 'Description'
+      Type: !Ref 'Type'
+Outputs:
+  LinkArn:
+    Value:
+      GetAtt:
+        - Resource
+        - LinkArn
+  LinkId:
+    Value:
+      GetAtt:
+        - Resource
+        - LinkId

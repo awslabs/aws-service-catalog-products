@@ -1,0 +1,59 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ecs-taskset.html
+Parameters:
+  Cluster:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ecs-taskset.html#cfn-ecs-taskset-cluster
+  ExternalId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ecs-taskset.html#cfn-ecs-taskset-externalid
+    Default: null
+  LaunchType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ecs-taskset.html#cfn-ecs-taskset-launchtype
+    Default: null
+  NetworkConfigurationAwsVpcConfigurationAssignPublicIp:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ecs-taskset-awsvpcconfiguration.html#cfn-ecs-taskset-awsvpcconfiguration-assignpublicip
+    Default: null
+  PlatformVersion:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ecs-taskset.html#cfn-ecs-taskset-platformversion
+    Default: null
+  ScaleUnit:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ecs-taskset-scale.html#cfn-ecs-taskset-scale-unit
+    Default: null
+  ScaleValue:
+    Type: Double
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ecs-taskset-scale.html#cfn-ecs-taskset-scale-value
+    Default: null
+  Service:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ecs-taskset.html#cfn-ecs-taskset-service
+  TaskDefinition:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ecs-taskset.html#cfn-ecs-taskset-taskdefinition
+Resources:
+  Resource:
+    Type: AWS::ECS::TaskSet
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ecs-taskset.html
+    Properties:
+      Cluster: !Ref 'Cluster'
+      ExternalId: !Ref 'ExternalId'
+      LaunchType: !Ref 'LaunchType'
+      NetworkConfiguration:
+        AwsVpcConfiguration:
+          AssignPublicIp: !Ref 'NetworkConfigurationAwsVpcConfigurationAssignPublicIp'
+      PlatformVersion: !Ref 'PlatformVersion'
+      Scale:
+        Unit: !Ref 'ScaleUnit'
+        Value: !Ref 'ScaleValue'
+      Service: !Ref 'Service'
+      TaskDefinition: !Ref 'TaskDefinition'
+Outputs:
+  Id:
+    Value:
+      GetAtt:
+        - Resource
+        - Id

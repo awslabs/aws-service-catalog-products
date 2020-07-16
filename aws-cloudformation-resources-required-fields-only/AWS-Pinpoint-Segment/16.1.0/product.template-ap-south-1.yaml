@@ -1,0 +1,27 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-pinpoint-segment.html
+Parameters:
+  ApplicationId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-pinpoint-segment.html#cfn-pinpoint-segment-applicationid
+  Name:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-pinpoint-segment.html#cfn-pinpoint-segment-name
+Resources:
+  Resource:
+    Type: AWS::Pinpoint::Segment
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-pinpoint-segment.html
+    Properties:
+      ApplicationId: !Ref 'ApplicationId'
+      Name: !Ref 'Name'
+Outputs:
+  SegmentId:
+    Value:
+      GetAtt:
+        - Resource
+        - SegmentId
+  Arn:
+    Value:
+      GetAtt:
+        - Resource
+        - Arn

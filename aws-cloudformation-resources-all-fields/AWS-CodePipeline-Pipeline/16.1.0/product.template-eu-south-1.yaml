@@ -1,0 +1,49 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codepipeline-pipeline.html
+Parameters:
+  ArtifactStoreEncryptionKeyId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codepipeline-pipeline-artifactstore-encryptionkey.html#cfn-codepipeline-pipeline-artifactstore-encryptionkey-id
+  ArtifactStoreEncryptionKeyType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codepipeline-pipeline-artifactstore-encryptionkey.html#cfn-codepipeline-pipeline-artifactstore-encryptionkey-type
+  ArtifactStoreLocation:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codepipeline-pipeline-artifactstore.html#cfn-codepipeline-pipeline-artifactstore-location
+  ArtifactStoreType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codepipeline-pipeline-artifactstore.html#cfn-codepipeline-pipeline-artifactstore-type
+  Name:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codepipeline-pipeline.html#cfn-codepipeline-pipeline-name
+    Default: null
+  RestartExecutionOnUpdate:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codepipeline-pipeline.html#cfn-codepipeline-pipeline-restartexecutiononupdate
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  RoleArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codepipeline-pipeline.html#cfn-codepipeline-pipeline-rolearn
+Resources:
+  Resource:
+    Type: AWS::CodePipeline::Pipeline
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codepipeline-pipeline.html
+    Properties:
+      ArtifactStore:
+        EncryptionKey:
+          Id: !Ref 'ArtifactStoreEncryptionKeyId'
+          Type: !Ref 'ArtifactStoreEncryptionKeyType'
+        Location: !Ref 'ArtifactStoreLocation'
+        Type: !Ref 'ArtifactStoreType'
+      Name: !Ref 'Name'
+      RestartExecutionOnUpdate: !Ref 'RestartExecutionOnUpdate'
+      RoleArn: !Ref 'RoleArn'
+Outputs:
+  Version:
+    Value:
+      GetAtt:
+        - Resource
+        - Version

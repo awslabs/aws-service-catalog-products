@@ -1,0 +1,90 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appsync-resolver.html
+Parameters:
+  ResponseMappingTemplateS3Location:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appsync-resolver.html#cfn-appsync-resolver-responsemappingtemplates3location
+    Default: null
+  TypeName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appsync-resolver.html#cfn-appsync-resolver-typename
+  DataSourceName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appsync-resolver.html#cfn-appsync-resolver-datasourcename
+    Default: null
+  RequestMappingTemplate:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appsync-resolver.html#cfn-appsync-resolver-requestmappingtemplate
+    Default: null
+  ResponseMappingTemplate:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appsync-resolver.html#cfn-appsync-resolver-responsemappingtemplate
+    Default: null
+  Kind:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appsync-resolver.html#cfn-appsync-resolver-kind
+    Default: null
+  CachingConfigTtl:
+    Type: Double
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-appsync-resolver-cachingconfig.html#cfn-appsync-resolver-cachingconfig-ttl
+    Default: null
+  SyncConfigConflictHandler:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-appsync-resolver-syncconfig.html#cfn-appsync-resolver-syncconfig-conflicthandler
+    Default: null
+  SyncConfigConflictDetection:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-appsync-resolver-syncconfig.html#cfn-appsync-resolver-syncconfig-conflictdetection
+  SyncConfigLambdaConflictHandlerConfigLambdaConflictHandlerArn:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-appsync-resolver-lambdaconflicthandlerconfig.html#cfn-appsync-resolver-lambdaconflicthandlerconfig-lambdaconflicthandlerarn
+    Default: null
+  RequestMappingTemplateS3Location:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appsync-resolver.html#cfn-appsync-resolver-requestmappingtemplates3location
+    Default: null
+  ApiId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appsync-resolver.html#cfn-appsync-resolver-apiid
+  FieldName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appsync-resolver.html#cfn-appsync-resolver-fieldname
+Resources:
+  Resource:
+    Type: AWS::AppSync::Resolver
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appsync-resolver.html
+    Properties:
+      ResponseMappingTemplateS3Location: !Ref 'ResponseMappingTemplateS3Location'
+      TypeName: !Ref 'TypeName'
+      PipelineConfig: {}
+      DataSourceName: !Ref 'DataSourceName'
+      RequestMappingTemplate: !Ref 'RequestMappingTemplate'
+      ResponseMappingTemplate: !Ref 'ResponseMappingTemplate'
+      Kind: !Ref 'Kind'
+      CachingConfig:
+        Ttl: !Ref 'CachingConfigTtl'
+      SyncConfig:
+        ConflictHandler: !Ref 'SyncConfigConflictHandler'
+        ConflictDetection: !Ref 'SyncConfigConflictDetection'
+        LambdaConflictHandlerConfig:
+          LambdaConflictHandlerArn: !Ref 'SyncConfigLambdaConflictHandlerConfigLambdaConflictHandlerArn'
+      RequestMappingTemplateS3Location: !Ref 'RequestMappingTemplateS3Location'
+      ApiId: !Ref 'ApiId'
+      FieldName: !Ref 'FieldName'
+Outputs:
+  TypeName:
+    Value:
+      GetAtt:
+        - Resource
+        - TypeName
+  ResolverArn:
+    Value:
+      GetAtt:
+        - Resource
+        - ResolverArn
+  FieldName:
+    Value:
+      GetAtt:
+        - Resource
+        - FieldName

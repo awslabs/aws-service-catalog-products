@@ -1,0 +1,106 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-glue-job.html
+Parameters:
+  MaxRetries:
+    Type: Double
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-glue-job.html#cfn-glue-job-maxretries
+    Default: null
+  Description:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-glue-job.html#cfn-glue-job-description
+    Default: null
+  Timeout:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-glue-job.html#cfn-glue-job-timeout
+    Default: null
+  AllocatedCapacity:
+    Type: Double
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-glue-job.html#cfn-glue-job-allocatedcapacity
+    Default: null
+  Name:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-glue-job.html#cfn-glue-job-name
+    Default: null
+  Role:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-glue-job.html#cfn-glue-job-role
+  DefaultArguments:
+    Type: Json
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-glue-job.html#cfn-glue-job-defaultarguments
+    Default: null
+  NotificationPropertyNotifyDelayAfter:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-glue-job-notificationproperty.html#cfn-glue-job-notificationproperty-notifydelayafter
+    Default: null
+  WorkerType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-glue-job.html#cfn-glue-job-workertype
+    Default: null
+  LogUri:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-glue-job.html#cfn-glue-job-loguri
+    Default: null
+  JobCommandPythonVersion:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-glue-job-jobcommand.html#cfn-glue-job-jobcommand-pythonversion
+    Default: null
+  JobCommandScriptLocation:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-glue-job-jobcommand.html#cfn-glue-job-jobcommand-scriptlocation
+    Default: null
+  JobCommandName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-glue-job-jobcommand.html#cfn-glue-job-jobcommand-name
+    Default: null
+  GlueVersion:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-glue-job.html#cfn-glue-job-glueversion
+    Default: null
+  ExecutionPropertyMaxConcurrentRuns:
+    Type: Double
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-glue-job-executionproperty.html#cfn-glue-job-executionproperty-maxconcurrentruns
+    Default: null
+  SecurityConfiguration:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-glue-job.html#cfn-glue-job-securityconfiguration
+    Default: null
+  NumberOfWorkers:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-glue-job.html#cfn-glue-job-numberofworkers
+    Default: null
+  Tags:
+    Type: Json
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-glue-job.html#cfn-glue-job-tags
+    Default: null
+  MaxCapacity:
+    Type: Double
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-glue-job.html#cfn-glue-job-maxcapacity
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::Glue::Job
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-glue-job.html
+    Properties:
+      Connections: {}
+      MaxRetries: !Ref 'MaxRetries'
+      Description: !Ref 'Description'
+      Timeout: !Ref 'Timeout'
+      AllocatedCapacity: !Ref 'AllocatedCapacity'
+      Name: !Ref 'Name'
+      Role: !Ref 'Role'
+      DefaultArguments: !Ref 'DefaultArguments'
+      NotificationProperty:
+        NotifyDelayAfter: !Ref 'NotificationPropertyNotifyDelayAfter'
+      WorkerType: !Ref 'WorkerType'
+      LogUri: !Ref 'LogUri'
+      Command:
+        PythonVersion: !Ref 'JobCommandPythonVersion'
+        ScriptLocation: !Ref 'JobCommandScriptLocation'
+        Name: !Ref 'JobCommandName'
+      GlueVersion: !Ref 'GlueVersion'
+      ExecutionProperty:
+        MaxConcurrentRuns: !Ref 'ExecutionPropertyMaxConcurrentRuns'
+      SecurityConfiguration: !Ref 'SecurityConfiguration'
+      NumberOfWorkers: !Ref 'NumberOfWorkers'
+      Tags: !Ref 'Tags'
+      MaxCapacity: !Ref 'MaxCapacity'

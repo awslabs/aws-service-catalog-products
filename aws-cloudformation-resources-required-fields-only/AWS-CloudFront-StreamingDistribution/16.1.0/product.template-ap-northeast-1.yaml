@@ -1,0 +1,45 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cloudfront-streamingdistribution.html
+Parameters:
+  StreamingDistributionConfigComment:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cloudfront-streamingdistribution-streamingdistributionconfig.html#cfn-cloudfront-streamingdistribution-streamingdistributionconfig-comment
+  StreamingDistributionConfigS3OriginDomainName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cloudfront-streamingdistribution-s3origin.html#cfn-cloudfront-streamingdistribution-s3origin-domainname
+  StreamingDistributionConfigS3OriginOriginAccessIdentity:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cloudfront-streamingdistribution-s3origin.html#cfn-cloudfront-streamingdistribution-s3origin-originaccessidentity
+  StreamingDistributionConfigEnabled:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cloudfront-streamingdistribution-streamingdistributionconfig.html#cfn-cloudfront-streamingdistribution-streamingdistributionconfig-enabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+  StreamingDistributionConfigTrustedSignersEnabled:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cloudfront-streamingdistribution-trustedsigners.html#cfn-cloudfront-streamingdistribution-trustedsigners-enabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+Resources:
+  Resource:
+    Type: AWS::CloudFront::StreamingDistribution
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cloudfront-streamingdistribution.html
+    Properties:
+      StreamingDistributionConfig:
+        Comment: !Ref 'StreamingDistributionConfigComment'
+        S3Origin:
+          DomainName: !Ref 'StreamingDistributionConfigS3OriginDomainName'
+          OriginAccessIdentity: !Ref 'StreamingDistributionConfigS3OriginOriginAccessIdentity'
+        Enabled: !Ref 'StreamingDistributionConfigEnabled'
+        TrustedSigners:
+          Enabled: !Ref 'StreamingDistributionConfigTrustedSignersEnabled'
+Outputs:
+  DomainName:
+    Value:
+      GetAtt:
+        - Resource
+        - DomainName

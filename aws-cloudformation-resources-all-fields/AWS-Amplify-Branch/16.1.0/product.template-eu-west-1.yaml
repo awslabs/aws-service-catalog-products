@@ -1,0 +1,80 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-amplify-branch.html
+Parameters:
+  Description:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-amplify-branch.html#cfn-amplify-branch-description
+    Default: null
+  AppId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-amplify-branch.html#cfn-amplify-branch-appid
+  PullRequestEnvironmentName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-amplify-branch.html#cfn-amplify-branch-pullrequestenvironmentname
+    Default: null
+  EnablePullRequestPreview:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-amplify-branch.html#cfn-amplify-branch-enablepullrequestpreview
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  EnableAutoBuild:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-amplify-branch.html#cfn-amplify-branch-enableautobuild
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  BuildSpec:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-amplify-branch.html#cfn-amplify-branch-buildspec
+    Default: null
+  Stage:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-amplify-branch.html#cfn-amplify-branch-stage
+    Default: null
+  BranchName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-amplify-branch.html#cfn-amplify-branch-branchname
+  BasicAuthConfigUsername:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-amplify-branch-basicauthconfig.html#cfn-amplify-branch-basicauthconfig-username
+  BasicAuthConfigEnableBasicAuth:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-amplify-branch-basicauthconfig.html#cfn-amplify-branch-basicauthconfig-enablebasicauth
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  BasicAuthConfigPassword:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-amplify-branch-basicauthconfig.html#cfn-amplify-branch-basicauthconfig-password
+Resources:
+  Resource:
+    Type: AWS::Amplify::Branch
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-amplify-branch.html
+    Properties:
+      Description: !Ref 'Description'
+      AppId: !Ref 'AppId'
+      PullRequestEnvironmentName: !Ref 'PullRequestEnvironmentName'
+      EnablePullRequestPreview: !Ref 'EnablePullRequestPreview'
+      EnableAutoBuild: !Ref 'EnableAutoBuild'
+      BuildSpec: !Ref 'BuildSpec'
+      Stage: !Ref 'Stage'
+      BranchName: !Ref 'BranchName'
+      BasicAuthConfig:
+        Username: !Ref 'BasicAuthConfigUsername'
+        EnableBasicAuth: !Ref 'BasicAuthConfigEnableBasicAuth'
+        Password: !Ref 'BasicAuthConfigPassword'
+Outputs:
+  BranchName:
+    Value:
+      GetAtt:
+        - Resource
+        - BranchName
+  Arn:
+    Value:
+      GetAtt:
+        - Resource
+        - Arn

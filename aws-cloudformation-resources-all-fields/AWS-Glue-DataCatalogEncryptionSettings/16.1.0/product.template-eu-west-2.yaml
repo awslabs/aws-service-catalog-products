@@ -1,0 +1,42 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-glue-datacatalogencryptionsettings.html
+Parameters:
+  DataCatalogEncryptionSettingsConnectionPasswordEncryptionReturnConnectionPasswordEncrypted:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-glue-datacatalogencryptionsettings-connectionpasswordencryption.html#cfn-glue-datacatalogencryptionsettings-connectionpasswordencryption-returnconnectionpasswordencrypted
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  DataCatalogEncryptionSettingsConnectionPasswordEncryptionKmsKeyId:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-glue-datacatalogencryptionsettings-connectionpasswordencryption.html#cfn-glue-datacatalogencryptionsettings-connectionpasswordencryption-kmskeyid
+    Default: null
+  DataCatalogEncryptionSettingsEncryptionAtRestCatalogEncryptionMode:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-glue-datacatalogencryptionsettings-encryptionatrest.html#cfn-glue-datacatalogencryptionsettings-encryptionatrest-catalogencryptionmode
+    Default: null
+  DataCatalogEncryptionSettingsEncryptionAtRestSseAwsKmsKeyId:
+    Type: String
+    Description: >-
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-glue-datacatalogencryptionsettings-encryptionatrest.html#cfn-glue-datacatalogencryptionsettings-encryptionatrest-sseawskmskeyid
+    Default: null
+  CatalogId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-glue-datacatalogencryptionsettings.html#cfn-glue-datacatalogencryptionsettings-catalogid
+Resources:
+  Resource:
+    Type: AWS::Glue::DataCatalogEncryptionSettings
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-glue-datacatalogencryptionsettings.html
+    Properties:
+      DataCatalogEncryptionSettings:
+        ConnectionPasswordEncryption:
+          ReturnConnectionPasswordEncrypted: !Ref 'DataCatalogEncryptionSettingsConnectionPasswordEncryptionReturnConnectionPasswordEncrypted'
+          KmsKeyId: !Ref 'DataCatalogEncryptionSettingsConnectionPasswordEncryptionKmsKeyId'
+        EncryptionAtRest:
+          CatalogEncryptionMode: !Ref 'DataCatalogEncryptionSettingsEncryptionAtRestCatalogEncryptionMode'
+          SseAwsKmsKeyId: !Ref 'DataCatalogEncryptionSettingsEncryptionAtRestSseAwsKmsKeyId'
+      CatalogId: !Ref 'CatalogId'

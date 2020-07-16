@@ -1,0 +1,41 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticache-cache-cluster.html
+Parameters:
+  CacheNodeType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticache-cache-cluster.html#cfn-elasticache-cachecluster-cachenodetype
+  Engine:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticache-cache-cluster.html#cfn-elasticache-cachecluster-engine
+  NumCacheNodes:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticache-cache-cluster.html#cfn-elasticache-cachecluster-numcachenodes
+Resources:
+  Resource:
+    Type: AWS::ElastiCache::CacheCluster
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticache-cache-cluster.html
+    Properties:
+      CacheNodeType: !Ref 'CacheNodeType'
+      Engine: !Ref 'Engine'
+      NumCacheNodes: !Ref 'NumCacheNodes'
+Outputs:
+  ConfigurationEndpoint.Address:
+    Value:
+      GetAtt:
+        - Resource
+        - ConfigurationEndpoint.Address
+  ConfigurationEndpoint.Port:
+    Value:
+      GetAtt:
+        - Resource
+        - ConfigurationEndpoint.Port
+  RedisEndpoint.Address:
+    Value:
+      GetAtt:
+        - Resource
+        - RedisEndpoint.Address
+  RedisEndpoint.Port:
+    Value:
+      GetAtt:
+        - Resource
+        - RedisEndpoint.Port

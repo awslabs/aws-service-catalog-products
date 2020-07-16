@@ -1,0 +1,88 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigateway-stage.html
+Parameters:
+  AccessLogSettingDestinationArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-apigateway-stage-accesslogsetting.html#cfn-apigateway-stage-accesslogsetting-destinationarn
+    Default: null
+  AccessLogSettingFormat:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-apigateway-stage-accesslogsetting.html#cfn-apigateway-stage-accesslogsetting-format
+    Default: null
+  CacheClusterEnabled:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigateway-stage.html#cfn-apigateway-stage-cacheclusterenabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  CacheClusterSize:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigateway-stage.html#cfn-apigateway-stage-cacheclustersize
+    Default: null
+  CanarySettingDeploymentId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-apigateway-stage-canarysetting.html#cfn-apigateway-stage-canarysetting-deploymentid
+    Default: null
+  CanarySettingPercentTraffic:
+    Type: Double
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-apigateway-stage-canarysetting.html#cfn-apigateway-stage-canarysetting-percenttraffic
+    Default: null
+  CanarySettingUseStageCache:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-apigateway-stage-canarysetting.html#cfn-apigateway-stage-canarysetting-usestagecache
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  ClientCertificateId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigateway-stage.html#cfn-apigateway-stage-clientcertificateid
+    Default: null
+  DeploymentId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigateway-stage.html#cfn-apigateway-stage-deploymentid
+    Default: null
+  Description:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigateway-stage.html#cfn-apigateway-stage-description
+    Default: null
+  DocumentationVersion:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigateway-stage.html#cfn-apigateway-stage-documentationversion
+    Default: null
+  RestApiId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigateway-stage.html#cfn-apigateway-stage-restapiid
+  StageName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigateway-stage.html#cfn-apigateway-stage-stagename
+    Default: null
+  TracingEnabled:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigateway-stage.html#cfn-apigateway-stage-tracingenabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::ApiGateway::Stage
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigateway-stage.html
+    Properties:
+      AccessLogSetting:
+        DestinationArn: !Ref 'AccessLogSettingDestinationArn'
+        Format: !Ref 'AccessLogSettingFormat'
+      CacheClusterEnabled: !Ref 'CacheClusterEnabled'
+      CacheClusterSize: !Ref 'CacheClusterSize'
+      CanarySetting:
+        DeploymentId: !Ref 'CanarySettingDeploymentId'
+        PercentTraffic: !Ref 'CanarySettingPercentTraffic'
+        UseStageCache: !Ref 'CanarySettingUseStageCache'
+      ClientCertificateId: !Ref 'ClientCertificateId'
+      DeploymentId: !Ref 'DeploymentId'
+      Description: !Ref 'Description'
+      DocumentationVersion: !Ref 'DocumentationVersion'
+      RestApiId: !Ref 'RestApiId'
+      StageName: !Ref 'StageName'
+      TracingEnabled: !Ref 'TracingEnabled'

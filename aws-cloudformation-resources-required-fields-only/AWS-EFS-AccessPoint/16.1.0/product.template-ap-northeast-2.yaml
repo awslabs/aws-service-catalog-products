@@ -1,0 +1,23 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-efs-accesspoint.html
+Parameters:
+  FileSystemId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-efs-accesspoint.html#cfn-efs-accesspoint-filesystemid
+Resources:
+  Resource:
+    Type: AWS::EFS::AccessPoint
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-efs-accesspoint.html
+    Properties:
+      FileSystemId: !Ref 'FileSystemId'
+Outputs:
+  AccessPointId:
+    Value:
+      GetAtt:
+        - Resource
+        - AccessPointId
+  Arn:
+    Value:
+      GetAtt:
+        - Resource
+        - Arn

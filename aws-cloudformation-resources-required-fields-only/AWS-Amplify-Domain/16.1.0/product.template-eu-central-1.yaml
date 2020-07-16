@@ -1,0 +1,57 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-amplify-domain.html
+Parameters:
+  AppId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-amplify-domain.html#cfn-amplify-domain-appid
+  DomainName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-amplify-domain.html#cfn-amplify-domain-domainname
+Resources:
+  Resource:
+    Type: AWS::Amplify::Domain
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-amplify-domain.html
+    Properties:
+      AppId: !Ref 'AppId'
+      DomainName: !Ref 'DomainName'
+Outputs:
+  AutoSubDomainIAMRole:
+    Value:
+      GetAtt:
+        - Resource
+        - AutoSubDomainIAMRole
+  DomainName:
+    Value:
+      GetAtt:
+        - Resource
+        - DomainName
+  StatusReason:
+    Value:
+      GetAtt:
+        - Resource
+        - StatusReason
+  EnableAutoSubDomain:
+    Value:
+      GetAtt:
+        - Resource
+        - EnableAutoSubDomain
+  Arn:
+    Value:
+      GetAtt:
+        - Resource
+        - Arn
+  DomainStatus:
+    Value:
+      GetAtt:
+        - Resource
+        - DomainStatus
+  AutoSubDomainCreationPatterns:
+    Value:
+      GetAtt:
+        - Resource
+        - AutoSubDomainCreationPatterns
+  CertificateRecord:
+    Value:
+      GetAtt:
+        - Resource
+        - CertificateRecord

@@ -1,0 +1,29 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-sagemaker-workteam.html
+Parameters:
+  Description:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-sagemaker-workteam.html#cfn-sagemaker-workteam-description
+    Default: null
+  NotificationConfigurationNotificationTopicArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sagemaker-workteam-notificationconfiguration.html#cfn-sagemaker-workteam-notificationconfiguration-notificationtopicarn
+  WorkteamName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-sagemaker-workteam.html#cfn-sagemaker-workteam-workteamname
+    Default: null
+Resources:
+  Resource:
+    Type: AWS::SageMaker::Workteam
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-sagemaker-workteam.html
+    Properties:
+      Description: !Ref 'Description'
+      NotificationConfiguration:
+        NotificationTopicArn: !Ref 'NotificationConfigurationNotificationTopicArn'
+      WorkteamName: !Ref 'WorkteamName'
+Outputs:
+  WorkteamName:
+    Value:
+      GetAtt:
+        - Resource
+        - WorkteamName

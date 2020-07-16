@@ -1,0 +1,317 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iot-topicrule.html
+Parameters:
+  RuleName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iot-topicrule.html#cfn-iot-topicrule-rulename
+    Default: null
+  TopicRulePayloadAwsIotSqlVersion:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-topicrule-topicrulepayload.html#cfn-iot-topicrule-topicrulepayload-awsiotsqlversion
+    Default: null
+  TopicRulePayloadDescription:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-topicrule-topicrulepayload.html#cfn-iot-topicrule-topicrulepayload-description
+    Default: null
+  TopicRulePayloadActionCloudwatchAlarmActionAlarmName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-topicrule-cloudwatchalarmaction.html#cfn-iot-topicrule-cloudwatchalarmaction-alarmname
+  TopicRulePayloadActionCloudwatchAlarmActionRoleArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-topicrule-cloudwatchalarmaction.html#cfn-iot-topicrule-cloudwatchalarmaction-rolearn
+  TopicRulePayloadActionCloudwatchAlarmActionStateReason:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-topicrule-cloudwatchalarmaction.html#cfn-iot-topicrule-cloudwatchalarmaction-statereason
+  TopicRulePayloadActionCloudwatchAlarmActionStateValue:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-topicrule-cloudwatchalarmaction.html#cfn-iot-topicrule-cloudwatchalarmaction-statevalue
+  TopicRulePayloadActionCloudwatchMetricActionMetricName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-topicrule-cloudwatchmetricaction.html#cfn-iot-topicrule-cloudwatchmetricaction-metricname
+  TopicRulePayloadActionCloudwatchMetricActionMetricNamespace:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-topicrule-cloudwatchmetricaction.html#cfn-iot-topicrule-cloudwatchmetricaction-metricnamespace
+  TopicRulePayloadActionCloudwatchMetricActionMetricTimestamp:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-topicrule-cloudwatchmetricaction.html#cfn-iot-topicrule-cloudwatchmetricaction-metrictimestamp
+    Default: null
+  TopicRulePayloadActionCloudwatchMetricActionMetricUnit:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-topicrule-cloudwatchmetricaction.html#cfn-iot-topicrule-cloudwatchmetricaction-metricunit
+  TopicRulePayloadActionCloudwatchMetricActionMetricValue:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-topicrule-cloudwatchmetricaction.html#cfn-iot-topicrule-cloudwatchmetricaction-metricvalue
+  TopicRulePayloadActionCloudwatchMetricActionRoleArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-topicrule-cloudwatchmetricaction.html#cfn-iot-topicrule-cloudwatchmetricaction-rolearn
+  TopicRulePayloadActionDynamoDBActionHashKeyField:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-topicrule-dynamodbaction.html#cfn-iot-topicrule-dynamodbaction-hashkeyfield
+  TopicRulePayloadActionDynamoDBActionHashKeyType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-topicrule-dynamodbaction.html#cfn-iot-topicrule-dynamodbaction-hashkeytype
+    Default: null
+  TopicRulePayloadActionDynamoDBActionHashKeyValue:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-topicrule-dynamodbaction.html#cfn-iot-topicrule-dynamodbaction-hashkeyvalue
+  TopicRulePayloadActionDynamoDBActionPayloadField:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-topicrule-dynamodbaction.html#cfn-iot-topicrule-dynamodbaction-payloadfield
+    Default: null
+  TopicRulePayloadActionDynamoDBActionRangeKeyField:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-topicrule-dynamodbaction.html#cfn-iot-topicrule-dynamodbaction-rangekeyfield
+    Default: null
+  TopicRulePayloadActionDynamoDBActionRangeKeyType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-topicrule-dynamodbaction.html#cfn-iot-topicrule-dynamodbaction-rangekeytype
+    Default: null
+  TopicRulePayloadActionDynamoDBActionRangeKeyValue:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-topicrule-dynamodbaction.html#cfn-iot-topicrule-dynamodbaction-rangekeyvalue
+    Default: null
+  TopicRulePayloadActionDynamoDBActionRoleArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-topicrule-dynamodbaction.html#cfn-iot-topicrule-dynamodbaction-rolearn
+  TopicRulePayloadActionDynamoDBActionTableName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-topicrule-dynamodbaction.html#cfn-iot-topicrule-dynamodbaction-tablename
+  TopicRulePayloadActionDynamoDBv2ActionPutItemInputTableName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-topicrule-putiteminput.html#cfn-iot-topicrule-putiteminput-tablename
+  TopicRulePayloadActionDynamoDBv2ActionRoleArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-topicrule-dynamodbv2action.html#cfn-iot-topicrule-dynamodbv2action-rolearn
+    Default: null
+  TopicRulePayloadActionElasticsearchActionEndpoint:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-topicrule-elasticsearchaction.html#cfn-iot-topicrule-elasticsearchaction-endpoint
+  TopicRulePayloadActionElasticsearchActionId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-topicrule-elasticsearchaction.html#cfn-iot-topicrule-elasticsearchaction-id
+  TopicRulePayloadActionElasticsearchActionIndex:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-topicrule-elasticsearchaction.html#cfn-iot-topicrule-elasticsearchaction-index
+  TopicRulePayloadActionElasticsearchActionRoleArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-topicrule-elasticsearchaction.html#cfn-iot-topicrule-elasticsearchaction-rolearn
+  TopicRulePayloadActionElasticsearchActionType:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-topicrule-elasticsearchaction.html#cfn-iot-topicrule-elasticsearchaction-type
+  TopicRulePayloadActionFirehoseActionDeliveryStreamName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-topicrule-firehoseaction.html#cfn-iot-topicrule-firehoseaction-deliverystreamname
+  TopicRulePayloadActionFirehoseActionRoleArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-topicrule-firehoseaction.html#cfn-iot-topicrule-firehoseaction-rolearn
+  TopicRulePayloadActionFirehoseActionSeparator:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-topicrule-firehoseaction.html#cfn-iot-topicrule-firehoseaction-separator
+    Default: null
+  TopicRulePayloadActionHttpActionHttpAuthorizationSigV4AuthorizationRoleArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-topicrule-sigv4authorization.html#cfn-iot-topicrule-sigv4authorization-rolearn
+  TopicRulePayloadActionHttpActionHttpAuthorizationSigV4AuthorizationServiceName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-topicrule-sigv4authorization.html#cfn-iot-topicrule-sigv4authorization-servicename
+  TopicRulePayloadActionHttpActionHttpAuthorizationSigV4AuthorizationSigningRegion:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-topicrule-sigv4authorization.html#cfn-iot-topicrule-sigv4authorization-signingregion
+  TopicRulePayloadActionHttpActionConfirmationUrl:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-topicrule-httpaction.html#cfn-iot-topicrule-httpaction-confirmationurl
+    Default: null
+  TopicRulePayloadActionHttpActionUrl:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-topicrule-httpaction.html#cfn-iot-topicrule-httpaction-url
+  TopicRulePayloadActionIotAnalyticsActionChannelName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-topicrule-iotanalyticsaction.html#cfn-iot-topicrule-iotanalyticsaction-channelname
+  TopicRulePayloadActionIotAnalyticsActionRoleArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-topicrule-iotanalyticsaction.html#cfn-iot-topicrule-iotanalyticsaction-rolearn
+  TopicRulePayloadActionIotEventsActionInputName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-topicrule-ioteventsaction.html#cfn-iot-topicrule-ioteventsaction-inputname
+  TopicRulePayloadActionIotEventsActionMessageId:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-topicrule-ioteventsaction.html#cfn-iot-topicrule-ioteventsaction-messageid
+    Default: null
+  TopicRulePayloadActionIotEventsActionRoleArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-topicrule-ioteventsaction.html#cfn-iot-topicrule-ioteventsaction-rolearn
+  TopicRulePayloadActionIotSiteWiseActionRoleArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-topicrule-iotsitewiseaction.html#cfn-iot-topicrule-iotsitewiseaction-rolearn
+  TopicRulePayloadActionKinesisActionPartitionKey:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-topicrule-kinesisaction.html#cfn-iot-topicrule-kinesisaction-partitionkey
+    Default: null
+  TopicRulePayloadActionKinesisActionRoleArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-topicrule-kinesisaction.html#cfn-iot-topicrule-kinesisaction-rolearn
+  TopicRulePayloadActionKinesisActionStreamName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-topicrule-kinesisaction.html#cfn-iot-topicrule-kinesisaction-streamname
+  TopicRulePayloadActionLambdaActionFunctionArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-topicrule-lambdaaction.html#cfn-iot-topicrule-lambdaaction-functionarn
+    Default: null
+  TopicRulePayloadActionRepublishActionQos:
+    Type: Number
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-topicrule-republishaction.html#cfn-iot-topicrule-republishaction-qos
+    Default: null
+  TopicRulePayloadActionRepublishActionRoleArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-topicrule-republishaction.html#cfn-iot-topicrule-republishaction-rolearn
+  TopicRulePayloadActionRepublishActionTopic:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-topicrule-republishaction.html#cfn-iot-topicrule-republishaction-topic
+  TopicRulePayloadActionS3ActionBucketName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-topicrule-s3action.html#cfn-iot-topicrule-s3action-bucketname
+  TopicRulePayloadActionS3ActionKey:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-topicrule-s3action.html#cfn-iot-topicrule-s3action-key
+  TopicRulePayloadActionS3ActionRoleArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-topicrule-s3action.html#cfn-iot-topicrule-s3action-rolearn
+  TopicRulePayloadActionSnsActionMessageFormat:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-topicrule-snsaction.html#cfn-iot-topicrule-snsaction-messageformat
+    Default: null
+  TopicRulePayloadActionSnsActionRoleArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-topicrule-snsaction.html#cfn-iot-topicrule-snsaction-rolearn
+  TopicRulePayloadActionSnsActionTargetArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-topicrule-snsaction.html#cfn-iot-topicrule-snsaction-targetarn
+  TopicRulePayloadActionSqsActionQueueUrl:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-topicrule-sqsaction.html#cfn-iot-topicrule-sqsaction-queueurl
+  TopicRulePayloadActionSqsActionRoleArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-topicrule-sqsaction.html#cfn-iot-topicrule-sqsaction-rolearn
+  TopicRulePayloadActionSqsActionUseBase64:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-topicrule-sqsaction.html#cfn-iot-topicrule-sqsaction-usebase64
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: null
+  TopicRulePayloadActionStepFunctionsActionExecutionNamePrefix:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-topicrule-stepfunctionsaction.html#cfn-iot-topicrule-stepfunctionsaction-executionnameprefix
+    Default: null
+  TopicRulePayloadActionStepFunctionsActionRoleArn:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-topicrule-stepfunctionsaction.html#cfn-iot-topicrule-stepfunctionsaction-rolearn
+  TopicRulePayloadActionStepFunctionsActionStateMachineName:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-topicrule-stepfunctionsaction.html#cfn-iot-topicrule-stepfunctionsaction-statemachinename
+  TopicRulePayloadRuleDisabled:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-topicrule-topicrulepayload.html#cfn-iot-topicrule-topicrulepayload-ruledisabled
+    AllowedValues:
+      - 'true'
+      - 'false'
+  TopicRulePayloadSql:
+    Type: String
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-topicrule-topicrulepayload.html#cfn-iot-topicrule-topicrulepayload-sql
+Resources:
+  Resource:
+    Type: AWS::IoT::TopicRule
+    Description: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iot-topicrule.html
+    Properties:
+      RuleName: !Ref 'RuleName'
+      TopicRulePayload:
+        AwsIotSqlVersion: !Ref 'TopicRulePayloadAwsIotSqlVersion'
+        Description: !Ref 'TopicRulePayloadDescription'
+        ErrorAction:
+          CloudwatchAlarm:
+            AlarmName: !Ref 'TopicRulePayloadActionCloudwatchAlarmActionAlarmName'
+            RoleArn: !Ref 'TopicRulePayloadActionCloudwatchAlarmActionRoleArn'
+            StateReason: !Ref 'TopicRulePayloadActionCloudwatchAlarmActionStateReason'
+            StateValue: !Ref 'TopicRulePayloadActionCloudwatchAlarmActionStateValue'
+          CloudwatchMetric:
+            MetricName: !Ref 'TopicRulePayloadActionCloudwatchMetricActionMetricName'
+            MetricNamespace: !Ref 'TopicRulePayloadActionCloudwatchMetricActionMetricNamespace'
+            MetricTimestamp: !Ref 'TopicRulePayloadActionCloudwatchMetricActionMetricTimestamp'
+            MetricUnit: !Ref 'TopicRulePayloadActionCloudwatchMetricActionMetricUnit'
+            MetricValue: !Ref 'TopicRulePayloadActionCloudwatchMetricActionMetricValue'
+            RoleArn: !Ref 'TopicRulePayloadActionCloudwatchMetricActionRoleArn'
+          DynamoDB:
+            HashKeyField: !Ref 'TopicRulePayloadActionDynamoDBActionHashKeyField'
+            HashKeyType: !Ref 'TopicRulePayloadActionDynamoDBActionHashKeyType'
+            HashKeyValue: !Ref 'TopicRulePayloadActionDynamoDBActionHashKeyValue'
+            PayloadField: !Ref 'TopicRulePayloadActionDynamoDBActionPayloadField'
+            RangeKeyField: !Ref 'TopicRulePayloadActionDynamoDBActionRangeKeyField'
+            RangeKeyType: !Ref 'TopicRulePayloadActionDynamoDBActionRangeKeyType'
+            RangeKeyValue: !Ref 'TopicRulePayloadActionDynamoDBActionRangeKeyValue'
+            RoleArn: !Ref 'TopicRulePayloadActionDynamoDBActionRoleArn'
+            TableName: !Ref 'TopicRulePayloadActionDynamoDBActionTableName'
+          DynamoDBv2:
+            PutItem:
+              TableName: !Ref 'TopicRulePayloadActionDynamoDBv2ActionPutItemInputTableName'
+            RoleArn: !Ref 'TopicRulePayloadActionDynamoDBv2ActionRoleArn'
+          Elasticsearch:
+            Endpoint: !Ref 'TopicRulePayloadActionElasticsearchActionEndpoint'
+            Id: !Ref 'TopicRulePayloadActionElasticsearchActionId'
+            Index: !Ref 'TopicRulePayloadActionElasticsearchActionIndex'
+            RoleArn: !Ref 'TopicRulePayloadActionElasticsearchActionRoleArn'
+            Type: !Ref 'TopicRulePayloadActionElasticsearchActionType'
+          Firehose:
+            DeliveryStreamName: !Ref 'TopicRulePayloadActionFirehoseActionDeliveryStreamName'
+            RoleArn: !Ref 'TopicRulePayloadActionFirehoseActionRoleArn'
+            Separator: !Ref 'TopicRulePayloadActionFirehoseActionSeparator'
+          Http:
+            Auth:
+              Sigv4:
+                RoleArn: !Ref 'TopicRulePayloadActionHttpActionHttpAuthorizationSigV4AuthorizationRoleArn'
+                ServiceName: !Ref 'TopicRulePayloadActionHttpActionHttpAuthorizationSigV4AuthorizationServiceName'
+                SigningRegion: !Ref 'TopicRulePayloadActionHttpActionHttpAuthorizationSigV4AuthorizationSigningRegion'
+            ConfirmationUrl: !Ref 'TopicRulePayloadActionHttpActionConfirmationUrl'
+            Url: !Ref 'TopicRulePayloadActionHttpActionUrl'
+          IotAnalytics:
+            ChannelName: !Ref 'TopicRulePayloadActionIotAnalyticsActionChannelName'
+            RoleArn: !Ref 'TopicRulePayloadActionIotAnalyticsActionRoleArn'
+          IotEvents:
+            InputName: !Ref 'TopicRulePayloadActionIotEventsActionInputName'
+            MessageId: !Ref 'TopicRulePayloadActionIotEventsActionMessageId'
+            RoleArn: !Ref 'TopicRulePayloadActionIotEventsActionRoleArn'
+          IotSiteWise:
+            RoleArn: !Ref 'TopicRulePayloadActionIotSiteWiseActionRoleArn'
+          Kinesis:
+            PartitionKey: !Ref 'TopicRulePayloadActionKinesisActionPartitionKey'
+            RoleArn: !Ref 'TopicRulePayloadActionKinesisActionRoleArn'
+            StreamName: !Ref 'TopicRulePayloadActionKinesisActionStreamName'
+          Lambda:
+            FunctionArn: !Ref 'TopicRulePayloadActionLambdaActionFunctionArn'
+          Republish:
+            Qos: !Ref 'TopicRulePayloadActionRepublishActionQos'
+            RoleArn: !Ref 'TopicRulePayloadActionRepublishActionRoleArn'
+            Topic: !Ref 'TopicRulePayloadActionRepublishActionTopic'
+          S3:
+            BucketName: !Ref 'TopicRulePayloadActionS3ActionBucketName'
+            Key: !Ref 'TopicRulePayloadActionS3ActionKey'
+            RoleArn: !Ref 'TopicRulePayloadActionS3ActionRoleArn'
+          Sns:
+            MessageFormat: !Ref 'TopicRulePayloadActionSnsActionMessageFormat'
+            RoleArn: !Ref 'TopicRulePayloadActionSnsActionRoleArn'
+            TargetArn: !Ref 'TopicRulePayloadActionSnsActionTargetArn'
+          Sqs:
+            QueueUrl: !Ref 'TopicRulePayloadActionSqsActionQueueUrl'
+            RoleArn: !Ref 'TopicRulePayloadActionSqsActionRoleArn'
+            UseBase64: !Ref 'TopicRulePayloadActionSqsActionUseBase64'
+          StepFunctions:
+            ExecutionNamePrefix: !Ref 'TopicRulePayloadActionStepFunctionsActionExecutionNamePrefix'
+            RoleArn: !Ref 'TopicRulePayloadActionStepFunctionsActionRoleArn'
+            StateMachineName: !Ref 'TopicRulePayloadActionStepFunctionsActionStateMachineName'
+        RuleDisabled: !Ref 'TopicRulePayloadRuleDisabled'
+        Sql: !Ref 'TopicRulePayloadSql'
+Outputs:
+  Arn:
+    Value:
+      GetAtt:
+        - Resource
+        - Arn
