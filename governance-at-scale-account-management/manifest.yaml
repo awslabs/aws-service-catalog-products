@@ -4,6 +4,20 @@
 schema: puppet-2019-04-01
 
 launches:
+
+  datastore:
+    portfolio: demo-central-it-team-portfolio
+    product: datastore
+    version: v1
+    deploy_to:
+      tags:
+        - regions: default_region
+          tag: scope:puppet-hub
+    outputs:
+      ssm:
+        - param_name: /governance-at-scale-account-management/datastore/gas-data-store-bucket/name
+          stack_output: GASDataStoreBucketName
+
   account-recorder:
     portfolio: demo-central-it-team-portfolio
     product: account-recorder
@@ -22,19 +36,6 @@ launches:
       GASDataStoreBucketName:
         ssm:
           name: /governance-at-scale-account-management/datastore/gas-data-store-bucket/name
-
-  datastore:
-    portfolio: demo-central-it-team-portfolio
-    product: datastore
-    version: v1
-    deploy_to:
-      tags:
-        - regions: default_region
-          tag: scope:puppet-hub
-    outputs:
-      ssm:
-        - param_name: /governance-at-scale-account-management/datastore/gas-data-store-bucket/name
-          stack_output: GASDataStoreBucketName
 
   account-creation-org-bootstrap:
     portfolio: demo-central-it-team-portfolio
@@ -58,6 +59,8 @@ launches:
     portfolio: demo-central-it-team-portfolio
     product: account-creation-shared
     version: v3
+    depends_on:
+      - account-creation-org-bootstrap
     parameters:
       AssumableRoleInRootAccountArn:
         ssm:
@@ -77,6 +80,8 @@ launches:
     portfolio: demo-central-it-team-portfolio
     product: account-bootstrap-shared
     version: v2
+    depends_on:
+      - account-creation-org-bootstrap
     parameters:
       AssumableRoleInRootAccountArn:
         ssm:
@@ -106,3 +111,49 @@ launches:
       tags:
         - regions: default_region
           tag: scope:puppet-hub
+
+  account-type-to-organizational-unit-chooser:
+    portfolio: demo-central-it-team-portfolio
+    product: account-type-to-organizational-unit-chooser
+    version: v4
+    outputs:
+      ssm:
+        - param_name: /account-vending/account-type-to-organizational-unit-chooser/account-type-to-organizational-unit-id-custom-resource/arn
+          stack_output: AccountTypeToOrganizationalUnitIdCustomResourceArn
+    deploy_to:
+      tags:
+        - regions: default_region
+          tag: scope:puppet-hub
+
+  account-vending-account-001:
+    portfolio: demo-central-it-team-portfolio
+    product: account-vending-account-creation
+    version: v2
+    depends_on:
+      - account-vending-account-creation-shared
+      - account-vending-account-bootstrap-shared
+      - account-type-to-organizational-unit-chooser
+      - account-recorder
+      - account-creation-notifier
+    parameters:
+      Email:
+        default: "mailing-list+account-001@somewhere.com"
+      AccountName:
+        default: "account-001"
+      OrganizationAccountAccessRole:
+        default: "OrganizationAccountAccessRole"
+      IamUserAccessToBilling:
+        default: "ALLOW"
+      AccountGroupAndTypeToOUConverterArn:
+        ssm:
+          name: /account-vending/account-type-to-organizational-unit-chooser/account-type-to-organizational-unit-id-custom-resource/arn
+      AccountVendingCreationLambdaArn:
+        ssm:
+          name: /account-vending/account-custom-resource-arn
+      AccountVendingBootstrapperLambdaArn:
+        ssm:
+          name: /account-vending/bootstrapper-project-custom-resource-arn
+    deploy_to:
+      tags:
+        - tag: scope:puppet-hub
+          regions: default_region

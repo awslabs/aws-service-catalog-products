@@ -136,8 +136,6 @@ Portfolios:
               RepositoryName: account-creation
               BranchName: master
 
-
-
     - Name: account-recorder
       Owner: central-it@customer.com
       Description: |
@@ -162,6 +160,25 @@ Portfolios:
               RepositoryName: account-recorder
               BranchName: v1
 
+    - Name: account-type-to-organizational-unit-chooser
+      Owner: central-it@customer.com
+      Description: Takes the given account type and returns the organizational unit it should be assigned to
+      Distributor: central-it-team
+      SupportDescription: Contact us on Chime for help #central-it-team
+      SupportEmail: central-it-team@customer.com
+      SupportUrl: https://wiki.customer.com/central-it-team/util
+      Tags:
+        - Key: product-type
+          Value: util
+      Versions:
+        - Name: v4
+          Description: Takes the given account type and returns the organizational unit it should be assigned to
+          Active: True
+          Source:
+            Provider: CodeCommit
+            Configuration:
+              RepositoryName: account-type-to-organizational-unit-chooser
+              BranchName: v4
 
     - Name: datastore
       Owner: central-it@customer.com
