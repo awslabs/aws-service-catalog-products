@@ -11,15 +11,17 @@ launches:
     deploy_to:
       tags:
         - regions: default_region
-          tag: "role:controltower"
+          tag: scope:puppet-hub
     depends_on:
       - datastore
+      - account-creation-notifier
     parameters:
       AccountCreationSNSTopicArn:
-        default: SET_ME
+        ssm:
+          name: /account-vending/account-creation-notifier/account-creation-notifier-custom-resource-arn
       GASDataStoreBucketName:
-        ssm: 
-          name: /governance-at-scale-account-management/GASDataStoreBucketName
+        ssm:
+          name: /governance-at-scale-account-management/datastore/gas-data-store-bucket/name
 
   datastore:
     portfolio: demo-central-it-team-portfolio
@@ -28,8 +30,79 @@ launches:
     deploy_to:
       tags:
         - regions: default_region
-          tag: "role:controltower"
+          tag: scope:puppet-hub
     outputs:
       ssm:
-        -  param_name: /governance-at-scale-account-management/GASDataStoreBucketName
-           stack_output: GASDataStoreBucketName
+        - param_name: /governance-at-scale-account-management/datastore/gas-data-store-bucket/name
+          stack_output: GASDataStoreBucketName
+
+  account-creation-org-bootstrap:
+    portfolio: demo-central-it-team-portfolio
+    product: account-creation-org-bootstrap
+    version: v1
+    parameters:
+      ServiceCatalogFactoryAccountId:
+        default: <FACTORY_ACCOUNT_ID>
+      OrganizationAccountAccessRole:
+        default: OrganizationAccountAccessRole
+    outputs:
+      ssm:
+        - param_name: /account-vending/account-creation-org-bootstrap/assumable-roll-in-root-account/arn
+          stack_output: AssumableRoleInRootAccountArn
+    deploy_to:
+      tags:
+        - tag: scope:org-master
+          regions: default_region
+
+  account-vending-account-creation-shared:
+    portfolio: demo-central-it-team-portfolio
+    product: account-creation-shared
+    version: v3
+    parameters:
+      AssumableRoleInRootAccountArn:
+        ssm:
+          name: /account-vending/account-creation-org-bootstrap/assumable-roll-in-root-account/arn
+      OrganizationAccountAccessRole:
+        default: OrganizationAccountAccessRole
+    outputs:
+      ssm:
+        - param_name: /account-vending/account-creation-shared/account-custom-resource/arn
+          stack_output: AccountCustomResourceArn
+    deploy_to:
+      tags:
+        - tag: scope:puppet-hub
+          regions: default_region
+
+  account-vending-account-bootstrap-shared:
+    portfolio: demo-central-it-team-portfolio
+    product: account-bootstrap-shared
+    version: v2
+    parameters:
+      AssumableRoleInRootAccountArn:
+        ssm:
+          name: /account-vending/account-creation-org-bootstrap/assumable-roll-in-root-account/arn
+    outputs:
+      ssm:
+        - param_name: /account-vending/account-bootstrap-shared/bootstrapper-project-custom-resource/arn
+          stack_output: BootstrapperProjectCustomResourceArn
+    deploy_to:
+      tags:
+        - tag: scope:puppet-hub
+          regions: default_region
+
+  account-creation-notifier:
+    portfolio: demo-central-it-team-portfolio
+    product: account-creation-notifier
+    version: v1
+    outputs:
+      ssm:
+        - param_name: /account-vending/account-creation-notifier/sns-topic
+          stack_output: SNSTopic
+        - param_name: /account-vending/account-creation-notifier/sns-topic-name
+          stack_output: SNSTopicName
+        - param_name: /account-vending/account-creation-notifier/account-creation-notifier-custom-resource-arn
+          stack_output: AccountCreationNotifierCustomResourceArn
+    deploy_to:
+      tags:
+        - regions: default_region
+          tag: scope:puppet-hub
