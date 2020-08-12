@@ -1,0 +1,209 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  Creates an event driven pattern to process S3 PUT events via SQS and Lambda
+  {"framework": "servicecatalog-products", "role": "product", "product-set": "s3-event-notifier", "product": "s3-event-notifier", "version": "v1"}
+Resources:
+  # CMK for the SQS
+  FileProcessingCMK:
+    Type: AWS::KMS::Key
+    Properties:
+      Description: CMK for the encryption of the SQS
+      KeyPolicy:
+        Version: '2012-10-17'
+        Statement:
+          - Sid: Enable IAM User Permissions
+            Effect: Allow
+            Principal:
+              AWS: !Sub "arn:aws:iam::${AWS::AccountId}:root"
+            Action:
+              - "kms:*"
+            Resource: "*"
+          - Sid: Allow administration of the key
+            Effect: Allow
+            Principal:
+              AWS: !Sub "arn:aws:iam::${AWS::AccountId}:role/IsenConsoleAdmin"
+            Action:
+              - "kms:Create*"
+              - "kms:Describe*"
+              - "kms:Enable*"
+              - "kms:List*"
+              - "kms:Put*"
+              - "kms:Update*"
+              - "kms:Revoke*"
+              - "kms:Disable*"
+              - "kms:Get*"
+              - "kms:Delete*"
+              - "kms:ScheduleKeyDeletion"
+              - "kms:CancelKeyDeletion"
+            Resource: "*"
+          - Sid: Allow use of the key by S3 services
+            Effect: Allow
+            Principal:
+              Service: "s3.amazonaws.com"
+            Action:
+              - "kms:Decrypt"
+              - "kms:GenerateDataKey"
+            Resource: "*"
+          - Sid: Allow use of the key by SQS services
+            Effect: Allow
+            Principal:
+              Service: "sqs.amazonaws.com"
+            Action:
+              - "kms:Decrypt"
+              - "kms:GenerateDataKey"
+          - Sid: Allow use of the key by Lambda services
+            Effect: Allow
+            Principal:
+              Service: "lambda.amazonaws.com"
+            Action:
+              - "kms:Decrypt"
+              - "kms:GenerateDataKey"
+            Resource: "*"
+  FileProcessingCMKAlias:
+    Type: AWS::KMS::Alias
+    Properties:
+      AliasName: "alias/FileProcessingCMK"
+      TargetKeyId: !Ref FileProcessingCMK
+  # SQS queue and queue policy
+  FileProcessingEventsQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: "FileProcessingEventsQueue"
+      VisibilityTimeout: 60
+      KmsMasterKeyId: !Ref FileProcessingCMK
+      RedrivePolicy:
+        deadLetterTargetArn: !GetAtt FileProcessingDeadLetterQueue.Arn
+        maxReceiveCount: 5
+  FileProcessingEventsQueuePolicy:
+    Type: AWS::SQS::QueuePolicy
+    Properties:
+      Queues:
+        - !Ref FileProcessingEventsQueue
+      PolicyDocument:
+        Statement:
+          - Action:
+              - "SQS:*"
+            Effect: "Allow"
+            Resource: !GetAtt FileProcessingEventsQueue.Arn
+            Principal:
+              AWS: "*"
+            Condition:
+              ArnLike:
+                aws:SourceArn: !Sub "arn:aws:s3:*:*:file-processing-${AWS::AccountId}"
+              StringEquals:
+                aws:SourceAccount: !Sub "${AWS::AccountId}"
+  FileProcessingDeadLetterQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: "FileProcessingDeadLetterQueue"
+      VisibilityTimeout: 60
+      KmsMasterKeyId: !Ref FileProcessingCMK
+  FileProcessingDeadLetterQueuePolicy:
+    Type: AWS::SQS::QueuePolicy
+    Properties:
+      Queues:
+        - !Ref FileProcessingDeadLetterQueue
+      PolicyDocument:
+        Statement:
+          - Action:
+              - "SQS:*"
+            Effect: "Allow"
+            Resource: !GetAtt FileProcessingDeadLetterQueue.Arn
+            Principal:
+              AWS: "*"
+            Condition:
+              ArnLike:
+                aws:SourceArn: !Sub "arn:aws:sqs:${AWS::Region}:${AWS::AccountId}:FileProcessingEventsQueue"
+              StringEquals:
+                aws:SourceAccount: !Sub "${AWS::AccountId}"
+  # S3 bucket for storing the files
+  S3Bucket:
+    DependsOn:
+      - FileProcessingCMK
+      - FileProcessingCMKAlias
+      - FileProcessingEventsQueue
+      - FileProcessingEventsQueuePolicy
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub "file-processing-${AWS::AccountId}"
+      AccessControl: BucketOwnerFullControl
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: True
+        BlockPublicPolicy: True
+        IgnorePublicAcls: True
+        RestrictPublicBuckets: True
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      NotificationConfiguration:
+        QueueConfigurations:
+          - Event: "s3:ObjectCreated:Put"
+            Filter:
+              S3Key:
+                Rules:
+                  - Name: "prefix"
+                    Value: "files/"
+            Queue: !GetAtt FileProcessingEventsQueue.Arn
+  # Bucket policy for the S3 bucket
+  S3BucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      PolicyDocument:
+        Statement:
+          - Action:
+              - s3:PutObject
+            Effect: Allow
+            Resource: !Join ["", [!GetAtt S3Bucket.Arn, "/*"]]
+            Principal:
+              AWS: !Sub "arn:aws:iam::${AWS::AccountId}:root"
+      Bucket: !Ref S3Bucket
+  # Lambda function and role for handling the SQS events
+  LambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: "sts:AssumeRole"
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Policies:
+        - PolicyName: InlinePolicy
+          PolicyDocument:
+            Statement:
+              - Action:
+                  - "SQS:SendMessage"
+                  - "SQS:ReceiveMessage"
+                  - "SQS:DeleteMessage"
+                  - "SQS:GetQueueAttributes"
+                  - "kms:Decrypt"
+                  - "kms:GenerateDataKey"
+                Effect: Allow
+                Resource: "*"
+  LambdaFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Description: "Lambda for the event processing"
+      Role: !GetAtt LambdaExecutionRole.Arn
+      CodeUri: ./src
+      Handler: handler.handler
+      MemorySize: 128
+      Runtime: "python3.8"
+      Timeout: 60
+  SQSAndLambdaMapping:
+    Type: AWS::Lambda::EventSourceMapping
+    Properties:
+      EventSourceArn: !GetAtt FileProcessingEventsQueue.Arn
+      FunctionName: !GetAtt LambdaFunction.Arn
+Outputs:
+  FileProcessingBucket:
+    Description: Bucket for uploading the files
+    Value: !Ref S3Bucket
+  SQSQueue:
+    Description: File processing queue
+    Value: !Ref FileProcessingEventsQueue
