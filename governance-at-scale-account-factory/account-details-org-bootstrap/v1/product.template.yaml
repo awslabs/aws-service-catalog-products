@@ -1,0 +1,53 @@
+# Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+AWSTemplateFormatVersion: '2010-09-09'
+Description: |
+    IAM Role needed to use AWS Organizations to list AWS Accounts.
+    {"framework": "servicecatalog-products", "role": "product", "product-set": "governance-at-scale-account-factory", "product": "account-details-org-bootstrap", "version": "v1"} 
+
+Parameters:
+  ServiceCatalogToolsAccountId:
+    Description: The account where you have installed the Service Catalog tools.
+    Type: String
+
+  GovernanceAtScaleAccountFactoryIAMRolePath:
+    Description: The path to use for IAM roles in this template
+    Type: String
+
+  GovernanceAtScaleAccountFactoryAccountDetailsOrgIAMRoleName:
+    Description: The name to use for IAM role that will be used to list accounts for bootstrapping purposes
+    Type: String
+
+
+Resources:
+  AccountCreationDetailsAssumableRole:
+    Type: AWS::IAM::Role
+    Description: |
+      IAM Role needed so we can list accounts
+    Properties:
+      RoleName: !Ref GovernanceAtScaleAccountFactoryAccountDetailsOrgIAMRoleName
+      Path: !Ref GovernanceAtScaleAccountFactoryIAMRolePath
+      Policies:
+        - PolicyName: Organizations
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - organizations:ListAccounts
+                  - organizations:DescribeAccount
+                Resource: '*'
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Principal:
+              AWS: !Sub "arn:aws:iam::${ServiceCatalogToolsAccountId}:root"
+            Action:
+              - "sts:AssumeRole"
+
+Outputs:
+  GovernanceAtScaleAccountFactoryAccountDetailsOrgRoleArn:
+    Description: The ARN for your Assumable role in root account
+    Value: !GetAtt AccountCreationDetailsAssumableRole.Arn

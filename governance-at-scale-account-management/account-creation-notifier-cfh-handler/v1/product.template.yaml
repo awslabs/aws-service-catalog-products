@@ -1,0 +1,69 @@
+# Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+AWSTemplateFormatVersion: 2010-09-09
+Description: |
+  Lambda to back a custom resource that dispatches notifications to an included SNS Topic
+  {"version": "v1", "framework": "servicecatalog-products", "role": "product", "product-set": "aws-control-tower-augmented-account-factory", "product": "account-creation-notifier"}
+
+Parameters:
+  AccountCreationNotifierSNSTopicArn:
+    Type: String
+
+Resources:
+  Function:
+    Description: |
+      Lambda function to call CFH
+    Type: AWS::Lambda::Function
+    Properties:
+      Handler: index.lambda_handler
+      Timeout: 10
+      Role: !GetAtt Role.Arn
+      Runtime: python3.7
+      Code:
+        ZipFile: |
+          import cfnresponse
+          import boto3
+          import os
+          import json
+
+          def lambda_handler(event, context):
+            #print("Received event: " + json.dumps(event, indent=2))
+            message = event['Records'][0]['Sns']['Message']
+            print("From SNS: " + message)
+            return message
+
+  Role:
+    Type: AWS::IAM::Role
+    Description: |
+      IAM role needed to publish account creations to SNS.
+    Properties:
+#      Path: /account-vending/account-creation-notifier-cfh-handler/
+      Path: /protected-by-scp/account-vending/..
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+
+Outputs:
+  SNSTopic:
+    Description: |
+      Outputs the SNS topic
+    Value: !Ref SNSTopic
+
+  SNSTopicName:
+    Description: |
+      Outputs the SNS topic name
+    Value: !GetAtt SNSTopic.TopicName
+
+  AccountCreationNotifierCustomResourceArn:
+    Description: |
+      Arn of lambda that can be used to back custom resources to notify others that accounts have been created
+    Value: !GetAtt Function.Arn

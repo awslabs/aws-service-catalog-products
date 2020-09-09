@@ -1,0 +1,119 @@
+# Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+AWSTemplateFormatVersion: 2010-09-09
+Description: |
+    Takes the given 'AccountName' and returns the account details
+    {"framework": "servicecatalog-products", "role": "product", "product-set": "governance-at-scale-account-factory", "product": "account-details", "version": "v1"} 
+
+Parameters:
+  GovernanceAtScaleAccountFactoryAccountDetailsOrgRoleArn:
+    Type: String
+    Description: |
+      AWS IAM Role in the Organizations root account that is assumable from the account where this is provisoned
+
+  GovernanceAtScaleAccountFactoryIAMRolePath:
+    Description: The path to use for IAM roles in this template
+    Type: String
+
+  GovernanceAtScaleAccountFactoryAccountDetailsCRIAMRoleName:
+    Description: The name to use for IAM role that will be used for lambda when backing the account details custom resource
+    Type: String
+
+Resources:
+  Function:
+    Description: |
+      Lambda function to back an AWS CloudFormation custom resource.  This expects a ResourceProperty of AccountType and
+      will return an organizational_unit_id based on the dict organizational_unit_ids
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: 'account-details-to-aws-account-id'
+      Handler: index.lambda_handler
+      Timeout: 10
+      Role: !GetAtt Role.Arn
+      Runtime: python3.7
+      Environment:
+        Variables:
+          ASSUMABLE_ROLE_IN_ROOT_ACCOUNT_ARN: !Ref GovernanceAtScaleAccountFactoryAccountDetailsOrgRoleArn
+      Code:
+        ZipFile: |
+          import logging
+          import boto3
+          import cfnresponse
+          import os
+          from boto3.session import Session
+
+          logger = logging.getLogger()
+          logger.setLevel(logging.INFO)
+
+          ASSUMABLE_ROLE_IN_ROOT_ACCOUNT_ARN = os.getenv('ASSUMABLE_ROLE_IN_ROOT_ACCOUNT_ARN')
+
+          def lambda_handler(event, context):
+            logger.info('got event {}'.format(event))
+            response_data = {}
+
+            if event['RequestType'] in ['Create', 'Update']:
+              account_name = event['ResourceProperties'].get('AccountName')
+              client = boto3.client('sts')
+              response = client.assume_role(RoleArn=ASSUMABLE_ROLE_IN_ROOT_ACCOUNT_ARN, RoleSessionName="RoleInRoot")
+              credentials = response.get('Credentials')
+              org_client = Session().client(
+                service_name='organizations',
+                aws_access_key_id=credentials['AccessKeyId'],
+                aws_secret_access_key=credentials['SecretAccessKey'],
+                aws_session_token=credentials['SessionToken'],
+              )
+              a = False
+              p = {}
+              while a is False:
+                response = org_client.list_accounts(**p)
+                for account in response.get('Accounts', []):
+                  if account.get('Name') == account_name:
+                    a = account
+                p['NextToken'] = response.get('NextToken', False)
+                if a is False and p['NextToken'] is False:
+                  raise Exception("Could not find account")
+
+              response_data = org_client.describe_account(AccountId=a.get('Id')).get('Account')
+              del response_data['JoinedTimestamp']
+
+            else: # delete / update
+              pass
+
+            logger.info('response_data {}'.format(response_data))
+            cfnresponse.send(event, context, cfnresponse.SUCCESS, response_data, response_data['Id'])
+
+  Role:
+    Type: AWS::IAM::Role
+    Description: |
+      IAM role needed to execute account-type-to-organizational-unit-id.  Only needs basic access.
+    Properties:
+      RoleName: !Ref GovernanceAtScaleAccountFactoryAccountDetailsCRIAMRoleName
+      Path: !Ref GovernanceAtScaleAccountFactoryIAMRolePath
+      Policies:
+        - PolicyName: ServiceCatalogActions
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - sts:AssumeRole
+                Resource: !Ref GovernanceAtScaleAccountFactoryAccountDetailsOrgRoleArn
+
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+
+Outputs:
+  GovernanceAtScaleAccountFactoryAccountDetailsCRArn:
+    Description: |
+      Outputs the Function Arn so others can use it
+    Value: !GetAtt Function.Arn

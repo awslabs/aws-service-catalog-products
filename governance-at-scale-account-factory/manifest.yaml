@@ -1,0 +1,275 @@
+launches:
+  account-bootstrap-shared:
+    depends_on:
+    - account-bootstrap-shared-org-bootstrap
+    deploy_to:
+      tags:
+      - regions: default_region
+        tag: scope:all
+    outputs:
+      ssm:
+      - param_name: /governance-at-scale-account-factory/account-bootstrap-shared/GovernanceAtScaleAccountFactoryBootstrapperProjectCustomResourceArn
+        stack_output: GovernanceAtScaleAccountFactoryBootstrapperProjectCustomResourceArn
+    parameters:
+      AssumableRoleArnInRootAccountForBootstrapping:
+        ssm:
+          name: /governance-at-scale-account-factory/account-bootstrap-shared-org-bootstrap/AssumableRoleArnInRootAccountForBootstrapping
+      GovernanceAtScaleAccountFactoryAccountBootstrapSharedBootstrapperIAMRoleName:
+        default: SET_ME
+      GovernanceAtScaleAccountFactoryAccountBootstrapSharedCustomResourceIAMRoleName:
+        default: SET_ME
+      GovernanceAtScaleAccountFactoryIAMRolePath:
+        default: SET_ME
+    portfolio: demo-central-it-team-portfolio
+    product: account-bootstrap-shared
+    version: v1
+  account-bootstrap-shared-org-bootstrap:
+    deploy_to:
+      tags:
+      - regions: default_region
+        tag: scope:all
+    outputs:
+      ssm:
+      - param_name: /governance-at-scale-account-factory/account-bootstrap-shared-org-bootstrap/AssumableRoleArnInRootAccountForBootstrapping
+        stack_output: AssumableRoleArnInRootAccountForBootstrapping
+    parameters:
+      GovernanceAtScaleAccountFactoryAccountBootstrapSharedBootstrapperOrgIAMRoleName:
+        default: SET_ME
+      GovernanceAtScaleAccountFactoryIAMRolePath:
+        default: SET_ME
+      OrganizationAccountAccessRole:
+        default: OrganizationAccountAccessRole
+      ServiceCatalogToolsAccountId:
+        default: SET_ME
+    portfolio: demo-central-it-team-portfolio
+    product: account-bootstrap-shared-org-bootstrap
+    version: v1
+  account-create-update-notifier:
+    deploy_to:
+      tags:
+      - regions: default_region
+        tag: scope:all
+    outputs:
+      ssm:
+      - param_name: /governance-at-scale-account-factory/account-create-update-notifier/AccountCreateUpdateNotifierTopicArn
+        stack_output: AccountCreateUpdateNotifierTopicArn
+      - param_name: /governance-at-scale-account-factory/account-create-update-notifier/AccountCreateUpdateNotifierTopicName
+        stack_output: AccountCreateUpdateNotifierTopicName
+      - param_name: /governance-at-scale-account-factory/account-create-update-notifier/GovernanceAtScaleAccountFactoryAccountCreateUpdateNotifierCRArn
+        stack_output: GovernanceAtScaleAccountFactoryAccountCreateUpdateNotifierCRArn
+    parameters:
+      GovernanceAtScaleAccountFactoryAccountCreateUpdateTopicName:
+        default: account-creations
+      GovernanceAtScaleAccountFactoryAccountCreateUpdateCRIAMRoleName:
+        default: SET_ME
+      GovernanceAtScaleAccountFactoryIAMRolePath:
+        default: SET_ME
+    portfolio: demo-central-it-team-portfolio
+    product: account-create-update-notifier
+    version: v1
+  account-creation-notifier-cfh-handler:
+    depends_on:
+    - account-create-update-notifier
+    deploy_to:
+      tags:
+      - regions: default_region
+        tag: scope:all
+    parameters:
+      AccountCreateUpdateNotifierTopicArn:
+        ssm:
+          name: /governance-at-scale-account-factory/account-create-update-notifier/AccountCreateUpdateNotifierTopicArn
+      GovernanceAtScaleAccountFactoryAccountCreateUpdateCFHHandlerIAMRoleName:
+        default: SET_ME
+      GovernanceAtScaleAccountFactoryIAMRolePath:
+        default: SET_ME
+    portfolio: demo-central-it-team-portfolio
+    product: account-creation-notifier-cfh-handler
+    version: v1
+  account-creation-shared:
+    depends_on:
+    - account-creation-shared-org-bootstrap
+    deploy_to:
+      tags:
+      - regions: default_region
+        tag: scope:all
+    outputs:
+      ssm:
+      - param_name: /governance-at-scale-account-factory/account-creation-shared/GovernanceAtScaleAccountFactoryAccountCreationCRArn
+        stack_output: GovernanceAtScaleAccountFactoryAccountCreationCRArn
+    parameters:
+      GovernanceAtScaleAccountFactoryAccountCreationSharedOrgRoleArn:
+        ssm:
+          name: /governance-at-scale-account-factory/account-creation-shared-org-bootstrap/GovernanceAtScaleAccountFactoryAccountCreationSharedOrgRoleArn
+      OrganizationAccountAccessRole:
+        default: OrganizationAccountAccessRole
+    portfolio: demo-central-it-team-portfolio
+    product: account-creation-shared
+    version: v1
+  account-creation-shared-org-bootstrap:
+    deploy_to:
+      tags:
+      - regions: default_region
+        tag: scope:all
+    outputs:
+      ssm:
+      - param_name: /governance-at-scale-account-factory/account-creation-shared-org-bootstrap/GovernanceAtScaleAccountFactoryAccountCreationSharedOrgRoleArn
+        stack_output: GovernanceAtScaleAccountFactoryAccountCreationSharedOrgRoleArn
+    parameters:
+      GovernanceAtScaleAccountFactoryAccountCreationSharedOrgIAMRoleName:
+        default: SET_ME
+      GovernanceAtScaleAccountFactoryIAMRolePath:
+        default: SET_ME
+      OrganizationAccountAccessRole:
+        default: OrganizationAccountAccessRole
+      ServiceCatalogToolsAccountId:
+        default: SET_ME
+    portfolio: demo-central-it-team-portfolio
+    product: account-creation-shared-org-bootstrap
+    version: v1
+  account-details:
+    depends_on:
+    - account-details-org-bootstrap
+    deploy_to:
+      tags:
+      - regions: default_region
+        tag: scope:all
+    outputs:
+      ssm:
+      - param_name: /governance-at-scale-account-factory/account-details/GovernanceAtScaleAccountFactoryAccountDetailsCRArn
+        stack_output: GovernanceAtScaleAccountFactoryAccountDetailsCRArn
+    parameters:
+      GovernanceAtScaleAccountFactoryAccountDetailsCRIAMRoleName:
+        default: SET_ME
+      GovernanceAtScaleAccountFactoryAccountDetailsOrgRoleArn:
+        ssm:
+          name: /governance-at-scale-account-factory/account-details-org-bootstrap/GovernanceAtScaleAccountFactoryAccountDetailsOrgRoleArn
+      GovernanceAtScaleAccountFactoryIAMRolePath:
+        default: SET_ME
+    portfolio: demo-central-it-team-portfolio
+    product: account-details
+    version: v1
+  account-details-org-bootstrap:
+    deploy_to:
+      tags:
+      - regions: default_region
+        tag: scope:all
+    outputs:
+      ssm:
+      - param_name: /governance-at-scale-account-factory/account-details-org-bootstrap/GovernanceAtScaleAccountFactoryAccountDetailsOrgRoleArn
+        stack_output: GovernanceAtScaleAccountFactoryAccountDetailsOrgRoleArn
+    parameters:
+      GovernanceAtScaleAccountFactoryAccountDetailsOrgIAMRoleName:
+        default: SET_ME
+      GovernanceAtScaleAccountFactoryIAMRolePath:
+        default: SET_ME
+      ServiceCatalogToolsAccountId:
+        default: SET_ME
+    portfolio: demo-central-it-team-portfolio
+    product: account-details-org-bootstrap
+    version: v1
+  account-type-to-organizational-unit-chooser:
+    deploy_to:
+      tags:
+      - regions: default_region
+        tag: scope:all
+    outputs:
+      ssm:
+      - param_name: /governance-at-scale-account-factory/account-type-to-organizational-unit-chooser/GovernanceAtScaleAccountFactoryAccountTypeToOUChooserCRArn
+        stack_output: GovernanceAtScaleAccountFactoryAccountTypeToOUChooserCRArn
+    parameters:
+      GovernanceAtScaleAccountFactoryAccountTypeChooserCRIAMRoleName:
+        default: SET_ME
+      GovernanceAtScaleAccountFactoryIAMRolePath:
+        default: SET_ME
+    portfolio: demo-central-it-team-portfolio
+    product: account-type-to-organizational-unit-chooser
+    version: v1
+  aws-control-tower-account-factory:
+    depends_on:
+    - account-type-to-organizational-unit-chooser
+    - account-details
+    - account-create-update-notifier
+    - account-bootstrap-shared
+    deploy_to:
+      tags:
+      - regions: default_region
+        tag: scope:all
+    outputs:
+      ssm:
+      - param_name: /governance-at-scale-account-factory/aws-control-tower-account-factory/AccountId
+        stack_output: AccountId
+      - param_name: /governance-at-scale-account-factory/aws-control-tower-account-factory/AccountOrganizationalUnitName
+        stack_output: AccountOrganizationalUnitName
+    parameters:
+      AccountEmail:
+        default: SET_ME
+      AccountGroup:
+        default: SET_ME
+      AccountName:
+        default: SET_ME
+      AccountType:
+        default: SET_ME
+      GovernanceAtScaleAccountFactoryAccountCreateUpdateNotifierCRArn:
+        ssm:
+          name: /governance-at-scale-account-factory/account-create-update-notifier/GovernanceAtScaleAccountFactoryAccountCreateUpdateNotifierCRArn
+      GovernanceAtScaleAccountFactoryAccountDetailsCRArn:
+        ssm:
+          name: /governance-at-scale-account-factory/account-details/GovernanceAtScaleAccountFactoryAccountDetailsCRArn
+      GovernanceAtScaleAccountFactoryAccountTypeToOUChooserCRArn:
+        ssm:
+          name: /governance-at-scale-account-factory/account-type-to-organizational-unit-chooser/GovernanceAtScaleAccountFactoryAccountTypeToOUChooserCRArn
+      GovernanceAtScaleAccountFactoryBootstrapperProjectCustomResourceArn:
+        ssm:
+          name: /governance-at-scale-account-factory/account-bootstrap-shared/GovernanceAtScaleAccountFactoryBootstrapperProjectCustomResourceArn
+      SSOUserEmail:
+        default: SET_ME
+      SSOUserFirstName:
+        default: SET_ME
+      SSOUserLastName:
+        default: SET_ME
+    portfolio: demo-central-it-team-portfolio
+    product: aws-control-tower-account-factory
+    version: v1
+  aws-service-catalog-account-creation:
+    depends_on:
+    - account-creation-shared
+    - account-bootstrap-shared
+    - account-type-to-organizational-unit-chooser
+    - account-create-update-notifier
+    deploy_to:
+      tags:
+      - regions: default_region
+        tag: scope:all
+    outputs:
+      ssm:
+      - param_name: /governance-at-scale-account-factory/aws-service-catalog-account-creation/AccountId
+        stack_output: AccountId
+    parameters:
+      AccountGroup:
+        default: SET_ME
+      AccountName:
+        default: SET_ME
+      AccountType:
+        default: SET_ME
+      Email:
+        default: SET_ME
+      GovernanceAtScaleAccountFactoryAccountCreateUpdateNotifierCRArn:
+        ssm:
+          name: /governance-at-scale-account-factory/account-create-update-notifier/GovernanceAtScaleAccountFactoryAccountCreateUpdateNotifierCRArn
+      GovernanceAtScaleAccountFactoryAccountCreationCRArn:
+        ssm:
+          name: /governance-at-scale-account-factory/account-creation-shared/GovernanceAtScaleAccountFactoryAccountCreationCRArn
+      GovernanceAtScaleAccountFactoryAccountTypeToOUChooserCRArn:
+        ssm:
+          name: /governance-at-scale-account-factory/account-type-to-organizational-unit-chooser/GovernanceAtScaleAccountFactoryAccountTypeToOUChooserCRArn
+      GovernanceAtScaleAccountFactoryBootstrapperProjectCustomResourceArn:
+        ssm:
+          name: /governance-at-scale-account-factory/account-bootstrap-shared/GovernanceAtScaleAccountFactoryBootstrapperProjectCustomResourceArn
+      IamUserAccessToBilling:
+        default: ALLOW
+      OrganizationAccountAccessRole:
+        default: OrganizationAccountAccessRole
+    portfolio: demo-central-it-team-portfolio
+    product: aws-service-catalog-account-creation
+    version: v1
+schema: puppet-2019-04-01
