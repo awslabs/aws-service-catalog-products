@@ -3,8 +3,8 @@
 
 AWSTemplateFormatVersion: 2010-09-09
 Description: |
-    Takes the given 'AccountName' and returns the account details
-    {"framework": "servicecatalog-products", "role": "product", "product-set": "governance-at-scale-account-factory", "product": "account-details", "version": "v1"} 
+  Takes the given 'AccountName' and returns the account details
+  {"framework": "servicecatalog-products", "role": "product", "product-set": "governance-at-scale-account-factory", "product": "account-details", "version": "v1"}
 
 Parameters:
   GovernanceAtScaleAccountFactoryAccountDetailsOrgRoleArn:
