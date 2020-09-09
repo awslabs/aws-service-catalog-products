@@ -1,0 +1,161 @@
+# Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+AWSTemplateFormatVersion: 2010-09-09
+Description: |
+  Augments AWS Control Tower Account Factory - simplifies user input, dispatches extra parameters via AWS SNS andreturns the account id as an output
+  {"framework": "servicecatalog-products", "role": "product", "product-set": "governance-at-scale-account-factory", "product": "aws-control-tower-account-factory", "version": "v1"}
+
+Parameters:
+  AccountName:
+    Description: The AWS Account Name
+    Type: String
+    AllowedPattern: '[a-zA-Z0-9][a-zA-Z0-9._-]*'
+  AccountEmail:
+    Description: The account email. This must be unique across AWS and must already
+      exist.
+    Type: String
+    AllowedPattern: '[^\s@]+@[^\s@]+\.[^\s@]+'
+  SSOUserFirstName:
+    Description: SSO user first name.
+    Type: String
+    AllowedPattern: .{3,64}
+  SSOUserLastName:
+    Description: SSO user last name.
+    Type: String
+    AllowedPattern: .{3,64}
+  SSOUserEmail:
+    Description: SSO user email. A new SSO user will be created for this email, if
+      it does not exist. This SSO user will be associated with the new managed Account.
+    Type: String
+    AllowedPattern: '[^\s@]+@[^\s@]+\.[^\s@]+'
+  AccountType:
+    Type: String
+    Description: Which stage of the SDLC is the account going to be used for
+    AllowedValues:
+      - dev
+      - test
+      - preprod
+      - prod
+  AccountGroup:
+    Type: String
+    Description: Which platform does the account belong to
+    AllowedValues:
+      - workloads
+
+  GovernanceAtScaleAccountFactoryAccountTypeToOUChooserCRArn:
+    Type: String
+    Description: The ARN of the lambda that converts group and type to Arn
+
+  GovernanceAtScaleAccountFactoryAccountDetailsCRArn:
+    Type: String
+    Description: The ARN of the lambda that looks up account details for given account name
+
+  GovernanceAtScaleAccountFactoryAccountCreateUpdateNotifierCRArn:
+    Type: String
+    Description: The ARN of the lambda that will dispatch SNS notifications on account creation / update
+
+  GovernanceAtScaleAccountFactoryBootstrapperProjectCustomResourceArn:
+    Type: String
+    Description: The ARN of the lambda that will bootstrap the created account as a spoke for SCT
+
+Resources:
+  OUDetails:
+    Type: Custom::Resource
+    DeletionPolicy: Retain
+    Properties:
+      ServiceToken:
+        Ref: GovernanceAtScaleAccountFactoryAccountTypeToOUChooserCRArn
+      AccountType:
+        Ref: AccountType
+      AccountGroup:
+        Ref: AccountGroup
+  TriggerCoreAccountFactory:
+    Type: AWS::ServiceCatalog::CloudFormationProvisionedProduct
+    DeletionPolicy: Retain
+    Properties:
+      ProductName: AWS Control Tower Account Factory
+      ProvisioningArtifactName: AWS Control Tower Account Factory
+      ProvisionedProductName:
+        Fn::Sub:
+          - Account-${AccountName}
+          - {}
+      ProvisioningParameters:
+        - Key: AccountName
+          Value:
+            Ref: AccountName
+        - Key: AccountEmail
+          Value:
+            Ref: AccountEmail
+        - Key: SSOUserFirstName
+          Value:
+            Ref: SSOUserFirstName
+        - Key: SSOUserLastName
+          Value:
+            Ref: SSOUserLastName
+        - Key: SSOUserEmail
+          Value:
+            Ref: SSOUserEmail
+        - Key: ManagedOrganizationalUnit
+          Value:
+            Fn::GetAtt:
+              - OUDetails
+              - OrganizationalUnitName
+  AccountDetails:
+    Type: Custom::Resource
+    DeletionPolicy: Retain
+    DependsOn: TriggerCoreAccountFactory
+    Properties:
+      ServiceToken:
+        Ref: GovernanceAtScaleAccountFactoryAccountDetailsCRArn
+      AccountName:
+        Ref: AccountName
+
+  Notifier:
+    Type: Custom::Resource
+    DeletionPolicy: Retain
+    Properties:
+      ServiceToken:
+        Ref: GovernanceAtScaleAccountFactoryAccountCreateUpdateNotifierCRArn
+      AccountName:
+        Ref: AccountName
+      AccountEmail:
+        Ref: AccountEmail
+      SSOUserFirstName:
+        Ref: SSOUserFirstName
+      SSOUserLastName:
+        Ref: SSOUserLastName
+      SSOUserEmail:
+        Ref: SSOUserEmail
+      ManagedOrganizationalUnit:
+        Fn::GetAtt:
+          - OUDetails
+          - OrganizationalUnitName
+      AccountId:
+        Fn::GetAtt:
+          - AccountDetails
+          - Id
+  Bootstraper:
+    Type: Custom::CustomResource
+    DeletionPolicy: Retain
+    DependsOn: TriggerCoreAccountFactory
+    Properties:
+      ServiceToken:
+        Ref: GovernanceAtScaleAccountFactoryBootstrapperProjectCustomResourceArn
+      OrganizationAccountAccessRoleName: 'AWSControlTowerExecution'
+      TargetAccountId: !GetAtt TriggerCoreAccountFactory.Outputs.AccountId
+      PuppetAccountId: !Sub "${AWS::AccountId}"
+
+Outputs:
+  AccountId:
+    Description: "AccountId for the newly created AWS Account\n"
+    Value:
+      Fn::GetAtt:
+        - AccountDetails
+        - Id
+  AccountOrganizationalUnitName:
+    Description: "OrganizationalUnitName for the newly created AWS Account\n"
+    Value:
+      Fn::GetAtt:
+        - OUDetails
+        - OrganizationalUnitName

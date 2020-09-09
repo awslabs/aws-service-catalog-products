@@ -1,0 +1,100 @@
+# Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+AWSTemplateFormatVersion: 2010-09-09
+Description: |
+    Takes the given account type and returns the organizational unit it should be assigned to
+    {"framework": "servicecatalog-products", "role": "product", "product-set": "governance-at-scale-account-factory", "product": "account-type-to-organizational-unit-chooser", "version": "v1"}
+
+Parameters:
+  GovernanceAtScaleAccountFactoryIAMRolePath:
+    Description: The path to use for IAM roles in this template
+    Type: String
+
+  GovernanceAtScaleAccountFactoryAccountTypeChooserCRIAMRoleName:
+    Description: The name to use for IAM role that will be used to list accounts for bootstrapping purposes
+    Type: String
+
+
+Resources:
+  Function:
+    Description: |
+      Lambda function to back an AWS CloudFormation custom resource.  This expects a ResourceProperty of AccountType and
+      will return an organizational_unit_id based on the dict organizational_unit_ids
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: 'account-type-to-organizational-unit-id'
+      Handler: index.lambda_handler
+      Timeout: 3
+      Role: !GetAtt Role.Arn
+      Runtime: python3.7
+      Code:
+        ZipFile: |
+          import logging
+          import cfnresponse
+
+          logger = logging.getLogger()
+          logger.setLevel(logging.INFO)
+
+          DEFAULT_OU_NAME = 'Root'
+          organizational_unit_names = {
+            'infra': {
+              'dev': 'ou-iexample1',
+              'test': 'ou-iexample2',
+              'pre-prod': 'ou-iexample3',
+              'prod': 'ou-iexample4',
+            },
+            'security': {
+              'dev': 'ou-sexample1',
+              'test': 'ou-sexample2',
+              'pre-prod': 'ou-sexample3',
+              'prod': 'ou-sexample4',
+            },
+            'workloads': {
+              'dev': 'ou-wexample1',
+              'test': 'ou-wexample2',
+              'pre-prod': 'ou-wexample3',
+              'prod': 'ou-wexample4',
+            },
+          }
+
+          def lambda_handler(event, context):
+            logger.info('got event {}'.format(event))
+            response_data = {}
+
+            if event['RequestType'] == 'Create':
+              account_type = event['ResourceProperties'].get('AccountType')
+              account_group = event['ResourceProperties'].get('AccountGroup')
+              organizational_unit_name = organizational_unit_names.get(account_group, {}).get(account_type, DEFAULT_OU_NAME)
+              response_data['OrganizationalUnitName'] = organizational_unit_name
+
+            else: # delete / update
+              pass
+
+            logger.info('response_data {}'.format(response_data))
+            cfnresponse.send(event, context, cfnresponse.SUCCESS, response_data, response_data['OrganizationalUnitName'])
+
+  Role:
+    Type: AWS::IAM::Role
+    Description: |
+      IAM role needed to execute account-type-to-organizational-unit-id.  Only needs basic access.
+    Properties:
+      RoleName: !Ref GovernanceAtScaleAccountFactoryAccountTypeChooserCRIAMRoleName
+      Path: !Ref GovernanceAtScaleAccountFactoryIAMRolePath
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+
+Outputs:
+  GovernanceAtScaleAccountFactoryAccountTypeToOUChooserCRArn:
+    Description: |
+      Outputs the Function Arn so others can use it
+    Value: !GetAtt Function.Arn

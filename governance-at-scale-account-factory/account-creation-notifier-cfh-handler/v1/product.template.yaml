@@ -1,0 +1,92 @@
+# Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+AWSTemplateFormatVersion: 2010-09-09
+Description: |
+  Lambda to back a custom resource that dispatches notifications to an included SNS Topic
+  {"framework": "servicecatalog-products", "role": "product", "product-set": "governance-at-scale-account-factory", "product": "account-creation-notifier-cfh-handler", "version": "v1"}
+
+Parameters:
+  AccountCreateUpdateNotifierTopicArn:
+    Type: String
+
+  GovernanceAtScaleAccountFactoryIAMRolePath:
+    Description: The path to use for IAM roles in this template
+    Type: String
+
+  GovernanceAtScaleAccountFactoryAccountCreateUpdateCFHHandlerIAMRoleName:
+    Description: |
+      The name to use for IAM role that will be used for the lambda notifies CFH when accounts are created/updated
+    Type: String
+
+  CFHAccountCreateUpdatePostUrl:
+    Description: URL to HTTP POST to when accounts are created
+    Type: String
+
+Resources:
+  Subscription:
+    Type: AWS::SNS::Subscription
+    Properties:
+      TopicArn: !Ref AccountCreateUpdateNotifierTopicArn
+      Endpoint: !GetAtt Function.Arn
+      Protocol: lambda
+
+  Permission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !Ref Function
+      Principal: "sns.amazonaws.com"
+      SourceArn: !Ref AccountCreateUpdateNotifierTopicArn
+
+  Function:
+    Description: |
+      Lambda function to call CFH
+    Type: AWS::Lambda::Function
+    Properties:
+      Handler: index.lambda_handler
+      Timeout: 10
+      Role: !GetAtt Role.Arn
+      Runtime: python3.7
+      Environment:
+        Variables:
+          POST_URL: !Ref CFHAccountCreateUpdatePostUrl
+
+      Code:
+        ZipFile: |
+          import cfnresponse
+          import boto3
+          import os
+          import json
+          from urllib import request, parse
+          import json
+
+          def lambda_handler(event, context):
+            for record in event.get('Records', []):
+              message = json.dumps(record['Sns']['Message'])
+              b = str(message).encode('utf-8')
+              req =  request.Request(os.getenv("POST_URL"), data=b)
+              req.add_header('Content-Type', 'application/json')
+              resp = request.urlopen(req)
+              print(response.read().decode('utf-8'))
+
+  Role:
+    Type: AWS::IAM::Role
+    Description: |
+      IAM role needed to publish account creations to SNS.
+    Properties:
+      RoleName: !Ref GovernanceAtScaleAccountFactoryAccountCreateUpdateCFHHandlerIAMRoleName
+      Path: !Ref GovernanceAtScaleAccountFactoryIAMRolePath
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+
+
