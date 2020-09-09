@@ -1,7 +1,7 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: |
-    Augments AWS Control Tower Account Factory - simplifies user input, dispatches extra parameters via AWS SNS andreturns the account id as an output
-    {"framework": "servicecatalog-products", "role": "product", "product-set": "governance-at-scale-account-factory", "product": "aws-control-tower-account-factory", "version": "v1"} 
+  Augments AWS Control Tower Account Factory - simplifies user input, dispatches extra parameters via AWS SNS andreturns the account id as an output
+  {"framework": "servicecatalog-products", "role": "product", "product-set": "governance-at-scale-account-factory", "product": "aws-control-tower-account-factory", "version": "v1"}
 
 Parameters:
   AccountName:
