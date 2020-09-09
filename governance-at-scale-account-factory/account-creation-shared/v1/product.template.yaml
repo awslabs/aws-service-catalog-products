@@ -4,8 +4,8 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: |
-    Lambda for backing custom resources to create an AWS Account
-    {"framework": "servicecatalog-products", "role": "product", "product-set": "governance-at-scale-account-factory", "product": "account-creation-shared", "version": "v1"} 
+  Lambda for backing custom resources to create an AWS Account
+  {"framework": "servicecatalog-products", "role": "product", "product-set": "governance-at-scale-account-factory", "product": "account-creation-shared", "version": "v1"}
 
 Parameters:
   GovernanceAtScaleAccountFactoryAccountCreationSharedOrgRoleArn:

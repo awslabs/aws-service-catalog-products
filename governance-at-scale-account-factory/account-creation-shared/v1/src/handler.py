@@ -152,11 +152,11 @@ def ensure_account_created(
                 time.sleep(10)
                 try:
                     with betterboto_client.CrossMultipleAccountsClientContextManager(
-                        'codebuild',
-                        [
-                            (assumable_role_in_root_account_arn, 'assumable_role_in_root_account_arn'),
-                            (f"arn:aws:iam::{account_id}:role/{organization_account_access_role}", 'organization_account_access_role'),
-                        ]
+                            'codebuild',
+                            [
+                                (assumable_role_in_root_account_arn, 'assumable_role_in_root_account_arn'),
+                                (f"arn:aws:iam::{account_id}:role/{organization_account_access_role}", 'organization_account_access_role'),
+                            ]
                     ) as spoke_codebuild:
                         spoke_codebuild.list_projects()
                         logger.info("Was able to assume role into the spoke and call codebuild")
