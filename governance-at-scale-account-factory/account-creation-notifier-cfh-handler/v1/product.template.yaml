@@ -3,8 +3,8 @@
 
 AWSTemplateFormatVersion: 2010-09-09
 Description: |
-    Lambda to back a custom resource that dispatches notifications to an included SNS Topic
-    {"framework": "servicecatalog-products", "role": "product", "product-set": "governance-at-scale-account-factory", "product": "account-creation-notifier-cfh-handler", "version": "v1"} 
+  Lambda to back a custom resource that dispatches notifications to an included SNS Topic
+  {"framework": "servicecatalog-products", "role": "product", "product-set": "governance-at-scale-account-factory", "product": "account-creation-notifier-cfh-handler", "version": "v1"}
 
 Parameters:
   AccountCreateUpdateNotifierTopicArn:
@@ -88,4 +88,5 @@ Resources:
               - sts:AssumeRole
       ManagedPolicyArns:
         - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+
 
