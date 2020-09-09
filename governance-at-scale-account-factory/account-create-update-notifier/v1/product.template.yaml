@@ -3,15 +3,10 @@
 
 AWSTemplateFormatVersion: 2010-09-09
 Description: |
-    Lambda to back a custom resource that dispatches notifications to an included SNS Topic
-    {"framework": "servicecatalog-products", "role": "product", "product-set": "governance-at-scale-account-factory", "product": "account-create-update-notifier", "version": "v1"} 
+  Lambda to back a custom resource that dispatches notifications to an included SNS Topic
+  {"framework": "servicecatalog-products", "role": "product", "product-set": "governance-at-scale-account-factory", "product": "account-create-update-notifier", "version": "v1"}
 
 Parameters:
-  GovernanceAtScaleAccountFactoryAccountCreateUpdateTopicName:
-    Description: The path to use for IAM roles in this template
-    Type: String
-    Default: account-creations
-
   GovernanceAtScaleAccountFactoryIAMRolePath:
     Description: The path to use for IAM roles in this template
     Type: String
@@ -25,7 +20,7 @@ Resources:
     Type: AWS::SNS::Topic
     Description: SNS Topic others can subscribe to so that they can find out about account creations
     Properties:
-      TopicName: !Ref GovernanceAtScaleAccountFactoryAccountCreateUpdateTopicName
+      TopicName: account-creations
 
   Function:
     Description: |
