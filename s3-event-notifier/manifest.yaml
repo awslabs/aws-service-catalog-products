@@ -1,0 +1,14 @@
+# Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+schema: puppet-2019-04-01
+
+launches:
+  s3-event-notification:
+    portfolio: demo-central-it-team-portfolio
+    product: s3-event-notifier
+    version: v1
+    deploy_to:
+      tags:
+        - tag: aws_account_name:app_dev
+          regions: default_region
