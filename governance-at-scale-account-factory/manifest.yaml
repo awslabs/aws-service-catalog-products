@@ -27,7 +27,7 @@ launches:
     deploy_to:
       tags:
         - regions: default_region
-          tag: scope:puppet_account
+          tag: scope:org_management
     outputs:
       ssm:
         - param_name: /governance-at-scale-account-factory/account-bootstrap-shared-org-bootstrap/AssumableRoleArnInRootAccountForBootstrapping
@@ -107,7 +107,7 @@ launches:
     deploy_to:
       tags:
         - regions: default_region
-          tag: scope:puppet_account
+          tag: scope:org_management
     outputs:
       ssm:
         - param_name: /governance-at-scale-account-factory/account-creation-shared-org-bootstrap/GovernanceAtScaleAccountFactoryAccountCreationSharedOrgRoleArn
@@ -150,7 +150,7 @@ launches:
     deploy_to:
       tags:
         - regions: default_region
-          tag: scope:puppet_account
+          tag: scope:org_management
     outputs:
       ssm:
         - param_name: /governance-at-scale-account-factory/account-details-org-bootstrap/GovernanceAtScaleAccountFactoryAccountDetailsOrgRoleArn
