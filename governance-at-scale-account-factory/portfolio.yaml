@@ -241,9 +241,9 @@ Portfolios:
           Source:
             Configuration:
               BranchName: v1
-    ProviderName: ccoe
-    Tags:
-      - Key: team
-        Value: ccoe
+      ProviderName: ccoe
+      Tags:
+        - Key: team
+          Value: ccoe
 
 Schema: factory-2019-04-01
