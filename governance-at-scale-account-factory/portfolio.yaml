@@ -24,6 +24,7 @@ Portfolios:
             Provider: CodeCommit
             Configuration:
               BranchName: v1
+              RepositoryName: account-creation-notifier-cfh-handler
     - Description: account-creation-shared-org-bootstrap
       Distributor: CCOE
       Name: account-creation-shared-org-bootstrap
@@ -43,6 +44,7 @@ Portfolios:
             Provider: CodeCommit
             Configuration:
               BranchName: v1
+              RepositoryName: account-creation-shared-org-bootstrap
     - Description: account-type-to-organizational-unit-chooser
       Distributor: CCOE
       Name: account-type-to-organizational-unit-chooser
@@ -63,6 +65,7 @@ Portfolios:
             Provider: CodeCommit
             Configuration:
               BranchName: v1
+              RepositoryName: account-type-to-organizational-unit-chooser
     - Description: account-bootstrap-shared
       Distributor: CCOE
       Name: account-bootstrap-shared
@@ -100,6 +103,7 @@ Portfolios:
             Provider: CodeCommit
             Configuration:
               BranchName: v1
+              RepositoryName: account-bootstrap-shared
     - Description: account-creation-shared
       Distributor: CCOE
       Name: account-creation-shared
@@ -135,6 +139,7 @@ Portfolios:
             Provider: CodeCommit
             Configuration:
               BranchName: v1
+              RepositoryName: account-creation-shared
     - Description: account-create-update-notifier
       Distributor: CCOE
       Name: account-create-update-notifier
@@ -155,6 +160,7 @@ Portfolios:
             Provider: CodeCommit
             Configuration:
               BranchName: v1
+              RepositoryName: account-create-update-notifier
     - Description: account-bootstrap-shared-org-bootstrap
       Distributor: CCOE
       Name: account-bootstrap-shared-org-bootstrap
@@ -174,6 +180,7 @@ Portfolios:
             Provider: CodeCommit
             Configuration:
               BranchName: v1
+              RepositoryName: account-bootstrap-shared-org-bootstrap
     - Description: account-details
       Distributor: CCOE
       Name: account-details
@@ -193,6 +200,7 @@ Portfolios:
             Provider: CodeCommit
             Configuration:
               BranchName: v1
+              RepositoryName: account-details
     - Description: aws-control-tower-account-factory
       Distributor: CCOE
       Name: aws-control-tower-account-factory
@@ -213,6 +221,7 @@ Portfolios:
             Provider: CodeCommit
             Configuration:
               BranchName: v1
+              RepositoryName: aws-control-tower-account-factory
     - Description: account-details-org-bootstrap
       Distributor: CCOE
       Name: account-details-org-bootstrap
@@ -232,6 +241,7 @@ Portfolios:
             Provider: CodeCommit
             Configuration:
               BranchName: v1
+              RepositoryName: account-details-org-bootstrap
     - Description: aws-service-catalog-account-creation
       Distributor: CCOE
       Name: aws-service-catalog-account-creation
@@ -256,6 +266,7 @@ Portfolios:
             Provider: CodeCommit
             Configuration:
               BranchName: v1
+              RepositoryName: aws-service-catalog-account-creation
       ProviderName: ccoe
       Tags:
         - Key: team
