@@ -3,18 +3,18 @@
         {
             "EventSource": "aws:sns",
             "EventVersion": "1.0",
-            "EventSubscriptionArn": "arn:aws:sns:us-east-1:0123456789010:avm-test-topic:043d80d6-ffd4-4d3d-93af-382a2d1f371c",
+            "EventSubscriptionArn": "arn:aws:sns:us-east-1:111111111111:account-creations:043d80d6-ffd4-4d3d-93af-382a2d1f371c",
             "Sns": {
                 "Type": "Notification",
-                "MessageId": "60cb86a0-1477-5015-9700-d156cc51a322",
-                "TopicArn": "arn:aws:sns:us-east-1:0123456789010:avm-test-topic",
+                "MessageId": "<message-id-string>",
+                "TopicArn": "arn:aws:sns:us-east-1:111111111111:account-creations",
                 "Subject": "Account: TestAccount was created",
                 "Message": "{\"RequestType\": \"TESTRequestType\", \"AccountName\": \"TESTAccountName\", \"AccountEmail\": \"TESTAccountEmail\", \"ManagedOrganizationalUnit\": \"TESTManagedOrganizationalUnit\", \"AccountId\": \"111122223333\", \"SSOUserFirstName\": \"TESTSSOUserFirstName\", \"SSOUserLastName\": \"TESTSSOUserLastName\", \"SSOUserEmail\": \"TESTSSOUserEmail\"}",
                 "Timestamp": "2020-10-06T20:39:02.120Z",
                 "SignatureVersion": "1",
-                "Signature": "hd/g0weCB/fA7WgjsZBaEAda+gp0cTkiZzejOw+06x0OCvrbkIOXlgBTZEePa2GTMMDkx2M+MtoLYx4g5nej9gE8RJO7kg+ApHQa18TGCTR7wHp7469m8WIqtBt9h0Gk7VhwVSykYIT7bvS7uol3odGVDVF8AT8c6FoUEviFJJBJYW7embJqaoL2LG7UlUyyJ//1pU2FLTwvuOSXqkjS5Fr1/RUY//RUj5rSAn0OwBiLFfb6QcvVueGqwpTMxWOatj1Ptz2e767cBoBnVeVHJGAGbkzD9qzyTpcLuqnNolBYMBrGE3RYp6n83Ug696PXpI2udcfHRny6+Vcg==",
-                "SigningCertUrl": "https://sns.us-east-1.amazonaws.com/SimpleNotificationService-a86cb10b4e1f41702d737128f7b6.pem",
-                "UnsubscribeUrl": "https://sns.us-east-1.amazonaws.com/?Action=Unsubscribe&SubscriptionArn=arn:aws:sns:us-east-1:0123456789010:avm-test-topic:0446-ffd4-4d3d-93af-382f371c",
+                "Signature": "<signature-string>",
+                "SigningCertUrl": "https://sns.us-east-1.amazonaws.com/SimpleNotificationService-<id>.pem",
+                "UnsubscribeUrl": "https://sns.us-east-1.amazonaws.com/?Action=Unsubscribe&SubscriptionArn=arn:aws:sns:us-east-1:111111111111:account-creations:<id>",
                 "MessageAttributes": {}
             }
         }
