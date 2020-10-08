@@ -1,0 +1,45 @@
+# Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+Schema: factory-2019-04-01
+Portfolios:
+  Components:
+    - Name: cloud-custodian-hub
+      Owner: central-it@customer.com
+      Description: esources needed for custodian hub account
+      Distributor: central-it-team
+      SupportDescription: Contact us on Chime for help #central-it-team
+      SupportEmail: central-it-team@customer.com
+      SupportUrl: https://wiki.customer.com/central-it-team/self-service/cloud-custodian/hub
+      Tags:
+        - Key: product-type
+          Value: iam
+      Versions:
+        - Name: v1
+          Description: esources needed for custodian hub account
+          Active: True
+          Source:
+            Provider: CodeCommit
+            Configuration:
+              RepositoryName: cloud-custodian-hub
+              BranchName: v1
+
+    - Name: cloud-custodian-spoke
+      Owner: central-it@customer.com
+      Description: esources needed for custodian spoke account
+      Distributor: central-it-team
+      SupportDescription: Contact us on Chime for help #central-it-team
+      SupportEmail: central-it-team@customer.com
+      SupportUrl: https://wiki.customer.com/central-it-team/self-service/cloud-custodian/spoke
+      Tags:
+        - Key: product-type
+          Value: iam
+      Versions:
+        - Name: v1
+          Description: esources needed for custodian spoke account
+          Active: True
+          Source:
+            Provider: CodeCommit
+            Configuration:
+              RepositoryName: cloud-custodian-spoke
+              BranchName: v1

@@ -1,0 +1,53 @@
+# Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+schema: puppet-2019-04-01
+
+launches:
+  cloud-custodian-hub:
+    portfolio: demo-central-it-team-portfolio
+    product: cloud-custodian-hub
+    version: v1
+    parameters:
+      C7NVersion:
+        Default: "0.9.6"
+      C7NMailerVersion:
+        Default: "0.6.5"
+      C7NOrgVersion:
+        Default: "0.3.1"
+      AWSOrgID:
+        Default: SET_ME
+      CloudCustodianHubIAMRolePath:
+        Default: "/cloudcustodian/"
+      CloudCustodianHubIAMRoleName:
+        Default: CustodianHub
+      CloudCustodianSQSMailerQueueName:
+        Default: CustodianSQSMailer
+      CloudCustodianSNSTopicDisplayName:
+        Default: CustodianAlerts
+      CloudCustodianSNSTopicName:
+        Default: CustodianAlerts
+      CloudCustodianPoliciesCodeCommitRepoName:
+        Default: CloudCustodianPolicies
+      Regions:
+        Default: --region us-east-1
+    deploy_to:
+      tags:
+        - regions: default_region
+          tag: scope:cloud-custodian-hub
+
+  cloud-custodian-spoke:
+    portfolio: demo-central-it-team-portfolio
+    product: cloud-custodian-spoke
+    version: v1
+    parameters:
+      CloudCustodianSpokeIAMRoleName:
+        Default: Custodian
+      CloudCustodianSpokeIAMRolePath:
+        Default: /
+      CloudCustodianHubAccountId:
+        Default: CloudCustodianHubAccountId
+    deploy_to:
+      tags:
+        - regions: default_region
+          tag: scope:cloud-custodian-spoke

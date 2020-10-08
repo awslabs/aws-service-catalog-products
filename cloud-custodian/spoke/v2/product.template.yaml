@@ -1,0 +1,48 @@
+# Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+AWSTemplateFormatVersion: 2010-09-09
+Description: |
+  Resourceses needed in spoke account for cloudcustodian
+  {"framework": "servicecatalog-products", "role": "product", "product-set": "cloud-custodian", "product": "spoke", "version": "v2"}
+
+Parameters:
+  CloudCustodianSpokeIAMRoleName:
+    Type: String
+    Default: Custodian
+  CloudCustodianSpokeIAMRolePath:
+    Type: String
+    Default: /
+  CloudCustodianHubAccountId:
+    Type: String
+
+Resources:
+  CustodianRole:
+    Type: AWS::IAM::Role
+    Description: IAM Role to be assumed by the hub account for c7n to function
+    Properties:
+      RoleName: !Ref CloudCustodianSpokeIAMRoleName
+      Path: !Ref CloudCustodianSpokeIAMRolePath
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+          - Effect: "Allow"
+            Principal:
+              AWS: !Sub "arn:${AWS::Partition}:iam::${CloudCustodianHubAccountId}:root"
+            Action:
+              - "sts:AssumeRole"
+      ManagedPolicyArns:
+        - !Sub "arn:aws:iam::${AWS::Partition}:policy/AdministratorAccess"
+
+Outputs:
+  CustodianRoleName:
+    Value: !Ref CustodianRole
+    Description: Name of the IAM role to be used by the hub account
+
+  CustodianRoleArn:
+    Value: !GetAtt CustodianRole.Arn
+    Description: Arn of the IAM role to be used by the hub account
