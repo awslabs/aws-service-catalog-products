@@ -1,0 +1,908 @@
+# Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+AWSTemplateFormatVersion: 2010-09-09 
+Description: Multi-Account Deployment of CloudCustodian
+
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+      -  
+        Label:
+          default: "Environment & AWS Regions"
+        Parameters:
+          - SourceCodeBucketName
+          - SourceCodeZipFileName
+          - CloudFormationStackName
+          - RepositoryName 
+          - Regions
+      - 
+        Label:
+          default: "Cloud9 Configuration"
+        Parameters:
+          - Cloud9InstanceType
+          - Cloud9StopTime
+
+      -
+        Label:
+          default: "SQS and SNS"
+        Parameters:
+          - SQSQueueName
+          - SNSTopicAlertDisplayName
+          - SNSTopicAlertTopicName
+          
+          
+    ParameterLabels:
+      #Cloud9 Configuration
+      Cloud9InstanceType:
+        default: Cloud9 instance type
+      Cloud9StopTime:
+        default: Cloud9 instance stop time
+
+      #Environment & AWS Organizations & AWS Regions
+      CloudFormationStackName:
+        default: "Stack Name"
+      RepositoryName:
+        default: "What is the CodeCommit Repository Name"
+      Regions:
+        default: "Provide a list of Regions for CloudCustodian in the example format --region us-east-1 --region us-west-1 or --region all"
+      SourceCodeBucketName:
+        default: "Provide the name of the S3 Bucket Containing the Zip file of source code"
+      SourceCodeZipFileName:
+        default: "Provide the name of the Zip file containing the Source Code"
+
+Parameters:
+
+  SourceCodeBucketName:
+    Type: String
+    Default: cloudcustodiandeploymentquickstart
+  SourceCodeZipFileName:
+    Type: String
+    Default: cloudcustodiandeploymentquickstart.zip
+  RepositoryName:
+    Description: The name of the CodeCommit Repository for storing the CloudCustodian policies
+    Type: String
+    Default: "CloudCustodianPolicies"
+  Cloud9InstanceType:
+    Description: The instance type of the new Amazon EC2 instance that AWS Cloud9 will launch for the development environment.
+    Type: String
+    Default: t2.micro
+    AllowedValues:
+    - t2.micro
+    - t2.small
+    - m4.large
+    - t2.nano
+    - c4.large
+    - t2.medium
+    - t2.large
+    - m4.xlarge
+    - t2.xlarge
+    - c4.xlarge
+    - c4.2xlarge
+    - m4.2xlarge
+    - t2.2xlarge
+    - c4.4xlarge
+    - m4.4xlarge
+    - c4.8xlarge
+    - m4.10xlarge
+    - m4.16xlarge
+  Cloud9StopTime:
+    Description: The number of minutes until the running instance is shut down after
+      the environment has last been used.
+    Type: String
+    Default: '30'
+  CloudFormationStackName:
+    Type: String
+    Default: 'CloudCustodian'
+  CloudFormationTemplateName:
+    Type: String
+    Default: 'master.yml'
+  CloudFormationTemplateConfigFileName:
+    Type: String
+    Default: "CloudCustodianMasterParameters.json"
+  Regions:
+    Type: String
+    Default: --region us-east-1
+  SQSQueueName: 
+      Type: String 
+      Default: CustodianSQSMailer 
+      Description: Provide a name for the Custodian SQS Queue 
+  SNSTopicAlertDisplayName: 
+    Type: String 
+    Default: CustodianAlerts 
+    Description: Enter a descriptive name for the SNS Alerts Topic 
+  SNSTopicAlertTopicName: 
+    Type: String 
+    Default: CustodianAlerts 
+    Description: Enter a Topic Name for the SNS Alert Topic 
+
+
+Resources:
+  OrganizationIdLambdaFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      Role: !GetAtt LambdaRole.Arn
+      Timeout: 300
+      Handler: index.handler
+      Runtime: python3.7
+      MemorySize: 128
+      Code:
+        ZipFile: !Sub |
+          import boto3
+          import json
+          import cfnresponse
+          import logging
+          
+          logging.basicConfig(level=logging.DEBUG)
+          log = logging.getLogger(__name__)
+          
+          def handler(event, context):
+            log.info(event)
+            try:
+              client = boto3.client('organizations')
+              org_id = client.describe_organization()['Organization']['Id']
+              log.info(org_id)
+            except Exception:
+              log.exception('get org_id has failed')
+            
+            request_type = event['RequestType']
+            responseValue = org_id
+            responseData = {}
+            responseData['OrgId'] = responseValue
+            log.info(responseData)
+            physicalResourceId = {}
+            
+            try:
+              if request_type == 'Create':
+                cfnresponse.send(event, context, cfnresponse.SUCCESS, responseData, physicalResourceId )
+              elif request_type == 'Update':
+                cfnresponse.send(event, context, cfnresponse.SUCCESS, {"Message": "Updated"}, physicalResourceId)
+              elif request_type == 'Delete':
+                cfnresponse.send(event, context, cfnresponse.SUCCESS, {"Message": "Deleted"}, physicalResourceId)
+              else:
+                  cfnresponse.send(event, context, cfnresponse.FAILED, {"Message": "Unexpected"}, physicalResourceId)   
+            except Exception:
+              #sending FAILED signal to CloudFormation
+              cfnresponse.send(event, context, cfnresponse.FAILED, responseData, physicalResourceId )
+              log.exception('The cloudformation signal has failed')
+
+  LambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement: 
+        - Effect: Allow
+          Principal: 
+            Service: lambda.amazonaws.com
+          Action: sts:AssumeRole
+      ManagedPolicyArns:
+      - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      - arn:aws:iam::aws:policy/AWSOrganizationsReadOnlyAccess
+
+  GetOrgID:
+    Type: 'Custom::GetOrgID'
+    Properties:
+      ServiceToken: !GetAtt OrganizationIdLambdaFunction.Arn
+  
+  Cloud9Instance:
+    Type: AWS::Cloud9::EnvironmentEC2
+    Properties:
+      Name: !Ref 'AWS::StackName'
+      Description: !Sub '${AWS::AccountId}-${AWS::Region}-${AWS::StackName}'
+      AutomaticStopTimeMinutes: !Ref 'Cloud9StopTime'
+      InstanceType: !Ref 'Cloud9InstanceType'
+      Repositories:
+        - PathComponent: !Sub '/${RepositoryName}'
+          RepositoryUrl: !Sub https://git-codecommit.${AWS::Region}.amazonaws.com/v1/repos/${RepositoryName}
+  
+  #Cloud9 Role Provides full access to AWS services and resources, but does not allow managment of Users and groups.
+  Cloud9Role:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service: ec2.amazonaws.com
+          Action: sts:AssumeRole
+      ManagedPolicyArns:
+      - arn:aws:iam::aws:policy/PowerUserAccess
+  
+  Cloud9InstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    DependsOn: 'Cloud9Instance'
+    Properties:
+      Path: /
+      Roles: 
+        - !Ref Cloud9Role
+  
+  EventBusPolicy:
+    Type: AWS::Events::EventBusPolicy 
+    Properties: 
+      Action: events:PutEvents  
+      Principal: "*" 
+      StatementId: OrganizationAccounts 
+      Condition:  
+        Type: "StringEquals" 
+        Key: "aws:PrincipalOrgID" 
+        Value: !GetAtt GetOrgID.OrgId
+  
+  SQSMailer: 
+      Type: AWS::SQS::Queue 
+      Properties: 
+        QueueName: !Ref SQSQueueName 
+  
+  SNSAlertsTopic: 
+    Type: AWS::SNS::Topic 
+    Properties: 
+      DisplayName: !Ref SNSTopicAlertDisplayName 
+      TopicName: !Ref SNSTopicAlertTopicName  
+  
+  CloudCustodianAdminRole: 
+    Type: 'AWS::IAM::Role' 
+    Properties: 
+      AssumeRolePolicyDocument: 
+        Version: 2012-10-17 
+        Statement:
+        - Action: sts:AssumeRole 
+          Effect: Allow 
+          Principal: 
+            Service:
+            - lambda.amazonaws.com
+            - codebuild.amazonaws.com
+        - Effect: "Allow" 
+          Principal: 
+            AWS: !Join 
+              - '' 
+              - - 'arn:' 
+                - !Ref 'AWS::Partition' 
+                - ':iam::' 
+                - !Ref 'AWS::AccountId' 
+                - ':root' 
+          Action: 
+          - "sts:AssumeRole" 
+        - Effect: "Allow"
+          Principal: 
+            AWS: !GetAtt CloudCustodianDeploymentPipelineRole.Arn
+          Action:
+          - "sts:AssumeRole"
+      ManagedPolicyArns: 
+      - arn:aws:iam::aws:policy/AdministratorAccess 
+      RoleName: CloudCustodianAdminRole 
+
+  CloudCustodianMailerRole: 
+      Type: 'AWS::IAM::Role' 
+      Properties: 
+        AssumeRolePolicyDocument: 
+          Version: 2012-10-17 
+          Statement: 
+          - Action: sts:AssumeRole 
+            Effect: Allow 
+            Principal: 
+              Service: lambda.amazonaws.com 
+          - Effect: "Allow" 
+            Principal: 
+              AWS: !Join 
+                - '' 
+                - - 'arn:' 
+                  - !Ref 'AWS::Partition' 
+                  - ':iam::' 
+                  - !Ref 'AWS::AccountId' 
+                  - ':root' 
+            Action: 
+            - "sts:AssumeRole" 
+        ManagedPolicyArns: 
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+        
+  CloudCustodianMailerRolePolicy: 
+    Type: "AWS::IAM::Policy"
+    Properties: 
+      PolicyName: "MailerRolePolicy"
+      PolicyDocument: 
+        Version: "2012-10-17"
+        Statement: 
+          - Effect: "Allow"
+            Action: 
+            - sqs:DeleteMessage
+            - sqs:GetQueueUrl
+            - sqs:ListDeadLetterSourceQueues
+            - sqs:ChangeMessageVisibility
+            - sns:Publish
+            - sqs:DeleteMessageBatch
+            - sqs:SendMessageBatch
+            - sqs:ReceiveMessage
+            - sqs:SendMessage
+            - sqs:GetQueueAttributes
+            - sqs:ListQueueTags
+            - sqs:ChangeMessageVisibilityBatch
+            Resource: !GetAtt SQSMailer.Arn  
+          - Effect: "Allow"
+            Action: 
+            - ses:SendEmail
+            - ses:SendRawEmail
+            Resource: "*" 
+      Roles: 
+        - 
+          Ref: "CloudCustodianMailerRole"
+
+  CloudCustodianBackup:
+    Type: AWS::S3::Bucket
+    Properties:
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: True
+        BlockPublicPolicy: True
+        IgnorePublicAcls: True
+        RestrictPublicBuckets: True
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      VersioningConfiguration:
+        Status: Enabled
+
+  CloudFormationRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+        - Action: ['sts:AssumeRole']
+          Effect: Allow
+          Principal:
+            Service: [cloudformation.amazonaws.com]
+        Version: '2012-10-17'
+      Path: /
+      Policies:
+        - PolicyName: CloudFormationPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Action:
+                - 's3:*'
+                - 'iam:*'
+                - 'codepipeline:*'
+                - 'codecommit:*'
+                - 'codebuild:*'
+                - 'cloudwatch:*'
+                - 'events:*'
+                - 'sqs:*'
+                - 'sns:*'
+                - 'cloud9:*'
+                - 'lambda:*'
+                Effect: Allow
+                Resource: '*'
+
+  CloudCustodianDeploymentPipelineRole: 
+    Type: 'AWS::IAM::Role' 
+    Properties: 
+      AssumeRolePolicyDocument: 
+        Statement: 
+          - Action: 'sts:AssumeRole' 
+            Effect: Allow 
+            Principal: 
+              Service: codepipeline.amazonaws.com 
+        Version: 2012-10-17 
+  CloudCustodianDeploymentPipelineRolePolicy: 
+    Type: 'AWS::IAM::Policy' 
+    Properties: 
+      PolicyDocument: 
+        Statement:
+          - Action:
+            - 'cloudformation:CreateStack'
+            - 'cloudformation:DescribeStacks'
+            - 'cloudformation:DeleteStack'
+            - 'cloudformation:UpdateStack'
+            - 'cloudformation:CreateChangeSet'
+            - 'cloudformation:ExecuteChangeSet'
+            - 'cloudformation:DeleteChangeSet'
+            - 'cloudformation:DescribeChangeSet'
+            - 'cloudformation:SetStackPolicy'
+            - 'iam:PassRole'
+            Effect: Allow
+            Resource: '*'
+          - Action: 
+            - 'codecommit:CancelUploadArchive' 
+            - 'codecommit:GetBranch' 
+            - 'codecommit:GetCommit' 
+            - 'codecommit:GetUploadArchiveStatus' 
+            - 'codecommit:UploadArchive' 
+            Effect: Allow 
+            Resource: !Sub 'arn:${AWS::Partition}:codecommit:${AWS::Region}:${AWS::AccountId}:${CloudCustodianPoliciesRepo.Name}' 
+          - Action:
+              - 's3:*' 
+              - 's3:PutObject' 
+            Effect: Allow 
+            Resource:
+              - '*' 
+              - !GetAtt ArtifactsBucket.Arn
+              - !Sub '${ArtifactsBucket.Arn}/*' 
+          - Action: 
+              - 'codebuild:BatchGetBuilds' 
+              - 'codebuild:StartBuild' 
+              - 'codebuild:StopBuild' 
+            Effect: Allow 
+            Resource:  
+              - !GetAtt CloudCustodianPolicyValidationProject.Arn 
+              - !GetAtt CloudCustodianPolicyCleanupDryRunProject.Arn
+              - !GetAtt CloudCustodianPolicyCleanupProject.Arn
+              - !GetAtt CloudCustodianPolicyDeploymentDryRunProject.Arn
+              - !GetAtt CloudCustodianPolicyDeploymentProject.Arn
+              - !GetAtt CloudCustodianPolicyDeploymentOrgProject.Arn
+              - !GetAtt BackupOfCloudCustodianToS3Project.Arn
+          - Action: 
+              - 'lambda:GetFunction' 
+            Effect: Allow 
+            Resource: 
+              - !Sub 'arn:${AWS::Partition}:lambda:${AWS::Region}:${AWS::AccountId}:function:cloud-custodian-mailer' 
+          - Action:
+              - 'ec2:DescribeRegions'
+            Effect: Allow
+            Resource: '*'
+        Version: 2012-10-17 
+      PolicyName: CloudCustodianDeploymentPipelineRolePolicy 
+      Roles: 
+        - !Ref CloudCustodianDeploymentPipelineRole 
+
+  CloudCustodianDeploymentQuickStart:
+    Type: 'AWS::CodePipeline::Pipeline' 
+    Properties: 
+      Name: CloudCustodianDeploymentQuickstart 
+      RoleArn: !GetAtt CloudCustodianDeploymentPipelineRole.Arn
+      Stages:
+        - Name: Source
+          Actions: 
+            - Name: RetrieveCodeAction
+              ActionTypeId:
+                Category: Source
+                Owner: AWS
+                Version: "1"
+                Provider: CodeCommit
+              Configuration:
+                RepositoryName: !Sub '${CloudCustodianPoliciesRepo.Name}'
+                BranchName: master
+              InputArtifacts: []
+              RunOrder: 1
+              OutputArtifacts:
+                - Name: source
+        - Name: CreateStack
+          Actions: 
+            - Name: CreateStack
+              ActionTypeId:
+                Category: Deploy
+                Owner: AWS
+                Provider: CloudFormation
+                Version: "1"
+              InputArtifacts:
+                - Name: source
+              Configuration:
+                ActionMode: CREATE_UPDATE
+                Capabilities: CAPABILITY_NAMED_IAM
+                RoleArn: !GetAtt [CloudFormationRole, Arn]
+                StackName: !Ref CloudFormationStackName
+                TemplateConfiguration: !Sub "source::${CloudFormationTemplateConfigFileName}"
+                TemplatePath: !Sub "source::${CloudFormationTemplateName}"
+              RunOrder: 1
+        - Name: ValidatePolicies
+          Actions:
+            - Name: CustodianPolicyValidation 
+              ActionTypeId: 
+                Category: Test 
+                Owner: AWS 
+                Provider: CodeBuild 
+                Version: '1' 
+              Configuration: 
+                ProjectName: !Ref CloudCustodianPolicyValidationProject 
+              InputArtifacts: 
+                - Name: source 
+              OutputArtifacts: [] 
+              RunOrder: 1
+        - Name: DeployCloudCustodianPolicies 
+          Actions: 
+            - Name: PolicyDeploy 
+              ActionTypeId: 
+                Category: Test 
+                Owner: AWS 
+                Provider: CodeBuild 
+                Version: '1' 
+              Configuration: 
+                ProjectName: !Ref CloudCustodianPolicyDeploymentProject 
+              InputArtifacts: 
+                - Name: source 
+              OutputArtifacts: [] 
+              RunOrder: 1
+            - Name: PolicyCleanup 
+              ActionTypeId: 
+                Category: Test 
+                Owner: AWS 
+                Provider: CodeBuild 
+                Version: '1' 
+              Configuration: 
+                ProjectName: !Ref CloudCustodianPolicyCleanupProject 
+              InputArtifacts: 
+                - Name: source 
+              OutputArtifacts: [] 
+              RunOrder: 1
+        - Name: Backup
+          Actions:
+            - Name: BackupToS3
+              ActionTypeId:
+                Category: Test
+                Owner: AWS
+                Provider: CodeBuild
+                Version: '1'
+              Configuration:
+                ProjectName: !Ref BackupOfCloudCustodianToS3Project
+              InputArtifacts:
+                - Name: source
+              OutputArtifacts: []
+              RunOrder: 1
+      ArtifactStore: 
+        Location: !Ref ArtifactsBucket 
+        Type: S3 
+      RestartExecutionOnUpdate: true 
+    DependsOn: 
+      - CloudCustodianDeploymentPipelineRolePolicy 
+ 
+  CloudCustodianPoliciesRepo: 
+    Type: 'AWS::CodeCommit::Repository'
+    Properties:
+      Code:
+        S3: 
+          Bucket: !Ref SourceCodeBucketName
+          Key: !Ref SourceCodeZipFileName
+      RepositoryName: !Ref RepositoryName 
+      
+  ArtifactsBucket:  
+    Type: 'AWS::S3::Bucket' 
+   
+  CloudCustodianDeploymentQuickStartProjectRole: 
+    Type: 'AWS::IAM::Role' 
+    Properties:
+      AssumeRolePolicyDocument: 
+        Statement: 
+          - Action: 'sts:AssumeRole' 
+            Effect: Allow 
+            Principal: 
+              Service: codebuild.amazonaws.com 
+        Version: 2012-10-17 
+      RoleName: CloudCustodianPolicyValidationProjectRole 
+  
+  
+  CloudCustodianDeploymentQuickstartProjectPolicy: 
+    Type: 'AWS::IAM::Policy' 
+    Properties: 
+      PolicyDocument: 
+        Statement: 
+          - Action: 
+              - 'logs:CreateLogGroup' 
+              - 'logs:CreateLogStream' 
+              - 'logs:PutLogEvents'
+              - 'logs:DescribeLogGroups' 
+
+            Effect: Allow 
+            Resource: 
+              - !Sub 'arn:${AWS::Partition}:logs:*:${AWS::AccountId}:log-group:/aws/codebuild/${CloudCustodianPolicyValidationProject}' 
+              - !Sub 'arn:${AWS::Partition}:logs:*:${AWS::AccountId}:log-group:/aws/codebuild/${CloudCustodianPolicyValidationProject}:*'
+              - !Sub 'arn:${AWS::Partition}:logs:*:${AWS::AccountId}:log-group:/aws/codebuild/${CloudCustodianPolicyCleanupDryRunProject}' 
+              - !Sub 'arn:${AWS::Partition}:logs:*:${AWS::AccountId}:log-group:/aws/codebuild/${CloudCustodianPolicyCleanupDryRunProject}:*' 
+              - !Sub 'arn:${AWS::Partition}:logs:*:${AWS::AccountId}:log-group:/aws/codebuild/${CloudCustodianPolicyCleanupProject}' 
+              - !Sub 'arn:${AWS::Partition}:logs:*:${AWS::AccountId}:log-group:/aws/codebuild/${CloudCustodianPolicyCleanupProject}:*'
+              - !Sub 'arn:${AWS::Partition}:logs:*:${AWS::AccountId}:log-group:/aws/codebuild/${CloudCustodianPolicyDeploymentDryRunProject}' 
+              - !Sub 'arn:${AWS::Partition}:logs:*:${AWS::AccountId}:log-group:/aws/codebuild/${CloudCustodianPolicyDeploymentDryRunProject}:*' 
+              - !Sub 'arn:${AWS::Partition}:logs:*:${AWS::AccountId}:log-group:/aws/codebuild/${CloudCustodianPolicyDeploymentProject}' 
+              - !Sub 'arn:${AWS::Partition}:logs:*:${AWS::AccountId}:log-group:/aws/codebuild/${CloudCustodianPolicyDeploymentProject}:*'
+              - !Sub 'arn:${AWS::Partition}:logs:*:${AWS::AccountId}:log-group:/aws/codebuild/${CloudCustodianPolicyDeploymentOrgProject}' 
+              - !Sub 'arn:${AWS::Partition}:logs:*:${AWS::AccountId}:log-group:/aws/codebuild/${CloudCustodianPolicyDeploymentOrgProject}:*'
+              - !Sub 'arn:${AWS::Partition}:logs:*:${AWS::AccountId}:log-group:/cloud-custodian/policies'
+              - !Sub 'arn:${AWS::Partition}:logs:*:${AWS::AccountId}:log-group:/cloud-custodian/policies:*'
+              - !Sub 'arn:${AWS::Partition}:logs:*:${AWS::AccountId}:log-group:*:log-stream'
+              - !Sub 'arn:${AWS::Partition}:logs:*:${AWS::AccountId}:log-group:*:log-stream:*'  
+
+          - Action: 's3:GetObject' 
+            Effect: Allow 
+            Resource: !Sub '${ArtifactsBucket.Arn}/*' 
+
+          - Action: 
+            - 'lambda:GetFunction' 
+            - 'lambda:CreateFunction' 
+            - 'lambda:UpdateFunctionCode' 
+            - 'lambda:AddPermission' 
+            Effect: Allow 
+            Resource: 
+              - !Sub 'arn:${AWS::Partition}:lambda:${AWS::Region}:${AWS::AccountId}:function:cloud-custodian-mailer' 
+              
+          - Action: 
+            - 'iam:PassRole'  
+            Effect: Allow 
+            Resource: 
+              - !GetAtt CloudCustodianAdminRole.Arn
+              - !GetAtt CloudCustodianMailerRole.Arn  
+          
+          - Action: 's3:GetObject' 
+            Effect: Allow 
+            Resource: !Sub '${ArtifactsBucket.Arn}/*' 
+
+          - Action: 'sts:AssumeRole' 
+            Effect: Allow 
+            Resource: !Sub 'arn:${AWS::Partition}:iam::${AWS::AccountId}:role/CloudCustodianAdminRole' 
+          
+          - Action: 's3:*'
+            Effect: Allow
+            Resource: 
+              - !GetAtt CloudCustodianBackup.Arn
+              - !Sub ${CloudCustodianBackup.Arn}/* 
+
+          - Action: 
+            - 'events:DescribeRule' 
+            - 'events:PutRule' 
+            - 'events:ListTargetsByRule' 
+            - 'events:PutTargets'  
+            Effect: Allow 
+            Resource: 
+              - !Sub 'arn:${AWS::Partition}:events:${AWS::Region}:${AWS::AccountId}:role/cloud-custodian-mailer'   
+        Version: 2012-10-17 
+      PolicyName: CloudCustodianPolicyValidationProjectRolePolicy 
+      Roles:  
+        - !Ref CloudCustodianDeploymentQuickStartProjectRole 
+
+  # CodeBuild Projects       
+  CloudCustodianPolicyValidationProject: 
+    Type: 'AWS::CodeBuild::Project' 
+    Properties: 
+      Artifacts: 
+        Type: NO_ARTIFACTS 
+      Environment: 
+        ComputeType: BUILD_GENERAL1_SMALL 
+        Image: aws/codebuild/standard:2.0
+        PrivilegedMode: false 
+        Type: LINUX_CONTAINER 
+      ServiceRole: !GetAtt CloudCustodianDeploymentQuickStartProjectRole.Arn
+      Source: 
+        BuildSpec: !Sub | 
+          version: '0.2' 
+          phases: 
+            install: 
+              runtime-versions:
+                python: 3.7 
+              commands: 
+                - if [ -d "c7n-policies" ] || [ -d "c7n-org-policies" ]; then pip install c7n; fi 
+                - if [ -d "c7n-policies" ] || [ -d "c7n-org-policies" ]; then pip install c7n-mailer; fi 
+            build: 
+              commands: 
+                - if [ -d "c7n-policies" ]; then custodian validate c7n-policies/*; fi
+                - if [ -d "c7n-org-policies" ]; then custodian validate c7n-org-policies/*; fi
+                - if [ ! -d "c7n-policies"]; then echo "WARNING - The c7n-policies directory does not exist, create a directory called c7n-policies and add your policies to this directory"; fi
+                - if [ ! -d "c7n-org-policies" ]; then echo "WARNING - The c7n-org-policies directory does not exist, create a directory called c7n-org-policies and add your policies to this directory"; fi
+        Type: NO_SOURCE 
+        
+  CloudCustodianPolicyCleanupDryRunProject: 
+    Type: 'AWS::CodeBuild::Project' 
+    Properties: 
+      Artifacts: 
+        Type: NO_ARTIFACTS 
+      Environment: 
+        ComputeType: BUILD_GENERAL1_SMALL 
+        Image: aws/codebuild/standard:2.0
+        PrivilegedMode: false 
+        Type: LINUX_CONTAINER 
+      Name: CloudCustodianPolicyCleanupDryRunProject 
+      ServiceRole: !GetAtt CloudCustodianDeploymentQuickStartProjectRole.Arn 
+      Source: 
+        BuildSpec: !Sub | 
+          version: '0.2' 
+          phases: 
+            install: 
+              runtime-versions:
+                python: 3.7
+              commands:
+                - if [ ! -d "archive-policies" ]; then echo "INFO - There is no archive-policies directory, move policies from the c7n-policies directoy to the archive-policies directory";fi
+                - if [ -d "archive-policies" ]; then pip install c7n; fi 
+            build: 
+              commands: 
+                - if [ -d "archive-policies" ]; then curl -LO https://github.com/cloud-custodian/cloud-custodian/blob/master/tools/ops/mugc.py;fi 
+                - if [ -d "archive-policies" ]; then python mugc.py --dryrun --assume arn:aws:iam::${AWS::AccountId}:role/CloudCustodianAdminRole -c c7n-policies/*;fi
+          artifacts: 
+            base-directory: output 
+            files: '**/*' 
+        Type: NO_SOURCE 
+          
+  CloudCustodianPolicyCleanupProject: 
+    Type: 'AWS::CodeBuild::Project' 
+    Properties: 
+      Artifacts: 
+        Type: NO_ARTIFACTS 
+      Environment: 
+        ComputeType: BUILD_GENERAL1_SMALL 
+        Image: aws/codebuild/standard:2.0
+        PrivilegedMode: false 
+        Type: LINUX_CONTAINER 
+      ServiceRole: !GetAtt CloudCustodianDeploymentQuickStartProjectRole.Arn 
+      Source: 
+        BuildSpec: !Sub | 
+          version: '0.2' 
+          phases: 
+            install:
+              runtime-versions:
+                python: 3.7 
+              commands:
+                - DIR="c7n-policies"
+                - pip install c7n 
+            build: 
+              commands:
+                - |
+                  if [ "$(ls -A $DIR)" ]
+                  then
+                  curl -LO https://github.com/cloud-custodian/cloud-custodian/blob/master/tools/ops/mugc.py && 
+                  python mugc.py ${Regions} --assume arn:aws:iam::${AWS::AccountId}:role/CloudCustodianAdminRole -c c7n-policies/*
+                  else
+                  echo "c7n-policies directory is empty, nothing to do"
+                  fi
+          artifacts: 
+            base-directory: output 
+            files: '**/*' 
+        Type: NO_SOURCE 
+        
+  CloudCustodianPolicyDeploymentDryRunProject: 
+    Type: 'AWS::CodeBuild::Project' 
+    Properties: 
+      Artifacts: 
+        Type: NO_ARTIFACTS 
+      Environment: 
+        ComputeType: BUILD_GENERAL1_SMALL 
+        Image: aws/codebuild/standard:2.0
+        PrivilegedMode: false 
+        Type: LINUX_CONTAINER 
+      ServiceRole: !GetAtt CloudCustodianDeploymentQuickStartProjectRole.Arn
+      Source: 
+        BuildSpec: !Sub | 
+          version: '0.2' 
+          phases: 
+            install: 
+              runtime-versions:
+                python: 3.7 
+              commands: 
+                - if [ -d "c7n-policies" ]; then pip install c7n; fi 
+                - if [ -d "c7n_mailer_config" ]; then pip install c7n-mailer; fi 
+                - if [ -d "c7n-org-policies" ]; then pip install c7n-org; fi
+                - if [ ! -d "c7n-policies" ]; then echo "INFO - The c7n-policies directory does not exist. Create this and add cloudtrail policies to this directory to deploy"; fi
+                - if [ ! -d "c7n-org-policies" ]; then echo "INFO - The c7n-org-policies directory does not exist create this directory and add policies you want to deploy locally in the individual accounts"; fi
+                - if [ ! -f "c7n-org-policies/accounts.yml" ]; then echo "INFO - There is no accounts.yml file in the c7n-org-policies directory.  This configuration file is required to use c7n-org"; fi
+            build: 
+              commands: 
+                #- c7n-mailer --config c7n_mailer_config/mailer.yml --templates c7n_mailer_config/templates/ --update-lambda 
+                - if [ -d "c7n-policies" ]; then custodian run --dryrun --assume arn:aws:iam::${AWS::AccountId}:role/CloudCustodianAdminRole --output-dir output/logs c7n-policies/* -m aws -l /cloud-custodian/policies; fi
+                - if [ -d "c7n-org-policies" ]; then c7n-org run --dryrun -c c7n-org-policies/accounts.yml -s output -u c7n-org-policies/* ${Regions} --verbose; fi
+                - if [ ! -d "c7n-policies" ]; then echo "INFO - The c7n-policies directory does not exist. Create this and add cloudtrail policies to this directory to deploy"; fi   
+                - if [ ! -d "c7n-org-policies" ]; then echo "INFO - The c7n-org-policies directory does not exist create this directory and add policies you want to deploy locally in the individual accounts"; fi
+                - if [ ! -f "c7n-org-policies/accounts.yml" ]; then echo "INFO - There is no accounts.yml file in the c7n-org-policies directory.  This configuration file is required to use c7n-org"; fi
+          artifacts: 
+            base-directory: output 
+            files: '**/*' 
+        Type: NO_SOURCE 
+  
+  CloudCustodianPolicyDeploymentProject: 
+    Type: 'AWS::CodeBuild::Project' 
+    Properties: 
+      Artifacts: 
+        Type: NO_ARTIFACTS 
+      Environment: 
+        ComputeType: BUILD_GENERAL1_SMALL 
+        Image: aws/codebuild/standard:2.0
+        PrivilegedMode: false 
+        Type: LINUX_CONTAINER 
+      ServiceRole: !GetAtt CloudCustodianDeploymentQuickStartProjectRole.Arn
+      Source: 
+        BuildSpec: !Sub | 
+          version: '0.2' 
+          phases: 
+            install: 
+              runtime-versions:
+                python: 3.7 
+              commands:
+                - if [ -d "c7n-policies" ]; then pip install c7n; fi 
+                - if [ -d "c7n_mailer_config" ]; then pip install c7n-mailer; fi
+                - if [ -d "c7n-org-policies" ]; then pip install c7n-org; fi
+                - if [ ! -f "c7n-org-policies/accounts.yml" ]; then echo "INFO - There is no accounts.yml file in the c7n-org-policies directory.  This configuration file is required to use c7n-org"; fi 
+            build: 
+              commands: 
+                #- c7n-mailer --config c7n_mailer_config/mailer.yml --templates c7n_mailer_config/templates/ --update-lambda 
+                - if [ -d "c7n-policies" ]; then custodian run ${Regions} --assume arn:aws:iam::${AWS::AccountId}:role/CloudCustodianAdminRole --output-dir output/logs c7n-policies/*; fi
+                - if [ -d "c7n-org-policies" ]; then c7n-org run -c c7n-org-policies/accounts.yml -s output -u c7n-org-policies/* ${Regions} --verbose; fi
+                - if [ ! -d "c7n-org-policies" ]; then echo "The c7n-org-policies directory does not exist, nothing to do"; fi
+                - if [ ! -d "c7n-policies" ]; then echo "The c7n-policies directory does not exist, nothing to do"; fi
+                - if [ ! -f "c7n-org-policies/accounts.yml" ]; then echo "INFO - There is no accounts.yml file in the c7n-org-policies directory.  This configuration file is required to use c7n-org"; fi
+          artifacts: 
+            base-directory: output 
+            files: '**/*' 
+        Type: NO_SOURCE
+
+  CloudCustodianPolicyDeploymentOrgProject: 
+    Type: 'AWS::CodeBuild::Project' 
+    Properties: 
+      Artifacts: 
+        Type: NO_ARTIFACTS 
+      Environment: 
+        ComputeType: BUILD_GENERAL1_SMALL 
+        Image: aws/codebuild/standard:2.0
+        PrivilegedMode: false 
+        Type: LINUX_CONTAINER 
+      ServiceRole: !GetAtt CloudCustodianDeploymentQuickStartProjectRole.Arn
+      Source: 
+        BuildSpec: !Sub | 
+          version: '0.2' 
+          phases: 
+            install:
+              runtime-versions:
+                python: 3.7  
+              commands: 
+                - if [ -d "c7n-org-policies" ]; then pip install c7n; fi
+                - if [ -d "c7n-org-policies" ]; then pip install c7n-mailer; fi
+                - if [ -d "c7n-org-policies" ]; then pip install c7n-org; fi
+            build: 
+              commands:   
+                - if [ -d "c7n-org-policies" ]; then c7n-org run -c c7n-org-policies/accounts.yml -s output -u c7n-org-policies/* ${Regions} --verbose; fi
+                - if [ -d "c7n-org-policies" ]; then c7n-org report -c c7n-org-policies/accounts.yml -s output -u c7n-org-policies/* ${Regions}; fi
+                - if [ ! -d "c7n-org-policies" ]; then echo "The c7n-org-policies directory does not exist, recommended removing this action from the pipeline."; fi 
+          artifacts: 
+            base-directory: output 
+            files: '**/*' 
+        Type: NO_SOURCE 
+
+# Backup of CloudCustodian to S3
+  BackupOfCloudCustodianToS3Project:
+    Type: AWS::CodeBuild::Project
+    Properties:
+      Artifacts:
+        Type: NO_ARTIFACTS
+      Description: Creates a zip file backup of all the code and policies and saves to a versioned S3 bucket
+      Environment:
+        ComputeType: BUILD_GENERAL1_SMALL
+        Image: aws/codebuild/python:3.6.5
+        PrivilegedMode: false
+        Type: LINUX_CONTAINER
+      ServiceRole: !GetAtt CloudCustodianDeploymentQuickStartProjectRole.Arn
+      LogsConfig:
+        CloudWatchLogs:
+          Status: ENABLED
+      Source:
+        BuildSpec: !Sub |
+          version: '0.2'
+          phases:
+            install: 
+              commands:
+                - ls -al
+            build:
+              commands:
+                - tar -cf cloudcustodianpolicies.tar.gz ./
+                - aws s3 cp cloudcustodianpolicies.tar.gz s3://${CloudCustodianBackup}             
+        Type: NO_SOURCE
+
+Outputs:
+  OrgId:
+    Description: Organization Id
+    Value: !GetAtt GetOrgID.OrgId
+  AlertsTopicARN: 
+    Description: ARN of the Alerts SNS Topic 
+    Value: 
+      Ref: SNSAlertsTopic 
+  SQSMailer: 
+      Description: URL of the SQS queue to be used in c7n_mailer_config/mailer.yml 
+      Value: 
+        Ref: SQSMailer 
+  CustodianMailerRole:
+    Description: ARN of the CustodianMailerRole
+    Value: 
+       !Ref CloudCustodianMailerRole
+  Cloud9Instance:
+    Description: Cloud9 Instance Name
+    Value: !Ref 'Cloud9Instance'
+  Cloud9InstanceProfileName:
+    Description: Cloud9 Instance Profile Name
+    Value: !Ref 'Cloud9InstanceProfile'
+  Cloud9InstanceProfileArn:
+    Description: Cloud9 Instance Profile Arn
+    Value: !GetAtt 'Cloud9InstanceProfile.Arn'
+  IDEStackName:
+    Description: CloudFormation Stack Name
+    Value: !Ref 'AWS::StackName'
