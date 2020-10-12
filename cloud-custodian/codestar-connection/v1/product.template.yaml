@@ -4,7 +4,7 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: |
   Creates a CodeStar connection that can be given to CodePipeline so that it can access third-party code repositories. 
-  {"framework": "servicecatalog-products", "role": "product", "product-set": "cloud-custodian", "product": "codestar-connection", "version": "v2"}
+  {"framework": "servicecatalog-products", "role": "product", "product-set": "cloud-custodian", "product": "codestar-connection", "version": "v1"}
 
 Parameters:
 
