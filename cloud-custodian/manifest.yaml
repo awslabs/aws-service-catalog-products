@@ -7,7 +7,7 @@ launches:
   cloud-custodian-hub:
     portfolio: demo-central-it-team-portfolio
     product: cloud-custodian-hub
-    version: v1
+    version: v3
     parameters:
       C7NVersion:
         Default: "0.9.6"
@@ -39,7 +39,7 @@ launches:
   cloud-custodian-spoke:
     portfolio: demo-central-it-team-portfolio
     product: cloud-custodian-spoke
-    version: v1
+    version: v2
     parameters:
       CloudCustodianSpokeIAMRoleName:
         Default: Custodian

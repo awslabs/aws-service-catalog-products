@@ -40,11 +40,27 @@ Description: Enter a descriptive name for the SNS Alerts Topic
 ### CloudCustodianSNSTopicName 
 Type: String 
 Default: CustodianAlerts 
-Description: Enter a Topic Name for the SNS Alert Topic 
+Description: Enter a Topic Name for the SNS Alert Topic
+### RepositoryProviderType 
+Type: String 
+Default: CodeCommit 
+Description: The name of your code repository provider
 ### CloudCustodianPoliciesCodeCommitRepoName 
 Type: String 
 Default: CloudCustodianPolicies 
-Description: Name to give the codecommit repo to use for the custodian policies 
+Description: Name to give the codecommit repo to use for the custodian policies
+### CodeStarConnectionArn:
+Type: String
+Description: The ARN of the CodeStar Connection needed for third party repo integration
+Default: ""
+### ProviderRepositoryId:
+Type: String
+Description: The owner and name of the repository where source changes are to be detected
+Default: "(Ex: user/repository-name)"
+### ProviderRepositoryBranchName:
+Type: String
+Description: The name of the branch where source changes are to be detected.
+Default: "master"
 ### Regions 
 Type: String 
 Default: --region us-east-1  
@@ -115,3 +131,4 @@ Description: Arn of the SQS queue
 
 ### CloudCustodianSQSMailerUrlQueueName 
 Description: QueueName of the SQS queue  
+

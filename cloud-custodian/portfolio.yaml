@@ -4,9 +4,29 @@
 Schema: factory-2019-04-01
 Portfolios:
   Components:
+    - Name: cloud-custodian-codestar-connection
+      Owner: central-it@customer.com
+      Description: resources needed for custodian hub connections that are not codecommit
+      Distributor: central-it-team
+      SupportDescription: Contact us on Chime for help #central-it-team
+      SupportEmail: central-it-team@customer.com
+      SupportUrl: https://wiki.customer.com/central-it-team/self-service/cloud-custodian/codestar-connection
+      Tags:
+        - Key: product-type
+          Value: iam
+      Versions:
+        - Name: v1
+          Description: resources needed for custodian hub connections that are not codecommit
+          Active: True
+          Source:
+            Provider: CodeCommit
+            Configuration:
+              RepositoryName: cloud-custodian-codestar-connection
+              BranchName: v1
+
     - Name: cloud-custodian-hub
       Owner: central-it@customer.com
-      Description: esources needed for custodian hub account
+      Description: resources needed for custodian hub account
       Distributor: central-it-team
       SupportDescription: Contact us on Chime for help #central-it-team
       SupportEmail: central-it-team@customer.com
@@ -15,18 +35,18 @@ Portfolios:
         - Key: product-type
           Value: iam
       Versions:
-        - Name: v1
-          Description: esources needed for custodian hub account
+        - Name: v3
+          Description: resources needed for custodian hub account
           Active: True
           Source:
             Provider: CodeCommit
             Configuration:
               RepositoryName: cloud-custodian-hub
-              BranchName: v1
+              BranchName: v3
 
     - Name: cloud-custodian-spoke
       Owner: central-it@customer.com
-      Description: esources needed for custodian spoke account
+      Description: resources needed for custodian spoke account
       Distributor: central-it-team
       SupportDescription: Contact us on Chime for help #central-it-team
       SupportEmail: central-it-team@customer.com
@@ -35,11 +55,11 @@ Portfolios:
         - Key: product-type
           Value: iam
       Versions:
-        - Name: v1
-          Description: esources needed for custodian spoke account
+        - Name: v2
+          Description: resources needed for custodian spoke account
           Active: True
           Source:
             Provider: CodeCommit
             Configuration:
               RepositoryName: cloud-custodian-spoke
-              BranchName: v1
+              BranchName: v2

@@ -51,14 +51,42 @@ Parameters:
     Default: CustodianAlerts
     Description: Enter a Topic Name for the SNS Alert Topic
 
+  RepositoryProviderType:
+    Type: String
+    Description: The name of your code repository provider
+    Default: "CodeCommit"
+    AllowedValues:
+      - CodeCommit
+      - GitHub
+      - Bitbucket
+      - GitHubEnterpriseServer
+
   CloudCustodianPoliciesCodeCommitRepoName:
     Type: String
     Description: Name to give the codecommit repo to use for the custodian policies
     Default: CloudCustodianPolicies
 
+  CodeStarConnectionArn:
+    Type: String
+    Description: The ARN of the CodeStar Connection needed for third party repo integration
+    Default: ""
+
+  ProviderRepositoryId:
+    Type: String
+    Description: The owner and name of the repository where source changes are to be detected
+    Default: "(Ex: user/repository-name)"
+  
+  ProviderRepositoryBranchName:
+    Type: String
+    Description: The name of the branch where source changes are to be detected.
+    Default: "master"
+
   Regions:
     Type: String
     Default: --region us-east-1
+
+Conditions:
+  IsProviderCodeCommit: !Equals [ !Ref RepositoryProviderType, CodeCommit ]
 
 Resources:
   EventBusPolicy:
@@ -152,10 +180,24 @@ Resources:
         - arn:aws:iam::aws:policy/AmazonS3FullAccess
         - arn:aws:iam::aws:policy/AWSCodeBuildAdminAccess
         - arn:aws:iam::aws:policy/CloudWatchLogsFullAccess
+        - !Ref CloudCustodianDeploymentPipelineCustomPolicy
+
+  CloudCustodianDeploymentPipelineCustomPolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action:
+              - codestar-connections:*
+            Resource:
+              - !Sub arn:${AWS::Partition}:codestar-connections:${AWS::Region}:${AWS::AccountId}:connection/*
 
   CloudCustodianPoliciesRepo:
     Type: AWS::CodeCommit::Repository
     Description: git repo for the policies
+    Condition: IsProviderCodeCommit
     Properties:
       RepositoryName: !Ref CloudCustodianPoliciesCodeCommitRepoName
 
@@ -194,10 +236,33 @@ Resources:
                 Category: Source
                 Owner: AWS
                 Version: "1"
-                Provider: CodeCommit
+                Provider:
+                  Fn::If:
+                    - IsProviderCodeCommit 
+                    - CodeCommit
+                    - CodeStarSourceConnection
               Configuration:
-                RepositoryName: !GetAtt CloudCustodianPoliciesRepo.Name
-                BranchName: master
+                RepositoryName:
+                  Fn::If:
+                    - IsProviderCodeCommit 
+                    - !GetAtt CloudCustodianPoliciesRepo.Name
+                    - !Ref AWS::NoValue
+                ConnectionArn:
+                  Fn::If:
+                    - IsProviderCodeCommit 
+                    - !Ref AWS::NoValue
+                    - !Ref CodeStarConnectionArn
+                FullRepositoryId:
+                  Fn::If:
+                    - IsProviderCodeCommit 
+                    - !Ref AWS::NoValue
+                    - !Ref ProviderRepositoryId
+                BranchName: !Ref ProviderRepositoryBranchName
+                OutputArtifactFormat:
+                  Fn::If:
+                    - IsProviderCodeCommit 
+                    - !Ref AWS::NoValue
+                    - CODE_ZIP
               RunOrder: 1
               OutputArtifacts:
                 - Name: source
@@ -248,6 +313,7 @@ Resources:
   CloudCustodianPolicyValidationProject:
     Type: AWS::CodeBuild::Project
     Description: "Will validate policies in c7n-policies"
+    DependsOn: [ CloudCustodianCodeBuildRole ]
     Properties:
       Artifacts:
         Type: NO_ARTIFACTS
@@ -256,7 +322,7 @@ Resources:
         Image: aws/codebuild/standard:4.0
         PrivilegedMode: false
         Type: LINUX_CONTAINER
-      ServiceRole: "CloudCustodianCodeBuildRole"
+      ServiceRole: !GetAtt CloudCustodianCodeBuildRole.Arn
       Source:
         BuildSpec: !Sub |
           version: '0.2'
@@ -278,6 +344,7 @@ Resources:
   CloudCustodianPolicyCleanupDryRunProject:
     Type: AWS::CodeBuild::Project
     Description: "Will run mugc dry-run policies for archive-policies"
+    DependsOn: [ CloudCustodianCodeBuildRole ]
     Properties:
       Artifacts:
         Type: NO_ARTIFACTS
@@ -286,7 +353,7 @@ Resources:
         Image: aws/codebuild/standard:4.0
         PrivilegedMode: false
         Type: LINUX_CONTAINER
-      ServiceRole: "CloudCustodianCodeBuildRole"
+      ServiceRole: !GetAtt CloudCustodianCodeBuildRole.Arn
       Source:
         BuildSpec: !Sub |
           version: '0.2'
@@ -309,6 +376,7 @@ Resources:
   CloudCustodianPolicyCleanupProject:
     Type: AWS::CodeBuild::Project
     Description: "If you have a c7n-policies directory this will run mugc using them"
+    DependsOn: [ CloudCustodianCodeBuildRole ]
     Properties:
       Artifacts:
         Type: NO_ARTIFACTS
@@ -317,7 +385,7 @@ Resources:
         Image: aws/codebuild/standard:4.0
         PrivilegedMode: false
         Type: LINUX_CONTAINER
-      ServiceRole: "CloudCustodianCodeBuildRole"
+      ServiceRole: !GetAtt CloudCustodianCodeBuildRole.Arn
       Source:
         BuildSpec: !Sub |
           version: '0.2'
@@ -339,6 +407,7 @@ Resources:
   CloudCustodianPolicyDeploymentDryRunProject:
     Type: AWS::CodeBuild::Project
     Description: "If you have a c7n-policies directory this will dry-run them, if you have c7n-org-policies directory it will dry-run them"
+    DependsOn: [ CloudCustodianCodeBuildRole ]
     Properties:
       Artifacts:
         Type: NO_ARTIFACTS
@@ -347,7 +416,7 @@ Resources:
         Image: aws/codebuild/standard:4.0
         PrivilegedMode: false
         Type: LINUX_CONTAINER
-      ServiceRole: "CloudCustodianCodeBuildRole"
+      ServiceRole: !GetAtt CloudCustodianCodeBuildRole.Arn
       Source:
         BuildSpec: !Sub |
           version: '0.2'
@@ -378,6 +447,7 @@ Resources:
   CloudCustodianPolicyDeploymentProject:
     Type: AWS::CodeBuild::Project
     Description: "If you have a c7n-policies directory this will run them, if you have c7n-org-policies directory it will run them"
+    DependsOn: [ CloudCustodianCodeBuildRole ]
     Properties:
       Artifacts:
         Type: NO_ARTIFACTS
@@ -386,7 +456,7 @@ Resources:
         Image: aws/codebuild/standard:4.0
         PrivilegedMode: false
         Type: LINUX_CONTAINER
-      ServiceRole: "CloudCustodianCodeBuildRole"
+      ServiceRole: !GetAtt CloudCustodianCodeBuildRole.Arn
       Source:
         BuildSpec: !Sub |
           version: '0.2'
@@ -415,6 +485,7 @@ Resources:
   CloudCustodianPolicyDeploymentOrgProject:
     Type: AWS::CodeBuild::Project
     Description: "if you have a c7n-org-policies directory this will run c7-org for you"
+    DependsOn: [ CloudCustodianCodeBuildRole ]
     Properties:
       Artifacts:
         Type: NO_ARTIFACTS
@@ -423,7 +494,7 @@ Resources:
         Image: aws/codebuild/standard:4.0
         PrivilegedMode: false
         Type: LINUX_CONTAINER
-      ServiceRole: "CloudCustodianCodeBuildRole"
+      ServiceRole: !GetAtt CloudCustodianCodeBuildRole.Arn
       Source:
         BuildSpec: !Sub |
           version: '0.2'
