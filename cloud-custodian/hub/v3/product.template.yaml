@@ -4,7 +4,7 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: |
   Resources needed for custodian hub account
-  {"framework": "servicecatalog-products", "role": "product", "product-set": "cloud-custodian", "product": "hub", "version": "v2"}
+  {"framework": "servicecatalog-products", "role": "product", "product-set": "cloud-custodian", "product": "hub", "version": "v3"}
 
 Parameters:
 
