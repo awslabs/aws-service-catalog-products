@@ -24,6 +24,26 @@ Portfolios:
               RepositoryName: cloud-custodian-codestar-connection
               BranchName: v1
 
+    - Name: cloud-custodian-event-forwarding
+      Owner: central-it@customer.com
+      Description: resources needed for custodian spoke event forwarding
+      Distributor: central-it-team
+      SupportDescription: Contact us on Chime for help #central-it-team
+      SupportEmail: central-it-team@customer.com
+      SupportUrl: https://wiki.customer.com/central-it-team/self-service/cloud-custodian/event-forwarding
+      Tags:
+        - Key: product-type
+          Value: iam
+      Versions:
+        - Name: v1
+          Description: resources needed for custodian spoke accounts
+          Active: True
+          Source:
+            Provider: CodeCommit
+            Configuration:
+              RepositoryName: cloud-custodian-event-forwarding
+              BranchName: v1
+
     - Name: cloud-custodian-hub
       Owner: central-it@customer.com
       Description: resources needed for custodian hub account
@@ -35,14 +55,34 @@ Portfolios:
         - Key: product-type
           Value: iam
       Versions:
-        - Name: v3
+        - Name: v4
           Description: resources needed for custodian hub account
           Active: True
           Source:
             Provider: CodeCommit
             Configuration:
               RepositoryName: cloud-custodian-hub
-              BranchName: v3
+              BranchName: v4
+
+    - Name: cloud-custodian-pipeline
+      Owner: central-it@customer.com
+      Description: resources needed for custodian hub account cicd pipeline
+      Distributor: central-it-team
+      SupportDescription: Contact us on Chime for help #central-it-team
+      SupportEmail: central-it-team@customer.com
+      SupportUrl: https://wiki.customer.com/central-it-team/self-service/cloud-custodian/pipeline
+      Tags:
+        - Key: product-type
+          Value: iam
+      Versions:
+        - Name: v1
+          Description: resources needed for custodian hub account
+          Active: True
+          Source:
+            Provider: CodeCommit
+            Configuration:
+              RepositoryName: cloud-custodian-pipeline
+              BranchName: v1
 
     - Name: cloud-custodian-spoke
       Owner: central-it@customer.com

@@ -4,10 +4,56 @@
 schema: puppet-2019-04-01
 
 launches:
-  cloud-custodian-hub:
+  codestar-connection:
     portfolio: demo-central-it-team-portfolio
     product: cloud-custodian-hub
-    version: v3
+    version: v4
+    parameters:
+      ConnectionName:
+        Default: SET_ME
+      ProviderType:
+        Default: SET_ME
+    deploy_to:
+      tags:
+        - regions: default_region
+          tag: scope:cloud-custodian-hub
+
+  event-forwarding:
+    portfolio: demo-central-it-team-portfolio
+    product: event-forwarding
+    version: v1
+    parameters:
+      CloudCustodianSpokeIAMRolePath:
+        Default: /
+      CloudCustodianHubAccountId:
+        Default: SET_ME
+      EnableLogFileValidation:
+        Default: false
+      CloudCustodianHubEventBusName:
+        Default: default
+      CloudCustodianRuleForwarderIAMRoleName:
+        Default: CloudCustodianRuleForwarder
+    deploy_to:
+      tags:
+        - regions: enabled_regions
+          tag: scope:cloud-custodian-spoke
+
+  hub:
+    portfolio: demo-central-it-team-portfolio
+    product: hub
+    version: v4
+    parameters:
+      AWSOrgID:
+        Default: SET_ME
+    deploy_to:
+      tags:
+        - regions: enabled_regions
+          tag: scope:cloud-custodian-hub
+
+  pipeline:
+    portfolio: demo-central-it-team-portfolio
+    product: pipeline
+    version: v1
     parameters:
       C7NVersion:
         Default: "0.9.6"
@@ -15,8 +61,6 @@ launches:
         Default: "0.6.5"
       C7NOrgVersion:
         Default: "0.3.1"
-      AWSOrgID:
-        Default: SET_ME
       CloudCustodianHubIAMRolePath:
         Default: "/cloudcustodian/"
       CloudCustodianHubIAMRoleName:
@@ -27,8 +71,16 @@ launches:
         Default: CustodianAlerts
       CloudCustodianSNSTopicName:
         Default: CustodianAlerts
+      RepositoryProviderType:
+        Default: "CodeCommit"
       CloudCustodianPoliciesCodeCommitRepoName:
         Default: CloudCustodianPolicies
+      CodeStarConnectionArn:
+        Default: SET_ME
+      ProviderRepositoryId:
+        Default: SET_ME
+      ProviderRepositoryBranchName:
+        Default: "master"
       Regions:
         Default: --region us-east-1
     deploy_to:

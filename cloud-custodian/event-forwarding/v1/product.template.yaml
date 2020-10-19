@@ -1,0 +1,124 @@
+# Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+AWSTemplateFormatVersion: 2010-09-09
+Description: |
+  Resourceses needed in spoke account for cloudcustodian
+  {"framework": "servicecatalog-products", "role": "product", "product-set": "cloud-custodian", "product": "event-forwarding", "version": "v1"}
+
+Parameters:
+  CloudCustodianSpokeIAMRolePath:
+    Type: String
+    Default: /
+  CloudCustodianHubAccountId:
+    Type: String
+  EnableLogFileValidation:
+    Type: String
+    Default: false
+    Description: Specifies whether log file validation is enabled
+  CloudCustodianHubEventBusName:
+    Type: String
+    Default: default
+    Description: The arn of the event bus from the hub account where c7n policies are deployed
+  CloudCustodianRuleForwarderIAMRoleName:
+    Type: String
+    Default: CloudCustodianRuleForwarder
+    Description: The name of the IAM service role that will put events
+
+Resources:
+  TrailBucket:
+    Type: AWS::S3::Bucket
+    DeletionPolicy: Retain
+    Properties:
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: True
+        BlockPublicPolicy: True
+        IgnorePublicAcls: True
+        RestrictPublicBuckets: True
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      VersioningConfiguration:
+        Status: Enabled
+
+  TrailBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref TrailBucket
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Sid: "AWSCloudTrailAclCheck"
+            Effect: "Allow"
+            Principal:
+              Service: "cloudtrail.amazonaws.com"
+            Action: "s3:GetBucketAcl"
+            Resource: !Sub "arn:${AWS::Partition}:s3:::${TrailBucket}"
+          - Sid: "AWSCloudTrailWrite"
+            Effect: "Allow"
+            Principal:
+              Service: "cloudtrail.amazonaws.com"
+            Action: "s3:PutObject"
+            Resource: !Sub "arn:${AWS::Partition}:s3:::${TrailBucket}/AWSLogs/${AWS::AccountId}/*"
+            Condition:
+              StringEquals:
+                s3:x-amz-acl: "bucket-owner-full-control"
+
+  Trail:
+    Type: AWS::CloudTrail::Trail
+    DependsOn:
+      - TrailBucket
+      - TrailBucketPolicy
+    Properties:
+      S3BucketName: !Ref TrailBucket
+      EnableLogFileValidation: !Ref EnableLogFileValidation
+      IsLogging: true
+      IsMultiRegionTrail: true
+      IncludeGlobalServiceEvents: true
+
+  ForwarderRuleRole:
+    Type: AWS::IAM::Role
+    Description: Service IAM Role to be used when triggering the event rule
+    Properties:
+      RoleName: !Ref CloudCustodianRuleForwarderIAMRoleName
+      Path: !Ref CloudCustodianSpokeIAMRolePath
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: events.amazonaws.com
+      Policies:
+        - PolicyName: AllowPutEvents
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - events:PutEvents
+                Resource: !Sub "arn:${AWS::Partition}:events:${AWS::Region}:${CloudCustodianHubAccountId}:event-bus/${CloudCustodianHubEventBusName}"
+
+  ForwarderRule:
+    Type: AWS::Events::Rule
+    Properties:
+      Description: |
+        AWS CloudWatch Event Rule to forward events from the spoke back to the hub for cloudtrail mode policies
+      EventPattern:
+        detail-type:
+          - "AWS API Call via CloudTrail"
+        detail:
+          eventSource:
+            - "cloudtrail.amazonaws.com"
+      State: "ENABLED"
+      Targets:
+        -
+          Arn:  !Sub "arn:${AWS::Partition}:events:${AWS::Region}:${CloudCustodianHubAccountId}:event-bus/${CloudCustodianHubEventBusName}"
+          Id: "CloudCustodianHubEventBusArn"
+          RoleArn: !GetAtt ForwarderRuleRole.Arn
+
+Outputs:
+  TrailBucketName:
+    Value: !Ref TrailBucket
+    Description: Name of the s3 bucket the trail is delivering logs to
