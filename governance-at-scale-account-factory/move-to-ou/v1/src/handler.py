@@ -30,8 +30,8 @@ def handler(event, context):
                     raise Exception(
                         f"There were unexpected parents for the account_id {account_id}: {json.dumps(result)}"
                     )
-                current_ou = result.get("Parents")[1]
-                if target_ou != "None" and current_ou and current_ou != target_ou:
+                current_ou = result.get("Parents")[0].get('Id')
+                if target_ou != "None" and current_ou != target_ou:
                     logger.info("Moving account to new OU")
                     response = organizations.list_roots()
                     if len(response.get("Roots")) != 1:
@@ -42,7 +42,7 @@ def handler(event, context):
                         target = target_ou
                     organizations.move_account(
                         AccountId=account_id,
-                        SourceParentId=response.get("Roots")[0].get("Id"),
+                        SourceParentId=current_ou,
                         DestinationParentId=target,
                     )
 
