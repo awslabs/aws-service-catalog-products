@@ -95,6 +95,8 @@ launches:
         - param_name: /governance-at-scale-account-factory/account-creation-shared/GovernanceAtScaleAccountFactoryAccountCreationCRArn
           stack_output: GovernanceAtScaleAccountFactoryAccountCreationCRArn
     parameters:
+      GovernanceAtScaleAccountFactoryIAMRolePath:
+        default: /AccountFactoryIAMRolePath/
       GovernanceAtScaleAccountFactoryAccountCreationSharedOrgRoleArn:
         ssm:
           name: /governance-at-scale-account-factory/account-creation-shared-org-bootstrap/GovernanceAtScaleAccountFactoryAccountCreationSharedOrgRoleArn
