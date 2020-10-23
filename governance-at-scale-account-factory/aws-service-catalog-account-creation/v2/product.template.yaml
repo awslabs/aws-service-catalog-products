@@ -125,6 +125,10 @@ Resources:
       ManagedOrganizationalUnit: !GetAtt OUDetails.OrganizationalUnitName
       AccountId: !GetAtt Account.account_id
 
+  AccountBootstrapConditionHandle1:
+    Type: AWS::CloudFormation::WaitConditionHandle
+    Properties: {}
+
   Bootstrap:
     Type: Custom::CustomResource
     Properties:
@@ -132,6 +136,14 @@ Resources:
       OrganizationAccountAccessRoleName: !Ref OrganizationAccountAccessRole
       TargetAccountId: !GetAtt Account.account_id
       PuppetAccountId: !Sub "${AWS::AccountId}"
+      Handle: !Ref AccountBootstrapConditionHandle1
+
+  AccountBootstrapCondition1:
+    Type: AWS::CloudFormation::WaitCondition
+    DependsOn: Bootstrap
+    Properties:
+      Handle: !Ref AccountBootstrapConditionHandle1
+      Timeout: 28800
 
 Outputs:
   AccountId:

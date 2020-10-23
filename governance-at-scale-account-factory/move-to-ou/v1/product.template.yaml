@@ -75,7 +75,7 @@ Resources:
           ASSUMABLE_ROLE_IN_ROOT_ACCOUNT_ARN: !Ref GovernanceAtScaleAccountFactoryAccountCreationSharedOrgRoleArn
 
 Outputs:
-  GovernanceAtScaleAccountFactoryMoveToOUCreationCRArn:
+  GovernanceAtScaleAccountFactoryMoveToOUCRArn:
     Description: |
       the Arn of the custom resource that can be used to move accounts to different OUs
     Value: !GetAtt MoveToOUCustomResource.Arn

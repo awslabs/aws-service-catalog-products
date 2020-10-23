@@ -19,7 +19,7 @@ def handler(event, context):
             "ASSUMABLE_ROLE_IN_ROOT_ACCOUNT_ARN"
         )
         with betterboto_client.CrossAccountClientContextManager(
-            "organizations", assumable_role_in_root_account_arn, "assumable_org_role"
+                "organizations", assumable_role_in_root_account_arn, "assumable_org_role"
         ) as organizations:
             if request_type in ["Create", "Update"]:
                 target_ou = event.get("ResourceProperties").get("TargetOU")
@@ -31,7 +31,7 @@ def handler(event, context):
                         f"There were unexpected parents for the account_id {account_id}: {json.dumps(result)}"
                     )
                 current_ou = result.get("Parents")[0].get('Id')
-                if target_ou != "None" and current_ou != target_ou:
+                if str(target_ou) != "None" and current_ou != target_ou:
                     logger.info("Moving account to new OU")
                     response = organizations.list_roots()
                     if len(response.get("Roots")) != 1:

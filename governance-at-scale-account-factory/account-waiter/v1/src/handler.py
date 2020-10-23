@@ -39,6 +39,11 @@ def handler(event, context):
                             "type": "PLAINTEXT",
                         },
                         {
+                            "name": "TARGET_ACCOUNT_ID",
+                            "value": event.get("ResourceProperties").get("TargetAccountId"),
+                            "type": "PLAINTEXT",
+                        },
+                        {
                             "name": "RESULTS_URL",
                             "value": event.get("ResourceProperties").get("Handle"),
                             "type": "PLAINTEXT",

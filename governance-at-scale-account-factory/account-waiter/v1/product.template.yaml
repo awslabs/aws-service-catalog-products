@@ -109,7 +109,7 @@ Resources:
       Description: "waits for codebuild to become available in the specified account"
       ServiceRole: !GetAtt AccountWaiterCodeBuildProjectRole.Arn
       Artifacts:
-        Type: CODEPIPELINE
+        Type: NO_ARTIFACTS
       Environment:
         Type: linuxContainer
         ComputeType: BUILD_GENERAL1_SMALL
@@ -121,11 +121,14 @@ Resources:
           - Name: ORGANIZATION_ACCOUNT_ACCESS_ROLE
             Type: PLAINTEXT
             Value: !Ref OrganizationAccountAccessRole
+          - Name: TARGET_ACCOUNT_ID
+            Type: PLAINTEXT
+            Value: CHANGE_ME
           - Name: RESULTS_URL
             Type: PLAINTEXT
             Value: CHANGE_ME
       Source:
-        Type: CODEPIPELINE
+        Type: NO_SOURCE
         BuildSpec: !Sub |
           version: 0.2
           phases:
@@ -136,12 +139,13 @@ Resources:
                 - pip install aws-service-catalog-puppet==${ServiceCatalogPuppetVersion}
             build:
               commands:
-                - servicecatalog-puppet --info wait-for-code-build-in $ASSUMABLE_ROLE_IN_ROOT_ACCOUNT_ARN arn:${AWS::Partition}:iam::${AWS::AccountId}:role/$OrganizationAccountAccessRole
-                - curl -X PUT -H 'Content-Type:' --data-binary '{"Status" : "SUCCESS","Reason" : "Configuration Complete","UniqueId" : "'$CODEBUILD_BUILD_NUMBER'","Data" : "Application has completed configuration."}' $RESULTS_URL
+                - servicecatalog-puppet --info wait-for-code-build-in $ASSUMABLE_ROLE_IN_ROOT_ACCOUNT_ARN arn:${AWS::Partition}:iam::$TARGET_ACCOUNT_ID:role/$OrganizationAccountAccessRole
+                - >
+                  curl -X PUT -H 'Content-Type:' --data-binary '{"Status" : "SUCCESS","Reason" : "Configuration Complete","UniqueId" : "'$CODEBUILD_BUILD_NUMBER'","Data" : "Application has completed configuration."}' $RESULTS_URL
       TimeoutInMinutes: 480
 
 Outputs:
-  GovernanceAtScaleAccountFactoryAccountCreationCRArn:
+  GovernanceAtScaleAccountFactoryAccountWaiterCRArn:
     Description: |
       the Arn of the custom resource that can be used to wait for an account to become available
     Value: !GetAtt AccountWaiterCustomResource.Arn
