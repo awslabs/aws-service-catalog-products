@@ -309,7 +309,7 @@ launches:
         ssm:
           name: /governance-at-scale-account-factory/account-create-update-notifier/GovernanceAtScaleAccountFactoryAccountCreateUpdateNotifierCRArn
       ServiceCatalogPuppetVersion:
-        default: 0.88.1
+        default: 0.89.0
 
       SSOUserEmail:
         default: eamonnf+@example.com
