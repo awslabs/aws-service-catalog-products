@@ -98,11 +98,11 @@ Portfolios:
         - Description: Creates, codebuild project that can be run to bootstrap an account
             and lambda function that can be used to back a custom resource so the codebuild
             project can be started from CloudFormation
-          Name: v1
+          Name: v2
           Source:
             Provider: CodeCommit
             Configuration:
-              BranchName: v1
+              BranchName: v2
               RepositoryName: account-bootstrap-shared
     - Description: account-creation-shared
       Distributor: CCOE
@@ -134,11 +134,11 @@ Portfolios:
       Tags: []
       Versions:
         - Description: Lambda for backing custom resources to create an AWS Account
-          Name: v1
+          Name: v2
           Source:
             Provider: CodeCommit
             Configuration:
-              BranchName: v1
+              BranchName: v2
               RepositoryName: account-creation-shared
     - Description: account-create-update-notifier
       Distributor: CCOE
@@ -261,11 +261,11 @@ Portfolios:
             with thecorrect ARNs so this works with no copy and pasting.Provisioning this
             template will create an AWS Account and bootstrap it using aws-service-catalog-puppet
             so you canprovision products into the account.
-          Name: v1
+          Name: v2
           Source:
             Provider: CodeCommit
             Configuration:
-              BranchName: v1
+              BranchName: v2
               RepositoryName: aws-service-catalog-account-creation
       ProviderName: ccoe
       Tags:

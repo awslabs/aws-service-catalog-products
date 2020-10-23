@@ -22,7 +22,7 @@ launches:
         default: /AccountFactoryIAMRolePath/
     portfolio: demo-central-it-team-portfolio
     product: account-bootstrap-shared
-    version: v1
+    version: v2
   account-bootstrap-shared-org-bootstrap:
     deploy_to:
       tags:
