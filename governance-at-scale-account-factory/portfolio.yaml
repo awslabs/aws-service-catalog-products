@@ -134,11 +134,11 @@ Portfolios:
       Tags: []
       Versions:
         - Description: Lambda for backing custom resources to create an AWS Account
-          Name: v2
+          Name: v3
           Source:
             Provider: CodeCommit
             Configuration:
-              BranchName: v2
+              BranchName: v3
               RepositoryName: account-creation-shared
     - Description: account-create-update-notifier
       Distributor: CCOE

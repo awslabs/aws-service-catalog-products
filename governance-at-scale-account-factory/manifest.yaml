@@ -104,7 +104,7 @@ launches:
         default: OrganizationAccountAccessRole
     portfolio: demo-central-it-team-portfolio
     product: account-creation-shared
-    version: v1
+    version: v3
   account-creation-shared-org-bootstrap:
     deploy_to:
       tags:
