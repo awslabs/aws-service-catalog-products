@@ -225,7 +225,7 @@ launches:
           stack_output: GovernanceAtScaleAccountFactoryAccountWaiterCRArn
     portfolio: example-account-vending-account-vending
     product: account-waiter
-    version: v1
+    version: v2
 
   aws-control-tower-account-factory-account:
     depends_on:
