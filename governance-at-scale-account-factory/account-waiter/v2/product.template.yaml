@@ -43,6 +43,10 @@ Resources:
                 Action:
                   - sts:AssumeRole
                 Resource: !Ref GovernanceAtScaleAccountFactoryAccountCreationSharedOrgRoleArn
+              - Effect: Allow
+                Action:
+                  - codebuild: '*'
+                Resource: '*'
       AssumeRolePolicyDocument:
         Version: "2012-10-17"
         Statement:
