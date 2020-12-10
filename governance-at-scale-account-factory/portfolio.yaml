@@ -134,11 +134,11 @@ Portfolios:
       Tags: []
       Versions:
         - Description: Lambda for backing custom resources to create an AWS Account
-          Name: v3
+          Name: v4
           Source:
             Provider: CodeCommit
             Configuration:
-              BranchName: v3
+              BranchName: v4
               RepositoryName: account-creation-shared
     - Description: account-create-update-notifier
       Distributor: CCOE
@@ -242,6 +242,7 @@ Portfolios:
             Configuration:
               BranchName: v1
               RepositoryName: account-details-org-bootstrap
+
     - Description: aws-service-catalog-account-creation
       Distributor: CCOE
       Name: aws-service-catalog-account-creation
@@ -253,7 +254,6 @@ Portfolios:
       SupportDescription: Find us on Slack or Wiki
       SupportEmail: ccoe-support@Example.com
       SupportUrl: https://example.com/intranet/teams/ccoe/products/account-factory
-      Tags: []
       Versions:
         - Description: account-bootstrap-shared-product and account-creation-shared-product
             must both be provisioned into the same accountbefore this will work - they
@@ -267,6 +267,54 @@ Portfolios:
             Configuration:
               BranchName: v2
               RepositoryName: aws-service-catalog-account-creation
+      ProviderName: ccoe
+      Tags:
+        - Key: team
+          Value: ccoe
+
+    - Description: Lambda for backing custom resources to wait for an account to become available
+      Distributor: CCOE
+      Name: account-waiter
+      Owner: CCOE@Example.com
+      Source:
+        Configuration:
+          RepositoryName: account-waiter
+        Provider: CodeCommit
+      SupportDescription: Find us on Slack or Wiki
+      SupportEmail: ccoe-support@Example.com
+      SupportUrl: https://example.com/intranet/teams/ccoe/products/account-factory
+      Versions:
+        - Description: Lambda for backing custom resources to wait for an account to become available
+          Name: v3
+          Source:
+            Provider: CodeCommit
+            Configuration:
+              BranchName: v3
+              RepositoryName: account-waiter
+      ProviderName: ccoe
+      Tags:
+        - Key: team
+          Value: ccoe
+
+    - Description: Lambda for backing custom resources to move an account into the correct OU
+      Distributor: CCOE
+      Name: move-to-ou
+      Owner: CCOE@Example.com
+      Source:
+        Configuration:
+          RepositoryName: move-to-ou
+        Provider: CodeCommit
+      SupportDescription: Find us on Slack or Wiki
+      SupportEmail: ccoe-support@Example.com
+      SupportUrl: https://example.com/intranet/teams/ccoe/products/account-factory
+      Versions:
+        - Description: Lambda for backing custom resources to move an account into the correct OU
+          Name: v2
+          Source:
+            Provider: CodeCommit
+            Configuration:
+              BranchName: v2
+              RepositoryName: move-to-ou
       ProviderName: ccoe
       Tags:
         - Key: team
