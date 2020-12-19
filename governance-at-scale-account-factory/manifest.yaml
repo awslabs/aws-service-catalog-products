@@ -80,6 +80,8 @@ launches:
         default: AccountCreateUpdateCFHHandlerIAMRoleName
       GovernanceAtScaleAccountFactoryIAMRolePath:
         default: /AccountFactoryIAMRolePath/
+      CFHAccountCreateUpdatePostUrl:
+        default: https://example.com/intranet/teams/ccoe/products/account-factory/endpoint
     portfolio: demo-central-it-team-portfolio
     product: account-creation-notifier-cfh-handler
     version: v1
@@ -204,7 +206,7 @@ launches:
           stack_output: GovernanceAtScaleAccountFactoryMoveToOUCRArn
     portfolio: example-account-vending-account-vending
     product: move-to-ou
-    version: v3
+    version: v2
 
   account-waiter:
     depends_on:
@@ -219,6 +221,8 @@ launches:
           name: /governance-at-scale-account-factory/account-creation-shared-org-bootstrap/GovernanceAtScaleAccountFactoryAccountCreationSharedOrgRoleArn
       GovernanceAtScaleAccountFactoryIAMRolePath:
         default: /AccountFactoryIAMRolePath/
+      ServiceCatalogPuppetVersion:
+        default: 0.89.0
     outputs:
       ssm:
         - param_name: /governance-at-scale-account-factory/account-waiter/GovernanceAtScaleAccountFactoryAccountWaiterCRArn

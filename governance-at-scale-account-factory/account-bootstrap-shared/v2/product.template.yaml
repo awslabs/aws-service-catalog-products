@@ -67,7 +67,7 @@ Resources:
             Value: CHANGE_ME
           - Name: ASSUMABLE_ROLE_IN_ROOT_ACCOUNT
             Type: PLAINTEXT
-            Value: CHANGE_ME
+            Value: !Ref AssumableRoleArnInRootAccountForBootstrapping
       Source:
         Type: NO_SOURCE
         BuildSpec: |

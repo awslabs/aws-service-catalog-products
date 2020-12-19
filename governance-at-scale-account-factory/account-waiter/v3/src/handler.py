@@ -40,7 +40,7 @@ def handler(event, context):
                         },
                         {
                             "name": "TARGET_ACCOUNT_ID",
-                            "value": event.get("ResourceProperties").get("TargetAccountId"),
+                            "value": event.get("ResourceProperties").get("AccountId"),
                             "type": "PLAINTEXT",
                         },
                         {
