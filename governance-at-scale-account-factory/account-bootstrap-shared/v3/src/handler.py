@@ -27,8 +27,10 @@ def handler(event, context):
                 "OrganizationAccountAccessRoleName"
             )
 
-            organization_account_access_role_arn = "arn:aws:iam::{}:role/{}".format(
-                target_account_id, organization_account_access_role_name
+            partition = os.environ.get("PARTITION")
+
+            organization_account_access_role_arn = "arn:{}:iam::{}:role/{}".format(
+                partition, target_account_id, organization_account_access_role_name
             )
 
             with betterboto_client.ClientContextManager("ssm") as ssm:

@@ -138,6 +138,7 @@ Resources:
         Variables:
           BOOTSTRAPPER_PROJECT_NAME: !Ref BootstrapperProject
           ASSUMABLE_ROLE_IN_ROOT_ACCOUNT_ARN: !Ref AssumableRoleArnInRootAccountForBootstrapping
+          PARTITION: !Ref AWS::Partition
 
 Outputs:
   GovernanceAtScaleAccountFactoryBootstrapperProjectCustomResourceArn:
