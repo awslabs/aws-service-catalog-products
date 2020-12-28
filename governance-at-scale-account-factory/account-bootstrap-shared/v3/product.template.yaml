@@ -68,12 +68,12 @@ Resources:
           - Name: ASSUMABLE_ROLE_IN_ROOT_ACCOUNT
             Type: PLAINTEXT
             Value: !Ref AssumableRoleArnInRootAccountForBootstrapping
-           - Name: PUPPET_ROLE_NAME
-             Type: PLAINTEXT
-             Value: CHANGE_ME
-           - Name: PUPPET_ROLE_PATH
-             Type: PLAINTEXT
-             Value: CHANGE_ME
+          - Name: PUPPET_ROLE_NAME
+            Type: PLAINTEXT
+            Value: CHANGE_ME
+          - Name: PUPPET_ROLE_PATH
+            Type: PLAINTEXT
+            Value: CHANGE_ME
       Source:
         Type: NO_SOURCE
         BuildSpec: |

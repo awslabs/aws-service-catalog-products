@@ -39,13 +39,21 @@ def handler(event, context):
                     .get("Parameter")
                     .get("Value")
                 )
+                puppet_role_name = (
+                    ssm.get_parameter(Name="/servicecatalog-puppet/puppet-role/name")
+                    .get("Parameter")
+                    .get("Value")
+                )
+                puppet_role_path = (
+                    ssm.get_parameter(Name="/servicecatalog-puppet/puppet-role/path")
+                    .get("Parameter")
+                    .get("Value")
+                )
                 assumable_role_in_root_account = os.environ.get(
                     "ASSUMABLE_ROLE_IN_ROOT_ACCOUNT_ARN"
                 )
 
             bootstrapper_project_name = os.environ.get("BOOTSTRAPPER_PROJECT_NAME")
-            puppet_role_name = "Puppeteers"
-            puppet_role_path = "/servicecatalog-puppets/"
 
             with betterboto_client.ClientContextManager(
                 "codebuild",
