@@ -48,6 +48,13 @@ def handler(event, context):
                             "value": event.get("ResourceProperties").get("Handle"),
                             "type": "PLAINTEXT",
                         },
+                        {
+                            "name": "PARTITION",
+                            "value": event.get("ResourceProperties").get(
+                                "AccountPartition"
+                            ),
+                            "type": "PLAINTEXT",
+                        },
                     ],
                 )
                 build_status = bootstrapper_build.get("buildStatus")

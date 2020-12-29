@@ -27,7 +27,7 @@ def handler(event, context):
                 "OrganizationAccountAccessRoleName"
             )
 
-            partition = os.environ.get("PARTITION")
+            partition = event.get("ResourceProperties").get("AccountPartition")
 
             organization_account_access_role_arn = "arn:{}:iam::{}:role/{}".format(
                 partition, target_account_id, organization_account_access_role_name

@@ -131,6 +131,8 @@ Resources:
           - Name: RESULTS_URL
             Type: PLAINTEXT
             Value: CHANGE_ME
+          - Name: PARTITION
+            Value: CHANGE_ME
       Source:
         Type: NO_SOURCE
         BuildSpec: !Sub |
@@ -143,7 +145,7 @@ Resources:
                 - pip install aws-service-catalog-puppet==${ServiceCatalogPuppetVersion}
             build:
               commands:
-                - servicecatalog-puppet --info wait-for-code-build-in $ASSUMABLE_ROLE_IN_ROOT_ACCOUNT_ARN arn:${AWS::Partition}:iam::$TARGET_ACCOUNT_ID:role/$ORGANIZATION_ACCOUNT_ACCESS_ROLE
+                - servicecatalog-puppet --info wait-for-code-build-in $ASSUMABLE_ROLE_IN_ROOT_ACCOUNT_ARN arn:$PARTITION:iam::$TARGET_ACCOUNT_ID:role/$ORGANIZATION_ACCOUNT_ACCESS_ROLE
                 - >
                   curl -X PUT -H 'Content-Type:' --data-binary '{"Status" : "SUCCESS","Reason" : "Configuration Complete","UniqueId" : "'$CODEBUILD_BUILD_NUMBER'","Data" : "Application has completed configuration."}' $RESULTS_URL
       TimeoutInMinutes: 480
