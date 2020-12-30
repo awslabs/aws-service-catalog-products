@@ -11,9 +11,9 @@ Metadata:
           default: Account Details
         Parameters:
           - AccountName
-          - AccountEmail
-          - AccountType
+          - Email
           - AccountGroup
+          - AccountType
           - IamUserAccessToBilling
           - OrganizationAccountAccessRole
       - Label:
@@ -33,12 +33,12 @@ Metadata:
     ParameterLabels:
       AccountName:
         default: Account Name
-      AccountEmail:
+      Email:
         default: Account Email Address
+      AccountGroup:
+        default: Account Group
       AccountType:
         default: Account Type
-      Account Group:
-        default: Account Group
       IamUserAccessToBilling: 
         default: User Access to Billing
       OrganizationAccountAccessRole:
@@ -95,19 +95,15 @@ Parameters:
       - prod
   GovernanceAtScaleAccountFactoryAccountCreationCRArn:
     Type: String
-    Default: account-vending-creation-lambda
     Description: The ARN for the lambda function that creates the accounts
   GovernanceAtScaleAccountFactoryMoveToOUArn:
     Type: String
-    Default: account-vending-move-to-ou-lambda
     Description: The ARN of the lambda function that moves the new commercial account to the correct organizational unit
   GovernanceAtScaleAccountFactoryAccountWaiterArn:
     Type: String
-    Default: account-vending-account-waiter-lambda
     Description: The ARN of the lambda function that waits for CodeBuild and CloudFormation to become available in the new commercial account
   GovernanceAtScaleAccountFactoryBootstrapperProjectCustomResourceArn:
     Type: String
-    Default: account-vending-bootstrapper-lambda
     Description: The ARN of the lambda function that will bootstrap the new commerical account as a spoke of the current Service Catalog Puppet account
   GovernanceAtScaleAccountFactoryAccountTypeToOUChooserCRArn:
     Type: String

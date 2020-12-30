@@ -68,7 +68,7 @@ Resources:
               req =  request.Request(os.getenv("POST_URL"), data=b)
               req.add_header('Content-Type', 'application/json')
               resp = request.urlopen(req)
-              print(response.read().decode('utf-8'))
+              print(resp.read().decode('utf-8'))
 
   Role:
     Type: AWS::IAM::Role
