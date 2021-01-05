@@ -3,7 +3,7 @@
 This product is used to create a commercial AWS Account and bootstrap it using `aws-service-catalog-puppet` so you can provision products into the account
  
 ## Usage
-Before provisioning this product, account-bootstrap-shared-product and account-creation-shared-product must both be provisioned into the same account, These two products build some resources needed for this product to work. They alos provision the SSM parameters with the correct ARNs so this works without copy and pasting. 
+Before provisioning this product, the account-bootstrap-shared product and the account-creation-shared product must both be provisioned into the same account, These two products build some resources needed for this product to work. They also provision the SSM parameters with the correct ARNs so this works without copy and pasting. 
 
 ## Parameters
 The list of parameters for this template:
@@ -59,10 +59,12 @@ The list of resources this template creates:
 ### Account 
 *Type:* Custom::CustomResource  
 *Description:* A custom resource using the **GovernanceAtScaleAccountFactoryAccountCreationCRArn** AWS Lambda function to create the new commercial account
-
 ### MoveToOU 
 *Type:* Custom::CustomResource  
 *Description:* A custom resource using the **GovernanceAtScaleAccountFactoryMoveToOUArn** AWS Lambda function to move the new account to the correct OU
+### AccountWaiter1 
+*Type:* Custom::CustomResource  
+*Description:* A custom resource using the **GovernanceAtScaleAccountFactoryAccountWaiterArn** AWS Lambda function to wait for CodeBuild and CloudFormation to become available in the new account
 ### Notifier 
 *Type:* Custom::Resource  
 *Description:* A custom resource using the **GovernanceAtScaleAccountFactoryAccountCreateUpdateNotifierCRArn** AWS Lambda function to send a notification when the new account is created
