@@ -10,16 +10,15 @@ Parameters:
   GovernanceAtScaleAccountFactoryIAMRolePath:
     Description: The path to use for IAM roles in this template
     Type: String
-
   GovernanceAtScaleAccountFactoryAccountTypeChooserCRIAMRoleName:
-    Description: The name to use for IAM role that will be used to list accounts for bootstrapping purposes
+    Description: The name to use for the IAM role that will be used to list accounts for bootstrapping purposes
     Type: String
 
 
 Resources:
   Function:
     Description: |
-      Lambda function to back an AWS CloudFormation custom resource.  This expects a ResourceProperty of AccountType and
+      An AWS Lambda function to back an AWS CloudFormation custom resource. This expects a ResourceProperty of AccountType and
       will return an organizational_unit_id based on the dict organizational_unit_ids
     Type: AWS::Lambda::Function
     Properties:
@@ -100,7 +99,7 @@ Resources:
   Role:
     Type: AWS::IAM::Role
     Description: |
-      IAM role needed to execute account-type-to-organizational-unit-id.  Only needs basic access.
+      An IAM role that serves as the execution role for the AWS Lambda function
     Properties:
       RoleName: !Ref GovernanceAtScaleAccountFactoryAccountTypeChooserCRIAMRoleName
       Path: !Ref GovernanceAtScaleAccountFactoryIAMRolePath
@@ -119,5 +118,5 @@ Resources:
 Outputs:
   GovernanceAtScaleAccountFactoryAccountTypeToOUChooserCRArn:
     Description: |
-      Outputs the Function Arn so others can use it
+      The ARN of the AWS Lambda function
     Value: !GetAtt Function.Arn
