@@ -1,36 +1,34 @@
-# account-bootstrap-shared-org-bootstrap
+# govcloud-account-onboard-puppet-bootstrap
 # Description
-IAM Role needed to use AWS Organizations to bootstrap AWS Accounts.
+The IAM role that **govcloud-account-onboard** requires in order to bootstrap a new GovCloud account as a spoke of the GovCloud Service Catalog Puppet account
  
-
+## Usage
+This product is intended to be used as part of the GovCloud account creation process. It must be provisioned in the GovCloud Service Catalog Puppet account
 
 ## Parameters
 The list of parameters for this template:
 
-### ServiceCatalogToolsAccountId 
-Type: String  
-Description: The account id you will be installing AWS Service Catalog Factory into 
+### OrganizationRootAccountId 
+*Type:* String  
+*Description:* The account ID of the Organization root in GovCloud
 ### OrganizationAccountAccessRole 
-Type: String 
-Default: OrganizationAccountAccessRole 
-Description: Name of the IAM role used to access cross accounts for AWS Orgs usage 
-### GovernanceAtScaleAccountFactoryIAMRolePath 
-Type: String  
-Description: The path to use for IAM roles in this template 
-### GovernanceAtScaleAccountFactoryAccountBootstrapSharedBootstrapperOrgIAMRoleName 
-Type: String  
-Description: The name to use for IAM role that will be used to list accounts for bootstrapping purposes 
+*Type:* String  
+*Default:* OrganizationAccountAccessRole  
+*Description:* Name of the IAM role used to access cross accounts for AWS Organizations usage 
+### AccountOnboardPuppetRoleName 
+*Type:* String  
+*Description:* The name to use for IAM role that will be used to bootstrap an account 
 
 ## Resources
 The list of resources this template creates:
 
-### AssumableRoleInRootAccount 
-Type: AWS::IAM::Role 
-Description: IAM Role needed by the account vending machine so it can bootstrap accounts
+### AssumableRoleInPuppetAccount 
+*Type:* AWS::IAM::Role  
+*Description:* IAM Role needed by GovCloud account onboarding to bootstrap Puppet
  
 
 ## Outputs
 The list of outputs this template exposes:
 
-### AssumableRoleArnInRootAccountForBootstrapping 
-Description: The ARN for your Assumable role in root account  
+### AssumableRoleArnInPuppetAccountForBootstrapping 
+*Description:* The ARN for your assumable role in the Puppet account

@@ -14,41 +14,41 @@ This product is intended to be used as part of the GovCloud account creation pro
 The list of parameters for this template:
 
 ### OrganizationAccountAccessRole 
-_Type:_ String  
-_Default:_ OrganizationAccountAccessRole  
-_Description:_ The name of the IAM Role used for cross account assess for AWS Organizations 
+*Type:* String  
+*Default:* OrganizationAccountAccessRole  
+*Description:* The name of the IAM Role used for cross account assess for AWS Organizations 
 ### PuppetAccountAccessRole 
-_Type:_ String  
-_Default:_ PuppetAccountAccessRole  
-_Description:_ The name of the IAM Role used for cross account assess for bootstrapping Puppet
+*Type:* String  
+*Default:* PuppetAccountAccessRole  
+*Description:* The name of the IAM Role used for cross account assess for bootstrapping Puppet
 ### BootstrapperProjectName 
-_Type:_ String  
-_Default:_ servicecatalog-puppet-single-account-bootstrapper  
-_Description:_ The name of the CodeBuild project that bootstraps the member account as a spoke
+*Type:* String  
+*Default:* servicecatalog-puppet-single-account-bootstrapper  
+*Description:* The name of the CodeBuild project that bootstraps the member account as a spoke
 ### GovernanceAtScaleAccountFactoryIAMRolePath 
-_Type:_ String  
-_Description:_ The path to use for IAM roles in this template
+*Type:* String  
+*Description:* The path to use for IAM roles in this template
 ### GovernanceAtScaleAccountFactoryAccountAccountInvitationIAMRoleName 
-_Type:_ String  
-_Description:_ The name to use for IAM role that will be used by Lambda to add an account to an organization
+*Type:* String  
+*Description:* The name to use for IAM role that will be used by Lambda to add an account to an organization
 
 ## Resources
 The list of resources this template creates:
 
 ### AccountInvitationAPIGW 
-_Type:_ AWS::Serverless::Api  
-_Description:_ API Gateway that is used to provide an endpoint for the Lambda function
+*Type:* AWS::Serverless::Api  
+*Description:* API Gateway that is used to provide an endpoint for the Lambda function
 ### AccountInvitationRole 
-_Type:_ AWS::IAM::Role  
-_Description:_ The Lambda execution IAM role 
+*Type:* AWS::IAM::Role  
+*Description:* The Lambda execution IAM role 
 ### AccountInvitationFunction 
-_Type:_ AWS::Serverless::Function  
-_Description:_ The Lambda function that automates adding a GovCloud account to the GovCloud organization, moving it to the correct OU and bootstrapping it as a spoke of the Puppet account
+*Type:* AWS::Serverless::Function  
+*Description:* The Lambda function that automates adding a GovCloud account to the GovCloud organization, moving it to the correct OU and bootstrapping it as a spoke of the Puppet account
  
 
 ## Outputs
 The list of outputs this template exposes:
 
 ### AccountInvitationFunctionArn 
-_Description:_ Outputs the AccountInvitationFunction ARN so others can use it
+*Description:* Outputs the AccountInvitationFunction ARN so others can use it
   

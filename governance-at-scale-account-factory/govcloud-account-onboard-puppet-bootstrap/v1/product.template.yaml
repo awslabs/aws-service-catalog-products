@@ -8,11 +8,11 @@ Description: |
 
 Parameters:
   OrganizationRootAccountId:
-    Description: The account id you will be installing AWS Service Catalog Factory into
+    Description: The account ID of the Organization root in GovCloud
     Type: String
 
   OrganizationAccountAccessRole:
-    Description: Name of the IAM role used to access cross accounts for AWS Orgs usage
+    Description: Name of the IAM role used to access cross accounts for AWS Organizations usage
     Default: OrganizationAccountAccessRole
     Type: String
 
