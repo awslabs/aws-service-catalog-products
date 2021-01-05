@@ -8,6 +8,7 @@ Description: |
 
 Parameters:
   AccountCreateUpdateNotifierTopicArn:
+    Description: The ARN of the SNS topic to create the subscription for
     Type: String
 
   GovernanceAtScaleAccountFactoryIAMRolePath:
@@ -16,7 +17,7 @@ Parameters:
 
   GovernanceAtScaleAccountFactoryAccountCreateUpdateCFHHandlerIAMRoleName:
     Description: |
-      The name to use for IAM role that will be used for the lambda notifies CFH when accounts are created/updated
+      The name to use for the IAM role that will be used for the AWS Lambda function
     Type: String
 
   CFHAccountCreateUpdatePostUrl:
@@ -41,7 +42,7 @@ Resources:
 
   Function:
     Description: |
-      Lambda function to call CFH
+      An AWS Lambda function the relays messages from the provided SNS topic to the provided HTTP POST endpoint
     Type: AWS::Lambda::Function
     Properties:
       Handler: index.lambda_handler
@@ -73,7 +74,7 @@ Resources:
   Role:
     Type: AWS::IAM::Role
     Description: |
-      IAM role needed to publish account creations to SNS.
+      An IAM role used as the execution role for the AWS Lambda function
     Properties:
       RoleName: !Ref GovernanceAtScaleAccountFactoryAccountCreateUpdateCFHHandlerIAMRoleName
       Path: !Ref GovernanceAtScaleAccountFactoryIAMRolePath

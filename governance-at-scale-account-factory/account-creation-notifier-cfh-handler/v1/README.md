@@ -1,6 +1,6 @@
 # account-creation-notifier-cfh-handler
 # Description
-Lambda to back a custom resource that dispatches notifications to an included SNS Topic
+This product creates an AWS Lambda as a subscription to an SNS topic. The Lambda function is used to relay messages from SNS to a custom HTTP POST endpoint
  
 
 
@@ -8,26 +8,29 @@ Lambda to back a custom resource that dispatches notifications to an included SN
 The list of parameters for this template:
 
 ### AccountCreateUpdateNotifierTopicArn 
-Type: String   
+*Type:* String   
+*Description:* The ARN of the SNS topic to create the subscription for
 ### GovernanceAtScaleAccountFactoryIAMRolePath 
-Type: String  
-Description: The path to use for IAM roles in this template 
+*Type:* String  
+*Description:* The path to use for IAM roles in this template 
 ### GovernanceAtScaleAccountFactoryAccountCreateUpdateCFHHandlerIAMRoleName 
-Type: String  
-Description: The name to use for IAM role that will be used for the lambda notifies CFH when accounts are created/updated
- 
+*Type:* String  
+*Description:* The name to use for the IAM role that will be used for the AWS Lambda function
 
 ## Resources
 The list of resources this template creates:
 
+### Subscription
+*Type:* AWS::SNS::Subscription  
+*Description:* A subscription to the provided SNS topic
+
+### Permission
+*Type:* AWS::Lambda::Permission  
+*Desciption:* The permission that allows the provided SNS topic to invoke the AWS Lambda function
 ### Function 
-Type: AWS::Lambda::Function 
-Description: Lambda function to call CFH
+*Type:* AWS::Lambda::Function  
+*Description:* An AWS Lambda function the relays messages from the provided SNS topic to the provided HTTP POST endpoint
  
 ### Role 
-Type: AWS::IAM::Role 
-Description: IAM role needed to publish account creations to SNS.
- 
-
-## Outputs
-The list of outputs this template exposes:
+*Type:* AWS::IAM::Role  
+*Description:* An IAM role used as the execution role for the AWS Lambda function
