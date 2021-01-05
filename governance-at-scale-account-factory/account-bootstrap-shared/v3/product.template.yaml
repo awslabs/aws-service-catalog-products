@@ -15,10 +15,10 @@ Parameters:
     Description: The path to use for IAM roles in this template
     Type: String
   GovernanceAtScaleAccountFactoryAccountBootstrapSharedBootstrapperIAMRoleName:
-    Description: The name to use for IAM role that will be used by codebuild to bootstrap spokes
+    Description: The name to use for the IAM role that will be used by AWS CodeBuild to bootstrap spokes
     Type: String
   GovernanceAtScaleAccountFactoryAccountBootstrapSharedCustomResourceIAMRoleName:
-    Description: The name to use for IAM role that will be used by lambda to trigger a bootstrap
+    Description: The name to use for the IAM role that will be used by AWS Lambda to trigger a bootstrap
     Type: String
 
 Resources:
@@ -138,7 +138,6 @@ Resources:
         Variables:
           BOOTSTRAPPER_PROJECT_NAME: !Ref BootstrapperProject
           ASSUMABLE_ROLE_IN_ROOT_ACCOUNT_ARN: !Ref AssumableRoleArnInRootAccountForBootstrapping
-          PARTITION: !Ref AWS::Partition
 
 Outputs:
   GovernanceAtScaleAccountFactoryBootstrapperProjectCustomResourceArn:

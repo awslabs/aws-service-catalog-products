@@ -1,41 +1,43 @@
 # account-bootstrap-shared
 # Description
-Creates, codebuild project that can be run to bootstrap an account and lambda function that can be used to back a custom resource so the codebuild project can be started from CloudFormation
- 
+This product creates an AWS CodeBuild project that can be run to bootstrap an account. It also includes an AWS Lambda function that can be used to back a custom resource so that the CodeBuild project can be started from AWS CloudFormation
 
+## Usage
+This product should be provisioned in your Service Catalog Puppet account
 
 ## Parameters
 The list of parameters for this template:
 
 ### AssumableRoleArnInRootAccountForBootstrapping 
-Type: String  
-Description: The Arn of the assumable role from the root account 
+*Type:* String  
+*Description:* The Arn of the assumable role from the root account 
 ### GovernanceAtScaleAccountFactoryIAMRolePath 
-Type: String  
-Description: The path to use for IAM roles in this template 
+*Type:* String  
+*Description:* The path to use for IAM roles in this template 
 ### GovernanceAtScaleAccountFactoryAccountBootstrapSharedBootstrapperIAMRoleName 
-Type: String  
-Description: The name to use for IAM role that will be used by codebuild to bootstrap spokes 
+*Type:* String  
+*Description:* The name to use for the IAM role that will be used by AWS CodeBuild to bootstrap spokes 
 ### GovernanceAtScaleAccountFactoryAccountBootstrapSharedCustomResourceIAMRoleName 
-Type: String  
-Description: The name to use for IAM role that will be used by lambda to trigger a bootstrap 
+*Type:* String  
+*Description:* The name to use for the IAM role that will be used by AWS Lambda to trigger a bootstrap 
 
 ## Resources
 The list of resources this template creates:
 
 ### BootstrapperRole 
-Type: AWS::IAM::Role  
+*Type:* AWS::IAM::Role  
+*Description:* An IAM service role used by the AWS CodeBuild project
 ### BootstrapperProject 
-Type: AWS::CodeBuild::Project 
-Description: Wrapper project that:
-  - installs aws-service-catalog-puppet
-  - runs bootstrap-spoke-as
- 
+*Type:* AWS::CodeBuild::Project  
+*Description:* An AWS CodeBuild project that:
+  - Installs `aws-service-catalog-puppet`
+  - Runs `servicecatalog-puppet bootstrap-spoke-as` 
 ### BootstrapperProjectCustomResourceRole 
-Type: AWS::IAM::Role  
+*Type:* AWS::IAM::Role  
+*Description:* An IAM Lambda execution role used by the custom resource Lambda function
 ### BootstrapperProjectCustomResource 
-Type: AWS::Serverless::Function 
-Description: Lambda function that can be used to back a custom resource.  You can get the ARN by checking the SSM Parameter
+*Type:* AWS::Serverless::Function  
+*Description:* An AWS Lambda function that can be used to back a custom resource.  You can get the ARN by checking the SSM Parameter
 ```account-vending-bootstrapper-lambda```:
 ```yaml
 Account:
@@ -54,5 +56,5 @@ Account:
 The list of outputs this template exposes:
 
 ### GovernanceAtScaleAccountFactoryBootstrapperProjectCustomResourceArn 
-Description: Outputs the BootstrapperProjectCustomResource Arn so others can use it
+*Description:* Outputs the BootstrapperProjectCustomResource ARN so others can use it
   
