@@ -24,7 +24,7 @@ Parameters:
     Description: The path to use for IAM roles in this template
     Type: String
   GovernanceAtScaleAccountFactoryAccountAccountInvitationIAMRoleName:
-    Description: The name to use for IAM role that will be used by lambda to add an account to an organization and trigger AVM
+    Description: The name to use for IAM role that will be used by Lambda to add an account to an organization
     Type: String
 
 Resources:
