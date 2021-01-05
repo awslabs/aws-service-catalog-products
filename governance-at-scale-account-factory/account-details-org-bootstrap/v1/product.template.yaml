@@ -8,15 +8,13 @@ Description: |
 
 Parameters:
   ServiceCatalogToolsAccountId:
-    Description: The account where you have installed the Service Catalog tools.
+    Description: The account ID fo the account where you have installed the Service Catalog Tools
     Type: String
-
   GovernanceAtScaleAccountFactoryIAMRolePath:
     Description: The path to use for IAM roles in this template
     Type: String
-
   GovernanceAtScaleAccountFactoryAccountDetailsOrgIAMRoleName:
-    Description: The name to use for IAM role that will be used to list accounts for bootstrapping purposes
+    Description: The name to use for the IAM role that will be used to list accounts for bootstrapping purposes
     Type: String
 
 
@@ -24,7 +22,7 @@ Resources:
   AccountCreationDetailsAssumableRole:
     Type: AWS::IAM::Role
     Description: |
-      IAM Role needed so we can list accounts
+      An IAM Role that can be assumed and allows for listing accounts in the organization
     Properties:
       RoleName: !Ref GovernanceAtScaleAccountFactoryAccountDetailsOrgIAMRoleName
       Path: !Ref GovernanceAtScaleAccountFactoryIAMRolePath
@@ -49,5 +47,5 @@ Resources:
 
 Outputs:
   GovernanceAtScaleAccountFactoryAccountDetailsOrgRoleArn:
-    Description: The ARN for your Assumable role in root account
+    Description: The ARN for your assumable role in the organization root account  
     Value: !GetAtt AccountCreationDetailsAssumableRole.Arn
