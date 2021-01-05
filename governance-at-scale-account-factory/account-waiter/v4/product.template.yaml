@@ -4,28 +4,25 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: |
-  Lambda for backing custom resources to wait for an account to become available
+  This product creates an AWS Lambda function for backing custom resources that will wait for CodeBuild and CloudFormation to become available in a newly created account
   {"framework": "servicecatalog-products", "role": "product", "product-set": "governance-at-scale-account-factory", "product": "account-waiter", "version": "v3"}
 
 Parameters:
   GovernanceAtScaleAccountFactoryAccountCreationSharedOrgRoleArn:
     Type: String
     Description: |
-      The Arn of the role to be used to interact with AWS Orgs
-
+      The ARN of the assumable role in the organization root account that is used to interact with AWS Organizations
   OrganizationAccountAccessRole:
     Type: String
     Default: OrganizationAccountAccessRole
     Description: |
-      The name of the IAM Role used for cross account assess for AWS Organs
-
+      The name of the the IAM Role used for cross account assess for AWS Organizations
   GovernanceAtScaleAccountFactoryIAMRolePath:
     Description: The path to use for IAM roles in this template
     Type: String
-
   ServiceCatalogPuppetVersion:
     Type: String
-    Description: The version of service catalog puppet in use
+    Description: The version of Service Catalog Puppet in use
 
 Resources:
   AccountWaiterCustomResourceRole:
@@ -65,16 +62,16 @@ Resources:
   AccountWaiterCustomResource:
     Type: AWS::Serverless::Function
     Description: |
-      The lambda function that creates an account when called using a CloudFormation Custom Resource:
+      An AWS Lambda function that starts an AWS CodeBuild project used to wait for CodeBuild and CloudFormation to become available in a newly created account
       ```yaml
       AccountWaiter1:
-          Type: Custom::Resource
-          Description: A custom resource for waiting for an account to become active
-          Properties:
-            ServiceToken: !Ref GovernanceAtScaleAccountFactoryAccountWaiterArn
-            AccountId: !GetAtt Account.account_id
-            ServiceCatalogPuppetVersion: !Ref ServiceCatalogPuppetVersion
-            Handle: !Ref AccountWaiterConditionHandle1
+        Type: Custom::Resource
+        Description: A custom resource for waiting for an account to become active
+        Properties:
+          ServiceToken: !Ref GovernanceAtScaleAccountFactoryAccountWaiterArn
+          AccountId: !GetAtt Account.account_id
+          ServiceCatalogPuppetVersion: !Ref ServiceCatalogPuppetVersion
+          Handle: !Ref AccountWaiterConditionHandle1
       ```
     Properties:
       CodeUri: ./src
