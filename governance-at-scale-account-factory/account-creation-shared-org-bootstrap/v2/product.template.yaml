@@ -3,25 +3,22 @@
 
 AWSTemplateFormatVersion: '2010-09-09'
 Description: |
-  IAM Role needed to use AWS Organizations to create AWS Accounts.
+  This product creates an IAM Role that is needed in order to use AWS Organizations to create AWS Accounts
   {"framework": "servicecatalog-products", "role": "product", "product-set": "governance-at-scale-account-factory", "product": "account-creation-shared-org-bootstrap", "version": "v1"}
 
 Parameters:
   ServiceCatalogToolsAccountId:
-    Description: The account you will be installing AWS Service Catalog Factory into
+    Description: The account ID of the account where you have installed AWS Service Catalog Factory 
     Type: String
-
   OrganizationAccountAccessRole:
-    Description: Name of the IAM role used to access cross accounts for AWS Orgs usage
+    Description: The name of the IAM role used to access cross accounts for AWS Organizations usage 
     Default: OrganizationAccountAccessRole
     Type: String
-
   GovernanceAtScaleAccountFactoryIAMRolePath:
     Description: The path to use for IAM roles in this template
     Type: String
-
   GovernanceAtScaleAccountFactoryAccountCreationSharedOrgIAMRoleName:
-    Description: The name to use for IAM role that will be used to list accounts for bootstrapping purposes
+    Description: The name to use for the IAM role that will be used to list accounts for bootstrapping purposes
     Type: String
 
 
@@ -29,7 +26,7 @@ Resources:
   AssumableRoleInRootAccount:
     Type: AWS::IAM::Role
     Description: |
-      IAM Role needed by the account vending machine so it can create and move accounts
+      An IAM Role to be used by the account vending machine so it can create and move accounts
     Properties:
       RoleName: !Ref GovernanceAtScaleAccountFactoryAccountCreationSharedOrgIAMRoleName
       Path: !Ref GovernanceAtScaleAccountFactoryIAMRolePath
@@ -64,5 +61,5 @@ Resources:
 
 Outputs:
   GovernanceAtScaleAccountFactoryAccountCreationSharedOrgRoleArn:
-    Description: The ARN for your Assumable role in root account
+    Description: The ARN for the assumable role in the organization root account 
     Value: !GetAtt AssumableRoleInRootAccount.Arn
