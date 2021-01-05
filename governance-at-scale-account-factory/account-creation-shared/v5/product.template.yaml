@@ -4,21 +4,19 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: |
-  Lambda for backing custom resources to create an AWS Account
+  This product creates an AWS Lambda function for backing custom resources to create an AWS Account
   {"framework": "servicecatalog-products", "role": "product", "product-set": "governance-at-scale-account-factory", "product": "account-creation-shared", "version": "v4"}
 
 Parameters:
   GovernanceAtScaleAccountFactoryAccountCreationSharedOrgRoleArn:
     Type: String
     Description: |
-      The Arn of the role to be used to interact with AWS Orgs
-
+      The ARN of the assumable role in the organization root account that is used to interact with AWS Organizations
   OrganizationAccountAccessRole:
     Type: String
     Default: OrganizationAccountAccessRole
     Description: |
-      The name of the IAM Role used for cross account assess for AWS Organs
-
+      The name of the IAM Role used for cross account access for AWS Organizations
   GovernanceAtScaleAccountFactoryIAMRolePath:
     Description: The path to use for IAM roles in this template
     Type: String
