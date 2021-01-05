@@ -3,27 +3,25 @@
 
 AWSTemplateFormatVersion: 2010-09-09
 Description: |
-  Takes the given 'AccountName' and returns the account details
+  This product takes a provided 'AccountName' and returns the details about that account 
   {"framework": "servicecatalog-products", "role": "product", "product-set": "governance-at-scale-account-factory", "product": "account-details", "version": "v1"}
 
 Parameters:
   GovernanceAtScaleAccountFactoryAccountDetailsOrgRoleArn:
     Type: String
     Description: |
-      AWS IAM Role in the Organizations root account that is assumable from the account where this is provisoned
-
+      The IAM Role in the Organizations root account that is assumable from the account where this is provisoned
   GovernanceAtScaleAccountFactoryIAMRolePath:
     Description: The path to use for IAM roles in this template
     Type: String
-
   GovernanceAtScaleAccountFactoryAccountDetailsCRIAMRoleName:
-    Description: The name to use for IAM role that will be used for lambda when backing the account details custom resource
+    Description: The name to use for the IAM role that will be used for the AWS Lambda function when backing the account details custom resource
     Type: String
 
 Resources:
   Function:
     Description: |
-      Lambda function to back an AWS CloudFormation custom resource.  This expects a ResourceProperty of AccountType and
+      An AWS Lambda function to back an AWS CloudFormation custom resource. This expects a ResourceProperty of AccountType and
       will return an organizational_unit_id based on the dict organizational_unit_ids
     Type: AWS::Lambda::Function
     Properties:
@@ -115,5 +113,5 @@ Resources:
 Outputs:
   GovernanceAtScaleAccountFactoryAccountDetailsCRArn:
     Description: |
-      Outputs the Function Arn so others can use it
+      The ARN of the AWS Lambda Function
     Value: !GetAtt Function.Arn
