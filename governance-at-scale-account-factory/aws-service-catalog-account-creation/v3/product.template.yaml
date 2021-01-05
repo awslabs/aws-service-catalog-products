@@ -64,7 +64,7 @@ Parameters:
 
   ServiceCatalogPuppetVersion:
     Type: String
-    Description: The version of service catalog puppet in use
+    Description: The version of Service Catalog Puppet in use
 
 
 Resources:
@@ -148,4 +148,5 @@ Resources:
 
 Outputs:
   AccountId:
+    Description: The ID of the new account
     Value: !GetAtt Account.account_id

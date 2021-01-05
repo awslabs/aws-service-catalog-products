@@ -130,28 +130,28 @@ Parameters:
       - prod
   GovernanceAtScaleAccountFactoryAccountCreationCRArn:
     Type: String
-    Description: The ARN for the lambda function that creates the accounts
+    Description: The ARN for the AWS Lambda function that creates the accounts
   GovernanceAtScaleAccountFactoryMoveToOUArn:
     Type: String
-    Description: The ARN of the lambda function that moves the new commercial account to the correct organizational unit
+    Description: The ARN of the AWS Lambda function that moves the new commercial account to the correct organizational unit
   GovernanceAtScaleAccountFactoryAccountWaiterArn:
     Type: String
-    Description: The ARN of the lambda function that waits for CodeBuild and CloudFormation to become available in the new commercial account
+    Description: The ARN of the AWS Lambda function that waits for CodeBuild and CloudFormation to become available in the new commercial account
   GovernanceAtScaleAccountFactoryBootstrapperProjectCustomResourceArn:
     Type: String
-    Description: The ARN of the lambda function that will bootstrap the new commerical account as a spoke of the current Service Catalog Puppet account
+    Description: The ARN of the AWS Lambda function that will bootstrap the new commerical account as a spoke of the current Service Catalog Puppet account
   GovernanceAtScaleAccountFactoryAccountTypeToOUChooserCRArn:
     Type: String
-    Description: The ARN of the lambda that converts the account group and account type to the correct organizational unit
+    Description: The ARN of the laAWS Lambda functionmbda that converts the account group and account type to the correct organizational unit
   GovernanceAtScaleAccountFactoryAccountCreateUpdateNotifierCRArn:
     Type: String
-    Description: The ARN of the lambda that will dispatch SNS notifications on account creation / update of the Commerical account
+    Description: The ARN of the AWS Lambda function that will dispatch SNS notifications on account creation of the Commerical account
   GovernanceAtScaleAccountFactoryGovCloudAccountCreateUpdateNotifierCRArn:
     Type: String
-    Description: The ARN of the lambda that will dispatch SNS notifications on account creation / update of the GovCloud account
+    Description: The ARN of the AWS Lambda function that will dispatch SNS notifications on account creation of the GovCloud account
   ServiceCatalogPuppetVersion:
     Type: String
-    Description: The version of service catalog puppet in use
+    Description: The version of Service Catalog Puppet in use
   PuppetAccountId:
     Type: String
     Description: Account ID for the Commerical Service Catalog Puppet account
