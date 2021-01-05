@@ -3,7 +3,7 @@
 
 AWSTemplateFormatVersion: 2010-09-09
 Description: |
-  Lambda to back a custom resource that dispatches notifications to an included SNS Topic
+  This product creates an AWS Lambda function to back a custom resource that dispatches notifications to an included SNS Topic
   {"framework": "servicecatalog-products", "role": "product", "product-set": "governance-at-scale-account-factory", "product": "account-create-update-notifier", "version": "v1"}
 
 Parameters:
@@ -12,19 +12,19 @@ Parameters:
     Type: String
 
   GovernanceAtScaleAccountFactoryAccountCreateUpdateCRIAMRoleName:
-    Description: The name to use for IAM role that will be used for the lambda that backs a custom resource
+    Description: The name to use for the IAM role that will be used for the AWS Lambda that backs a custom resource 
     Type: String
 
 Resources:
   SNSTopic:
     Type: AWS::SNS::Topic
-    Description: SNS Topic others can subscribe to so that they can find out about account creations
+    Description: An SNS Topic others can subscribe to so that they can find out about account creations
     Properties:
       TopicName: account-creations
 
   Function:
     Description: |
-      Lambda function to dispatch notifications to the SNSTopic
+      An AWS Lambda function to dispatch notifications to the SNSTopic
     Type: AWS::Lambda::Function
     Properties:
       FunctionName: 'account-creation-notifier'
@@ -73,7 +73,7 @@ Resources:
   Role:
     Type: AWS::IAM::Role
     Description: |
-      IAM role needed to publish account creations to SNS.
+      The IAM role that is needed to publish account creations to SNS
     Properties:
       RoleName: !Ref GovernanceAtScaleAccountFactoryAccountCreateUpdateCRIAMRoleName
       Path: !Ref GovernanceAtScaleAccountFactoryIAMRolePath
@@ -102,15 +102,15 @@ Resources:
 Outputs:
   AccountCreateUpdateNotifierTopicArn:
     Description: |
-      Outputs the SNS topic
+      The ARN of the SNS topic
     Value: !Ref SNSTopic
 
   AccountCreateUpdateNotifierTopicName:
     Description: |
-      Outputs the SNS topic name
+      The name of the SNS topic
     Value: !GetAtt SNSTopic.TopicName
 
   GovernanceAtScaleAccountFactoryAccountCreateUpdateNotifierCRArn:
     Description: |
-      Arn of lambda that can be used to back custom resources to notify others that accounts have been created
+      The ARN of the AWS Lambda function that can be used to back custom resources to notify others that accounts have been created
     Value: !GetAtt Function.Arn
