@@ -1,0 +1,116 @@
+# Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+AWSTemplateFormatVersion: 2010-09-09
+Description: |
+  Lambda to back a custom resource that dispatches notifications to an included SNS Topic
+  {"framework": "servicecatalog-products", "role": "product", "product-set": "governance-at-scale-account-factory", "product": "account-create-update-notifier", "version": "v1"}
+
+Parameters:
+  GovernanceAtScaleAccountFactoryIAMRolePath:
+    Description: The path to use for IAM roles in this template
+    Type: String
+
+  GovernanceAtScaleAccountFactoryAccountCreateUpdateCRIAMRoleName:
+    Description: The name to use for IAM role that will be used for the lambda that backs a custom resource
+    Type: String
+
+Resources:
+  SNSTopic:
+    Type: AWS::SNS::Topic
+    Description: SNS Topic others can subscribe to so that they can find out about account creations
+    Properties:
+      TopicName: account-creations
+
+  Function:
+    Description: |
+      Lambda function to dispatch notifications to the SNSTopic
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: 'account-creation-notifier'
+      Handler: index.lambda_handler
+      Timeout: 10
+      Role: !GetAtt Role.Arn
+      Runtime: python3.7
+      Environment:
+        Variables:
+          SNS_TOPIC: !Ref SNSTopic
+      Code:
+        ZipFile: |
+          import cfnresponse
+          import boto3
+          import os
+          import json
+
+          def construct_message(event):
+              resource_properties = event.get('ResourceProperties')
+              message = {
+                  'RequestType': event.get('RequestType'),
+                  'AccountName': resource_properties['AccountName'],
+                  'AccountEmail': resource_properties['AccountEmail'],
+                  'ManagedOrganizationalUnit': resource_properties['ManagedOrganizationalUnit'],
+                  'AccountId': resource_properties['AccountId'],
+                  'PuppetAccountId': resource_properties['PuppetAccountId'],
+                  'AccountPartition': resource_properties['AccountPartition'],
+              }
+
+              if resource_properties.get('SSOUserFirstName'):
+                  message['SSOUserFirstName'] = resource_properties.get('SSOUserFirstName')
+                  message['SSOUserLastName'] = resource_properties.get('SSOUserLastName')
+                  message['SSOUserEmail'] = resource_properties.get('SSOUserEmail')
+              return message
+
+          def lambda_handler(event, context):
+              message = construct_message(event)
+              sns_client = boto3.client('sns')
+              sns_client.publish(
+                  TopicArn=os.getenv('SNS_TOPIC'),
+                  Message=json.dumps(message),
+                  Subject=f"Account: {event['ResourceProperties']['AccountName']} was {event.get('RequestType')}"
+              )
+              cfnresponse.send(event, context, cfnresponse.SUCCESS, {})
+
+  Role:
+    Type: AWS::IAM::Role
+    Description: |
+      IAM role needed to publish account creations to SNS.
+    Properties:
+      RoleName: !Ref GovernanceAtScaleAccountFactoryAccountCreateUpdateCRIAMRoleName
+      Path: !Ref GovernanceAtScaleAccountFactoryIAMRolePath
+      Policies:
+        - PolicyName: PublishPerms
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - sns:Publish
+                Resource: !Ref SNSTopic
+
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      ManagedPolicyArns:
+        - !Sub arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+
+Outputs:
+  AccountCreateUpdateNotifierTopicArn:
+    Description: |
+      Outputs the SNS topic
+    Value: !Ref SNSTopic
+
+  AccountCreateUpdateNotifierTopicName:
+    Description: |
+      Outputs the SNS topic name
+    Value: !GetAtt SNSTopic.TopicName
+
+  GovernanceAtScaleAccountFactoryAccountCreateUpdateNotifierCRArn:
+    Description: |
+      Arn of lambda that can be used to back custom resources to notify others that accounts have been created
+    Value: !GetAtt Function.Arn

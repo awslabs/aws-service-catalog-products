@@ -1,0 +1,196 @@
+# Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: |
+  Creates, codebuild project that can be run to bootstrap an account and lambda function that can be used to back a custom resource so the codebuild project can be started from CloudFormation
+  {"framework": "servicecatalog-products", "role": "product", "product-set": "governance-at-scale-account-factory", "product": "account-bootstrap-shared", "version": "v2"}
+
+Parameters:
+  OrganizationAccountAccessRole:
+    Type: String
+    Default: OrganizationAccountAccessRole
+    Description: The name of the IAM Role used for cross account assess for AWS Organizations
+  PuppetAccountAccessRole:
+    Type: String
+    Default: PuppetAccountAccessRole
+    Description: The name of the IAM Role used for cross account assess for bootstrapping Puppet
+  BootstrapperProjectName:
+    Type: String
+    Default: servicecatalog-puppet-single-account-bootstrapper
+    Description: The name of the CodeBuild project that bootstraps the member account as a spoke
+  GovernanceAtScaleAccountFactoryIAMRolePath:
+    Description: The path to use for IAM roles in this template
+    Type: String
+  GovernanceAtScaleAccountFactoryAccountAccountInvitationIAMRoleName:
+    Description: The name to use for IAM role that will be used by lambda to add an account to an organization and trigger AVM
+    Type: String
+
+Resources:
+  AccountInvitationAPIGW: # API Gateway for the replay and voting APIs
+    Type: "AWS::Serverless::Api"
+    Properties:
+      Auth:
+        AddDefaultAuthorizerToCorsPreflight: false
+        ApiKeyRequired: false
+        InvokeRole: None
+        ResourcePolicy:
+          CustomStatements:
+            [
+              {
+                "Effect": "Allow",
+                "Principal": "*",
+                "Action": "execute-api:Invoke",
+                "Resource": "execute-api:/Prod/*",
+              },
+            ]
+      Cors:
+        AllowCredentials: true
+        AllowHeaders: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+        AllowMethods: "'OPTIONS,GET,POST'"
+        AllowOrigin: "'*''"
+      DefinitionBody:
+        paths:
+          /onboard-account:
+            options:
+              consumes:
+                - "application/json"
+              produces:
+                - "application/json"
+              responses:
+                "200":
+                  description: "200 response"
+                  headers:
+                    Access-Control-Allow-Credentials:
+                      type: "string"
+                    Access-Control-Allow-Headers:
+                      type: "string"
+                    Access-Control-Allow-Methods:
+                      type: "string"
+                    Access-Control-Allow-Origin:
+                      type: "string"
+                    Access-Control-Expose-Headers:
+                      type: "string"
+              x-amazon-apigateway-integration:
+                passthroughBehavior: "when_no_match"
+                requestTemplates:
+                  application/json: "{\n  \"statusCode\" : 200\n}\n"
+                responses:
+                  default:
+                    statusCode: "200"
+                    responseParameters:
+                      method.response.header.Access-Control-Allow-Credentials: "'true'"
+                      method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+                      method.response.header.Access-Control-Allow-Methods: "'OPTIONS,POST'"
+                      method.response.header.Access-Control-Allow-Origin: "'*'"
+                      method.response.header.Access-Control-Expose-Headers: "'true'"
+                    responseTemplates:
+                      application/json: "{}\n"
+                type: "mock"
+            post:
+              responses: {}
+              x-amazon-apigateway-integration:
+                uri: !Sub "arn:${AWS::Partition}:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${AccountInvitationFunction.Arn}/invocations"
+                passthroughBehavior: "when_no_match"
+                httpMethod: "POST"
+                type: "aws_proxy"
+        swagger: "2.0"
+        x-amazon-apigateway-gateway-responses:
+          DEFAULT_4XX:
+            responseParameters:
+              gatewayresponse.header.Access-Control-Allow-Credentials: "'true'"
+              gatewayresponse.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+              gatewayresponse.header.Access-Control-Allow-Methods: "'OPTIONS,POST'"
+              gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
+              gatewayresponse.header.Access-Control-Expose-Headers: "'true'"
+            responseTemplates:
+              application/json: '{"message":$context.error.messageString}'
+          DEFAULT_5XX:
+            responseParameters:
+              gatewayresponse.header.Access-Control-Allow-Credentials: "'true'"
+              gatewayresponse.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+              gatewayresponse.header.Access-Control-Allow-Methods: "'OPTIONS,POST'"
+              gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
+              gatewayresponse.header.Access-Control-Expose-Headers: "'true'"
+      Name: "Account-Onboarding"
+      StageName: Prod
+
+  AccountInvitationRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Ref GovernanceAtScaleAccountFactoryAccountAccountInvitationIAMRoleName
+      Path: !Ref GovernanceAtScaleAccountFactoryIAMRolePath
+      ManagedPolicyArns:
+        - !Sub arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Policies:
+        - PolicyName: InviteOrganizations
+          PolicyDocument:
+              Version: "2012-10-17"
+              Statement:
+                  - Effect: Allow
+                    Action: 
+                      - organizations:InviteAccountToOrganization
+                      - organizations:ListParents
+                      - organizations:ListOrganizationalUnitsForParent
+                      - organizations:ListRoots
+                      - organizations:MoveAccount
+                    Resource: "*"
+        - PolicyName: ServiceCatalogActions
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - sts:AssumeRole
+                Resource: !Sub arn:${AWS::Partition}:iam::*:role/${OrganizationAccountAccessRole}
+              - Effect: Allow
+                Action:
+                  - sts:AssumeRole
+                Resource: !Sub arn:${AWS::Partition}:iam::*:role/${PuppetAccountAccessRole}
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Principal:
+              AWS: !Sub "arn:${AWS::Partition}:iam::${AWS::AccountId}:root"
+            Action:
+              - "sts:AssumeRole"
+          - Effect: "Allow"
+            Principal:
+              Service:
+                - "lambda.amazonaws.com"
+            Action:
+              - "sts:AssumeRole"
+
+  AccountInvitationFunction:
+    Type: AWS::Serverless::Function
+    Description: |
+      Lambda function that will invite an account to the GovCloud organization, accept the invitation and trigger
+      the AVM process for the account which will bootstrap the account and move it to the correct OU
+    Properties:
+      FunctionName: account-invitation-and-bootstrap
+      CodeUri: ./src
+      Handler: handler.handler
+      Description: Lambda for completing the GovCloud account bootstrap      
+      Events:
+        OnboardAccount:
+          Properties:
+            Method: post
+            Path: /onboard-account
+            RestApiId: !Ref AccountInvitationAPIGW
+          Type: Api
+      Role: !GetAtt AccountInvitationRole.Arn
+      Runtime: python3.8
+      Timeout: 900
+      Environment:
+        Variables:
+          ORGANIZATION_ACCOUNT_ACCESS_ROLE: !Ref OrganizationAccountAccessRole
+          PUPPET_ACCOUNT_ACCESS_ROLE: !Ref PuppetAccountAccessRole
+          BOOTSTRAPPER_PROJECT_NAME: !Ref BootstrapperProjectName
+
+Outputs:
+  AccountInvitationFunctionArn:
+    Description: |
+      Outputs the AccountInvitationFunction Arn so others can use it
+    Value: !GetAtt AccountInvitationFunction.Arn

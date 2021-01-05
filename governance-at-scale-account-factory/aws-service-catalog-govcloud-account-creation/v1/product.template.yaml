@@ -8,14 +8,24 @@ Metadata:
   AWS::CloudFormation::Interface:
     ParameterGroups:
       - Label:
-          default: Account Details
+          default: General Account Details
         Parameters:
           - AccountName
           - Email
+          - OrganizationAccountAccessRole
+      - Label:
+          default: Commercial Account Specifics
+        Parameters:
           - AccountGroup
           - AccountType
           - IamUserAccessToBilling
-          - OrganizationAccountAccessRole
+          - PuppetAccountId
+      - Label:
+          default: GovCloud Account Specifics
+        Parameters:
+          - GovCloudAccountGroup
+          - GovCloudAccountType
+          - GovCloudPuppetAccountId
       - Label:
           default: Lambda ARNs
         Parameters:
@@ -36,9 +46,13 @@ Metadata:
       Email:
         default: Account Email Address
       AccountGroup:
-        default: Account Group
+        default: Commercial Account Group
       AccountType:
-        default: Account Type
+        default: Commercial Account Type
+      GovCloudAccountGroup:
+        default: GovCloud Account Group
+      GovCloudAccountType:
+        default: GovCloud Account Type
       IamUserAccessToBilling: 
         default: User Access to Billing
       OrganizationAccountAccessRole:
@@ -59,6 +73,10 @@ Metadata:
         default: Bootstraper Lambda ARN
       ServiceCatalogPuppetVersion:
         default: Service Catalog Puppet Version
+      PuppetAccountId:
+        default: Commercial Puppet Account ID
+      GovCloudPuppetAccountId:
+        default: GovCloud Puppet Account ID
 
 Parameters:
   Email:
@@ -93,6 +111,23 @@ Parameters:
       - test
       - preprod
       - prod
+  GovCloudAccountGroup:
+    Type: String
+    Description: >-
+      Which platform does the account belong to
+    AllowedValues:
+      - Security
+      - Infrastructure
+      - Workload
+  GovCloudAccountType:
+    Type: String
+    Description: >-
+      Which stage of the SDLC is the account going to be used for
+    AllowedValues:
+      - dev
+      - test
+      - preprod
+      - prod
   GovernanceAtScaleAccountFactoryAccountCreationCRArn:
     Type: String
     Description: The ARN for the lambda function that creates the accounts
@@ -117,6 +152,12 @@ Parameters:
   ServiceCatalogPuppetVersion:
     Type: String
     Description: The version of service catalog puppet in use
+  PuppetAccountId:
+    Type: String
+    Description: Account ID for the Commerical Service Catalog Puppet account
+  GovCloudPuppetAccountId:
+    Type: String
+    Description: Account ID for the GovCloud Service Catalog Puppet account
 
 Resources:
   # Lambda function that returns the OU identifier for the given account type and group
@@ -129,6 +170,17 @@ Resources:
       AccountType: !Ref AccountType
       AccountGroup: !Ref AccountGroup
       AccountPartition: Commercial
+
+  # Lambda function that returns the OU identifier for the given account type and group
+  # This is for the GovCloud account
+  GovCloudOUDetails:
+    Type: Custom::Resource
+    DeletionPolicy: Retain
+    Properties:
+      ServiceToken: !Ref GovernanceAtScaleAccountFactoryAccountTypeToOUChooserCRArn
+      AccountType: !Ref GovCloudAccountType
+      AccountGroup: !Ref GovCloudAccountGroup
+      AccountPartition: GovCloud
 
   # Lambda function that creates the Commercial and GovCloud accounts
   Account:
@@ -188,6 +240,8 @@ Resources:
       AccountEmail: !Ref Email
       ManagedOrganizationalUnit: !GetAtt OUDetails.OrganizationalUnitName
       AccountId: !GetAtt Account.account_id
+      PuppetAccountId: !Ref GovCloudPuppetAccountId
+      AccountPartition: Commercial
       
   # Lambda function that sends a notification that the 
   # GovCloud account was created
@@ -198,8 +252,10 @@ Resources:
       ServiceToken: !Ref GovernanceAtScaleAccountFactoryGovCloudAccountCreateUpdateNotifierCRArn
       AccountName: !Ref AccountName
       AccountEmail: !Ref Email
-      ManagedOrganizationalUnit: GovCloud acccount - needs to be moved to the correct OU
+      ManagedOrganizationalUnit: !GetAtt GovCloudOUDetails.OrganizationalUnitName
       AccountId: !GetAtt Account.govcloud_account_id
+      PuppetAccountId: !Ref GovCloudPuppetAccountId
+      AccountPartition: GovCloud
 
   AccountBootstrapConditionHandle1:
     Type: AWS::CloudFormation::WaitConditionHandle
