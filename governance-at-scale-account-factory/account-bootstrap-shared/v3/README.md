@@ -10,7 +10,7 @@ The list of parameters for this template:
 
 ### AssumableRoleArnInRootAccountForBootstrapping 
 *Type:* String  
-*Description:* The Arn of the assumable role from the root account 
+*Description:* The ARN of the assumable role from the root account 
 ### GovernanceAtScaleAccountFactoryIAMRolePath 
 *Type:* String  
 *Description:* The path to use for IAM roles in this template 

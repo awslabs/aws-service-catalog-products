@@ -4,12 +4,13 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: |
-  Creates, codebuild project that can be run to bootstrap an account and lambda function that can be used to back a custom resource so the codebuild project can be started from CloudFormation
+  This product creates an AWS CodeBuild project that can be run to bootstrap an account. It also includes an AWS Lambda function that can be used to back a 
+  custom resource so that the CodeBuild project can be started from AWS CloudFormation
   {"framework": "servicecatalog-products", "role": "product", "product-set": "governance-at-scale-account-factory", "product": "account-bootstrap-shared", "version": "v2"}
 
 Parameters:
   AssumableRoleArnInRootAccountForBootstrapping:
-    Description: The Arn of the assumable role from the root account
+    Description: The ARN of the assumable role from the root account 
     Type: String
   GovernanceAtScaleAccountFactoryIAMRolePath:
     Description: The path to use for IAM roles in this template
