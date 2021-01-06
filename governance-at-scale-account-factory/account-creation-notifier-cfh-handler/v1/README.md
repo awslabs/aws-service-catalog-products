@@ -22,15 +22,13 @@ The list of resources this template creates:
 
 ### Subscription
 *Type:* AWS::SNS::Subscription  
-*Description:* A subscription to the provided SNS topic
-
+*Description:* A subscription to the provided SNS topic that will trigger the **Function** AWS Lambda Function
 ### Permission
 *Type:* AWS::Lambda::Permission  
-*Desciption:* The permission that allows the provided SNS topic to invoke the AWS Lambda function
+*Desciption:* The permission that allows the provided SNS topic to invoke the **Function** AWS Lambda function
 ### Function 
 *Type:* AWS::Lambda::Function  
-*Description:* An AWS Lambda function the relays messages from the provided SNS topic to the provided HTTP POST endpoint
- 
+*Description:* An AWS Lambda function the relays messages from the provided SNS topic to the provided HTTP POST endpoint 
 ### Role 
 *Type:* AWS::IAM::Role  
-*Description:* An IAM role used as the execution role for the AWS Lambda function
+*Description:* An IAM role used as the execution role for the **Function** AWS Lambda function

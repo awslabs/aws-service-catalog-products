@@ -28,6 +28,7 @@ Resources:
   Subscription:
     Type: AWS::SNS::Subscription
     Properties:
+      Description: A subscription to the provided SNS topic that will trigger the Function AWS Lambda Function
       TopicArn: !Ref AccountCreateUpdateNotifierTopicArn
       Endpoint: !GetAtt Function.Arn
       Protocol: lambda
@@ -35,6 +36,7 @@ Resources:
   Permission:
     Type: AWS::Lambda::Permission
     Properties:
+      Description: The permission that allows the provided SNS topic to invoke the AWS Lambda function
       Action: lambda:InvokeFunction
       FunctionName: !Ref Function
       Principal: "sns.amazonaws.com"
@@ -74,7 +76,7 @@ Resources:
   Role:
     Type: AWS::IAM::Role
     Description: |
-      An IAM role used as the execution role for the AWS Lambda function
+      An IAM role used as the execution role for the Function AWS Lambda function
     Properties:
       RoleName: !Ref GovernanceAtScaleAccountFactoryAccountCreateUpdateCFHHandlerIAMRoleName
       Path: !Ref GovernanceAtScaleAccountFactoryIAMRolePath

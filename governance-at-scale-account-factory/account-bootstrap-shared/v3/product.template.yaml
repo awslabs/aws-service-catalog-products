@@ -4,8 +4,9 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: |
-  This product creates an AWS CodeBuild project that can be run to bootstrap an account. It also includes an AWS Lambda function that can be used to back a 
-  custom resource so that the CodeBuild project can be started from AWS CloudFormation
+  This product creates an AWS CodeBuild project that can be run to bootstrap an account. 
+  It also includes an AWS Lambda function that can be used to back a custom resource 
+  so that the CodeBuild project can be started from AWS CloudFormation
   {"framework": "servicecatalog-products", "role": "product", "product-set": "governance-at-scale-account-factory", "product": "account-bootstrap-shared", "version": "v2"}
 
 Parameters:
@@ -26,6 +27,7 @@ Resources:
   BootstrapperRole:
     Type: AWS::IAM::Role
     Properties:
+      Description: An IAM service role used by the BootstrapperProject AWS CodeBuild project
       RoleName: !Ref GovernanceAtScaleAccountFactoryAccountBootstrapSharedBootstrapperIAMRoleName
       Path: !Ref GovernanceAtScaleAccountFactoryIAMRolePath
       ManagedPolicyArns:
@@ -43,9 +45,9 @@ Resources:
   BootstrapperProject:
     Type: AWS::CodeBuild::Project
     Description: |
-      Wrapper project that:
-        - installs aws-service-catalog-puppet
-        - runs bootstrap-spoke-as
+      An AWS CodeBuild project that:
+        - Installs aws-service-catalog-puppet
+        - Runs servicecatalog-puppet bootstrap-spoke-as
     Properties:
       Name: servicecatalog-puppet-single-account-bootstrapper
       Description: "Bootstraps an account for use with ServiceCatalog-Puppet"
@@ -93,6 +95,9 @@ Resources:
   BootstrapperProjectCustomResourceRole:
     Type: AWS::IAM::Role
     Properties:
+      Description: | 
+        An IAM Role that is used as an execution role for the 
+        BootstrapperProjectCustomResource Lambda function
       RoleName: !Ref GovernanceAtScaleAccountFactoryAccountBootstrapSharedCustomResourceIAMRoleName
       Path: !Ref GovernanceAtScaleAccountFactoryIAMRolePath
       ManagedPolicyArns:
@@ -115,7 +120,9 @@ Resources:
   BootstrapperProjectCustomResource:
     Type: AWS::Serverless::Function
     Description: |
-      Lambda function that can be used to back a custom resource.  You can get the ARN by checking the SSM Parameter
+      An AWS Lambda function that runs an AWS CodeBuild project to bootstrap an account for 
+      Service Catalog Puppet. This Lambda function can be used to back a custom resource. 
+      You can get the ARN by checking the SSM Parameter
       ```account-vending-bootstrapper-lambda```:
       ```yaml
       Account:

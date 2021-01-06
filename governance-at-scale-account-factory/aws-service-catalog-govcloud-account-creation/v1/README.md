@@ -11,6 +11,9 @@ There are a few requirements that must be met to successfully provision this pro
 5. The `account-bootstrap-shared` and `govcloud-account-onboard-puppet-bootstrap` products must be provisioned in the GovCloud Service Catalog Puppet account. These are required for part of the process that automates the account invitation and acceptance as well as bootstrapping the new GovCloud member account 
 6. A `account-creation-notifier-cfh-handler` product must be provisioned in the Commercial Organization management account with the `CFHAccountCreateUpdatePostUrl` parameter set to the HTTP POST endpoint in the API Gateway that is created in the GovCloud Organization management account when the `govcloud-account-onboard` is provisioned. This value will look something like this: `https://{APIGWID}.execute-api.us-gov-west-1.amazonaws.com/Prod/onboard-account`. You will then use the ARN of this provisioned Lambda as the **GovernanceAtScaleAccountFactoryGovCloudAccountCreateUpdateNotifierCRArn** parameter value
 
+## How it Works
+An explanation of the steps that occur during this process can be found [here](how-it-works.md)
+
 ## Parameters
 The list of parameters for this template:
 

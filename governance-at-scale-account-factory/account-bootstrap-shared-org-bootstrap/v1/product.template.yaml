@@ -29,7 +29,7 @@ Resources:
   AssumableRoleInRootAccount:
     Type: AWS::IAM::Role
     Description: |
-      IAM Role needed by the account vending machine so it can bootstrap accounts
+      The IAM Role needed by the account vending machine so it can bootstrap accounts
     Properties:
       RoleName: !Ref GovernanceAtScaleAccountFactoryAccountBootstrapSharedBootstrapperOrgIAMRoleName
       Path: !Ref GovernanceAtScaleAccountFactoryIAMRolePath

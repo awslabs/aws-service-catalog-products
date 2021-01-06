@@ -26,7 +26,7 @@ The list of resources this template creates:
 
 ### BootstrapperRole 
 *Type:* AWS::IAM::Role  
-*Description:* An IAM service role used by the AWS CodeBuild project
+*Description:* An IAM service role used by the **BootstrapperProject** AWS CodeBuild project
 ### BootstrapperProject 
 *Type:* AWS::CodeBuild::Project  
 *Description:* An AWS CodeBuild project that:
@@ -34,10 +34,10 @@ The list of resources this template creates:
   - Runs `servicecatalog-puppet bootstrap-spoke-as` 
 ### BootstrapperProjectCustomResourceRole 
 *Type:* AWS::IAM::Role  
-*Description:* An IAM Lambda execution role used by the custom resource Lambda function
+*Description:* An IAM Role that is used as an execution role for the **BootstrapperProjectCustomResource** Lambda function
 ### BootstrapperProjectCustomResource 
 *Type:* AWS::Serverless::Function  
-*Description:* An AWS Lambda function that can be used to back a custom resource.  You can get the ARN by checking the SSM Parameter
+*Description:* An AWS Lambda function that runs an AWS CodeBuild project to bootstrap an account for Service Catalog Puppet. This Lambda function can be used to back a custom resource. You can get the ARN by checking the SSM Parameter
 ```account-vending-bootstrapper-lambda```:
 ```yaml
 Account:
