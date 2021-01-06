@@ -28,6 +28,9 @@ Resources:
   AccountWaiterCustomResourceRole:
     Type: AWS::IAM::Role
     Properties:
+      Description: | 
+        An IAM role that is used as the execution role for the AccountWaiterCustomResource 
+        AWS Lambda function
       Path: !Ref GovernanceAtScaleAccountFactoryIAMRolePath
       ManagedPolicyArns:
         - !Sub arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
@@ -89,6 +92,9 @@ Resources:
   AccountWaiterCodeBuildProjectRole:
     Type: AWS::IAM::Role
     Properties:
+      Description: |
+        An IAM role that is assigned to the AccountWaiterCodeBuildProject 
+        AWS CodeBuild project
       Path: !Ref GovernanceAtScaleAccountFactoryIAMRolePath
       AssumeRolePolicyDocument:
         Version: "2012-10-17"
@@ -104,10 +110,11 @@ Resources:
 
   AccountWaiterCodeBuildProject:
     Type: AWS::CodeBuild::Project
-    Description: CodeBuild project used to wait for an account to become active
     Properties:
       Name: governance-at-scale-account-waiter
-      Description: "waits for codebuild to become available in the specified account"
+      Description: | 
+        An AWS CodeBuild project used to wait for an account to become active with 
+        CodeBuild and CloudFormation available
       ServiceRole: !GetAtt AccountWaiterCodeBuildProjectRole.Arn
       Artifacts:
         Type: NO_ARTIFACTS
@@ -150,5 +157,5 @@ Resources:
 Outputs:
   GovernanceAtScaleAccountFactoryAccountWaiterCRArn:
     Description: |
-      the Arn of the custom resource that can be used to wait for an account to become available
+      The Arn of the custom resource that can be used to wait for an account to become available
     Value: !GetAtt AccountWaiterCustomResource.Arn

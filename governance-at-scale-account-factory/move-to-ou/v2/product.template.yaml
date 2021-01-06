@@ -20,6 +20,9 @@ Resources:
   MoveToOUCustomResourceRole:
     Type: AWS::IAM::Role
     Properties:
+      Description: | 
+        An IAM role that is used as a execution role for the MoveToOUCustomResource 
+        AWS Lambda function
       Path: !Ref GovernanceAtScaleAccountFactoryIAMRolePath
       ManagedPolicyArns:
         - !Sub arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole

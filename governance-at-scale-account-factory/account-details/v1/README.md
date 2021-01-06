@@ -27,7 +27,7 @@ The list of resources this template creates:
 will return an organizational_unit_id based on the dict organizational_unit_ids
 ### Role 
 *Type:* AWS::IAM::Role  
-*Description:* An IAM role used as the execution role for the AWS Lambda function
+*Description:* An IAM role used as the execution role for the **Function** AWS Lambda function
 
 ## Outputs
 The list of outputs this template exposes:

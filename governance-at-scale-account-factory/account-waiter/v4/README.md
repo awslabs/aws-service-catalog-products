@@ -52,5 +52,5 @@ AccountWaiter1:
 The list of outputs this template exposes:
 
 ### GovernanceAtScaleAccountFactoryAccountWaiterCRArn 
-*Description:* the ARN of the custom resource that can be used to wait for CodeBuild and CloudFormation to become active in a newly created account
+*Description:* The ARN of the custom resource that can be used to wait for CodeBuild and CloudFormation to become active in a newly created account
   

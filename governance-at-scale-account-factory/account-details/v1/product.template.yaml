@@ -84,7 +84,7 @@ Resources:
   Role:
     Type: AWS::IAM::Role
     Description: |
-      IAM role needed to execute account-type-to-organizational-unit-id.  Only needs basic access.
+      An IAM role used as the execution role for the Function AWS Lambda function
     Properties:
       RoleName: !Ref GovernanceAtScaleAccountFactoryAccountDetailsCRIAMRoleName
       Path: !Ref GovernanceAtScaleAccountFactoryIAMRolePath

@@ -24,10 +24,10 @@ The list of resources this template creates:
 
 ### AccountCustomResourceRole 
 *Type:* AWS::IAM::Role  
-*Description:* The IAM role that is used as the execution role for the **AccountCustomResource** AWS Lambda function
+*Description:* An IAM role that is used as the execution role for the **AccountCustomResource** AWS Lambda function
 ### AccountCustomResource 
 *Type:* AWS::Serverless::Function  
-*Description:* The AWS Lambda function that creates an account when called using a CloudFormation Custom Resource:
+*Description:* An AWS Lambda function that creates an account when called using a CloudFormation Custom Resource:
 ```yaml
 Account:
   Type: Custom::CustomResource

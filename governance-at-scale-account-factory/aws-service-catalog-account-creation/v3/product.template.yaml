@@ -117,6 +117,10 @@ Resources:
   OUDetails:
     Type: Custom::Resource
     DeletionPolicy: Retain
+    Description: | 
+      A custom resource using the GovernanceAtScaleAccountFactoryAccountTypeToOUChooserCRArn 
+      AWS Lambda function to convert the account type and group into the correct 
+      organizational unit (OU)
     Properties:
       ServiceToken: !Ref GovernanceAtScaleAccountFactoryAccountTypeToOUChooserCRArn
       AccountType: !Ref AccountType
@@ -125,7 +129,9 @@ Resources:
 
   Account:
     Type: Custom::Resource
-    Description: A custom resource representing an AWS Account
+    Description: | 
+      A custom resource using the GovernanceAtScaleAccountFactoryAccountCreationCRArn 
+      AWS Lambda function to create the new account
     Properties:
       ServiceToken: !Ref GovernanceAtScaleAccountFactoryAccountCreationCRArn
       Email: !Ref Email
@@ -134,7 +140,9 @@ Resources:
 
   MoveToOU:
     Type: Custom::Resource
-    Description: A custom resource for moving an account to an OU
+    Description: | 
+      A custom resource using the GovernanceAtScaleAccountFactoryMoveToOUArn 
+      AWS Lambda function to move the new account to the correct OU
     Properties:
       ServiceToken: !Ref GovernanceAtScaleAccountFactoryMoveToOUArn
       AccountType: !Ref AccountType
@@ -148,7 +156,10 @@ Resources:
 
   AccountWaiter1:
     Type: Custom::Resource
-    Description: A custom resource for waiting for an account to become active
+    Description: | 
+      A custom resource using the GovernanceAtScaleAccountFactoryAccountWaiterArn 
+      AWS Lambda function to wait for CodeBuild and CloudFormation to become 
+      available in the new account
     Properties:
       ServiceToken: !Ref GovernanceAtScaleAccountFactoryAccountWaiterArn
       AccountId: !GetAtt Account.account_id
@@ -166,6 +177,9 @@ Resources:
   Notifier:
     Type: Custom::Resource
     DeletionPolicy: Retain
+    Description: | 
+      A custom resource using the GovernanceAtScaleAccountFactoryAccountCreateUpdateNotifierCRArn 
+      AWS Lambda function to send a notification when the new account is created
     Properties:
       ServiceToken: !Ref GovernanceAtScaleAccountFactoryAccountCreateUpdateNotifierCRArn
       AccountName: !Ref AccountName
@@ -181,6 +195,9 @@ Resources:
   Bootstrap:
     Type: Custom::CustomResource
     DependsOn: AccountWaiter1
+    Description: |
+      A custom resource using the GovernanceAtScaleAccountFactoryBootstrapperProjectCustomResourceArn 
+      AWS Lambda function to bootstrap the new account
     Properties:
       ServiceToken: !Ref GovernanceAtScaleAccountFactoryBootstrapperProjectCustomResourceArn
       OrganizationAccountAccessRoleName: !Ref OrganizationAccountAccessRole

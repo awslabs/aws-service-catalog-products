@@ -25,6 +25,9 @@ Resources:
   AccountCustomResourceRole:
     Type: AWS::IAM::Role
     Properties:
+      Description: | 
+        An IAM role that is used as the execution role for the AccountCustomResource 
+        AWS Lambda function
       Path: !Ref GovernanceAtScaleAccountFactoryIAMRolePath
       ManagedPolicyArns:
         - !Sub arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
@@ -55,7 +58,7 @@ Resources:
   AccountCustomResource:
     Type: AWS::Serverless::Function
     Description: |
-      The lambda function that creates an account when called using a CloudFormation Custom Resource:
+      An AWS Lambda function that creates an account when called using a CloudFormation Custom Resource:
       ```yaml
       Account:
         Type: Custom::CustomResource
