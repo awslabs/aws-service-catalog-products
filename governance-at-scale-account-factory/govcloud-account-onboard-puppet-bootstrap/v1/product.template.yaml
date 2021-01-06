@@ -4,30 +4,28 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Description: |
   IAM Role needed to use AWS Organizations to bootstrap AWS Accounts.
-  {"framework": "servicecatalog-products", "role": "product", "product-set": "governance-at-scale-account-factory", "product": "account-bootstrap-shared-org-bootstrap", "version": "v1"}
+  {"framework": "servicecatalog-products", "role": "product", "product-set": "governance-at-scale-account-factory", "product": "govcloud-account-onboard-puppet-bootstrap", "version": "v1"}
 
 Parameters:
   OrganizationRootAccountId:
     Description: The account ID of the Organization root in GovCloud
     Type: String
-
   OrganizationAccountAccessRole:
     Description: Name of the IAM role used to access cross accounts for AWS Organizations usage
     Default: OrganizationAccountAccessRole
     Type: String
-
   AccountOnboardPuppetRoleName:
     Description: The name to use for IAM role that will be used to bootstrap an account
     Default: PuppetAccountAccessRole
     Type: String
 
-
 Resources:
   AssumableRoleInPuppetAccount:
     Type: AWS::IAM::Role
-    Description: |
-      IAM Role needed by GovCloud account onboarding to bootstrap Puppet
     Properties:
+      Description: |
+        An assumable IAM Role that allows the govcloud-account-onboard product to bootstrap 
+        accounts with Service Catalog Puppet
       RoleName: !Ref AccountOnboardPuppetRoleName
       Path: /
       Policies:

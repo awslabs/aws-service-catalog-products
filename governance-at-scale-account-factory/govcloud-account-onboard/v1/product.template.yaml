@@ -5,7 +5,7 @@ AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: |
   Creates, codebuild project that can be run to bootstrap an account and lambda function that can be used to back a custom resource so the codebuild project can be started from CloudFormation
-  {"framework": "servicecatalog-products", "role": "product", "product-set": "governance-at-scale-account-factory", "product": "account-bootstrap-shared", "version": "v2"}
+  {"framework": "servicecatalog-products", "role": "product", "product-set": "governance-at-scale-account-factory", "product": "govcloud-account-onboard", "version": "v2"}
 
 Parameters:
   OrganizationAccountAccessRole:
@@ -31,6 +31,7 @@ Resources:
   AccountInvitationAPIGW: # API Gateway for the replay and voting APIs
     Type: "AWS::Serverless::Api"
     Properties:
+      Description: An API Gateway that is used to provide an endpoint for the AccountInvitationFunction AWS Lambda function
       Auth:
         AddDefaultAuthorizerToCorsPreflight: false
         ApiKeyRequired: false
@@ -119,6 +120,7 @@ Resources:
   AccountInvitationRole:
     Type: AWS::IAM::Role
     Properties:
+      Description: An IAM Role that is used as the execution role for the AccountInvitationFunction AWS Lambda function
       RoleName: !Ref GovernanceAtScaleAccountFactoryAccountAccountInvitationIAMRoleName
       Path: !Ref GovernanceAtScaleAccountFactoryIAMRolePath
       ManagedPolicyArns:
@@ -165,14 +167,13 @@ Resources:
 
   AccountInvitationFunction:
     Type: AWS::Serverless::Function
-    Description: |
-      Lambda function that will invite an account to the GovCloud organization, accept the invitation and trigger
-      the AVM process for the account which will bootstrap the account and move it to the correct OU
     Properties:
+      Description: |
+        An AWS Lambda function that will invite an account to the GovCloud organization, accept the invitation and trigger
+        the AVM process for the account which will bootstrap the account and move it to the correct OU  
       FunctionName: account-invitation-and-bootstrap
       CodeUri: ./src
-      Handler: handler.handler
-      Description: Lambda for completing the GovCloud account bootstrap      
+      Handler: handler.handler   
       Events:
         OnboardAccount:
           Properties:

@@ -37,13 +37,13 @@ The list of resources this template creates:
 
 ### AccountInvitationAPIGW 
 *Type:* AWS::Serverless::Api  
-*Description:* API Gateway that is used to provide an endpoint for the Lambda function
+*Description:* An API Gateway that is used to provide an endpoint for the **AccountInvitationFunction** AWS Lambda function
 ### AccountInvitationRole 
 *Type:* AWS::IAM::Role  
-*Description:* The Lambda execution IAM role 
+*Description:* An IAM Role that is used as the execution role for the **AccountInvitationFunction** AWS Lambda function
 ### AccountInvitationFunction 
 *Type:* AWS::Serverless::Function  
-*Description:* The Lambda function that automates adding a GovCloud account to the GovCloud organization, moving it to the correct OU and bootstrapping it as a spoke of the Puppet account
+*Description:* An AWS Lambda function that automates adding a GovCloud account to the GovCloud organization, moving it to the correct OU and bootstrapping it as a spoke of the Puppet account
  
 
 ## Outputs

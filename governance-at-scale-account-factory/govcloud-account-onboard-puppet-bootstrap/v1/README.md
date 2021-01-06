@@ -24,7 +24,7 @@ The list of resources this template creates:
 
 ### AssumableRoleInPuppetAccount 
 *Type:* AWS::IAM::Role  
-*Description:* IAM Role needed by GovCloud account onboarding to bootstrap Puppet
+*Description:* An assumable IAM Role that allows the govcloud-account-onboard product to bootstrap accounts with Service Catalog Puppet
  
 
 ## Outputs
