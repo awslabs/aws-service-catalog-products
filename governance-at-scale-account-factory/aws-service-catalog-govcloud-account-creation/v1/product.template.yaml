@@ -213,7 +213,6 @@ Resources:
       TargetOU: !GetAtt OUDetails.OrganizationalUnitName
       AccountId: !GetAtt Account.account_id
 
-
   AccountWaiterConditionHandle1:
     Type: AWS::CloudFormation::WaitConditionHandle
     Properties: {}

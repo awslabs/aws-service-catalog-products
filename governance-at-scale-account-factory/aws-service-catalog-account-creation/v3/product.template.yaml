@@ -121,6 +121,7 @@ Resources:
       ServiceToken: !Ref GovernanceAtScaleAccountFactoryAccountTypeToOUChooserCRArn
       AccountType: !Ref AccountType
       AccountGroup: !Ref AccountGroup
+      AccountPartition: Commercial
 
   Account:
     Type: Custom::Resource
@@ -153,6 +154,7 @@ Resources:
       AccountId: !GetAtt Account.account_id
       ServiceCatalogPuppetVersion: !Ref ServiceCatalogPuppetVersion
       Handle: !Ref AccountWaiterConditionHandle1
+      AccountPartition: aws
 
   AccountWaiterCondition1:
     Type: AWS::CloudFormation::WaitCondition
@@ -170,6 +172,7 @@ Resources:
       AccountEmail: !Ref Email
       ManagedOrganizationalUnit: !GetAtt OUDetails.OrganizationalUnitName
       AccountId: !GetAtt Account.account_id
+      AccountPartition: Commercial
 
   AccountBootstrapConditionHandle1:
     Type: AWS::CloudFormation::WaitConditionHandle
@@ -184,6 +187,7 @@ Resources:
       TargetAccountId: !GetAtt Account.account_id
       PuppetAccountId: !Sub "${AWS::AccountId}"
       Handle: !Ref AccountBootstrapConditionHandle1
+      AccountPartition: aws
 
   AccountBootstrapCondition1:
     Type: AWS::CloudFormation::WaitCondition
