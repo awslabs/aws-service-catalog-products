@@ -6,6 +6,59 @@ Description: |
   account-bootstrap-shared-product and account-creation-shared-product must both be provisioned into the same accountbefore this will work - they build some resources needed for this to work and they provision the SSM params with thecorrect ARNs so this works with no copy and pasting.Provisioning this template will create an AWS Account and bootstrap it using aws-service-catalog-puppet so you canprovision products into the account.
   {"framework": "servicecatalog-products", "role": "product", "product-set": "governance-at-scale-account-factory", "product": "aws-service-catalog-account-creation", "version": "v1"}
 
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+      - Label:
+          default: General Account Details
+        Parameters:
+          - AccountName
+          - Email
+          - AccountGroup
+          - AccountType
+          - OrganizationAccountAccessRole
+          - IamUserAccessToBilling
+      - Label:
+          default: Lambda ARNs
+        Parameters:
+          - GovernanceAtScaleAccountFactoryAccountCreationCRArn
+          - GovernanceAtScaleAccountFactoryAccountCreateUpdateNotifierCRArn
+          - GovernanceAtScaleAccountFactoryAccountTypeToOUChooserCRArn
+          - GovernanceAtScaleAccountFactoryMoveToOUArn
+          - GovernanceAtScaleAccountFactoryAccountWaiterArn
+          - GovernanceAtScaleAccountFactoryBootstrapperProjectCustomResourceArn
+      - Label: 
+          default: Service Catalog Puppet
+        Parameters:
+          - ServiceCatalogPuppetVersion
+    ParameterLabels:
+      AccountName:
+        default: Account Name
+      Email:
+        default: Account Email Address
+      AccountGroup:
+        default: Account Group
+      AccountType:
+        default: Account Type
+      IamUserAccessToBilling: 
+        default: User Access to Billing
+      OrganizationAccountAccessRole:
+        default: Organization Account Access IAM Role Name
+      GovernanceAtScaleAccountFactoryAccountCreationCRArn:
+        default: Account Creation Lambda ARN
+      GovernanceAtScaleAccountFactoryAccountCreateUpdateNotifierCRArn:
+        default: Account Notifier ARN
+      GovernanceAtScaleAccountFactoryAccountTypeToOUChooserCRArn:
+        default: Account Type to OU Lambda ARN
+      GovernanceAtScaleAccountFactoryMoveToOUArn:
+        default: Move to OU Lambda ARN
+      GovernanceAtScaleAccountFactoryAccountWaiterArn:
+        default: Account Waiter Lambda ARN
+      GovernanceAtScaleAccountFactoryBootstrapperProjectCustomResourceArn:
+        default: Bootstraper Lambda ARN
+      ServiceCatalogPuppetVersion:
+        default: Service Catalog Puppet Version
+
 Parameters:
   Email:
     Type: String
@@ -38,22 +91,17 @@ Parameters:
       - test
       - preprod
       - prod
-
   GovernanceAtScaleAccountFactoryAccountCreationCRArn:
     Type: String
-    Default: account-vending-creation-lambda
     Description: The ARN of the account creation lambda
   GovernanceAtScaleAccountFactoryMoveToOUArn:
     Type: String
-    Default: account-vending-move-to-ou-lambda
     Description: The ARN of the move to ou lambda
   GovernanceAtScaleAccountFactoryAccountWaiterArn:
     Type: String
-    Default: account-vending-account-waiter-lambda
     Description: The ARN of the move to ou lambda
   GovernanceAtScaleAccountFactoryBootstrapperProjectCustomResourceArn:
     Type: String
-    Default: account-vending-bootstrapper-lambda
     Description: The ARN of the account bootstrapping lambda
   GovernanceAtScaleAccountFactoryAccountTypeToOUChooserCRArn:
     Type: String
@@ -61,11 +109,9 @@ Parameters:
   GovernanceAtScaleAccountFactoryAccountCreateUpdateNotifierCRArn:
     Type: String
     Description: The ARN of the lambda that will dispatch SNS notifications on account creation / update
-
   ServiceCatalogPuppetVersion:
     Type: String
     Description: The version of Service Catalog Puppet in use
-
 
 Resources:
   OUDetails:
