@@ -22,7 +22,7 @@ launches:
         default: /AccountFactoryIAMRolePath/
     portfolio: demo-central-it-team-portfolio
     product: account-bootstrap-shared
-    version: v2
+    version: v3
   account-bootstrap-shared-org-bootstrap:
     deploy_to:
       tags:
@@ -64,7 +64,7 @@ launches:
         default: /AccountFactoryIAMRolePath/
     portfolio: demo-central-it-team-portfolio
     product: account-create-update-notifier
-    version: v1
+    version: v2
   account-creation-notifier-cfh-handler:
     depends_on:
       - account-create-update-notifier
@@ -106,7 +106,7 @@ launches:
         default: OrganizationAccountAccessRole
     portfolio: demo-central-it-team-portfolio
     product: account-creation-shared
-    version: v4
+    version: v5
   account-creation-shared-org-bootstrap:
     deploy_to:
       tags:
@@ -127,7 +127,7 @@ launches:
         default: SET_ME
     portfolio: demo-central-it-team-portfolio
     product: account-creation-shared-org-bootstrap
-    version: v1
+    version: v2
   account-details:
     depends_on:
       - account-details-org-bootstrap
@@ -185,8 +185,29 @@ launches:
         default: /AccountFactoryIAMRolePath/
     portfolio: demo-central-it-team-portfolio
     product: account-type-to-organizational-unit-chooser
-    version: v1
-
+    version: v2
+  account-waiter:
+    depends_on:
+      - account-creation-shared-org-bootstrap
+    deploy_to:
+      tags:
+        - regions: default_region
+          tag: role:puppethub
+    parameters:
+      GovernanceAtScaleAccountFactoryAccountCreationSharedOrgRoleArn:
+        ssm:
+          name: /governance-at-scale-account-factory/account-creation-shared-org-bootstrap/GovernanceAtScaleAccountFactoryAccountCreationSharedOrgRoleArn
+      GovernanceAtScaleAccountFactoryIAMRolePath:
+        default: /AccountFactoryIAMRolePath/
+      ServiceCatalogPuppetVersion:
+        default: 0.91.0
+    outputs:
+      ssm:
+        - param_name: /governance-at-scale-account-factory/account-waiter/GovernanceAtScaleAccountFactoryAccountWaiterCRArn
+          stack_output: GovernanceAtScaleAccountFactoryAccountWaiterCRArn
+    portfolio: example-account-vending-account-vending
+    product: account-waiter
+    version: v4
   move-to-ou:
     depends_on:
       - account-creation-shared-org-bootstrap
@@ -207,30 +228,6 @@ launches:
     portfolio: example-account-vending-account-vending
     product: move-to-ou
     version: v2
-
-  account-waiter:
-    depends_on:
-      - account-creation-shared-org-bootstrap
-    deploy_to:
-      tags:
-        - regions: default_region
-          tag: role:puppethub
-    parameters:
-      GovernanceAtScaleAccountFactoryAccountCreationSharedOrgRoleArn:
-        ssm:
-          name: /governance-at-scale-account-factory/account-creation-shared-org-bootstrap/GovernanceAtScaleAccountFactoryAccountCreationSharedOrgRoleArn
-      GovernanceAtScaleAccountFactoryIAMRolePath:
-        default: /AccountFactoryIAMRolePath/
-      ServiceCatalogPuppetVersion:
-        default: 0.89.0
-    outputs:
-      ssm:
-        - param_name: /governance-at-scale-account-factory/account-waiter/GovernanceAtScaleAccountFactoryAccountWaiterCRArn
-          stack_output: GovernanceAtScaleAccountFactoryAccountWaiterCRArn
-    portfolio: example-account-vending-account-vending
-    product: account-waiter
-    version: v3
-
   aws-control-tower-account-factory-account:
     depends_on:
       - account-type-to-organizational-unit-chooser
@@ -271,7 +268,6 @@ launches:
     portfolio: demo-central-it-team-portfolio
     product: aws-control-tower-account-factory
     version: v1
-
   aws-service-catalog-account-factory-account:
     depends_on:
       - account-type-to-organizational-unit-chooser
@@ -299,7 +295,6 @@ launches:
       GovernanceAtScaleAccountFactoryMoveToOUArn:
         ssm:
           name: /governance-at-scale-account-factory/move-to-ou/GovernanceAtScaleAccountFactoryMoveToOUCRArn
-
       GovernanceAtScaleAccountFactoryAccountWaiterArn:
         ssm:
           name: /governance-at-scale-account-factory/account-waiter/GovernanceAtScaleAccountFactoryAccountWaiterCRArn
@@ -313,15 +308,8 @@ launches:
         ssm:
           name: /governance-at-scale-account-factory/account-create-update-notifier/GovernanceAtScaleAccountFactoryAccountCreateUpdateNotifierCRArn
       ServiceCatalogPuppetVersion:
-        default: 0.89.0
-
-      SSOUserEmail:
-        default: eamonnf+@example.com
-      SSOUserFirstName:
-        default: Jane
-      SSOUserLastName:
-        default: Doe
+        default: 0.91.0
     portfolio: demo-central-it-team-portfolio
     product: aws-service-catalog-account-creation
-    version: v2
+    version: v3
 schema: puppet-2019-04-01

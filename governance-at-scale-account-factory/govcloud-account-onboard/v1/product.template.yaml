@@ -4,7 +4,10 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: |
-  Creates, codebuild project that can be run to bootstrap an account and lambda function that can be used to back a custom resource so the codebuild project can be started from CloudFormation
+  This product creates a Lambda function with an API Gateway endpoint. The purpose of the Lambda function is to:
+    1. Add a newly created GovCloud account to the GovCloud organization through an automated invitation and handshake process
+    2. Move the account to the correct Organizational Unit (OU)
+    3. Bootstrap the account as a spoke of the GovCloud Service Catalog Puppet account
   {"framework": "servicecatalog-products", "role": "product", "product-set": "governance-at-scale-account-factory", "product": "govcloud-account-onboard", "version": "v2"}
 
 Parameters:

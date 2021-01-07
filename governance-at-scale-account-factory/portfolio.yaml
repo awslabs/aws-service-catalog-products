@@ -4,68 +4,6 @@
 Schema: factory-2019-04-01
 Portfolios:
   Components:
-    - Description: account-creation-notifier-cfh-handler
-      Distributor: CCOE
-      Name: account-creation-notifier-cfh-handler
-      Owner: CCOE@Example.com
-      Source:
-        Configuration:
-          RepositoryName: account-creation-notifier-cfh-handler
-        Provider: CodeCommit
-      SupportDescription: Find us on Slack or Wiki
-      SupportEmail: ccoe-support@Example.com
-      SupportUrl: https://example.com/intranet/teams/ccoe/products/account-factory
-      Tags: []
-      Versions:
-        - Description: Lambda to back a custom resource that dispatches notifications
-            to an included SNS Topic
-          Name: v1
-          Source:
-            Provider: CodeCommit
-            Configuration:
-              BranchName: v1
-              RepositoryName: account-creation-notifier-cfh-handler
-    - Description: account-creation-shared-org-bootstrap
-      Distributor: CCOE
-      Name: account-creation-shared-org-bootstrap
-      Owner: CCOE@Example.com
-      Source:
-        Configuration:
-          RepositoryName: account-creation-shared-org-bootstrap
-        Provider: CodeCommit
-      SupportDescription: Find us on Slack or Wiki
-      SupportEmail: ccoe-support@Example.com
-      SupportUrl: https://example.com/intranet/teams/ccoe/products/account-factory
-      Tags: []  
-      Versions:
-        - Description: IAM Role needed to use AWS Organizations to create AWS Accounts.
-          Name: v1
-          Source:
-            Provider: CodeCommit
-            Configuration:
-              BranchName: v1
-              RepositoryName: account-creation-shared-org-bootstrap
-    - Description: account-type-to-organizational-unit-chooser
-      Distributor: CCOE
-      Name: account-type-to-organizational-unit-chooser
-      Owner: CCOE@Example.com
-      Source:
-        Configuration:
-          RepositoryName: account-type-to-organizational-unit-chooser
-        Provider: CodeCommit
-      SupportDescription: Find us on Slack or Wiki
-      SupportEmail: ccoe-support@Example.com
-      SupportUrl: https://example.com/intranet/teams/ccoe/products/account-factory
-      Tags: []
-      Versions:
-        - Description: Takes the given account type and returns the organizational unit
-            it should be assigned to
-          Name: v1
-          Source:
-            Provider: CodeCommit
-            Configuration:
-              BranchName: v1
-              RepositoryName: account-type-to-organizational-unit-chooser
     - Description: account-bootstrap-shared
       Distributor: CCOE
       Name: account-bootstrap-shared
@@ -79,7 +17,7 @@ Portfolios:
         phases:
           install:
             runtime-versions:
-              python: 3.x
+              python: 3.8
           build:
             commands:
               - pip install -r requirements.txt -t src
@@ -95,72 +33,15 @@ Portfolios:
       SupportUrl: https://example.com/intranet/teams/ccoe/products/account-factory
       Tags: []
       Versions:
-        - Description: Creates, codebuild project that can be run to bootstrap an account
-            and lambda function that can be used to back a custom resource so the codebuild
-            project can be started from CloudFormation
-          Name: v2
+        - Description: This product creates an AWS CodeBuild project that can be run to bootstrap an account. 
+            It also includes an AWS Lambda function that can be used to back a custom resource 
+            so that the CodeBuild project can be started from AWS CloudFormation
+          Name: v3
           Source:
             Provider: CodeCommit
             Configuration:
-              BranchName: v2
+              BranchName: v3
               RepositoryName: account-bootstrap-shared
-    - Description: account-creation-shared
-      Distributor: CCOE
-      Name: account-creation-shared
-      Owner: CCOE@Example.com
-      Source:
-        Configuration:
-          RepositoryName: account-creation-shared
-        Provider: CodeCommit
-      BuildSpec: |
-        version: 0.2
-        phases:
-          install:
-            runtime-versions:
-              python: 3.x
-          build:
-            commands:
-              - pip install -r requirements.txt -t src
-            {% for region in ALL_REGIONS %}
-              - aws cloudformation package --template $(pwd)/product.template.yaml --s3-bucket sc-factory-artifacts-${ACCOUNT_ID}-{{ region }} --s3-prefix ${STACK_NAME} --output-template-file product.template-{{ region }}.yaml
-            {% endfor %}
-        artifacts:
-          files:
-            - '*'
-            - '**/*'
-      SupportDescription: Find us on Slack or Wiki
-      SupportEmail: ccoe-support@Example.com
-      SupportUrl: https://example.com/intranet/teams/ccoe/products/account-factory
-      Tags: []
-      Versions:
-        - Description: Lambda for backing custom resources to create an AWS Account
-          Name: v4
-          Source:
-            Provider: CodeCommit
-            Configuration:
-              BranchName: v4
-              RepositoryName: account-creation-shared
-    - Description: account-create-update-notifier
-      Distributor: CCOE
-      Name: account-create-update-notifier
-      Owner: CCOE@Example.com
-      Source:
-        Configuration:
-          RepositoryName: account-create-update-notifier
-        Provider: CodeCommit
-      SupportDescription: Find us on Slack or Wiki
-      SupportEmail: ccoe-support@Example.com
-      SupportUrl: https://example.com/intranet/teams/ccoe/products/account-factory
-      Tags: []
-      Versions:
-        - Description: Lambda to back a custom resource that dispatches notifications
-            to an included SNS Topic
-          Name: v1
-          Source:
-            Provider: CodeCommit
-            Configuration:
-              BranchName: v1
-              RepositoryName: account-create-update-notifier
     - Description: account-bootstrap-shared-org-bootstrap
       Distributor: CCOE
       Name: account-bootstrap-shared-org-bootstrap
@@ -174,13 +55,114 @@ Portfolios:
       SupportUrl: https://example.com/intranet/teams/ccoe/products/account-factory
       Tags: []
       Versions:
-        - Description: IAM Role needed to use AWS Organizations to bootstrap AWS Accounts.
+        - Description: This product creates an IAM Role that is required to use AWS Organizations 
+            to bootstrap AWS accounts
           Name: v1
           Source:
             Provider: CodeCommit
             Configuration:
               BranchName: v1
               RepositoryName: account-bootstrap-shared-org-bootstrap
+    - Description: account-create-update-notifier
+      Distributor: CCOE
+      Name: account-create-update-notifier
+      Owner: CCOE@Example.com
+      Source:
+        Configuration:
+          RepositoryName: account-create-update-notifier
+        Provider: CodeCommit
+      SupportDescription: Find us on Slack or Wiki
+      SupportEmail: ccoe-support@Example.com
+      SupportUrl: https://example.com/intranet/teams/ccoe/products/account-factory
+      Tags: []
+      Versions:
+        - Description: This product creates an AWS Lambda function to back a custom resource 
+            that dispatches notifications to an included SNS Topic
+          Name: v2
+          Source:
+            Provider: CodeCommit
+            Configuration:
+              BranchName: v2
+              RepositoryName: account-create-update-notifier
+    - Description: account-creation-notifier-cfh-handler
+      Distributor: CCOE
+      Name: account-creation-notifier-cfh-handler
+      Owner: CCOE@Example.com
+      Source:
+        Configuration:
+          RepositoryName: account-creation-notifier-cfh-handler
+        Provider: CodeCommit
+      SupportDescription: Find us on Slack or Wiki
+      SupportEmail: ccoe-support@Example.com
+      SupportUrl: https://example.com/intranet/teams/ccoe/products/account-factory
+      Tags: []
+      Versions:
+        - Description: This product creates an AWS Lambda as a subscription to an SNS topic. 
+            The Lambda function is used to relay messages from SNS to a custom HTTP POST endpoint
+          Name: v1
+          Source:
+            Provider: CodeCommit
+            Configuration:
+              BranchName: v
+              RepositoryName: account-creation-notifier-cfh-handler
+    - Description: account-creation-shared
+      Distributor: CCOE
+      Name: account-creation-shared
+      Owner: CCOE@Example.com
+      Source:
+        Configuration:
+          RepositoryName: account-creation-shared
+        Provider: CodeCommit
+      BuildSpec: |
+        version: 0.2
+        phases:
+          install:
+            runtime-versions:
+              python: 3.8
+          build:
+            commands:
+              - pip install -r requirements.txt -t src
+            {% for region in ALL_REGIONS %}
+              - aws cloudformation package --template $(pwd)/product.template.yaml --s3-bucket sc-factory-artifacts-${ACCOUNT_ID}-{{ region }} --s3-prefix ${STACK_NAME} --output-template-file product.template-{{ region }}.yaml
+            {% endfor %}
+        artifacts:
+          files:
+            - '*'
+            - '**/*'
+      SupportDescription: Find us on Slack or Wiki
+      SupportEmail: ccoe-support@Example.com
+      SupportUrl: https://example.com/intranet/teams/ccoe/products/account-factory
+      Tags: []
+      Versions:
+        - Description: This product creates an AWS Lambda function for backing custom 
+            resources to create an AWS Account
+          Name: v4
+          Source:
+            Provider: CodeCommit
+            Configuration:
+              BranchName: v5
+              RepositoryName: account-creation-shared
+    - Description: account-creation-shared-org-bootstrap
+      Distributor: CCOE
+      Name: account-creation-shared-org-bootstrap
+      Owner: CCOE@Example.com
+      Source:
+        Configuration:
+          RepositoryName: account-creation-shared-org-bootstrap
+        Provider: CodeCommit
+      SupportDescription: Find us on Slack or Wiki
+      SupportEmail: ccoe-support@Example.com
+      SupportUrl: https://example.com/intranet/teams/ccoe/products/account-factory
+      Tags: []  
+      Versions:
+        - Description: This product creates an IAM Role that is needed in order 
+            to use AWS Organizations to create AWS Accounts
+          Name: v2
+          Source:
+            Provider: CodeCommit
+            Configuration:
+              BranchName: v2
+              RepositoryName: account-creation-shared-org-bootstrap
     - Description: account-details
       Distributor: CCOE
       Name: account-details
@@ -194,13 +176,97 @@ Portfolios:
       SupportUrl: https://example.com/intranet/teams/ccoe/products/account-factory
       Tags: []
       Versions:
-        - Description: Takes the given 'AccountName' and returns the account details
+        - Description: This product takes a provided 'AccountName' and returns 
+            the details about that account
           Name: v1
           Source:
             Provider: CodeCommit
             Configuration:
               BranchName: v1
               RepositoryName: account-details
+    - Description: account-details-org-bootstrap
+      Distributor: CCOE
+      Name: account-details-org-bootstrap
+      Owner: CCOE@Example.com
+      Source:
+        Configuration:
+          RepositoryName: account-details-org-bootstrap
+        Provider: CodeCommit
+      SupportDescription: Find us on Slack or Wiki
+      SupportEmail: ccoe-support@Example.com
+      SupportUrl: https://example.com/intranet/teams/ccoe/products/account-factory
+      Tags: []
+      Versions:
+        - Description: This product creates an IAM Role that is needed to use 
+            AWS Organizations to list AWS Accounts.
+          Name: v1
+          Source:
+            Provider: CodeCommit
+            Configuration:
+              BranchName: v1
+              RepositoryName: account-details-org-bootstrap
+    - Description: account-type-to-organizational-unit-chooser
+      Distributor: CCOE
+      Name: account-type-to-organizational-unit-chooser
+      Owner: CCOE@Example.com
+      Source:
+        Configuration:
+          RepositoryName: account-type-to-organizational-unit-chooser
+        Provider: CodeCommit
+      SupportDescription: Find us on Slack or Wiki
+      SupportEmail: ccoe-support@Example.com
+      SupportUrl: https://example.com/intranet/teams/ccoe/products/account-factory
+      Tags: []
+      Versions:
+        - Description: This product takes the given account type and returns the 
+            organizational unit it should be assigned to
+          Name: v2
+          Source:
+            Provider: CodeCommit
+            Configuration:
+              BranchName: v2
+              RepositoryName: account-type-to-organizational-unit-chooser
+    - Description: account-waiter
+      Distributor: CCOE
+      Name: account-waiter
+      Owner: CCOE@Example.com
+      Source:
+        Configuration:
+          RepositoryName: account-waiter
+        Provider: CodeCommit
+      BuildSpec: |
+        version: 0.2
+        phases:
+          install:
+            runtime-versions:
+              python: 3.8
+          build:
+            commands:
+              - pip install -r requirements.txt -t src
+            {% for region in ALL_REGIONS %}
+              - aws cloudformation package --template $(pwd)/product.template.yaml --s3-bucket sc-factory-artifacts-${ACCOUNT_ID}-{{ region }} --s3-prefix ${STACK_NAME} --output-template-file product.template-{{ region }}.yaml
+            {% endfor %}
+        artifacts:
+          files:
+            - '*'
+            - '**/*'
+      SupportDescription: Find us on Slack or Wiki
+      SupportEmail: ccoe-support@Example.com
+      SupportUrl: https://example.com/intranet/teams/ccoe/products/account-factory
+      Versions:
+        - Description: This product creates an AWS Lambda function for backing custom 
+            resources that will wait for CodeBuild and CloudFormation to become 
+            available in a newly created account
+          Name: v4
+          Source:
+            Provider: CodeCommit
+            Configuration:
+              BranchName: v4
+              RepositoryName: account-waiter
+      ProviderName: ccoe
+      Tags:
+        - Key: team
+          Value: ccoe
     - Description: aws-control-tower-account-factory
       Distributor: CCOE
       Name: aws-control-tower-account-factory
@@ -222,27 +288,6 @@ Portfolios:
             Configuration:
               BranchName: v1
               RepositoryName: aws-control-tower-account-factory
-    - Description: account-details-org-bootstrap
-      Distributor: CCOE
-      Name: account-details-org-bootstrap
-      Owner: CCOE@Example.com
-      Source:
-        Configuration:
-          RepositoryName: account-details-org-bootstrap
-        Provider: CodeCommit
-      SupportDescription: Find us on Slack or Wiki
-      SupportEmail: ccoe-support@Example.com
-      SupportUrl: https://example.com/intranet/teams/ccoe/products/account-factory
-      Tags: []
-      Versions:
-        - Description: IAM Role needed to use AWS Organizations to list AWS Accounts.
-          Name: v1
-          Source:
-            Provider: CodeCommit
-            Configuration:
-              BranchName: v1
-              RepositoryName: account-details-org-bootstrap
-
     - Description: aws-service-catalog-account-creation
       Distributor: CCOE
       Name: aws-service-catalog-account-creation
@@ -255,64 +300,44 @@ Portfolios:
       SupportEmail: ccoe-support@Example.com
       SupportUrl: https://example.com/intranet/teams/ccoe/products/account-factory
       Versions:
-        - Description: account-bootstrap-shared-product and account-creation-shared-product
-            must both be provisioned into the same accountbefore this will work - they
-            build some resources needed for this to work and they provision the SSM params
-            with thecorrect ARNs so this works with no copy and pasting.Provisioning this
-            template will create an AWS Account and bootstrap it using aws-service-catalog-puppet
-            so you canprovision products into the account.
-          Name: v2
-          Source:
-            Provider: CodeCommit
-            Configuration:
-              BranchName: v2
-              RepositoryName: aws-service-catalog-account-creation
-      ProviderName: ccoe
-      Tags:
-        - Key: team
-          Value: ccoe
-
-    - Description: Lambda for backing custom resources to wait for an account to become available
-      Distributor: CCOE
-      Name: account-waiter
-      Owner: CCOE@Example.com
-      Source:
-        Configuration:
-          RepositoryName: account-waiter
-        Provider: CodeCommit
-      BuildSpec: |
-        version: 0.2
-        phases:
-          install:
-            runtime-versions:
-              python: 3.x
-          build:
-            commands:
-              - pip install -r requirements.txt -t src
-            {% for region in ALL_REGIONS %}
-              - aws cloudformation package --template $(pwd)/product.template.yaml --s3-bucket sc-factory-artifacts-${ACCOUNT_ID}-{{ region }} --s3-prefix ${STACK_NAME} --output-template-file product.template-{{ region }}.yaml
-            {% endfor %}
-        artifacts:
-          files:
-            - '*'
-            - '**/*'
-      SupportDescription: Find us on Slack or Wiki
-      SupportEmail: ccoe-support@Example.com
-      SupportUrl: https://example.com/intranet/teams/ccoe/products/account-factory
-      Versions:
-        - Description: Lambda for backing custom resources to wait for an account to become available
+        - Description: This product is used to create a commercial AWS Account and bootstrap 
+            it using `aws-service-catalog-puppet` so you can provision products into the account
           Name: v3
           Source:
             Provider: CodeCommit
             Configuration:
               BranchName: v3
-              RepositoryName: account-waiter
+              RepositoryName: aws-service-catalog-account-creation
       ProviderName: ccoe
       Tags:
         - Key: team
           Value: ccoe
-
-    - Description: Lambda for backing custom resources to move an account into the correct OU
+    - Description: aws-service-catalog-govcloud-account-creation
+      Distributor: CCOE
+      Name: aws-service-catalog-govcloud-account-creation
+      Owner: CCOE@Example.com
+      Source:
+        Configuration:
+          RepositoryName: aws-service-catalog-govcloud-account-creation
+        Provider: CodeCommit
+      SupportDescription: Find us on Slack or Wiki
+      SupportEmail: ccoe-support@Example.com
+      SupportUrl: https://example.com/intranet/teams/ccoe/products/account-factory
+      Versions:
+        - Description: This product is used to create a new GovCloud account and the linked commercial AWS Accounts. 
+            The accounts will be moved to the organizational unit (OU) based on the provided account groups 
+            and account types. The new accounts will be bootstrapped with the Service Catalog Puppet 
+            account in the corresponding partition.
+          Source:
+            Provider: CodeCommit
+            Configuration:
+              BranchName: v1
+              RepositoryName: aws-service-catalog-govcloud-account-creation
+      ProviderName: ccoe
+      Tags:
+        - Key: team
+          Value: ccoe
+    - Description: move-to-ou
       Distributor: CCOE
       Name: move-to-ou
       Owner: CCOE@Example.com
@@ -324,7 +349,8 @@ Portfolios:
       SupportEmail: ccoe-support@Example.com
       SupportUrl: https://example.com/intranet/teams/ccoe/products/account-factory
       Versions:
-        - Description: Lambda for backing custom resources to move an account into the correct OU
+        - Description: This product creates an AWS Lambda function that is used to move an 
+            AWS account to specified organizational unit (OU)
           Name: v2
           Source:
             Provider: CodeCommit
@@ -335,5 +361,3 @@ Portfolios:
       Tags:
         - Key: team
           Value: ccoe
-
-Schema: factory-2019-04-01

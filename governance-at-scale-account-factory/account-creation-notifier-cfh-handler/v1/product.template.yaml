@@ -3,7 +3,8 @@
 
 AWSTemplateFormatVersion: 2010-09-09
 Description: |
-  Lambda to back a custom resource that dispatches notifications to an included SNS Topic
+  This product creates an AWS Lambda as a subscription to an SNS topic. 
+  The Lambda function is used to relay messages from SNS to a custom HTTP POST endpoint
   {"framework": "servicecatalog-products", "role": "product", "product-set": "governance-at-scale-account-factory", "product": "account-creation-notifier-cfh-handler", "version": "v1"}
 
 Parameters:

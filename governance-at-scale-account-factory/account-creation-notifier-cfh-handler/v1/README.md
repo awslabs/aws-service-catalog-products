@@ -2,7 +2,8 @@
 # Description
 This product creates an AWS Lambda as a subscription to an SNS topic. The Lambda function is used to relay messages from SNS to a custom HTTP POST endpoint
  
-
+# Usage
+This product should be provisioned in your Service Catalog Puppet account
 
 ## Parameters
 The list of parameters for this template:

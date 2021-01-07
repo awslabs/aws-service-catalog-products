@@ -1,6 +1,6 @@
 # govcloud-account-onboard-puppet-bootstrap
 # Description
-The IAM role that **govcloud-account-onboard** requires in order to bootstrap a new GovCloud account as a spoke of the GovCloud Service Catalog Puppet account
+This product creates the IAM role that **govcloud-account-onboard** requires in order to bootstrap a new GovCloud account as a spoke of the GovCloud Service Catalog Puppet account
  
 ## Usage
 This product is intended to be used as part of the GovCloud account creation process. It must be provisioned in the GovCloud Service Catalog Puppet account

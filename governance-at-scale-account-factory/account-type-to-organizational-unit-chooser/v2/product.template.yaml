@@ -3,7 +3,7 @@
 
 AWSTemplateFormatVersion: 2010-09-09
 Description: |
-    Takes the given account type and returns the organizational unit it should be assigned to
+    This product takes the given account type and returns the organizational unit it should be assigned to
     {"framework": "servicecatalog-products", "role": "product", "product-set": "governance-at-scale-account-factory", "product": "account-type-to-organizational-unit-chooser", "version": "v1"}
 
 Parameters:

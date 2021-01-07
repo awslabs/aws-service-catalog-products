@@ -3,7 +3,7 @@
 
 AWSTemplateFormatVersion: '2010-09-09'
 Description: |
-  IAM Role needed to use AWS Organizations to list AWS Accounts.
+  This product creates an IAM Role that is needed to use AWS Organizations to list AWS Accounts.
   {"framework": "servicecatalog-products", "role": "product", "product-set": "governance-at-scale-account-factory", "product": "account-details-org-bootstrap", "version": "v1"}
 
 Parameters:

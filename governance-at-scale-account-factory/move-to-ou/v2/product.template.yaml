@@ -4,7 +4,7 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: |
-  Lambda for backing custom resources to move an account into the correct OU
+  This product creates an AWS Lambda function that is used to move an AWS account to specified organizational unit (OU)
   {"framework": "servicecatalog-products", "role": "product", "product-set": "governance-at-scale-account-factory", "product": "move-to-ou", "version": "v2"}
 
 Parameters:
