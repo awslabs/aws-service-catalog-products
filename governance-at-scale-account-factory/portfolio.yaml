@@ -103,7 +103,7 @@ Portfolios:
           Source:
             Provider: CodeCommit
             Configuration:
-              BranchName: v
+              BranchName: v1
               RepositoryName: account-creation-notifier-cfh-handler
     - Description: account-creation-shared
       Distributor: CCOE

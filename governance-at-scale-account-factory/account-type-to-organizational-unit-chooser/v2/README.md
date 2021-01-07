@@ -34,3 +34,55 @@ The list of outputs this template exposes:
 ### GovernanceAtScaleAccountFactoryAccountTypeToOUChooserCRArn 
 *Description:* The ARN of the AWS Lambda function
   
+## Examples
+
+### Service Catalog Factory Portfolio
+The following example demonstrates how to create the `account-type-to-organizational-unit-chooser` Service Catalog Product in your Service Catalog Factory portfolio `yaml` file
+```yaml
+Portfolios:
+  Components:
+    - Description: account-type-to-organizational-unit-chooser
+      Distributor: CCOE
+      Name: account-type-to-organizational-unit-chooser
+      Owner: CCOE@Example.com
+      Source:
+        Configuration:
+          RepositoryName: account-type-to-organizational-unit-chooser
+        Provider: CodeCommit
+      SupportDescription: Find us on Slack or Wiki
+      SupportEmail: ccoe-support@Example.com
+      SupportUrl: https://example.com/intranet/teams/ccoe/products/account-factory
+      Tags: []
+      Versions:
+        - Description: This product takes the given account type and returns the 
+            organizational unit it should be assigned to
+          Name: v2
+          Source:
+            Provider: CodeCommit
+            Configuration:
+              BranchName: v2
+              RepositoryName: account-type-to-organizational-unit-chooser
+```
+
+### Service Catalog Puppet Launch
+The following example demonstrates how to provision the `account-type-to-organizational-unit-chooser` Service Catalog Product in your Service Catalog Puppet `manifest.yaml` file
+```yaml
+launches:
+  account-type-to-organizational-unit-chooser:
+    deploy_to:
+      tags:
+        - regions: default_region
+          tag: scope:puppet_account
+    outputs:
+      ssm:
+        - param_name: /governance-at-scale-account-factory/account-type-to-organizational-unit-chooser/GovernanceAtScaleAccountFactoryAccountTypeToOUChooserCRArn
+          stack_output: GovernanceAtScaleAccountFactoryAccountTypeToOUChooserCRArn
+    parameters:
+      GovernanceAtScaleAccountFactoryAccountTypeChooserCRIAMRoleName:
+        default: AccountTypeChooserCRIAMRoleName
+      GovernanceAtScaleAccountFactoryIAMRolePath:
+        default: /AccountFactoryIAMRolePath/
+    portfolio: demo-central-it-team-portfolio
+    product: account-type-to-organizational-unit-chooser
+    version: v2
+```

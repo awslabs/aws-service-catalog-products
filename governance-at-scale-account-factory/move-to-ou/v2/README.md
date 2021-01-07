@@ -1,4 +1,4 @@
-# account-creation-shared
+# move-to-ou
 # Description
 This product creates an AWS Lambda function that is used to move an AWS account to specified organizational unit (OU)
  
@@ -42,3 +42,61 @@ The list of outputs this template exposes:
 ### GovernanceAtScaleAccountFactoryMoveToOUCRArn 
 *Description:* The ARN of the **MoveToOUCustomResource** AWS Lambda function that can be used to move an account to an OU
   
+## Examples
+
+### Service Catalog Factory Portfolio
+The following example demonstrates how to create the `move-to-ou` Service Catalog Product in your Service Catalog Factory portfolio `yaml` file
+```yaml
+Portfolios:
+  Components:
+    - Description: move-to-ou
+      Distributor: CCOE
+      Name: move-to-ou
+      Owner: CCOE@Example.com
+      Source:
+        Configuration:
+          RepositoryName: move-to-ou
+        Provider: CodeCommit
+      SupportDescription: Find us on Slack or Wiki
+      SupportEmail: ccoe-support@Example.com
+      SupportUrl: https://example.com/intranet/teams/ccoe/products/account-factory
+      Versions:
+        - Description: This product creates an AWS Lambda function that is used to move an 
+            AWS account to specified organizational unit (OU)
+          Name: v2
+          Source:
+            Provider: CodeCommit
+            Configuration:
+              BranchName: v2
+              RepositoryName: move-to-ou
+      ProviderName: ccoe
+      Tags:
+        - Key: team
+          Value: ccoe
+```
+
+### Service Catalog Puppet Launch
+The following example demonstrates how to provision the `move-to-ou` Service Catalog Product in your Service Catalog Puppet `manifest.yaml` file.
+```yaml
+launches:
+  move-to-ou:
+    depends_on:
+      - account-creation-shared-org-bootstrap
+    deploy_to:
+      tags:
+        - regions: default_region
+          tag: role:puppethub
+    parameters:
+      GovernanceAtScaleAccountFactoryAccountCreationSharedOrgRoleArn:
+        ssm:
+          name: /governance-at-scale-account-factory/account-creation-shared-org-bootstrap/GovernanceAtScaleAccountFactoryAccountCreationSharedOrgRoleArn
+      GovernanceAtScaleAccountFactoryIAMRolePath:
+        default: /AccountFactoryIAMRolePath/
+    outputs:
+      ssm:
+        - param_name: /governance-at-scale-account-factory/move-to-ou/GovernanceAtScaleAccountFactoryMoveToOUCRArn
+          stack_output: GovernanceAtScaleAccountFactoryMoveToOUCRArn
+    portfolio: example-account-vending-account-vending
+    product: move-to-ou
+    version: v2
+```

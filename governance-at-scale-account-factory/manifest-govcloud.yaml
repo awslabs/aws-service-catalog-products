@@ -44,7 +44,7 @@ launches:
     portfolio: demo-central-it-team-portfolio
     product: account-bootstrap-shared-org-bootstrap
     version: v1  
-  govcloud-account-invitation:
+  govcloud-account-onboard:
     parameters:
       OrganizationAccountAccessRole:
         default: OrganizationAccountAccessRole
@@ -57,7 +57,7 @@ launches:
       GovernanceAtScaleAccountFactoryAccountAccountInvitationIAMRoleName:
         default: AccountInvitationRole
     portfolio: demo-central-it-team-portfolio
-    product: govcloud-account-invitation
+    product: govcloud-account-onboard
     version: v1
     deploy_to:
       tags:

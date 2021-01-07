@@ -54,3 +54,82 @@ The list of outputs this template exposes:
 ### GovernanceAtScaleAccountFactoryAccountWaiterCRArn 
 *Description:* The ARN of the custom resource that can be used to wait for CodeBuild and CloudFormation to become active in a newly created account
   
+## Examples
+
+### Service Catalog Factory Portfolio
+The following example demonstrates how to create the `account-waiter` Service Catalog Product in your Service Catalog Factory portfolio `yaml` file
+```yaml
+Portfolios:
+  Components:
+    - Description: account-waiter
+      Distributor: CCOE
+      Name: account-waiter
+      Owner: CCOE@Example.com
+      Source:
+        Configuration:
+          RepositoryName: account-waiter
+        Provider: CodeCommit
+      BuildSpec: |
+        version: 0.2
+        phases:
+          install:
+            runtime-versions:
+              python: 3.8
+          build:
+            commands:
+              - pip install -r requirements.txt -t src
+            {% for region in ALL_REGIONS %}
+              - aws cloudformation package --template $(pwd)/product.template.yaml --s3-bucket sc-factory-artifacts-${ACCOUNT_ID}-{{ region }} --s3-prefix ${STACK_NAME} --output-template-file product.template-{{ region }}.yaml
+            {% endfor %}
+        artifacts:
+          files:
+            - '*'
+            - '**/*'
+      SupportDescription: Find us on Slack or Wiki
+      SupportEmail: ccoe-support@Example.com
+      SupportUrl: https://example.com/intranet/teams/ccoe/products/account-factory
+      Versions:
+        - Description: This product creates an AWS Lambda function for backing custom 
+            resources that will wait for CodeBuild and CloudFormation to become 
+            available in a newly created account
+          Name: v4
+          Source:
+            Provider: CodeCommit
+            Configuration:
+              BranchName: v4
+              RepositoryName: account-waiter
+      ProviderName: ccoe
+      Tags:
+        - Key: team
+          Value: ccoe
+```
+
+### Service Catalog Puppet Launch
+The following example demonstrates how to provision the `account-waiter` Service Catalog Product in your Service Catalog Puppet `manifest.yaml` file
+```yaml
+launches:
+  account-waiter:
+    depends_on:
+      - account-creation-shared-org-bootstrap
+    deploy_to:
+      tags:
+        - regions: default_region
+          tag: role:puppethub
+    parameters:
+      GovernanceAtScaleAccountFactoryAccountCreationSharedOrgRoleArn:
+        ssm:
+          name: /governance-at-scale-account-factory/account-creation-shared-org-bootstrap/GovernanceAtScaleAccountFactoryAccountCreationSharedOrgRoleArn
+      GovernanceAtScaleAccountFactoryIAMRolePath:
+        default: /AccountFactoryIAMRolePath/
+      ServiceCatalogPuppetVersion:
+        default: 0.91.0
+      OrganizationAccountAccessRole:
+        default: OrganizationAccountAccessRole
+    outputs:
+      ssm:
+        - param_name: /governance-at-scale-account-factory/account-waiter/GovernanceAtScaleAccountFactoryAccountWaiterCRArn
+          stack_output: GovernanceAtScaleAccountFactoryAccountWaiterCRArn
+    portfolio: example-account-vending-account-vending
+    product: account-waiter
+    version: v4
+```

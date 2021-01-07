@@ -34,3 +34,60 @@ The list of outputs this template exposes:
 
 ### AssumableRoleArnInRootAccountForBootstrapping 
 *Description:* The ARN for the assumable role in the root account 
+  
+## Examples
+
+### Service Catalog Factory Portfolio
+The following example demonstrates how to create the `account-bootstrap-shared-org-bootstrap` Service Catalog Product in your Service Catalog Factory portfolio `yaml` file
+```yaml
+Portfolios:
+  Components:
+    - Description: account-bootstrap-shared-org-bootstrap
+      Distributor: CCOE
+      Name: account-bootstrap-shared-org-bootstrap
+      Owner: CCOE@Example.com
+      Source:
+        Configuration:
+          RepositoryName: account-bootstrap-shared-org-bootstrap
+        Provider: CodeCommit
+      SupportDescription: Find us on Slack or Wiki
+      SupportEmail: ccoe-support@Example.com
+      SupportUrl: https://example.com/intranet/teams/ccoe/products/account-factory
+      Tags: []
+      Versions:
+        - Description: This product creates an IAM Role that is required to use AWS Organizations 
+            to bootstrap AWS accounts
+          Name: v1
+          Source:
+            Provider: CodeCommit
+            Configuration:
+              BranchName: v1
+              RepositoryName: account-bootstrap-shared-org-bootstrap
+```
+
+### Service Catalog Puppet Launch
+The following example demonstrates how to provision the `account-bootstrap-shared-org-bootstrap` Service Catalog Product in your Service Catalog Puppet `manifest.yaml` file
+```yaml
+launches:
+  account-bootstrap-shared-org-bootstrap:
+    deploy_to:
+      tags:
+        - regions: default_region
+          tag: scope:org_management
+    outputs:
+      ssm:
+        - param_name: /governance-at-scale-account-factory/account-bootstrap-shared-org-bootstrap/AssumableRoleArnInRootAccountForBootstrapping
+          stack_output: AssumableRoleArnInRootAccountForBootstrapping
+    parameters:
+      GovernanceAtScaleAccountFactoryAccountBootstrapSharedBootstrapperOrgIAMRoleName:
+        default: AccountBootstrapSharedBootstrapperOrgIAMRoleName
+      GovernanceAtScaleAccountFactoryIAMRolePath:
+        default: /AccountFactoryIAMRolePath/
+      OrganizationAccountAccessRole:
+        default: OrganizationAccountAccessRole
+      ServiceCatalogToolsAccountId:
+        default: SET_ME
+    portfolio: demo-central-it-team-portfolio
+    product: account-bootstrap-shared-org-bootstrap
+    version: v1
+```

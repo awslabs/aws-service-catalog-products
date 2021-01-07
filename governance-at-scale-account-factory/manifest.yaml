@@ -201,6 +201,8 @@ launches:
         default: /AccountFactoryIAMRolePath/
       ServiceCatalogPuppetVersion:
         default: 0.91.0
+      OrganizationAccountAccessRole:
+        default: OrganizationAccountAccessRole
     outputs:
       ssm:
         - param_name: /governance-at-scale-account-factory/account-waiter/GovernanceAtScaleAccountFactoryAccountWaiterCRArn
@@ -228,88 +230,4 @@ launches:
     portfolio: example-account-vending-account-vending
     product: move-to-ou
     version: v2
-  aws-control-tower-account-factory-account:
-    depends_on:
-      - account-type-to-organizational-unit-chooser
-      - account-details
-      - account-create-update-notifier
-      - account-bootstrap-shared
-    deploy_to:
-      tags:
-        - regions: default_region
-          tag: scope:puppet_account
-    parameters:
-      AccountEmail:
-        default: emailme@example.com
-      AccountGroup:
-        default: workloads
-      AccountName:
-        default: devaccountforteamx
-      AccountType:
-        default: dev
-      GovernanceAtScaleAccountFactoryAccountCreateUpdateNotifierCRArn:
-        ssm:
-          name: /governance-at-scale-account-factory/account-create-update-notifier/GovernanceAtScaleAccountFactoryAccountCreateUpdateNotifierCRArn
-      GovernanceAtScaleAccountFactoryAccountDetailsCRArn:
-        ssm:
-          name: /governance-at-scale-account-factory/account-details/GovernanceAtScaleAccountFactoryAccountDetailsCRArn
-      GovernanceAtScaleAccountFactoryAccountTypeToOUChooserCRArn:
-        ssm:
-          name: /governance-at-scale-account-factory/account-type-to-organizational-unit-chooser/GovernanceAtScaleAccountFactoryAccountTypeToOUChooserCRArn
-      GovernanceAtScaleAccountFactoryBootstrapperProjectCustomResourceArn:
-        ssm:
-          name: /governance-at-scale-account-factory/account-bootstrap-shared/GovernanceAtScaleAccountFactoryBootstrapperProjectCustomResourceArn
-      SSOUserEmail:
-        default: emailme@example.com
-      SSOUserFirstName:
-        default: Jane
-      SSOUserLastName:
-        default: Doe
-    portfolio: demo-central-it-team-portfolio
-    product: aws-control-tower-account-factory
-    version: v1
-  aws-service-catalog-account-factory-account:
-    depends_on:
-      - account-type-to-organizational-unit-chooser
-      - account-details
-      - account-create-update-notifier
-      - account-bootstrap-shared
-      - account-waiter
-      - move-to-ou
-    deploy_to:
-      tags:
-        - regions: default_region
-          tag: scope:puppet_account
-    parameters:
-      AccountEmail:
-        default: emailme@example.com
-      AccountGroup:
-        default: workloads
-      AccountName:
-        default: devaccountforteamx
-      AccountType:
-        default: dev
-      GovernanceAtScaleAccountFactoryAccountCreationCRArn:
-        ssm:
-          name: /governance-at-scale-account-factory/account-creation-shared/GovernanceAtScaleAccountFactoryAccountCreationCRArn
-      GovernanceAtScaleAccountFactoryMoveToOUArn:
-        ssm:
-          name: /governance-at-scale-account-factory/move-to-ou/GovernanceAtScaleAccountFactoryMoveToOUCRArn
-      GovernanceAtScaleAccountFactoryAccountWaiterArn:
-        ssm:
-          name: /governance-at-scale-account-factory/account-waiter/GovernanceAtScaleAccountFactoryAccountWaiterCRArn
-      GovernanceAtScaleAccountFactoryBootstrapperProjectCustomResourceArn:
-        ssm:
-          name: /governance-at-scale-account-factory/account-bootstrap-shared/GovernanceAtScaleAccountFactoryBootstrapperProjectCustomResourceArn
-      GovernanceAtScaleAccountFactoryAccountTypeToOUChooserCRArn:
-        ssm:
-          name: /governance-at-scale-account-factory/account-type-to-organizational-unit-chooser/GovernanceAtScaleAccountFactoryAccountTypeToOUChooserCRArn
-      GovernanceAtScaleAccountFactoryAccountCreateUpdateNotifierCRArn:
-        ssm:
-          name: /governance-at-scale-account-factory/account-create-update-notifier/GovernanceAtScaleAccountFactoryAccountCreateUpdateNotifierCRArn
-      ServiceCatalogPuppetVersion:
-        default: 0.91.0
-    portfolio: demo-central-it-team-portfolio
-    product: aws-service-catalog-account-creation
-    version: v3
 schema: puppet-2019-04-01

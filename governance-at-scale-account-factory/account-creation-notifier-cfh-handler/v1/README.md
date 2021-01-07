@@ -33,3 +33,59 @@ The list of resources this template creates:
 ### Role 
 *Type:* AWS::IAM::Role  
 *Description:* An IAM role used as the execution role for the **Function** AWS Lambda function
+ 
+## Examples
+
+### Service Catalog Factory Portfolio
+The following example demonstrates how to create the `account-creation-notifier-cfh-handler` Service Catalog Product in your Service Catalog Factory portfolio `yaml` file
+```yaml
+Portfolios:
+  Components:
+    - Description: account-creation-notifier-cfh-handler
+      Distributor: CCOE
+      Name: account-creation-notifier-cfh-handler
+      Owner: CCOE@Example.com
+      Source:
+        Configuration:
+          RepositoryName: account-creation-notifier-cfh-handler
+        Provider: CodeCommit
+      SupportDescription: Find us on Slack or Wiki
+      SupportEmail: ccoe-support@Example.com
+      SupportUrl: https://example.com/intranet/teams/ccoe/products/account-factory
+      Tags: []
+      Versions:
+        - Description: This product creates an AWS Lambda as a subscription to an SNS topic. 
+            The Lambda function is used to relay messages from SNS to a custom HTTP POST endpoint
+          Name: v1
+          Source:
+            Provider: CodeCommit
+            Configuration:
+              BranchName: v1
+              RepositoryName: account-creation-notifier-cfh-handler
+```
+
+### Service Catalog Puppet Launch
+The following example demonstrates how to provision the `account-creation-notifier-cfh-handler` Service Catalog Product in your Service Catalog Puppet `manifest.yaml` file
+```yaml
+launches:
+  account-creation-notifier-cfh-handler:
+    depends_on:
+      - account-create-update-notifier
+    deploy_to:
+      tags:
+        - regions: default_region
+          tag: scope:puppet_account
+    parameters:
+      AccountCreateUpdateNotifierTopicArn:
+        ssm:
+          name: /governance-at-scale-account-factory/account-create-update-notifier/AccountCreateUpdateNotifierTopicArn
+      GovernanceAtScaleAccountFactoryAccountCreateUpdateCFHHandlerIAMRoleName:
+        default: AccountCreateUpdateCFHHandlerIAMRoleName
+      GovernanceAtScaleAccountFactoryIAMRolePath:
+        default: /AccountFactoryIAMRolePath/
+      CFHAccountCreateUpdatePostUrl:
+        default: https://example.com/intranet/teams/ccoe/products/account-factory/endpoint
+    portfolio: demo-central-it-team-portfolio
+    product: account-creation-notifier-cfh-handler
+    version: v1
+```

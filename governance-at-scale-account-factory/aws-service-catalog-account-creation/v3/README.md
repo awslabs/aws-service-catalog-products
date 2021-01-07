@@ -77,4 +77,90 @@ The list of outputs this template exposes:
 
 ### AccountId 
 *Description:* The ID of the new account
-  
+   
+## Examples
+
+### Service Catalog Factory Portfolio
+The following example demonstrates how to create the `aws-service-catalog-account-creation` Service Catalog Product in your Service Catalog Factory portfolio `yaml` file
+```yaml
+Portfolios:
+  Components:
+    - Description: aws-service-catalog-account-creation
+      Distributor: CCOE
+      Name: aws-service-catalog-account-creation
+      Owner: CCOE@Example.com
+      Source:
+        Configuration:
+          RepositoryName: aws-service-catalog-account-creation
+        Provider: CodeCommit
+      SupportDescription: Find us on Slack or Wiki
+      SupportEmail: ccoe-support@Example.com
+      SupportUrl: https://example.com/intranet/teams/ccoe/products/account-factory
+      Versions:
+        - Description: This product is used to create a commercial AWS Account and bootstrap 
+            it using `aws-service-catalog-puppet` so you can provision products into the account
+          Name: v3
+          Source:
+            Provider: CodeCommit
+            Configuration:
+              BranchName: v3
+              RepositoryName: aws-service-catalog-account-creation
+      ProviderName: ccoe
+      Tags:
+        - Key: team
+          Value: ccoe
+```
+
+### Service Catalog Puppet Launch
+The following example demonstrates how to provision the `aws-service-catalog-account-creation` Service Catalog Product in your Service Catalog Puppet `manifest.yaml` file. This product is most commonly provisioned through Service Catalog Products UI in the AWS Console.
+```yaml
+launches:
+  aws-service-catalog-account-factory-account:
+    depends_on:
+      - account-type-to-organizational-unit-chooser
+      - account-details
+      - account-create-update-notifier
+      - account-bootstrap-shared
+      - account-waiter
+      - move-to-ou
+    deploy_to:
+      tags:
+        - regions: default_region
+          tag: scope:puppet_account
+    parameters:
+      Email:
+        default: emailme@example.com
+      AccountGroup:
+        default: workloads
+      AccountName:
+        default: devaccountforteamx
+      AccountType:
+        default: dev
+      OrganizationAccountAccessRole:
+        default: OrganizationAccountAccessRole
+      IamUserAccessToBilling:
+        default: ALLOW
+      GovernanceAtScaleAccountFactoryAccountCreationCRArn:
+        ssm:
+          name: /governance-at-scale-account-factory/account-creation-shared/GovernanceAtScaleAccountFactoryAccountCreationCRArn
+      GovernanceAtScaleAccountFactoryMoveToOUArn:
+        ssm:
+          name: /governance-at-scale-account-factory/move-to-ou/GovernanceAtScaleAccountFactoryMoveToOUCRArn
+      GovernanceAtScaleAccountFactoryAccountWaiterArn:
+        ssm:
+          name: /governance-at-scale-account-factory/account-waiter/GovernanceAtScaleAccountFactoryAccountWaiterCRArn
+      GovernanceAtScaleAccountFactoryBootstrapperProjectCustomResourceArn:
+        ssm:
+          name: /governance-at-scale-account-factory/account-bootstrap-shared/GovernanceAtScaleAccountFactoryBootstrapperProjectCustomResourceArn
+      GovernanceAtScaleAccountFactoryAccountTypeToOUChooserCRArn:
+        ssm:
+          name: /governance-at-scale-account-factory/account-type-to-organizational-unit-chooser/GovernanceAtScaleAccountFactoryAccountTypeToOUChooserCRArn
+      GovernanceAtScaleAccountFactoryAccountCreateUpdateNotifierCRArn:
+        ssm:
+          name: /governance-at-scale-account-factory/account-create-update-notifier/GovernanceAtScaleAccountFactoryAccountCreateUpdateNotifierCRArn
+      ServiceCatalogPuppetVersion:
+        default: 0.91.0
+    portfolio: demo-central-it-team-portfolio
+    product: aws-service-catalog-account-creation
+    version: v3
+```

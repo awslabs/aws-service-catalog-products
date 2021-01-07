@@ -34,3 +34,61 @@ The list of outputs this template exposes:
 
 ### GovernanceAtScaleAccountFactoryAccountDetailsCRArn 
 *Description:* The ARN of the AWS Lambda function
+
+## Examples
+
+### Service Catalog Factory Portfolio
+The following example demonstrates how to create the `account-details` Service Catalog Product in your Service Catalog Factory portfolio `yaml` file
+```yaml
+Portfolios:
+  Components:
+    - Description: account-details
+      Distributor: CCOE
+      Name: account-details
+      Owner: CCOE@Example.com
+      Source:
+        Configuration:
+          RepositoryName: account-details
+        Provider: CodeCommit
+      SupportDescription: Find us on Slack or Wiki
+      SupportEmail: ccoe-support@Example.com
+      SupportUrl: https://example.com/intranet/teams/ccoe/products/account-factory
+      Tags: []
+      Versions:
+        - Description: This product takes a provided 'AccountName' and returns 
+            the details about that account
+          Name: v1
+          Source:
+            Provider: CodeCommit
+            Configuration:
+              BranchName: v1
+              RepositoryName: account-details
+```
+
+### Service Catalog Puppet Launch
+The following example demonstrates how to provision the `account-details` Service Catalog Product in your Service Catalog Puppet `manifest.yaml` file
+```yaml
+launches:
+  account-details:
+    depends_on:
+      - account-details-org-bootstrap
+    deploy_to:
+      tags:
+        - regions: default_region
+          tag: scope:puppet_account
+    outputs:
+      ssm:
+        - param_name: /governance-at-scale-account-factory/account-details/GovernanceAtScaleAccountFactoryAccountDetailsCRArn
+          stack_output: GovernanceAtScaleAccountFactoryAccountDetailsCRArn
+    parameters:
+      GovernanceAtScaleAccountFactoryAccountDetailsCRIAMRoleName:
+        default: AccountDetailsCRIAMRoleName
+      GovernanceAtScaleAccountFactoryAccountDetailsOrgRoleArn:
+        ssm:
+          name: /governance-at-scale-account-factory/account-details-org-bootstrap/GovernanceAtScaleAccountFactoryAccountDetailsOrgRoleArn
+      GovernanceAtScaleAccountFactoryIAMRolePath:
+        default: /AccountFactoryIAMRolePath/
+    portfolio: demo-central-it-team-portfolio
+    product: account-details
+    version: v1
+```

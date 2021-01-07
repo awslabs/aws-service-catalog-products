@@ -47,3 +47,76 @@ The list of outputs this template exposes:
 ### GovernanceAtScaleAccountFactoryAccountCreationCRArn 
 *Description:* the ARN of the custom resource that can be used to create an account
   
+## Examples
+
+### Service Catalog Factory Portfolio
+The following example demonstrates how to create the `account-creation-shared` Service Catalog Product in your Service Catalog Factory portfolio `yaml` file
+```yaml
+Portfolios:
+  Components:
+    - Description: account-creation-shared
+      Distributor: CCOE
+      Name: account-creation-shared
+      Owner: CCOE@Example.com
+      Source:
+        Configuration:
+          RepositoryName: account-creation-shared
+        Provider: CodeCommit
+      BuildSpec: |
+        version: 0.2
+        phases:
+          install:
+            runtime-versions:
+              python: 3.8
+          build:
+            commands:
+              - pip install -r requirements.txt -t src
+            {% for region in ALL_REGIONS %}
+              - aws cloudformation package --template $(pwd)/product.template.yaml --s3-bucket sc-factory-artifacts-${ACCOUNT_ID}-{{ region }} --s3-prefix ${STACK_NAME} --output-template-file product.template-{{ region }}.yaml
+            {% endfor %}
+        artifacts:
+          files:
+            - '*'
+            - '**/*'
+      SupportDescription: Find us on Slack or Wiki
+      SupportEmail: ccoe-support@Example.com
+      SupportUrl: https://example.com/intranet/teams/ccoe/products/account-factory
+      Tags: []
+      Versions:
+        - Description: This product creates an AWS Lambda function for backing custom 
+            resources to create an AWS Account
+          Name: v4
+          Source:
+            Provider: CodeCommit
+            Configuration:
+              BranchName: v5
+              RepositoryName: account-creation-shared
+```
+
+### Service Catalog Puppet Launch
+The following example demonstrates how to provision the `account-creation-shared` Service Catalog Product in your Service Catalog Puppet `manifest.yaml` file
+```yaml
+launches:
+  account-creation-shared:
+    depends_on:
+      - account-creation-shared-org-bootstrap
+    deploy_to:
+      tags:
+        - regions: default_region
+          tag: scope:puppet_account
+    outputs:
+      ssm:
+        - param_name: /governance-at-scale-account-factory/account-creation-shared/GovernanceAtScaleAccountFactoryAccountCreationCRArn
+          stack_output: GovernanceAtScaleAccountFactoryAccountCreationCRArn
+    parameters:
+      GovernanceAtScaleAccountFactoryIAMRolePath:
+        default: /AccountFactoryIAMRolePath/
+      GovernanceAtScaleAccountFactoryAccountCreationSharedOrgRoleArn:
+        ssm:
+          name: /governance-at-scale-account-factory/account-creation-shared-org-bootstrap/GovernanceAtScaleAccountFactoryAccountCreationSharedOrgRoleArn
+      OrganizationAccountAccessRole:
+        default: OrganizationAccountAccessRole
+    portfolio: demo-central-it-team-portfolio
+    product: account-creation-shared
+    version: v5
+```
