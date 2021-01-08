@@ -13,7 +13,8 @@ logger.setLevel(logging.INFO)
 def handler(event, context):
     request_type = event["RequestType"]
     try:
-        logger.info(request_type)
+        logger.info(f"Incomming Event: {event}")
+        logger.info(f"Request Type: {request_type}")
 
         if request_type in ["Create", "Update"]:
             assumable_role_in_root_account_arn = os.environ.get(
@@ -35,26 +36,30 @@ def handler(event, context):
                 assumable_role_in_root_account_arn,
                 "assumable_org_role",
             ) as organizations:
-                logger.info("Checking if need to create")
+                logger.info("Checking if the account already exists")
                 response = organizations.list_accounts_single_page()
                 for account in response.get("Accounts", []):
                     if account.get("Name") == account_name:
                         account_id = account.get("Id")
-                        logger.info("Already created")
+                        logger.info(
+                            f"Account {account_name} already exists in Commercial. No further action was taken"
+                        )
                         send_response(
                             event,
                             context,
                             "SUCCESS"
                             if account.get("Status") == "ACTIVE"
+                            and partition != "GovCloud"
                             else "FAILED",
                             {
-                                "Message": "Account was already created",
+                                "Message": f"Account {account_name} already exists in Commercial",
                                 "account_id": account_id,
                             },
                         )
+                        return
 
-                logger.info("Creating account")
                 if partition == "GovCloud":
+                    logger.info("Creating the accounts for GovCloud")
                     response = organizations.create_gov_cloud_account(
                         Email=email,
                         AccountName=account_name,
@@ -62,6 +67,7 @@ def handler(event, context):
                         IamUserAccessToBilling=iam_user_access_to_billing,
                     )
                 else:
+                    logger.info("Creating the account")
                     response = organizations.create_account(
                         Email=email,
                         AccountName=account_name,
@@ -87,6 +93,7 @@ def handler(event, context):
                     "GovCloudAccountId"
                 )
                 logger.info(f"Finished: {state}")
+                logger.info(f"Response: {response}")
                 send_response(
                     event,
                     context,

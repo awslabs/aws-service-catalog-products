@@ -20,7 +20,6 @@ organization_account_access_role = os.environ.get("ORGANIZATION_ACCOUNT_ACCESS_R
 
 def handler(event, context):
     logger.info("API Called from Commercial SNS")
-    # TODO implement
     logger.info(f"Incomming Event: {event}")
 
     try:
@@ -45,14 +44,14 @@ def handler(event, context):
                     result = organizations.list_parents_single_page(ChildId=account_id)
                     if len(result.get("Parents", [])) > 0:
                         logger.info(
-                            f"The account is already in an organization. No need to send an invite."
+                            "The account is already in an organization. No need to send an invite."
                         )
                         account_exists = True
                 except Exception as ex:
                     # an error is thrown when an account does not have parents and
                     # is therefore not part of an organization
                     logger.info(
-                        f"The account is not in an organization. Proceeding to invite the account to the organization"
+                        "The account is not in an organization. Proceeding to invite the account to the organization"
                     )
                     account_exists = False
 
