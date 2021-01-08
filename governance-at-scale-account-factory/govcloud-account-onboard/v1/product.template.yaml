@@ -15,10 +15,9 @@ Parameters:
     Type: String
     Default: OrganizationAccountAccessRole
     Description: The name of the IAM Role used for cross account assess for AWS Organizations
-  PuppetAccountAccessRole:
+  PuppetAccountAccessRoleArn:
     Type: String
-    Default: PuppetAccountAccessRole
-    Description: The name of the IAM Role used for cross account assess for bootstrapping Puppet
+    Description: The ARN of the IAM Role used for cross account assess for bootstrapping Puppet
   BootstrapperProjectName:
     Type: String
     Default: servicecatalog-puppet-single-account-bootstrapper
@@ -152,7 +151,7 @@ Resources:
               - Effect: Allow
                 Action:
                   - sts:AssumeRole
-                Resource: !Sub arn:${AWS::Partition}:iam::*:role/${PuppetAccountAccessRole}
+                Resource: !Ref PuppetAccountAccessRoleArn
       AssumeRolePolicyDocument:
         Version: "2012-10-17"
         Statement:
@@ -190,7 +189,7 @@ Resources:
       Environment:
         Variables:
           ORGANIZATION_ACCOUNT_ACCESS_ROLE: !Ref OrganizationAccountAccessRole
-          PUPPET_ACCOUNT_ACCESS_ROLE: !Ref PuppetAccountAccessRole
+          PUPPET_ACCOUNT_ACCESS_ROLE_ARN: !Ref PuppetAccountAccessRoleArn
           BOOTSTRAPPER_PROJECT_NAME: !Ref BootstrapperProjectName
 
 Outputs:

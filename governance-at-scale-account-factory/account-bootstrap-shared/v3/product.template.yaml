@@ -84,7 +84,7 @@ Resources:
           phases:
             install:
               runtime-versions:
-                python: 3.x
+                python: 3.8
               commands:
                 - pip install aws-service-catalog-puppet==${VERSION}
             build:
@@ -140,7 +140,7 @@ Resources:
       Handler: handler.handler
       Description: Lambda for accepting shares
       Role: !GetAtt BootstrapperProjectCustomResourceRole.Arn
-      Runtime: python3.7
+      Runtime: python3.8
       Timeout: 900
       Environment:
         Variables:

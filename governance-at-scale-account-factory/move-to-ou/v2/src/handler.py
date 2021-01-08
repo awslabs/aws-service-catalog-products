@@ -19,7 +19,7 @@ def handler(event, context):
             "ASSUMABLE_ROLE_IN_ROOT_ACCOUNT_ARN"
         )
         with betterboto_client.CrossAccountClientContextManager(
-                "organizations", assumable_role_in_root_account_arn, "assumable_org_role"
+            "organizations", assumable_role_in_root_account_arn, "assumable_org_role"
         ) as organizations:
             if request_type in ["Create", "Update"]:
                 target_ou = event.get("ResourceProperties").get("TargetOU")
@@ -30,43 +30,54 @@ def handler(event, context):
                     raise Exception(
                         f"There were unexpected parents for the account_id {account_id}: {json.dumps(result)}"
                     )
-                current_ou = result.get("Parents")[0].get('Id')
-                if current_ou == target_ou:
-                    logger.info("Nothing to do")
-                    send_response(
-                        event,
-                        context,
-                        "SUCCESS",
-                        {
-                            "Message": f"Left in {current_ou}",
-                            "account_id": account_id,
-                        },
-                    )
-
-                elif str(target_ou) != "None" and current_ou != target_ou:
-                    logger.info("Moving account to new OU")
-                    response = organizations.list_roots()
-                    if len(response.get("Roots")) != 1:
-                        raise Exception("nRoots: {}".format(len(response.get("Roots"))))
+                current_ou = result.get("Parents")[0].get("Id")
+                if str(target_ou) != "None":
                     if str(target_ou).startswith("/"):
-                        target = organizations.convert_path_to_ou(target_ou)
-                    else:
-                        target = target_ou
-                    organizations.move_account(
-                        AccountId=account_id,
-                        SourceParentId=current_ou,
-                        DestinationParentId=target,
-                    )
+                        logger.info(
+                            f"Target OU in /path format {target_ou}, converting to OU ID"
+                        )
+                        target_ou = organizations.convert_path_to_ou(target_ou)
 
-                    send_response(
-                        event,
-                        context,
-                        "SUCCESS",
-                        {
-                            "Message": f"Moved to {target}",
-                            "account_id": account_id,
-                        },
-                    )
+                    # if the account is already in the correct OU, just log and continue gracefully
+                    if current_ou != target_ou:
+                        logger.info(f"Moving account from {current_ou} to {target_ou}")
+
+                        # make sure there is only one root account
+                        response = organizations.list_roots()
+                        if len(response.get("Roots")) != 1:
+                            raise Exception(
+                                "nRoots: {}".format(len(response.get("Roots")))
+                            )
+
+                        # move the account to the target OU
+                        organizations.move_account(
+                            AccountId=account_id,
+                            SourceParentId=current_ou,
+                            DestinationParentId=target_ou,
+                        )
+
+                        logger.info(f"Account {account_id} was moved to OU {target_ou}")
+
+                        send_response(
+                            event,
+                            context,
+                            "SUCCESS",
+                            {
+                                "Message": f"Moved to {target_ou}",
+                                "account_id": account_id,
+                            },
+                        )
+                    elif current_ou == target_ou:
+                        logger.info("Target account already in target OU")
+                        send_response(
+                            event,
+                            context,
+                            "SUCCESS",
+                            {
+                                "Message": f"Account already in {target_ou}",
+                                "account_id": account_id,
+                            },
+                        )
 
             elif request_type == "Delete":
                 send_response(event, context, "SUCCESS", {"Message": "Deleted"})

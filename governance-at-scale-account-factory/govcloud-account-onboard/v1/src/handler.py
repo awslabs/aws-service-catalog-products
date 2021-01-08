@@ -123,51 +123,48 @@ def move_to_ou(account_id, target_ou):
     logger.info(f"Moving account {account_id} to OU {target_ou}")
 
     # use the Organizations client in the current account
-    with betterboto_client.ClientContextManager("organizations") as root_org:
+    with betterboto_client.ClientContextManager("organizations") as organizations:
         # list the parents for the account and ensure there is only one parent
-        result = root_org.list_parents_single_page(ChildId=account_id)
+        result = organizations.list_parents_single_page(ChildId=account_id)
         if len(result.get("Parents", [])) != 1:
             raise Exception(
                 f"There were unexpected parents for the account_id {account_id}: {json.dumps(result)}"
             )
 
         current_ou = result.get("Parents")[0].get("Id")
-        # if the account is already in the correct OU, just log and continue gracefully
-        if current_ou == target_ou:
-            logger.info("The account is already in the correct OU")
-        elif str(target_ou) != "None" and current_ou != target_ou:
-            logger.info("Moving account to new OU")
-
-            # make sure there is only one root account
-            response = root_org.list_roots()
-            if len(response.get("Roots")) != 1:
-                raise Exception("nRoots: {}".format(len(response.get("Roots"))))
-
+        if str(target_ou) != "None":
             if str(target_ou).startswith("/"):
-                # if the OU is using the path format, convert it to an OU ID
-                target = root_org.convert_path_to_ou(target_ou)
-            else:
-                target = target_ou
+                logger.info(
+                    f"Target OU in /path format {target_ou}, converting to OU ID"
+                )
+                target_ou = organizations.convert_path_to_ou(target_ou)
 
-            # move the account to the target OU
-            root_org.move_account(
-                AccountId=account_id,
-                SourceParentId=current_ou,
-                DestinationParentId=target,
-            )
+            # if the account is already in the correct OU, just log and continue gracefully
+            if current_ou != target_ou:
+                logger.info(f"Moving account from {current_ou} to {target_ou}")
 
-        logger.info(f"Account {account_id} was moved to OU {target}")
+                # make sure there is only one root account
+                response = organizations.list_roots()
+                if len(response.get("Roots")) != 1:
+                    raise Exception("nRoots: {}".format(len(response.get("Roots"))))
+
+                # move the account to the target OU
+                organizations.move_account(
+                    AccountId=account_id,
+                    SourceParentId=current_ou,
+                    DestinationParentId=target_ou,
+                )
+
+                logger.info(f"Account {account_id} was moved to OU {target_ou}")
+
+            elif current_ou == target_ou:
+                logger.info("Target account already in target OU")
 
 
 def bootstrap_account(account_id, puppet_account_id):
     # get the bootstrapper values from the environment variables
-    puppet_account_access_role = os.environ.get("PUPPET_ACCOUNT_ACCESS_ROLE")
+    puppet_account_access_role_arn = os.environ.get("PUPPET_ACCOUNT_ACCESS_ROLE_ARN")
     bootstrapper_project_name = os.environ.get("BOOTSTRAPPER_PROJECT_NAME")
-
-    # build the ARN for the assumable role in the Puppet account
-    puppet_account_access_role_arn = "arn:aws-us-gov:iam::{}:role/{}".format(
-        puppet_account_id, puppet_account_access_role
-    )
 
     logger.info(f"Getting parameters for bootstrapping")
     # use the SSM client in the Puppet account with the assumable role
