@@ -4,7 +4,7 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Description: |
   account-bootstrap-shared-product and account-creation-shared-product must both be provisioned into the same accountbefore this will work - they build some resources needed for this to work and they provision the SSM params with thecorrect ARNs so this works with no copy and pasting.Provisioning this template will create an AWS Account and bootstrap it using aws-service-catalog-puppet so you canprovision products into the account.
-  {"framework": "servicecatalog-products", "role": "product", "product-set": "governance-at-scale-account-factory", "product": "aws-service-catalog-account-creation", "version": "v1"}
+  {"framework": "servicecatalog-products", "role": "product", "product-set": "governance-at-scale-account-factory", "product": "aws-service-catalog-account-creation", "version": "v2"}
 
 Parameters:
   Email:

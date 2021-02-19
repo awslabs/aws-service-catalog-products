@@ -4,7 +4,7 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Description: |
   This product creates an IAM Role that is needed in order to use AWS Organizations to create AWS Accounts
-  {"framework": "servicecatalog-products", "role": "product", "product-set": "governance-at-scale-account-factory", "product": "account-creation-shared-org-bootstrap", "version": "v1"}
+  {"framework": "servicecatalog-products", "role": "product", "product-set": "governance-at-scale-account-factory", "product": "account-creation-shared-org-bootstrap", "version": "v2"}
 
 Parameters:
   ServiceCatalogToolsAccountId:

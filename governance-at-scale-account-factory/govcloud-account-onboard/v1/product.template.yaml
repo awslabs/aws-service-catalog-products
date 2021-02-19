@@ -8,7 +8,7 @@ Description: |
     1. Add a newly created GovCloud account to the GovCloud organization through an automated invitation and handshake process
     2. Move the account to the correct Organizational Unit (OU)
     3. Bootstrap the account as a spoke of the GovCloud Service Catalog Puppet account
-  {"framework": "servicecatalog-products", "role": "product", "product-set": "governance-at-scale-account-factory", "product": "govcloud-account-onboard", "version": "v2"}
+  {"framework": "servicecatalog-products", "role": "product", "product-set": "governance-at-scale-account-factory", "product": "govcloud-account-onboard", "version": "v1"}
 
 Parameters:
   OrganizationAccountAccessRole:

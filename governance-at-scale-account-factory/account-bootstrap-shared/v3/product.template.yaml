@@ -7,7 +7,7 @@ Description: |
   This product creates an AWS CodeBuild project that can be run to bootstrap an account. 
   It also includes an AWS Lambda function that can be used to back a custom resource 
   so that the CodeBuild project can be started from AWS CloudFormation
-  {"framework": "servicecatalog-products", "role": "product", "product-set": "governance-at-scale-account-factory", "product": "account-bootstrap-shared", "version": "v2"}
+  {"framework": "servicecatalog-products", "role": "product", "product-set": "governance-at-scale-account-factory", "product": "account-bootstrap-shared", "version": "v3"}
 
 Parameters:
   AssumableRoleArnInRootAccountForBootstrapping:
