@@ -77,11 +77,11 @@ Portfolios:
       Versions:
         - Description: This product creates an AWS Lambda function that is used to move an 
             AWS account to specified organizational unit (OU)
-          Name: v2
+          Name: v3
           Source:
             Provider: CodeCommit
             Configuration:
-              BranchName: v2
+              BranchName: v3
               RepositoryName: move-to-ou
       ProviderName: ccoe
       Tags:

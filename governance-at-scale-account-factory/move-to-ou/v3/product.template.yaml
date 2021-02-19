@@ -4,15 +4,14 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: |
-  Lambda for backing custom resources to move an account into the correct OU
+  This product creates an AWS Lambda function that is used to move an AWS account to specified organizational unit (OU)
   {"framework": "servicecatalog-products", "role": "product", "product-set": "governance-at-scale-account-factory", "product": "move-to-ou", "version": "v2"}
 
 Parameters:
   GovernanceAtScaleAccountFactoryAccountCreationSharedOrgRoleArn:
     Type: String
     Description: |
-      The Arn of the role to be used to interact with AWS Orgs
-
+      The ARN of the IAM role in the organization root that can be assumed and used to interact with AWS Organizations
   GovernanceAtScaleAccountFactoryIAMRolePath:
     Description: The path to use for IAM roles in this template
     Type: String
@@ -21,9 +20,12 @@ Resources:
   MoveToOUCustomResourceRole:
     Type: AWS::IAM::Role
     Properties:
+      Description: | 
+        An IAM role that is used as a execution role for the MoveToOUCustomResource 
+        AWS Lambda function
       Path: !Ref GovernanceAtScaleAccountFactoryIAMRolePath
       ManagedPolicyArns:
-        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+        - !Sub arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
       Policies:
         - PolicyName: ServiceCatalogActions
           PolicyDocument:
@@ -38,7 +40,7 @@ Resources:
         Statement:
           - Effect: "Allow"
             Principal:
-              AWS: !Sub "arn:aws:iam::${AWS::AccountId}:root"
+              AWS: !Sub "arn:${AWS::Partition}:iam::${AWS::AccountId}:root"
             Action:
               - "sts:AssumeRole"
           - Effect: "Allow"
@@ -51,13 +53,13 @@ Resources:
   MoveToOUCustomResource:
     Type: AWS::Serverless::Function
     Description: |
-      The lambda function that creates an account when called using a CloudFormation Custom Resource:
+      An AWS Lambda function that moves an account into the provided organizational unit (OU):
       ```yaml
       MoveToOU:
         Type: Custom::Resource
         Description: A custom resource for moving an account to an OU
         Properties:
-          ServiceToken: !Ref GovernanceAtScaleAccountFactoryMoveToOUCreationCRArn
+          ServiceToken: !Ref GovernanceAtScaleAccountFactoryMoveToOUArn
           AccountType: !Ref AccountType
           AccountGroup: !Ref AccountGroup
           TargetOU: !GetAtt OUDetails.OrganizationalUnitName
@@ -77,5 +79,5 @@ Resources:
 Outputs:
   GovernanceAtScaleAccountFactoryMoveToOUCRArn:
     Description: |
-      the Arn of the custom resource that can be used to move accounts to different OUs
+      The ARN of the MoveToOUCustomResource AWS Lambda function that can be used to move an account to an OU
     Value: !GetAtt MoveToOUCustomResource.Arn

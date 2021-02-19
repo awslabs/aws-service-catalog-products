@@ -229,5 +229,5 @@ launches:
           stack_output: GovernanceAtScaleAccountFactoryMoveToOUCRArn
     portfolio: example-account-vending-account-vending
     product: move-to-ou
-    version: v2
+    version: v3
 schema: puppet-2019-04-01
