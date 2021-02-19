@@ -3,16 +3,16 @@
 
 AWSTemplateFormatVersion: '2010-09-09'
 Description: |
-  IAM Role needed to use AWS Organizations to bootstrap AWS Accounts.
+  This product creates an IAM Role that is required to use AWS Organizations to bootstrap AWS accounts
   {"framework": "servicecatalog-products", "role": "product", "product-set": "governance-at-scale-account-factory", "product": "account-bootstrap-shared-org-bootstrap", "version": "v1"}
 
 Parameters:
   ServiceCatalogToolsAccountId:
-    Description: The account id you will be installing AWS Service Catalog Factory into
+    Description: The account ID for the account where have installed AWS Service Catalog Factory
     Type: String
 
   OrganizationAccountAccessRole:
-    Description: Name of the IAM role used to access cross accounts for AWS Orgs usage
+    Description: The name of the IAM role used to access cross accounts for AWS Organizations usage
     Default: OrganizationAccountAccessRole
     Type: String
 
@@ -21,7 +21,7 @@ Parameters:
     Type: String
 
   GovernanceAtScaleAccountFactoryAccountBootstrapSharedBootstrapperOrgIAMRoleName:
-    Description: The name to use for IAM role that will be used to list accounts for bootstrapping purposes
+    Description: The name to use for the IAM role that will be used to list accounts for bootstrapping purposes
     Type: String
 
 
@@ -29,7 +29,7 @@ Resources:
   AssumableRoleInRootAccount:
     Type: AWS::IAM::Role
     Description: |
-      IAM Role needed by the account vending machine so it can bootstrap accounts
+      The IAM Role needed by the account vending machine so it can bootstrap accounts
     Properties:
       RoleName: !Ref GovernanceAtScaleAccountFactoryAccountBootstrapSharedBootstrapperOrgIAMRoleName
       Path: !Ref GovernanceAtScaleAccountFactoryIAMRolePath
@@ -49,17 +49,17 @@ Resources:
               - Effect: Allow
                 Action:
                   - sts:AssumeRole
-                Resource: !Sub "arn:aws:iam::*:role/${OrganizationAccountAccessRole}"
+                Resource: !Sub "arn:${AWS::Partition}:iam::*:role/${OrganizationAccountAccessRole}"
       AssumeRolePolicyDocument:
         Version: "2012-10-17"
         Statement:
           - Effect: "Allow"
             Principal:
-              AWS: !Sub "arn:aws:iam::${ServiceCatalogToolsAccountId}:root"
+              AWS: !Sub "arn:${AWS::Partition}:iam::${ServiceCatalogToolsAccountId}:root"
             Action:
               - "sts:AssumeRole"
 
 Outputs:
   AssumableRoleArnInRootAccountForBootstrapping:
-    Description: The ARN for your Assumable role in root account
+    Description: The ARN for the assumable role in the root account
     Value: !GetAtt AssumableRoleInRootAccount.Arn

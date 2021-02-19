@@ -38,19 +38,19 @@ Resources:
 
           DEFAULT_OU_NAME = 'Root'
           organizational_unit_names = {
-            'infra': {
+            'Infrastructure': {
               'dev': 'ou-iexample1',
               'test': 'ou-iexample2',
               'pre-prod': 'ou-iexample3',
               'prod': 'ou-iexample4',
             },
-            'security': {
+            'Security': {
               'dev': 'ou-sexample1',
               'test': 'ou-sexample2',
               'pre-prod': 'ou-sexample3',
               'prod': 'ou-sexample4',
             },
-            'workloads': {
+            'Workload': {
               'dev': 'ou-wexample1',
               'test': 'ou-wexample2',
               'pre-prod': 'ou-wexample3',
@@ -91,7 +91,7 @@ Resources:
             Action:
               - sts:AssumeRole
       ManagedPolicyArns:
-        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+        - !Sub arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
 
 Outputs:
   GovernanceAtScaleAccountFactoryAccountTypeToOUChooserCRArn:

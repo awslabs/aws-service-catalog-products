@@ -2,8 +2,6 @@
 # Description
 Augments AWS Control Tower Account Factory - simplifies user input, dispatches extra parameters via AWS SNS andreturns the account id as an output
  
-
-
 ## Parameters
 The list of parameters for this template:
 
@@ -65,3 +63,82 @@ Description: AccountId for the newly created AWS Account
 ### AccountOrganizationalUnitName 
 Description: OrganizationalUnitName for the newly created AWS Account
   
+## Examples
+
+### Service Catalog Factory Portfolio
+The following example demonstrates how to create the `aws-control-tower-account-factory` Service Catalog Product in your Service Catalog Factory portfolio `yaml` file
+```yaml
+Portfolios:
+  Components:
+    - Description: aws-control-tower-account-factory
+      Distributor: CCOE
+      Name: aws-control-tower-account-factory
+      Owner: CCOE@Example.com
+      Source:
+        Configuration:
+          RepositoryName: aws-control-tower-account-factory
+        Provider: CodeCommit
+      SupportDescription: Find us on Slack or Wiki
+      SupportEmail: ccoe-support@Example.com
+      SupportUrl: https://example.com/intranet/teams/ccoe/products/account-factory
+      Tags: []
+      Versions:
+        - Description: Augments AWS Control Tower Account Factory - simplifies user input,
+            dispatches extra parameters via AWS SNS andreturns the account id as an output
+          Name: v1
+          Source:
+            Provider: CodeCommit
+            Configuration:
+              BranchName: v1
+              RepositoryName: aws-control-tower-account-factory
+      ProviderName: ccoe
+      Tags:
+        - Key: team
+          Value: ccoe
+```
+
+### Service Catalog Puppet Launch
+The following example demonstrates how to provision the `aws-control-tower-account-factory` Service Catalog Product in your Service Catalog Puppet `manifest.yaml` file
+```yaml
+launches:
+  aws-control-tower-account-factory-account:
+    depends_on:
+      - account-type-to-organizational-unit-chooser
+      - account-details
+      - account-create-update-notifier
+      - account-bootstrap-shared
+    deploy_to:
+      tags:
+        - regions: default_region
+          tag: scope:puppet_account
+    parameters:
+      AccountEmail:
+        default: emailme@example.com
+      AccountGroup:
+        default: workloads
+      AccountName:
+        default: devaccountforteamx
+      AccountType:
+        default: dev
+      GovernanceAtScaleAccountFactoryAccountCreateUpdateNotifierCRArn:
+        ssm:
+          name: /governance-at-scale-account-factory/account-create-update-notifier/GovernanceAtScaleAccountFactoryAccountCreateUpdateNotifierCRArn
+      GovernanceAtScaleAccountFactoryAccountDetailsCRArn:
+        ssm:
+          name: /governance-at-scale-account-factory/account-details/GovernanceAtScaleAccountFactoryAccountDetailsCRArn
+      GovernanceAtScaleAccountFactoryAccountTypeToOUChooserCRArn:
+        ssm:
+          name: /governance-at-scale-account-factory/account-type-to-organizational-unit-chooser/GovernanceAtScaleAccountFactoryAccountTypeToOUChooserCRArn
+      GovernanceAtScaleAccountFactoryBootstrapperProjectCustomResourceArn:
+        ssm:
+          name: /governance-at-scale-account-factory/account-bootstrap-shared/GovernanceAtScaleAccountFactoryBootstrapperProjectCustomResourceArn
+      SSOUserEmail:
+        default: emailme@example.com
+      SSOUserFirstName:
+        default: Jane
+      SSOUserLastName:
+        default: Doe
+    portfolio: demo-central-it-team-portfolio
+    product: aws-control-tower-account-factory
+    version: v1
+```

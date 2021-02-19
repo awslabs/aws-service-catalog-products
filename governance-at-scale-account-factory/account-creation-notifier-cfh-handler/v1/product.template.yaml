@@ -3,11 +3,13 @@
 
 AWSTemplateFormatVersion: 2010-09-09
 Description: |
-  Lambda to back a custom resource that dispatches notifications to an included SNS Topic
+  This product creates an AWS Lambda as a subscription to an SNS topic. 
+  The Lambda function is used to relay messages from SNS to a custom HTTP POST endpoint
   {"framework": "servicecatalog-products", "role": "product", "product-set": "governance-at-scale-account-factory", "product": "account-creation-notifier-cfh-handler", "version": "v1"}
 
 Parameters:
   AccountCreateUpdateNotifierTopicArn:
+    Description: The ARN of the SNS topic to create the subscription for
     Type: String
 
   GovernanceAtScaleAccountFactoryIAMRolePath:
@@ -16,7 +18,7 @@ Parameters:
 
   GovernanceAtScaleAccountFactoryAccountCreateUpdateCFHHandlerIAMRoleName:
     Description: |
-      The name to use for IAM role that will be used for the lambda notifies CFH when accounts are created/updated
+      The name to use for the IAM role that will be used for the AWS Lambda function
     Type: String
 
   CFHAccountCreateUpdatePostUrl:
@@ -27,6 +29,7 @@ Resources:
   Subscription:
     Type: AWS::SNS::Subscription
     Properties:
+      Description: A subscription to the provided SNS topic that will trigger the Function AWS Lambda Function
       TopicArn: !Ref AccountCreateUpdateNotifierTopicArn
       Endpoint: !GetAtt Function.Arn
       Protocol: lambda
@@ -34,6 +37,7 @@ Resources:
   Permission:
     Type: AWS::Lambda::Permission
     Properties:
+      Description: The permission that allows the provided SNS topic to invoke the AWS Lambda function
       Action: lambda:InvokeFunction
       FunctionName: !Ref Function
       Principal: "sns.amazonaws.com"
@@ -41,7 +45,7 @@ Resources:
 
   Function:
     Description: |
-      Lambda function to call CFH
+      An AWS Lambda function the relays messages from the provided SNS topic to the provided HTTP POST endpoint
     Type: AWS::Lambda::Function
     Properties:
       Handler: index.lambda_handler
@@ -68,12 +72,12 @@ Resources:
               req =  request.Request(os.getenv("POST_URL"), data=b)
               req.add_header('Content-Type', 'application/json')
               resp = request.urlopen(req)
-              print(response.read().decode('utf-8'))
+              print(resp.read().decode('utf-8'))
 
   Role:
     Type: AWS::IAM::Role
     Description: |
-      IAM role needed to publish account creations to SNS.
+      An IAM role used as the execution role for the Function AWS Lambda function
     Properties:
       RoleName: !Ref GovernanceAtScaleAccountFactoryAccountCreateUpdateCFHHandlerIAMRoleName
       Path: !Ref GovernanceAtScaleAccountFactoryIAMRolePath
@@ -87,6 +91,6 @@ Resources:
             Action:
               - sts:AssumeRole
       ManagedPolicyArns:
-        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+        - !Sub arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
 
 

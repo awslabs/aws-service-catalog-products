@@ -1,0 +1,81 @@
+launches:
+  account-bootstrap-shared:
+    depends_on:
+      - account-bootstrap-shared-org-bootstrap
+    deploy_to:
+      tags:
+        - regions: default_region
+          tag: scope:puppet_account
+    outputs:
+      ssm:
+        - param_name: /governance-at-scale-account-factory/account-bootstrap-shared/GovernanceAtScaleAccountFactoryBootstrapperProjectCustomResourceArn
+          stack_output: GovernanceAtScaleAccountFactoryBootstrapperProjectCustomResourceArn
+    parameters:
+      AssumableRoleArnInRootAccountForBootstrapping:
+        ssm:
+          name: /governance-at-scale-account-factory/account-bootstrap-shared-org-bootstrap/AssumableRoleArnInRootAccountForBootstrapping
+      GovernanceAtScaleAccountFactoryAccountBootstrapSharedBootstrapperIAMRoleName:
+        default: AccountBootstrapSharedBootstrapperIAMRoleName
+      GovernanceAtScaleAccountFactoryAccountBootstrapSharedCustomResourceIAMRoleName:
+        default: AccountBootstrapSharedCustomResourceIAMRoleName
+      GovernanceAtScaleAccountFactoryIAMRolePath:
+        default: /AccountFactoryIAMRolePath/
+    portfolio: demo-central-it-team-portfolio
+    product: account-bootstrap-shared
+    version: v3
+  account-bootstrap-shared-org-bootstrap:
+    deploy_to:
+      tags:
+        - regions: default_region
+          tag: scope:org_management
+    outputs:
+      ssm:
+        - param_name: /governance-at-scale-account-factory/account-bootstrap-shared-org-bootstrap/AssumableRoleArnInRootAccountForBootstrapping
+          stack_output: AssumableRoleArnInRootAccountForBootstrapping
+    parameters:
+      GovernanceAtScaleAccountFactoryAccountBootstrapSharedBootstrapperOrgIAMRoleName:
+        default: AccountBootstrapSharedBootstrapperOrgIAMRoleName
+      GovernanceAtScaleAccountFactoryIAMRolePath:
+        default: /AccountFactoryIAMRolePath/
+      OrganizationAccountAccessRole:
+        default: OrganizationAccountAccessRole
+      ServiceCatalogToolsAccountId:
+        default: SET_ME
+    portfolio: demo-central-it-team-portfolio
+    product: account-bootstrap-shared-org-bootstrap
+    version: v1  
+  govcloud-account-onboard:
+    parameters:
+      OrganizationAccountAccessRole:
+        default: OrganizationAccountAccessRole
+      PuppetAccountAccessRole:
+        default: PuppetAccountAccessRole
+      BootstrapperProjectName:
+        default: servicecatalog-puppet-single-account-bootstrapper
+      GovernanceAtScaleAccountFactoryIAMRolePath:
+        default: /AccountFactory-IAMRolePath/
+      GovernanceAtScaleAccountFactoryAccountAccountInvitationIAMRoleName:
+        default: AccountInvitationRole
+    portfolio: demo-central-it-team-portfolio
+    product: govcloud-account-onboard
+    version: v1
+    deploy_to:
+      tags:
+        - tag: scope:org_management
+          regions: default_region
+  govcloud-account-onboard-puppet-bootstrap:
+    parameters:
+      OrganizationRootAccountId:
+        default: SET_ME
+      OrganizationAccountAccessRole:
+        default: OrganizationAccountAccessRole
+      AccountOnboardPuppetRoleName:
+        default: PuppetAccountAccessRole
+    portfolio: demo-central-it-team-portfolio
+    product: govcloud-account-onboard-puppet-bootstrap
+    version: v1
+    deploy_to:
+      tags:
+        - tag: scope:puppet_account
+          regions: default_region  
+schema: puppet-2019-04-01

@@ -1,0 +1,305 @@
+# Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+AWSTemplateFormatVersion: '2010-09-09'
+Description: |
+  This product is used to create a new GovCloud account and the linked commercial AWS Accounts. 
+  The accounts will be moved to the organizational unit (OU) based on the provided account groups 
+  and account types. The new accounts will be bootstrapped with the Service Catalog Puppet 
+  account in the corresponding partition.
+  {"framework": "servicecatalog-products", "role": "product", "product-set": "governance-at-scale-account-factory", "product": "aws-service-catalog-govcloud-account-creation", "version": "v1"}
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+      - Label:
+          default: General Account Details
+        Parameters:
+          - AccountName
+          - Email
+          - OrganizationAccountAccessRole
+      - Label:
+          default: Commercial Account Specifics
+        Parameters:
+          - AccountGroup
+          - AccountType
+          - IamUserAccessToBilling
+          - PuppetAccountId
+      - Label:
+          default: GovCloud Account Specifics
+        Parameters:
+          - GovCloudAccountGroup
+          - GovCloudAccountType
+          - GovCloudPuppetAccountId
+      - Label:
+          default: Lambda ARNs
+        Parameters:
+          - GovernanceAtScaleAccountFactoryAccountCreationCRArn
+          - GovernanceAtScaleAccountFactoryAccountCreateUpdateNotifierCRArn
+          - GovernanceAtScaleAccountFactoryGovCloudAccountCreateUpdateNotifierCRArn
+          - GovernanceAtScaleAccountFactoryAccountTypeToOUChooserCRArn
+          - GovernanceAtScaleAccountFactoryMoveToOUArn
+          - GovernanceAtScaleAccountFactoryAccountWaiterArn
+          - GovernanceAtScaleAccountFactoryBootstrapperProjectCustomResourceArn
+      - Label: 
+          default: Service Catalog Puppet
+        Parameters:
+          - ServiceCatalogPuppetVersion
+    ParameterLabels:
+      AccountName:
+        default: Account Name
+      Email:
+        default: Account Email Address
+      AccountGroup:
+        default: Commercial Account Group
+      AccountType:
+        default: Commercial Account Type
+      GovCloudAccountGroup:
+        default: GovCloud Account Group
+      GovCloudAccountType:
+        default: GovCloud Account Type
+      IamUserAccessToBilling: 
+        default: User Access to Billing
+      OrganizationAccountAccessRole:
+        default: Organization Account Access IAM Role Name
+      GovernanceAtScaleAccountFactoryAccountCreationCRArn:
+        default: Account Creation Lambda ARN
+      GovernanceAtScaleAccountFactoryAccountCreateUpdateNotifierCRArn:
+        default: Commericial Account Notifier ARN
+      GovernanceAtScaleAccountFactoryGovCloudAccountCreateUpdateNotifierCRArn:
+        default: GovCloud Account Notifier ARN
+      GovernanceAtScaleAccountFactoryAccountTypeToOUChooserCRArn:
+        default: Account Type to OU Lambda ARN
+      GovernanceAtScaleAccountFactoryMoveToOUArn:
+        default: Move to OU Lambda ARN
+      GovernanceAtScaleAccountFactoryAccountWaiterArn:
+        default: Account Waiter Lambda ARN
+      GovernanceAtScaleAccountFactoryBootstrapperProjectCustomResourceArn:
+        default: Bootstraper Lambda ARN
+      ServiceCatalogPuppetVersion:
+        default: Service Catalog Puppet Version
+      PuppetAccountId:
+        default: Commercial Puppet Account ID
+      GovCloudPuppetAccountId:
+        default: GovCloud Puppet Account ID
+
+Parameters:
+  Email:
+    Type: String
+    Description: The email address to use for the GovCloud and Commerical accounts that are to be created
+  AccountName:
+    Type: String
+    Description: The name to use for the accounts that are to be created
+  OrganizationAccountAccessRole:
+    Type: String
+    Default: OrganizationAccountAccessRole
+    Description: The name of the role to be created in the account that allows Organizations access
+  IamUserAccessToBilling:
+    Type: String
+    Default: "ALLOW"
+    AllowedValues: ['ALLOW', 'DENY']
+    Description: If set to ALLOW, the new linked account in the commercial Region enables IAM users to access account billing information if they have the required permissions. If set to DENY, only the root user of the new account can access account billing information.
+  AccountGroup:
+    Type: String
+    Description: >-
+      Which platform does the account belong to
+    AllowedValues:
+      - Security
+      - Infrastructure
+      - Workload
+  AccountType:
+    Type: String
+    Description: >-
+      Which stage of the SDLC is the account going to be used for
+    AllowedValues:
+      - dev
+      - test
+      - preprod
+      - prod
+  GovCloudAccountGroup:
+    Type: String
+    Description: >-
+      Which platform does the account belong to
+    AllowedValues:
+      - Security
+      - Infrastructure
+      - Workload
+  GovCloudAccountType:
+    Type: String
+    Description: >-
+      Which stage of the SDLC is the account going to be used for
+    AllowedValues:
+      - dev
+      - test
+      - preprod
+      - prod
+  GovernanceAtScaleAccountFactoryAccountCreationCRArn:
+    Type: String
+    Description: The ARN for the AWS Lambda function that creates the accounts
+  GovernanceAtScaleAccountFactoryMoveToOUArn:
+    Type: String
+    Description: The ARN of the AWS Lambda function that moves the new commercial account to the correct organizational unit
+  GovernanceAtScaleAccountFactoryAccountWaiterArn:
+    Type: String
+    Description: The ARN of the AWS Lambda function that waits for CodeBuild and CloudFormation to become available in the new commercial account
+  GovernanceAtScaleAccountFactoryBootstrapperProjectCustomResourceArn:
+    Type: String
+    Description: The ARN of the AWS Lambda function that will bootstrap the new commerical account as a spoke of the current Service Catalog Puppet account
+  GovernanceAtScaleAccountFactoryAccountTypeToOUChooserCRArn:
+    Type: String
+    Description: The ARN of the laAWS Lambda functionmbda that converts the account group and account type to the correct organizational unit
+  GovernanceAtScaleAccountFactoryAccountCreateUpdateNotifierCRArn:
+    Type: String
+    Description: The ARN of the AWS Lambda function that will dispatch SNS notifications on account creation of the Commerical account
+  GovernanceAtScaleAccountFactoryGovCloudAccountCreateUpdateNotifierCRArn:
+    Type: String
+    Description: The ARN of the AWS Lambda function that will dispatch SNS notifications on account creation of the GovCloud account
+  ServiceCatalogPuppetVersion:
+    Type: String
+    Description: The version of Service Catalog Puppet in use
+  PuppetAccountId:
+    Type: String
+    Description: Account ID for the Commerical Service Catalog Puppet account
+  GovCloudPuppetAccountId:
+    Type: String
+    Description: Account ID for the GovCloud Service Catalog Puppet account
+
+Resources:
+  OUDetails:
+    Type: Custom::Resource
+    DeletionPolicy: Retain
+    Description: | 
+      A custom resource using the GovernanceAtScaleAccountFactoryAccountTypeToOUChooserCRArn 
+      AWS Lambda function to convert the account type and group into the correct 
+      organizational unit (OU) for the Commercial account
+    Properties:
+      ServiceToken: !Ref GovernanceAtScaleAccountFactoryAccountTypeToOUChooserCRArn
+      AccountType: !Ref AccountType
+      AccountGroup: !Ref AccountGroup
+      AccountPartition: Commercial
+
+  GovCloudOUDetails:
+    Type: Custom::Resource
+    DeletionPolicy: Retain
+    Description: | 
+      A custom resource using the GovernanceAtScaleAccountFactoryAccountTypeToOUChooserCRArn 
+      AWS Lambda function to convert the account type and group into the correct 
+      organizational unit (OU) for the GovCloud account
+    Properties:
+      ServiceToken: !Ref GovernanceAtScaleAccountFactoryAccountTypeToOUChooserCRArn
+      AccountType: !Ref GovCloudAccountType
+      AccountGroup: !Ref GovCloudAccountGroup
+      AccountPartition: GovCloud
+
+  Account:
+    Type: Custom::Resource 
+    Description: | 
+      A custom resource using the GovernanceAtScaleAccountFactoryAccountCreationCRArn 
+      AWS Lambda function to create the new Commercial and GovCloud accounts   
+    Properties:
+      ServiceToken: !Ref GovernanceAtScaleAccountFactoryAccountCreationCRArn
+      Email: !Ref Email
+      AccountName: !Ref AccountName
+      IamUserAccessToBilling: !Ref IamUserAccessToBilling
+      AccountPartition: GovCloud
+
+  MoveToOU:
+    Type: Custom::Resource
+    Description: | 
+      A custom resource using the GovernanceAtScaleAccountFactoryMoveToOUArn 
+      AWS Lambda function to move the new Commercial account to the correct OU
+    Properties:
+      ServiceToken: !Ref GovernanceAtScaleAccountFactoryMoveToOUArn
+      AccountType: !Ref AccountType
+      AccountGroup: !Ref AccountGroup
+      TargetOU: !GetAtt OUDetails.OrganizationalUnitName
+      AccountId: !GetAtt Account.account_id
+
+  AccountWaiterConditionHandle1:
+    Type: AWS::CloudFormation::WaitConditionHandle
+    Properties: {}
+
+  AccountWaiter1:
+    Type: Custom::Resource
+    Description: | 
+      A custom resource using the GovernanceAtScaleAccountFactoryAccountWaiterArn 
+      AWS Lambda function to wait for CodeBuild and CloudFormation to become 
+      available in the new Commercial account
+    Properties:
+      ServiceToken: !Ref GovernanceAtScaleAccountFactoryAccountWaiterArn
+      AccountId: !GetAtt Account.account_id
+      ServiceCatalogPuppetVersion: !Ref ServiceCatalogPuppetVersion
+      Handle: !Ref AccountWaiterConditionHandle1
+      AccountPartition: aws
+
+  AccountWaiterCondition1:
+    Type: AWS::CloudFormation::WaitCondition
+    DependsOn: AccountWaiter1
+    Properties:
+      Handle: !Ref AccountWaiterConditionHandle1
+      Timeout: 28800
+
+  Notifier:
+    Type: Custom::Resource
+    DeletionPolicy: Retain
+    Description: | 
+      A custom resource using the GovernanceAtScaleAccountFactoryAccountCreateUpdateNotifierCRArn 
+      AWS Lambda function to send a notification when the new Commercial account is created
+    Properties:      
+      ServiceToken: !Ref GovernanceAtScaleAccountFactoryAccountCreateUpdateNotifierCRArn
+      AccountName: !Ref AccountName
+      AccountEmail: !Ref Email
+      ManagedOrganizationalUnit: !GetAtt OUDetails.OrganizationalUnitName
+      AccountId: !GetAtt Account.account_id
+      PuppetAccountId: !Ref GovCloudPuppetAccountId
+      AccountPartition: Commercial
+      
+  GovCloudNotifier:
+    Type: Custom::Resource
+    DeletionPolicy: Retain
+    Description: | 
+      A custom resource using the GovernanceAtScaleAccountFactoryGovCloudAccountCreateUpdateNotifierCRArn 
+      AWS Lambda function to send a notification when the new GovCloud account is created. This 
+      notification will make an HTTP POST to the API Gateway in the GovCloud Organization management 
+      account which executes an AWS Lambda function that completes the account onboarding process 
+      (invite to organization, accept invitation, move to correct OU and bootstrap) for the GovCloud 
+      account.
+    Properties:
+      ServiceToken: !Ref GovernanceAtScaleAccountFactoryGovCloudAccountCreateUpdateNotifierCRArn
+      AccountName: !Ref AccountName
+      AccountEmail: !Ref Email
+      ManagedOrganizationalUnit: !GetAtt GovCloudOUDetails.OrganizationalUnitName
+      AccountId: !GetAtt Account.govcloud_account_id
+      PuppetAccountId: !Ref GovCloudPuppetAccountId
+      AccountPartition: GovCloud
+
+  AccountBootstrapConditionHandle1:
+    Type: AWS::CloudFormation::WaitConditionHandle
+    Properties: {}
+
+  Bootstrap:
+    Type: Custom::CustomResource
+    DependsOn: AccountWaiter1
+    Description: |
+      A custom resource using the GovernanceAtScaleAccountFactoryBootstrapperProjectCustomResourceArn 
+      AWS Lambda function to bootstrap the new Commercial account
+    Properties:
+      ServiceToken: !Ref GovernanceAtScaleAccountFactoryBootstrapperProjectCustomResourceArn
+      OrganizationAccountAccessRoleName: !Ref OrganizationAccountAccessRole
+      TargetAccountId: !GetAtt Account.account_id
+      PuppetAccountId: !Sub "${AWS::AccountId}"
+      Handle: !Ref AccountBootstrapConditionHandle1
+      AccountPartition: aws
+
+  AccountBootstrapCondition1:
+    Type: AWS::CloudFormation::WaitCondition
+    DependsOn: Bootstrap
+    Properties:
+      Handle: !Ref AccountBootstrapConditionHandle1
+      Timeout: 28800
+
+Outputs:
+  AccountId:
+    Description: The Account ID for the new commercial account
+    Value: !GetAtt Account.account_id
+  GovCloudAccountId:
+    Description: The Account ID for the new GovCloud account
+    Value: !GetAtt Account.govcloud_account_id
