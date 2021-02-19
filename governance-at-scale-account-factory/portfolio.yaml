@@ -62,7 +62,7 @@ Portfolios:
             Provider: CodeCommit
             Configuration:
               BranchName: v1
-              RepositoryName: account-bootstrap-shared-org-bootstrap
+              RepositoryName: account-bootstrap-shared-org-bootstrapaccount-creation-shared-org-bootstrap
     - Description: account-create-update-notifier
       Distributor: CCOE
       Name: account-create-update-notifier
@@ -136,7 +136,7 @@ Portfolios:
       Versions:
         - Description: This product creates an AWS Lambda function for backing custom 
             resources to create an AWS Account
-          Name: v4
+          Name: v5
           Source:
             Provider: CodeCommit
             Configuration:
