@@ -15,14 +15,14 @@ Portfolios:
         - Key: product-type
           Value: service-catalog-tools-dashboard
       Versions:
-        - Name: v3
+        - Name: v4
           Description: Deploys a static website in S3 bucket to display service catalog tools dashboard
           Active: True
           Source:
             Provider: CodeCommit
             Configuration:
               RepositoryName: static-web-app
-              BranchName: v3
+              BranchName: v4
     - Name: get-metrics
       Owner: central-it@customer.com
       Description: get-metrics product for fetching the service catalog tools launch and pipelines information
@@ -34,14 +34,14 @@ Portfolios:
         - Key: product-type
           Value: service-catalog-tools-dashboard
       Versions:
-        - Name: v1
+        - Name: v2
           Description: get-metrics product for fetching the service catalog tools launch and pipelines information
           Active: True
           Source:
             Provider: CodeCommit
             Configuration:
               RepositoryName: get-metrics
-              BranchName: v1
+              BranchName: v2
       BuildSpec: |
         version: 0.2  
         phases:  
@@ -69,14 +69,14 @@ Portfolios:
         - Key: product-type
           Value: service-catalog-tools-dashboard
       Versions:
-        - Name: v1
+        - Name: v2
           Description: put-metrics product to push custom metrics into CloudWatch and create CloudWatch dashboard
           Active: True
           Source:
             Provider: CodeCommit
             Configuration:
               RepositoryName: put-metrics
-              BranchName: v1
+              BranchName: v2
       BuildSpec: |
         version: 0.2
         phases:

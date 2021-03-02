@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Transform: AWS::Serverless-2016-10-31
-Description: "Creates a CloudWatch and static website dashboard that monitors service catalog factory/ puppet pipelines and provisioned products health"
+Description: "Creates the get metric resources for fetching the SC-F and SC-P pipelines status"
 
 Parameters:
   S3BucketNameForStaticWebsite:
@@ -40,6 +40,9 @@ Resources:
                   - codecommit:GitPull
                   - codepipeline:ListPipelineExecutions
                   - ssm:GetParameter
+                  - servicecatalog:ListPortfolioAccess
+                  - servicecatalog:AssociatePrincipalWithPortfolio
+                  - iam:GetRole
                 Effect: Allow
                 Resource: "*"
               - Action:
@@ -61,7 +64,7 @@ Resources:
       Environment:
         Type: LINUX_CONTAINER
         ComputeType: BUILD_GENERAL1_SMALL
-        Image: aws/codebuild/standard:2.0
+        Image: aws/codebuild/standard:5.0
       ServiceRole: !GetAtt DashboardCodeBuildRole.Arn
       Source:
         Type: CODECOMMIT
@@ -75,7 +78,7 @@ Resources:
           phases:
             install:
               runtime-versions:
-                python: 3.7
+                python: 3.8
               commands:
                 - pip install aws-service-catalog-puppet
             build:
@@ -100,7 +103,7 @@ Resources:
       Environment:
         Type: LINUX_CONTAINER
         ComputeType: BUILD_GENERAL1_SMALL
-        Image: aws/codebuild/standard:2.0
+        Image: aws/codebuild/standard:5.0
       ServiceRole: !GetAtt DashboardCodeBuildRole.Arn
       Source:
         Type: CODECOMMIT
@@ -114,7 +117,7 @@ Resources:
           phases:
             install:
               runtime-versions:
-                python: 3.7
+                python: 3.8
               commands:
                 - pip install aws-service-catalog-factory
             build:
@@ -138,7 +141,7 @@ Resources:
       Handler: handler.handler
       MemorySize: 128
       Role: !GetAtt GetMetricLambdaRole.Arn
-      Runtime: python3.7
+      Runtime: python3.8
       Timeout: 500
       Environment:
         Variables:
