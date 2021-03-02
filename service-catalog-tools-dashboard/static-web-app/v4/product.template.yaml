@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Transform: AWS::Serverless-2016-10-31
-Description: "Creates a CloudWatch and static website dashboard that monitors service catalog factory/ puppet pipelines and provisioned products health"
+Description: "Creates a static website dashboard that monitors SC-F/ SC-P pipelines and products health"
 
 Parameters:
   CIDRForDashboardAccess:
@@ -74,11 +74,12 @@ Resources:
   BuildStaticWebsite:
     Type: AWS::CodeBuild::Project
     Properties:
+      Name: BuildStaticWebsite
       Description: Project to build the static website for the metrics dashboard
       Environment:
         Type: LINUX_CONTAINER
         ComputeType: BUILD_GENERAL1_SMALL
-        Image: aws/codebuild/standard:2.0
+        Image: aws/codebuild/standard:5.0
       ServiceRole: !GetAtt StaticWebsiteBuildRole.Arn
       Source:
         Type: CODECOMMIT
@@ -86,7 +87,7 @@ Resources:
           - ""
           - - "https://git-codecommit."
             - !Ref "AWS::Region"
-            - ".amazonaws.com/v1/repos/static-web-app"
+            - ".amazonaws.com/v4/repos/static-web-app"
       Artifacts:
         Type: S3
         Location: !Ref S3StaticHostingBucket
@@ -132,7 +133,7 @@ Resources:
             - referenceCreated
             - referenceUpdated
           referenceName:
-            - v1
+            - v4
         detail-type:
           - CodeCommit Repository State Change
         resources:
@@ -148,3 +149,6 @@ Outputs:
   S3BucketName:
     Value: !Ref S3StaticHostingBucket
     Description: Name of S3 bucket to hold website content
+  StaticWebsiteCodeBuildName:
+    Value: !Ref BuildStaticWebsite
+    Description: Code build project for the static website build and deployment
