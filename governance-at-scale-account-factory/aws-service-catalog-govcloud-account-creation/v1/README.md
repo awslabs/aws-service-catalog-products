@@ -70,6 +70,9 @@ The list of parameters for this template:
 ### PuppetAccountId
 *Type:* String  
 *Description:* The account ID for the Commercial account where Service Catalog Puppet is installed
+### PuppetAccountAccessRoleName
+*Type:* String
+*Description:* The name of the role to that allows the current account to bootstrap a spoke against the Puppet account
 ### GovCloudPuppetAccountId
 *Type:* String  
 *Description:* The account ID for the GovCloud account where Service Catalog Puppet is installed

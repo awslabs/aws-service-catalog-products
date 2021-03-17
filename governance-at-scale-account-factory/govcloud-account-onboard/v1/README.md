@@ -20,7 +20,7 @@ The list of parameters for this template:
 ### PuppetAccountAccessRole 
 *Type:* String  
 *Default:* PuppetAccountAccessRole  
-*Description:* The name of the IAM Role used for cross account assess for bootstrapping Puppet
+*Description:* The name of the IAM Role used for cross account assess for bootstrapping Service Catalog Puppet
 ### BootstrapperProjectName 
 *Type:* String  
 *Default:* servicecatalog-puppet-single-account-bootstrapper  
