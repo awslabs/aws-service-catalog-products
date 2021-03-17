@@ -17,10 +17,10 @@ The list of parameters for this template:
 *Type:* String  
 *Default:* OrganizationAccountAccessRole  
 *Description:* The name of the IAM Role used for cross account assess for AWS Organizations 
-### PuppetAccountAccessRole 
+### PuppetAccountAccessRoleArn 
 *Type:* String  
 *Default:* PuppetAccountAccessRole  
-*Description:* The name of the IAM Role used for cross account assess for bootstrapping Service Catalog Puppet
+*Description:* The ARN of the IAM Role used for cross account assess for bootstrapping Puppet
 ### BootstrapperProjectName 
 *Type:* String  
 *Default:* servicecatalog-puppet-single-account-bootstrapper  
