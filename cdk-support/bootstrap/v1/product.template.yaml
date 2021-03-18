@@ -216,5 +216,5 @@ Resources:
         - ","
         - - !Ref CDKDeployComputeType
           - !Ref CDKDeployImage
-          - !Ref CDKDeployToolkitStackName
+          - !Ref CDKToolkitStackName
           - !Ref CDKBootstrapExtraArgs
