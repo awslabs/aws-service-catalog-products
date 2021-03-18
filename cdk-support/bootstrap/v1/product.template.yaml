@@ -19,7 +19,7 @@ Parameters:
     Type: "String"
     Default: "aws/codebuild/standard:4.0"
 
-  CDKDeployToolkitStackName:
+  CDKToolkitStackName:
     Type: "String"
     Default: "CDKToolkit"
 
@@ -83,9 +83,9 @@ Resources:
           - Name: CDK_DEPLOY_IMAGE
             Type: PLAINTEXT
             Value: !Ref CDKDeployImage
-          - Name: CDK_DEPLOY_TOOLKIT_STACK_NAME
+          - Name: CDK_TOOLKIT_STACK_NAME
             Type: PLAINTEXT
-            Value: !Ref CDKDeployToolkitStackName
+            Value: !Ref CDKToolkitStackName
           - Name: CDK_BOOTSTRAP_EXTRA_ARGS
             Type: PLAINTEXT
             Value: !Ref CDKBootstrapExtraArgs
@@ -107,7 +107,7 @@ Resources:
                 - npm install -g aws-cdk@$VERSION
             build:
               commands:
-                - cdk bootstrap --toolkit-stack-name $CDK_DEPLOY_TOOLKIT_STACK_NAME $CDK_BOOTSTRAP_EXTRA_ARGS aws://$ACCOUNT_ID/$REGION
+                - cdk bootstrap --toolkit-stack-name $CDK_TOOLKIT_STACK_NAME $CDK_BOOTSTRAP_EXTRA_ARGS aws://$ACCOUNT_ID/$REGION
 
       TimeoutInMinutes: 60
       Tags:
