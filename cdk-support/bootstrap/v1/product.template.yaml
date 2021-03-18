@@ -1,0 +1,220 @@
+# Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+AWSTemplateFormatVersion: "2010-09-09"
+Description: |
+  Bootstrap for CDK support in SCT
+  {"framework": "servicecatalog-products", "role": "product", "product-set": "cdk-support", "product": "bootstrap", "version": "v1"}
+
+Parameters:
+  CDKVersion:
+    Type: "String"
+    Default: "1.94.1"
+
+  CDKDeployComputeType:
+    Type: "String"
+    Default: "BUILD_GENERAL1_SMALL"
+
+  CDKDeployImage:
+    Type: "String"
+    Default: "aws/codebuild/standard:4.0"
+
+  CDKDeployToolkitStackName:
+    Type: "String"
+    Default: "CDKToolkit"
+
+  CDKBootstrapExtraArgs:
+    Type: "String"
+    Default: ""
+
+  IAMRolePaths:
+    Type: "String"
+    Default: "/servicecatalog-factory-cdk-support/"
+
+  CDKInitialiserRoleName:
+    Type: "String"
+    Default: "CDKInitialiserRoleName"
+
+  CDKStartInstallRoleName:
+    Type: "String"
+    Default: "CDKStartInstallRoleName"
+
+
+Resources:
+  InitialiserRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Ref CDKInitialiserRoleName
+      Path: !Ref IAMRolePaths
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Principal:
+              Service:
+                - "codebuild.amazonaws.com"
+            Action:
+              - "sts:AssumeRole"
+      ManagedPolicyArns:
+        - !Sub "arn:${AWS::Partition}:iam::aws:policy/AdministratorAccess"
+      Tags:
+        - Key: "ServiceCatalogFactory:Actor"
+          Value: "Framework"
+
+  InitialiserProject:
+    Type: AWS::CodeBuild::Project
+    Properties:
+      Name: servicecatalog-factory-cdk-bootstrap-initialiser
+      Description: "Initialiser for the cdk support"
+      ServiceRole: !GetAtt InitialiserRole.Arn
+      Artifacts:
+        Type: NO_ARTIFACTS
+      Environment:
+        Type: linuxContainer
+        ComputeType: !Ref CDKDeployComputeType
+        Image: !Ref CDKDeployImage
+        EnvironmentVariables:
+          - Name: CDK_VERSION
+            Type: PLAINTEXT
+            Value: !Ref CDKVersion
+          - Name: CDK_DEPLOY_COMPUTE_TYPE
+            Type: PLAINTEXT
+            Value: !Ref CDKDeployComputeType
+          - Name: CDK_DEPLOY_IMAGE
+            Type: PLAINTEXT
+            Value: !Ref CDKDeployImage
+          - Name: CDK_DEPLOY_TOOLKIT_STACK_NAME
+            Type: PLAINTEXT
+            Value: !Ref CDKDeployToolkitStackName
+          - Name: CDK_BOOTSTRAP_EXTRA_ARGS
+            Type: PLAINTEXT
+            Value: !Ref CDKBootstrapExtraArgs
+
+          - Name: ACCOUNT_ID
+            Type: PLAINTEXT
+            Value: !Ref AWS::AccountId
+          - Name: REGION
+            Type: PLAINTEXT
+            Value: !Ref AWS::Region
+
+      Source:
+        Type: NO_SOURCE
+        BuildSpec: |
+          version: 0.2
+          phases:
+            install:
+              commands:
+                - npm install -g aws-cdk@$VERSION
+            build:
+              commands:
+                - cdk bootstrap --toolkit-stack-name $CDK_DEPLOY_TOOLKIT_STACK_NAME $CDK_BOOTSTRAP_EXTRA_ARGS aws://$ACCOUNT_ID/$REGION
+
+      TimeoutInMinutes: 60
+      Tags:
+        - Key: "ServiceCatalogFactory:Actor"
+          Value: "Framework"
+
+  StartInstallRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Ref CDKStartInstallRoleName
+      Path: !Ref IAMRolePaths
+      ManagedPolicyArns:
+        - !Sub "arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+        - !Sub "arn:${AWS::Partition}:iam::aws:policy/AWSCodeBuildDeveloperAccess"
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Principal:
+              Service:
+                - "lambda.amazonaws.com"
+            Action:
+              - "sts:AssumeRole"
+
+  StartInstallLambda:
+    Type: AWS::Lambda::Function
+    Properties:
+      Role: !GetAtt StartInstallRole.Arn
+      Handler: "index.handler"
+      Description: Lambda for starting cdk bootstrap CodeBuild Job
+      Runtime: python3.7
+      Timeout: 900
+      Code:
+        ZipFile: |
+          import boto3
+          import json
+          import logging
+          import time
+          from urllib.request import Request, urlopen
+
+          logger = logging.getLogger()
+          logger.setLevel(logging.INFO)
+
+          def handler(event, context):
+              request_type = event['RequestType']
+              codebuild_projectname = event.get('ResourceProperties').get('ProjectName')
+
+              try:
+                  logger.info(request_type)
+                  if request_type in ['Create', 'Update']:
+                      codebuild_client = boto3.client('codebuild')
+                      logger.info("Starting CodeBuild Job: {}".format(codebuild_projectname))
+                      codebuild_response = codebuild_client.start_build(
+                          projectName = codebuild_projectname
+                      )
+                      build_id = codebuild_response.get('build').get('id')
+                      build_status = 'IN_PROGRESS'
+                      while build_status == 'IN_PROGRESS':
+                          time.sleep(5)
+                          build = codebuild_client.batch_get_builds(ids=[build_id]).get('builds')[0]
+                          build_status = build.get('buildStatus')
+                      if build_status != 'SUCCEEDED':
+                          raise Exception(f"Build did not SUCCEED. Status: {build_status}")
+                      send_response(event, context, "SUCCESS",
+                                    {"Message": "Updated"})
+
+                  elif request_type == 'Delete':
+                      send_response(event, context, "SUCCESS",
+                                    {"Message": "Deleted"})
+
+                  else:
+                      send_response(event, context, "FAILED",
+                                    {"Message": "Unexpected"})
+
+              except Exception as ex:
+                  logger.error(ex)
+                  send_response(event, context,"FAILED",
+                                    {"Message": "Exception"})
+
+          def send_response(e, c, rs, rd):
+              r = json.dumps({
+                  "Status": rs,
+                  "Reason": "CloudWatch Log Stream: " + c.log_stream_name,
+                  "PhysicalResourceId": c.log_stream_name,
+                  "StackId": e['StackId'],
+                  "RequestId": e['RequestId'],
+                  "LogicalResourceId": e['LogicalResourceId'],
+                  "Data": rd
+              })
+              d = str.encode(r)
+              h = {
+                  'content-type': '',
+                  'content-length': str(len(d))
+              }
+              req = Request(e['ResponseURL'], data=d, method='PUT', headers=h)
+              r = urlopen(req)
+              logger.info("Status message: {} {}".format(r.msg, r.getcode()))
+
+  StartInstall:
+    Type: Custom::CustomResource
+    DependsOn: InitialiserProject
+    Properties:
+      ServiceToken: !GetAtt StartInstallLambda.Arn
+      ProjectName: !Ref InitialiserProject
+      UpdateNonce: !Join
+        - ","
+        - - !Ref CDKDeployComputeType
+          - !Ref CDKDeployImage
+          - !Ref CDKDeployToolkitStackName
+          - !Ref CDKBootstrapExtraArgs
