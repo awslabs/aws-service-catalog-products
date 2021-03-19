@@ -523,6 +523,7 @@ Resources:
               commands:
               - aws s3 cp s3://sc-factory-artifacts-$PUPPET_ACCOUNT_ID-$REGION/cdk/1.0.0/$NAME/$VERSION/$NAME-$VERSION.zip $NAME-$VERSION.zip
               - unzip $NAME-$VERSION.zip
+              - npm install
             build:
               commands:
               - echo "building"
