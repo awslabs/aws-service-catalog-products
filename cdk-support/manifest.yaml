@@ -15,7 +15,7 @@ launches:
         default: "BUILD_GENERAL1_SMALL"
       CDKDeployImage:
         default: "aws/codebuild/standard:4.0"
-      CDKDeployToolkitStackName:
+      CDKToolkitStackName:
         default: "CDKToolkit"
       CDKBootstrapExtraArgs:
         default: ""
@@ -25,6 +25,20 @@ launches:
         default: "CDKInitialiserRoleName"
       CDKStartInstallRoleName:
         default: "CDKStartInstallRoleName"
+      CDKDeployRoleName:
+        default: "CDKDeployRoleName"
+      StartCDKDeployLambdaExecutionRoleName:
+        default: "StartCDKDeployLambdaExecutionRoleName"
+      PuppetAccountId:
+        default: CHANGE_ME
+    outputs:
+      ssm:
+        - param_name: /cdk-support/bootstrap/StartCDKDeployFunctionArn
+          stack_output: StartCDKDeployFunctionArn
+        - param_name: /cdk-support/bootstrap/GetOutputsForGivenCodebuildIdFunctionArn
+          stack_output: GetOutputsForGivenCodebuildIdFunctionArn
+        - param_name: /cdk-support/bootstrap/CDKDeployProject
+          stack_output: CDKDeployProject
     deploy_to:
       tags:
       - regions: enabled_regions
