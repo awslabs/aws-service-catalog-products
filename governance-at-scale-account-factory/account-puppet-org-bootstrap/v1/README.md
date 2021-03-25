@@ -1,16 +1,16 @@
-# govcloud-account-onboard-puppet-bootstrap
+# account-puppet-org-bootstrap
 # Description
-This product creates the IAM role that **govcloud-account-onboard** requires in order to bootstrap a new GovCloud account as a spoke of the GovCloud Service Catalog Puppet account
+This product creates the IAM role that is required in order to bootstrap a new account as a spoke of the Puppet account
  
 ## Usage
-This product is intended to be used as part of the GovCloud account creation process. It must be provisioned in the GovCloud Service Catalog Puppet account
+This product is intended to be used as part of both the GovCloud and Commercial account creation process. It must be provisioned in the corresponding Service Catalog Puppet account
 
 ## Parameters
 The list of parameters for this template:
 
 ### OrganizationRootAccountId 
 *Type:* String  
-*Description:* The account ID of the Organization root in GovCloud
+*Description:* The account ID of the Organization root 
 ### OrganizationAccountAccessRole 
 *Type:* String  
 *Default:* OrganizationAccountAccessRole  
@@ -24,7 +24,7 @@ The list of resources this template creates:
 
 ### AssumableRoleInPuppetAccount 
 *Type:* AWS::IAM::Role  
-*Description:* An assumable IAM Role that allows the govcloud-account-onboard product to bootstrap accounts with Service Catalog Puppet
+*Description:* An assumable IAM Role that allows the govcloud-account-onboard and account-bootstrap-shared products to bootstrap accounts with Service Catalog Puppet
  
 
 ## Outputs
@@ -36,31 +36,31 @@ The list of outputs this template exposes:
 ## Examples
 
 ### Service Catalog Factory Portfolio
-The following example demonstrates how to create the `govcloud-account-onboard-puppet-bootstrap` Service Catalog Product in your Service Catalog Factory portfolio `yaml` file
+The following example demonstrates how to create the `account-puppet-org-bootstrap` Service Catalog Product in your Service Catalog Factory portfolio `yaml` file
 ```yaml
 Portfolios:
   Components:
-    - Description: govcloud-account-onboard-puppet-bootstrap
+    - Description: account-puppet-org-bootstrap
       Distributor: CCOE
-      Name: govcloud-account-onboard-puppet-bootstrap
+      Name: account-puppet-org-bootstrap
       Owner: CCOE@Example.com
       Source:
         Configuration:
-          RepositoryName: govcloud-account-onboard-puppet-bootstrap
+          RepositoryName: account-puppet-org-bootstrap
         Provider: CodeCommit
       SupportDescription: Find us on Slack or Wiki
       SupportEmail: ccoe-support@Example.com
       SupportUrl: https://example.com/intranet/teams/ccoe/products/account-factory
       Versions:
-        - Description: This product creates the IAM role that govcloud-account-onboard requires 
-            in order to bootstrap a new GovCloud account as a spoke of the GovCloud Service 
-            Catalog Puppet account
+        - Description: This product creates the IAM role that govcloud-account-onboard and 
+            account-bootstrap-shared require in order to bootstrap a new account as a 
+            spoke of the Service Catalog Puppet account
           Name: v1
           Source:
             Provider: CodeCommit
             Configuration:
               BranchName: v1
-              RepositoryName: govcloud-account-onboard-puppet-bootstrap
+              RepositoryName: account-puppet-org-bootstrap
       ProviderName: ccoe
       Tags:
         - Key: team
@@ -68,10 +68,10 @@ Portfolios:
 ```
 
 ### Service Catalog Puppet Launch
-The following example demonstrates how to provision the `govcloud-account-onboard-puppet-bootstrap` Service Catalog Product in your Service Catalog Puppet `manifest.yaml` file.
+The following example demonstrates how to provision the `account-puppet-org-bootstrap` Service Catalog Product in your Service Catalog Puppet `manifest.yaml` file.
 ```yaml
 launches:
-  govcloud-account-onboard-puppet-bootstrap:
+  account-puppet-org-bootstrap:
     parameters:
       OrganizationRootAccountId:
         default: SET_ME
@@ -80,7 +80,7 @@ launches:
       AccountOnboardPuppetRoleName:
         default: PuppetAccountAccessRole
     portfolio: demo-central-it-team-portfolio
-    product: govcloud-account-onboard-puppet-bootstrap
+    product: account-puppet-org-bootstrap
     version: v1
     deploy_to:
       tags:
