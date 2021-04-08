@@ -4,42 +4,30 @@
 schema: puppet-2019-04-01
 
 launches:
-  delete-default-networking:
-    portfolio: demo-central-it-team-portfolio
-    product: cdk-support-bootstrap
+  cdk-support-iam:
+    portfolio: bug-demo-portfolio
+    product: cdk-support-iam
     version: v1
-    parameters:
-      CDKVersion:
-        default: "1.94.1"
-      CDKDeployComputeType:
-        default: "BUILD_GENERAL1_SMALL"
-      CDKDeployImage:
-        default: "aws/codebuild/standard:4.0"
-      CDKToolkitStackName:
-        default: "CDKToolkit"
-      CDKBootstrapExtraArgs:
-        default: ""
-      IAMRolePaths:
-        default: "/servicecatalog-factory-cdk-support/"
-      CDKInitialiserRoleName:
-        default: "CDKInitialiserRoleName"
-      CDKStartInstallRoleName:
-        default: "CDKStartInstallRoleName"
-      CDKDeployRoleName:
-        default: "CDKDeployRoleName"
-      StartCDKDeployLambdaExecutionRoleName:
-        default: "StartCDKDeployLambdaExecutionRoleName"
-      PuppetAccountId:
-        default: CHANGE_ME
-    outputs:
-      ssm:
-        - param_name: /cdk-support/bootstrap/StartCDKDeployFunctionArn
-          stack_output: StartCDKDeployFunctionArn
-        - param_name: /cdk-support/bootstrap/GetOutputsForGivenCodebuildIdFunctionArn
-          stack_output: GetOutputsForGivenCodebuildIdFunctionArn
-        - param_name: /cdk-support/bootstrap/CDKDeployProject
-          stack_output: CDKDeployProject
     deploy_to:
       tags:
-      - regions: enabled_regions
-        tag: scope:all
+        - tag: role:spoke
+          regions: default_region
+
+  cdk-support-bootstrap:
+    portfolio: bug-demo-portfolio
+    product: cdk-support-bootstrap
+    version: v2
+    depends_on:
+      - cdk-support-iam
+    deploy_to:
+      tags:
+        - tag: role:spoke
+          regions: regions_enabled
+    outputs:
+      ssm:
+        - param_name: "/cdk-support/bootstrap/${AWS::AccountId}/${AWS::Region}/StartCDKDeployFunctionArn"
+          stack_output: "StartCDKDeployFunctionArn"
+        - param_name: "/cdk-support/bootstrap/${AWS::AccountId}/${AWS::Region}/GetOutputsForGivenCodebuildIdFunctionArn"
+          stack_output: "GetOutputsForGivenCodebuildIdFunctionArn"
+        - param_name: "/cdk-support/bootstrap/${AWS::AccountId}/${AWS::Region}/CDKDeployProject"
+          stack_output: "CDKDeployProject"

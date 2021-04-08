@@ -4,7 +4,7 @@
 Schema: factory-2019-04-01
 Portfolios:
   Components:
-    - Name: cdk-support-bootstrap
+    - Name: cdk-support-iam
       Owner: central-it@customer.com
       Description: run a cdk bootstrap within a given region of a given account
       Distributor: central-it-team
@@ -20,5 +20,24 @@ Portfolios:
           Source:
             Provider: CodeCommit
             Configuration:
-              RepositoryName: cdk-support-bootstrap
+              RepositoryName: cdk-support-iam
               BranchName: v1
+
+    - Name: cdk-support-bootstrap
+      Owner: central-it@customer.com
+      Description: run a cdk bootstrap within a given region of a given account
+      Distributor: central-it-team
+      SupportDescription: Contact us on Chime for help #central-it-team
+      SupportEmail: central-it-team@customer.com
+      SupportUrl: https://wiki.customer.com/central-it-team/self-service/cdk-support/bootstrap
+      Tags:
+        - Key: product-type
+          Value: app-dev
+      Versions:
+        - Name: v2
+          Description: Runs a CDK bootstrap in a given region of a given account
+          Source:
+            Provider: CodeCommit
+            Configuration:
+              RepositoryName: cdk-support-bootstrap
+              BranchName: v2

@@ -1,0 +1,140 @@
+# Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+AWSTemplateFormatVersion: "2010-09-09"
+Description: |
+  Bootstrap for CDK support in SCT
+  {"framework": "servicecatalog-products", "role": "product", "product-set": "cdk-support", "product": "iam", "version": "v2"}
+
+Parameters:
+  CDKSupportIAMRolePaths:
+    Type: "String"
+    Default: "/servicecatalog-factory-cdk-support/"
+
+  CDKSupportCDKInitialiserRoleName:
+    Type: "String"
+    Default: "CDKInitialiserRoleName"
+
+  CDKSupportCDKStartInstallRoleName:
+    Type: "String"
+    Default: "CDKStartInstallRoleName"
+
+  CDKSupportCDKDeployRoleName:
+    Type: "String"
+    Default: "CDKDeployRoleName"
+
+  CDKSupportStartCDKDeployLambdaExecutionRoleName:
+    Type: "String"
+    Default: "StartCDKDeployLambdaExecutionRoleName"
+
+Resources:
+  InitialiserRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Ref CDKSupportCDKInitialiserRoleName
+      Path: !Ref CDKSupportIAMRolePaths
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Principal:
+              Service:
+                - "codebuild.amazonaws.com"
+            Action:
+              - "sts:AssumeRole"
+      ManagedPolicyArns:
+        - !Sub "arn:${AWS::Partition}:iam::aws:policy/AdministratorAccess"
+      Tags:
+        - Key: "ServiceCatalogFactory:Actor"
+          Value: "Framework"
+
+  StartInstallRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Ref CDKSupportCDKStartInstallRoleName
+      Path: !Ref CDKSupportIAMRolePaths
+      ManagedPolicyArns:
+        - !Sub "arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+        - !Sub "arn:${AWS::Partition}:iam::aws:policy/AWSCodeBuildDeveloperAccess"
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Principal:
+              Service:
+                - "lambda.amazonaws.com"
+            Action:
+              - "sts:AssumeRole"
+
+  StartCDKDeployLambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action:
+              - sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+        Version: '2012-10-17'
+      ManagedPolicyArns:
+        - !Sub 'arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
+        - !Sub 'arn:${AWS::Partition}:iam::aws:policy/AdministratorAccess'
+      Path: !Ref CDKSupportIAMRolePaths
+      RoleName: !Ref CDKSupportStartCDKDeployLambdaExecutionRoleName
+      Policies:
+        - PolicyDocument:
+            Statement:
+              - Action:
+                  - codebuild:*
+                Effect: Allow
+                Resource: '*'
+            Version: '2012-10-17'
+          PolicyName: allowtrigger
+        - PolicyDocument:
+            Statement:
+              - Action:
+                  - s3:Get*
+                  - s3:List*
+                Effect: Allow
+                Resource: '*'
+            Version: '2012-10-17'
+          PolicyName: allows3
+
+  CDKDeployRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action:
+              - sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service:
+                - codebuild.amazonaws.com
+        Version: '2012-10-17'
+      ManagedPolicyArns:
+        - !Sub 'arn:${AWS::Partition}:iam::aws:policy/AdministratorAccess'
+      Path: !Ref CDKSupportIAMRolePaths
+      RoleName: !Ref CDKSupportCDKDeployRoleName
+
+  CDKDeployStorageBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub "sc-cdk-artifacts-${AWS::AccountId}"
+      VersioningConfiguration:
+        Status: Enabled
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: TRUE
+        BlockPublicPolicy: TRUE
+        IgnorePublicAcls: TRUE
+        RestrictPublicBuckets: TRUE
+
+Outputs:
+  CDKDeployStorageBucket:
+    Value: !Ref CDKDeployStorageBucket
