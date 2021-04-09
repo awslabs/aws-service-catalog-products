@@ -15,13 +15,13 @@ Portfolios:
         - Key: product-type
           Value: app-dev
       Versions:
-        - Name: v1
+        - Name: v2
           Description: Runs a CDK bootstrap in a given region of a given account
           Source:
             Provider: CodeCommit
             Configuration:
               RepositoryName: cdk-support-iam
-              BranchName: v1
+              BranchName: v2
 
     - Name: cdk-support-bootstrap
       Owner: central-it@customer.com
@@ -34,10 +34,10 @@ Portfolios:
         - Key: product-type
           Value: app-dev
       Versions:
-        - Name: v2
+        - Name: v4
           Description: Runs a CDK bootstrap in a given region of a given account
           Source:
             Provider: CodeCommit
             Configuration:
               RepositoryName: cdk-support-bootstrap
-              BranchName: v2
+              BranchName: v4

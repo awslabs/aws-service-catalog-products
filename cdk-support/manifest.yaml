@@ -7,7 +7,7 @@ launches:
   cdk-support-iam:
     portfolio: bug-demo-portfolio
     product: cdk-support-iam
-    version: v1
+    version: v2
     deploy_to:
       tags:
         - tag: role:spoke
@@ -16,7 +16,7 @@ launches:
   cdk-support-bootstrap:
     portfolio: bug-demo-portfolio
     product: cdk-support-bootstrap
-    version: v2
+    version: v4
     depends_on:
       - cdk-support-iam
     deploy_to:
