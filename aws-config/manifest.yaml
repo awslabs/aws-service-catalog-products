@@ -1,0 +1,6 @@
+schema: puppet-2019-04-01
+launches:
+  aws-config:
+    portfolio: demo-cloud-engineering-governance
+    product: aws-config
+    version: v1
