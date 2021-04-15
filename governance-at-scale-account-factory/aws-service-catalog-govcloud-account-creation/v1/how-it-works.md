@@ -53,7 +53,7 @@ The following describes the different steps of the process that are execute when
     
     The GovCloud account onboarding process requires the notification to trigger an AWS Lambda function in the GovCloud Organization master account. For this to work correctly, you must have completed the following steps:
     1. Provisioned the `govcloud-account-onboard` and `account-bootstrap-shared-org-bootstrap` products in the GovCloud Organization management account
-    2. Provisioned the `govcloud-account-onboard-puppet-bootstrap` and `account-bootstrap-shared` products in your GovCloud Service Catalog Puppet account
+    2. Provisioned the `account-puppet-org-bootstrap` and `account-bootstrap-shared` products in your GovCloud Service Catalog Puppet account
     3. Provisioned the `account-creation-notifier-cfh-handler` product in the Commercial Organization management account with the `CFHAccountCreateUpdatePostUrl` parameter set to the API Gateway endpoint URL in the GovCloud Organization management account. This API Gateway endpoint is provisioned from the `govcloud-account-onboard` product and should look like this `https://{APIGWID}.execute-api.us-gov-west-1.amazonaws.com/Prod/onboard-account` 
 
     If those requirements are in place, the SNS notification will call the Lambda function from the `account-creation-notifier-cfh-handler` which will relay the message to the Lambda function in the GovCloud Organization management account. That Lambda function will then complete the following:
