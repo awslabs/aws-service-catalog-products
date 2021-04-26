@@ -1,0 +1,25 @@
+# Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+Schema: factory-2019-04-01
+Portfolios:
+  Components:
+    - Name: aws-config-aggregator
+      Owner: central-it@customer.com
+      Description: aws-config-aggregator
+      Distributor: central-it-team
+      SupportDescription: Contact us on Chime for help #central-it-team
+      SupportEmail: central-it-team@customer.com
+      SupportUrl: https://wiki.customer.com/central-it-team/aws-config-aggregator
+      Tags:
+        - Key: product-type
+          Value: aws-config
+      Versions:
+        - Name: v1
+          Description: aws-config-aggregator
+          Active: True
+          Source:
+            Provider: CodeCommit
+            Configuration:
+              RepositoryName: aws-config-aggregator
+              BranchName: master
