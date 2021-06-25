@@ -5,7 +5,7 @@ schema: puppet-2019-04-01
 
 launches:
   scp-create-guardrail-001:
-    portfolio: demo-central-it-team-portfolio
+    portfolio: scp
     product: scp-create
     version: v1
     parameters:
@@ -32,7 +32,7 @@ launches:
         - param_name: /sc-outputs/scp-create-guardrail-001/PolicyId
           stack_output: PolicyId
   scp-attach-guardrail-001:
-    portfolio: demo-central-it-team-portfolio
+    portfolio: scp
     product: scp-attach
     version: v1
     depends_on:
