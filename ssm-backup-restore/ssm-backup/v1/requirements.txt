@@ -1,0 +1,3 @@
+crhelper
+botocore
+boto3
