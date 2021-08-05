@@ -1,0 +1,21 @@
+# Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+schema: puppet-2019-04-01
+
+launches:
+  ssm-backup-product:
+    portfolio: demo-central-it-team-portfolio
+    product: ssm-backup
+    version: v1
+    parameters:
+        pS3BucketName:
+          default: #insert bucket name
+    outputs:
+        ssm:
+          - param_name: /ssm-backup/RestoreFunctionArn
+            stack_output: oRestoreFunctionArn
+    deploy_to:
+      tags:
+        - tag: aws_account_name:Organization_Management_Account
+          regions: default_region
