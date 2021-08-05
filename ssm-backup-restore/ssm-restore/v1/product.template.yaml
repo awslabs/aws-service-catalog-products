@@ -4,15 +4,14 @@ AWSTemplateFormatVersion: '2010-09-09'
 Transform: "AWS::Serverless-2016-10-31"
 Description: |
   Custom serverless solution that restores SSM parameters from a recovery S3 bucket
+  {"framework": "servicecatalog-products", "role": "product", "product-set": "ssm-backup-restore", "product": "ssm-restore", "version": "v1"}
 
 Parameters:
-    
   pS3BucketName:
     Type: String
     Description: The name of the S3 bucket that holds the parameters
 
 Resources:
-  
   # Lambda Function to Restore Parameters
   rRestoreParametersFunction:
     Type: AWS::Serverless::Function

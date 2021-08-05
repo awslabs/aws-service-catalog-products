@@ -4,7 +4,8 @@
 schema: puppet-2019-04-01
 
 launches:
-  ssm-backup-product:
+
+  ssm-backup-restore-ssm-backup:
     portfolio: demo-central-it-team-portfolio
     product: ssm-backup
     version: v1
@@ -39,6 +40,22 @@ launches:
             stack_output: oBackUpBucket
           - param_name: /ssm-backup/CloudWatchRule
             stack_output: CloudWatchRule
+    deploy_to:
+      tags:
+        - tag: aws_account_name:Organization_Management_Account
+          regions: default_region
+
+  ssm-backup-restore-ssm-restore:
+    portfolio: demo-central-it-team-portfolio
+    product: ssm-backup
+    version: v1
+    parameters:
+      pS3BucketName:
+        default: #insert bucket name
+    outputs:
+      ssm:
+        - param_name: /ssm-backup/RestoreFunctionArn
+          stack_output: oRestoreFunctionArn
     deploy_to:
       tags:
         - tag: aws_account_name:Organization_Management_Account

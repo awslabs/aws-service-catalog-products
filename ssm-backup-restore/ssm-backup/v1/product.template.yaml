@@ -4,9 +4,9 @@ AWSTemplateFormatVersion: '2010-09-09'
 Transform: "AWS::Serverless-2016-10-31"
 Description: |
   Custom serverless solution that backs up SSM parameters to an S3 Bucket, bucket encrypted via KMS, user can specify AWS managed key or CMK
+  {"framework": "servicecatalog-products", "role": "product", "product-set": "ssm-backup-restore", "product": "ssm-backup", "version": "v1"}
 
 Parameters:
-
   pS3BucketName:
     Type: String
     Description: The name for the S3 storage bucket, must be globally unique. i.e. include account number in name
@@ -33,7 +33,6 @@ Parameters:
     Description: The desired IAM Role path. 
 
 Resources:
-
   # S3 Bucket
   rBackupS3Bucket:
     Type: AWS::S3::Bucket
