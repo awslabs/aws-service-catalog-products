@@ -1,0 +1,62 @@
+# Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+schema: puppet-2019-04-01
+
+launches:
+
+  ssm-backup-restore-ssm-backup:
+    portfolio: demo-central-it-team-portfolio
+    product: ssm-backup
+    version: v1
+    parameters:
+        pS3BucketName:
+          default: #insert bucket name
+        pKmsKeyId:
+          default: #insert KMS Key Id
+        pDrRegion:
+          default: #insert dr region
+        pBackupSchedule:
+          default: rate(30 minutes)
+        pSNSUpdateEmail:
+          default: #insert email address
+    outputs:
+        ssm:
+          - param_name: /ssm-backup/BackupFunctionArn
+            stack_output: oBackupFunctionArn
+          - param_name: /ssm-backup/SSMLambdaRoleArn
+            stack_output: oSSMLambdaRoleArn
+          - param_name: /ssm-backup/SSMMainBucketName
+            stack_output: oSSMMainBucketName
+          - param_name: /ssm-backup/SSMDRBucketArn
+            stack_output: oSSMDRBucketArn
+          - param_name: /ssm-backup/SNSTopicArn
+            stack_output: oSNSTopicArn
+          - param_name: /ssm-backup/CreateDRBucketFunctionArn
+            stack_output: oCreateDRBucketFunctionArn
+          - param_name: /ssm-backup/DRBucket
+            stack_output: oDRBucket
+          - param_name: /ssm-backup/BackUpBucket
+            stack_output: oBackUpBucket
+          - param_name: /ssm-backup/CloudWatchRule
+            stack_output: CloudWatchRule
+    deploy_to:
+      tags:
+        - tag: aws_account_name:Organization_Management_Account
+          regions: default_region
+
+  ssm-backup-restore-ssm-restore:
+    portfolio: demo-central-it-team-portfolio
+    product: ssm-backup
+    version: v1
+    parameters:
+      pS3BucketName:
+        default: #insert bucket name
+    outputs:
+      ssm:
+        - param_name: /ssm-backup/RestoreFunctionArn
+          stack_output: oRestoreFunctionArn
+    deploy_to:
+      tags:
+        - tag: aws_account_name:Organization_Management_Account
+          regions: default_region

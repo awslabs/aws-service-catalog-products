@@ -1,0 +1,43 @@
+# Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: "AWS::Serverless-2016-10-31"
+Description: |
+  Custom serverless solution that restores SSM parameters from a recovery S3 bucket
+  {"framework": "servicecatalog-products", "role": "product", "product-set": "ssm-backup-restore", "product": "ssm-restore", "version": "v1"}
+
+Parameters:
+  pS3BucketName:
+    Type: String
+    Description: The name of the S3 bucket that holds the parameters
+
+Resources:
+  # Lambda Function to Restore Parameters
+  rRestoreParametersFunction:
+    Type: AWS::Serverless::Function
+    Description: The lambda function that restores SSM Parameters from S3
+    Name: !Sub "RestoreParameterStoreFunction-${AWS::AccountId}-${AWS::Region}"
+    Properties:
+      Environment:
+        Variables:
+          S3BucketName: !Ref pS3BucketName
+          Region: !Sub '${AWS::Region}'
+          RE: 're'
+          StackName: !Sub '${AWS::StackName}'
+          SNSTopicArn: !ImportValue SSMBackupRestoreSNSTopicArn
+          MainBucketName: !ImportValue SSMMainBucketName
+          DRBucketArn: !ImportValue SSMDRBucketArn
+      CodeUri: ./src
+      Handler: restore.lambda_handler
+      Runtime: python3.8
+      Timeout: 300
+      Events:
+        AutoTrigger:
+          Type: Schedule
+          Properties:
+            Schedule: "rate(3 minutes)"
+      Role: !ImportValue SSMBackupRestoreLambdaArn
+
+Outputs:
+  oRestoreFunctionArn:
+    Value: !GetAtt rRestoreParametersFunction.Arn

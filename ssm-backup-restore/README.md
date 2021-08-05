@@ -1,0 +1,6 @@
+# SSM Backup and Restore
+
+This service catalog product will create a primary S3 bucket in the same region with a bucket policy, and a Disaster Recovery (DR) bucket in the specified region. CloudFormation invokes Lambda as a Custom Resource to back-up SSM parameter store in the launched region to the primary S3 bucket.
+The primary bucket will replicate to the DR bucket. After CREATE_COMPLETE for the CloudFormation Stack, a CloudWatch Rule is scheduled to invoke the backup lambda function based on the rate (Specified as a parameter). An SNS topic is created to notify the user when backups occur. 
+
+This serverless application creates a Lambda function which restores SSM parameters from an S3 backup. The function will restore from either the Main SSM bucket or the DR SSM bucket and once completed will send an email to the address specified during the backup process, in order to alert of its completion or communicate any errors. The function will also automatically terminate the Service Catalog product it belongs to which will delete the CloudFormation stack and the function itself, making it so that the user does not have to worry about 'cleaning up' after a restoration. Note that the function will also apply the bucket policy of the Main bucket to the DR bucket to facilitate the restoration.
