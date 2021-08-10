@@ -4,22 +4,22 @@
 Schema: factory-2019-04-01
 Portfolios:
   Components:
-    - Name: delete-default-networking
+    - Name: delete-default-networking-custom-resource
       Owner: central-it@customer.com
       Description: iam-assume-roles-spoke product
       Distributor: central-it-team
       SupportDescription: Contact us on Chime for help #central-it-team
       SupportEmail: central-it-team@customer.com
-      SupportUrl: https://wiki.customer.com/central-it-team/self-service/delete-default-networking
+      SupportUrl: https://wiki.customer.com/central-it-team/self-service/delete-default-networking-custom-resource
       Tags:
         - Key: product-type
           Value: networking
       Versions:
         - Name: v1
-          Description: Deletes the AWS provided default networking
+          Description: Deletes the AWS provided default networking using a custom resource
           Active: True
           Source:
             Provider: CodeCommit
             Configuration:
-              RepositoryName: delete-default-networking
+              RepositoryName: delete-default-networking-custom-resource
               BranchName: master
