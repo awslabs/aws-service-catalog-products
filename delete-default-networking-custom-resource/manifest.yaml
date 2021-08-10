@@ -4,9 +4,9 @@
 schema: puppet-2019-04-01
 
 launches:
-  delete-default-networking:
+  delete-default-networking-function:
     portfolio: demo-central-it-team-portfolio
-    product: delete-default-networking
+    product: delete-default-networking-custom-resource
     version: v1
     parameters:
       RegionsToDeleteFrom:

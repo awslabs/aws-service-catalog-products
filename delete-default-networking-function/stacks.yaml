@@ -1,0 +1,17 @@
+# Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+Schema: factory-2019-04-01
+Stacks:
+  - Name: delete-default-networking-function
+    Tags:
+      - Key: product-type
+        Value: networking
+    Versions:
+      - Name: v1
+        Active: True
+        Source:
+          Provider: CodeCommit
+          Configuration:
+            RepositoryName: delete-default-networking-function
+            BranchName: master
