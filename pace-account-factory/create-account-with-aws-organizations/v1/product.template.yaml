@@ -1,0 +1,87 @@
+# Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+AWSTemplateFormatVersion: '2010-09-09'
+Description: |
+  Create an account using AWS Organizations, bootstrap it as a spoke and then execute the single account run
+  {"framework": "servicecatalog-products", "role": "product", "product-set": "pace-account-factory", "product": "create-account-with-aws-organizations", "version": "v1"}
+
+Parameters:
+  Email:
+    Type: String
+    Description: The email address to use for the account that is to be created
+  AccountName:
+    Type: String
+    Description: The name to use for the account that is to be created
+  OrganizationAccountAccessRole:
+    Type: String
+    Default: OrganizationAccountAccessRole
+    Description: The name of the role to be created in the account that allows Organizations access
+  IamUserAccessToBilling:
+    Type: String
+    Default: "ALLOW"
+    AllowedValues: ['ALLOW', 'DENY']
+  AccountGroup:
+    Type: String
+    Description: Which platform does the account belong to
+    AllowedValues:
+      - Security
+      - Infrastructure
+      - Workload
+  AccountType:
+    Type: String
+    Description: >-
+      Which stage of the SDLC is the account going to be used for
+    AllowedValues:
+      - dev
+      - test
+      - preprod
+      - prod
+  PACEAccountFactoryAuxiliaryCRArn:
+    Type: String
+    Description: |
+      Arn for the lambda that backs the custom resource to create accounts, bootstrap them and then run a single account
+      run
+    Default: "arn:aws:lambda:eu-west-1:156551640785:function:Foooo11-Function-azmLLxhWsVzG"
+  ShouldBootstrap:
+    Type: String
+    Description: Should bootstrap the account as a spoke
+    Default: True
+    AllowedValues:
+      - True
+      - False
+  ShouldRunSingleAccountRun:
+    Type: String
+    Default: True
+    Description: Should perform a single account run for the spoke created
+    AllowedValues:
+      - True
+      - False
+
+Resources:
+  Account:
+    Type: Custom::Resource
+    Description: A custom resource representing an AWS Account
+    Properties:
+      ServiceToken: !Ref PACEAccountFactoryAuxiliaryCRArn
+      Email: !Ref Email
+      AccountName: !Ref AccountName
+      IamUserAccessToBilling: !Ref IamUserAccessToBilling
+      AccountType: !Ref AccountType
+      AccountGroup: !Ref AccountGroup
+      Mode: "AWS_ORGANIZATIONS"
+      OrganizationAccountAccessRoleName: !Ref OrganizationAccountAccessRole
+      ShouldBootstrap: !Ref ShouldBootstrap
+      ShouldRunSingleAccountRun: !Ref ShouldRunSingleAccountRun
+
+Outputs:
+  AccountId:
+    Value: !GetAtt Account.AccountId
+  OrganizationalUnitId:
+    Value: !GetAtt Account.OrganizationalUnitId
+  OrganizationalUnitName:
+    Value: !GetAtt Account.OrganizationalUnitName
+  ShouldBootstrap:
+    Value: !Ref ShouldBootstrap
+  ShouldRunSingleAccountRun:
+    Value: !Ref ShouldRunSingleAccountRun

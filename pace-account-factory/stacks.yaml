@@ -1,0 +1,14 @@
+# Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+Schema: factory-2019-04-01
+Stacks:
+  pace-account-factory-auxiliary:
+    - Name: "pace-account-factory-auxiliary"
+      Versions:
+        - Name: "v1"
+          Source:
+            Provider: "CodeCommit"
+            Configuration:
+              BranchName: "v1"
+              RepositoryName: "pace-account-factory-auxiliary"

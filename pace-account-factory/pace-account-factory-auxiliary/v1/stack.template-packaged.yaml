@@ -1,0 +1,128 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: 'Lambda to back custom resources when creating AWS accounts
+
+  {"framework": "servicecatalog-products", "role": "product", "product-set": "pace-account-factory",
+  "product": "pace-account-factory-auxiliary", "version": "v1"}
+
+  '
+Parameters:
+  PACEAccountFactoryIAMRolePath:
+    Default: /PACEAccountFactory/
+    Description: The path to use for IAM roles in this template
+    Type: String
+  ServiceCatalogPuppetBootstrapSpokeProjectName:
+    Default: servicecatalog-puppet-bootstrap-spoke
+    Description: CodeBuild project that can bootstrap a spoke
+    Type: String
+  AccountCreationRoleInRootAccountArn:
+    Type: String
+    Default: arn:aws:iam::156551640785:role/PACEAccountFactory/PACEAccountFactoryRole
+    Description: 'Role to assume in the root account to allow creation of accounts
+      and moving of accounts between OUs
+
+      '
+  AssumableRoleInRootAccountArn:
+    Description: Role to assume in the root account to allow cross account access
+      to spokes
+    Default: arn:aws:iam::156551640785:role/PACEAccountFactory/PACEAccountFactoryRole
+    Type: String
+  OrganizationAccountAccessRole:
+    Description: Rolename used to get cross account access
+    Default: OrganizationAccountAccessRole
+    Type: String
+  SSMOUMapPrefix:
+    Default: /PACEAccountFactory/OUMap
+    Description: Prefix where to find map of account type and group to ou
+    Type: String
+Resources:
+  Role:
+    Type: AWS::IAM::Role
+    Properties:
+      Path:
+        Ref: PACEAccountFactoryIAMRolePath
+      ManagedPolicyArns:
+      - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Policies:
+      - PolicyName: ssm
+        PolicyDocument:
+          Version: 2012-10-17
+          Statement:
+          - Effect: Allow
+            Action:
+            - ssm:GetParameter
+            Resource:
+              Fn::Sub: arn:${AWS::Partition}:ssm:${AWS::Region}:${AWS::AccountId}:parameter/*
+      - PolicyName: crhelper
+        PolicyDocument:
+          Version: 2012-10-17
+          Statement:
+          - Effect: Allow
+            Action:
+            - lambda:AddPermission
+            - lambda:RemovePermission
+            - events:PutRule
+            - events:DeleteRule
+            - events:PutTargets
+            - events:RemoveTargets
+            Resource: '*'
+      - PolicyName: AllowAssumeForCrossAccount
+        PolicyDocument:
+          Version: 2012-10-17
+          Statement:
+          - Effect: Allow
+            Action:
+            - sts:AssumeRole
+            Resource:
+              Ref: AssumableRoleInRootAccountArn
+      - PolicyName: AllowAssumeForAccountCreation
+        PolicyDocument:
+          Version: 2012-10-17
+          Statement:
+          - Effect: Allow
+            Action:
+            - sts:AssumeRole
+            Resource:
+              Ref: AccountCreationRoleInRootAccountArn
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service:
+            - lambda.amazonaws.com
+          Action:
+          - sts:AssumeRole
+  Function:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: s3://sc-factory-artifacts-156551640785-eu-west-1/bbf1b9093ccd3581d946aae56a972c2f
+      Handler: handler.handler
+      Description: Lambda for creating AWS accounts
+      Role:
+        Fn::GetAtt:
+        - Role
+        - Arn
+      Runtime: python3.7
+      Timeout: 5
+      Environment:
+        Variables:
+          ACCOUNT_CREATION_ROLE_IN_ROOT_ACCOUNT_ARN:
+            Ref: AccountCreationRoleInRootAccountArn
+          ASSUMABLE_ROLE_IN_ROOT_ACCOUNT_ARN:
+            Ref: AssumableRoleInRootAccountArn
+          ORGANIZATION_ACCOUNT_ACCESS_ROLE:
+            Ref: OrganizationAccountAccessRole
+          SSM_OU_MAP_PREFIX:
+            Ref: SSMOUMapPrefix
+          BOOTSTRAPPER_PROJECT_NAME:
+            Ref: ServiceCatalogPuppetBootstrapSpokeProjectName
+Outputs:
+  PACEAccountFactoryLambdaFunctionArn:
+    Description: 'the Arn of the custom resource that can be used to create accounts
+
+      '
+    Value:
+      Fn::GetAtt:
+      - Function
+      - Arn

@@ -1,0 +1,2 @@
+crhelper==2.0.10
+better-boto==0.25.0
