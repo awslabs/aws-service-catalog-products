@@ -9,6 +9,12 @@ Parameters:
   IsDebugEnabled:
     Description: Set true/false to enable/ disable logging of the get metrics lambda
     Type: String
+  FactoryVersion:
+    Description: Version of Factory Installed
+    Type: String
+  PuppetVersion:
+    Description: Version of Puppet Installed
+    Type: String
 Resources:
   # Role for the build projects - Factory and Puppet
   DashboardCodeBuildRole:
@@ -40,6 +46,7 @@ Resources:
                   - codecommit:GitPull
                   - codepipeline:ListPipelineExecutions
                   - ssm:GetParameter
+                  - ssm:GetParameters
                   - servicecatalog:ListPortfolioAccess
                   - servicecatalog:AssociatePrincipalWithPortfolio
                   - iam:GetRole
@@ -75,12 +82,15 @@ Resources:
             - ".amazonaws.com/v1/repos/ServiceCatalogPuppet"
         BuildSpec: |
           version: 0.2
+          env:
+            parameter-store:
+              PUPPET_VERSION: service-catalog-puppet-version
           phases:
             install:
               runtime-versions:
                 python: 3.8
               commands:
-                - pip install aws-service-catalog-puppet
+                - pip install aws-service-catalog-puppet==$PUPPET_VERSION
             build:
               commands:
                 - servicecatalog-puppet expand manifest.yaml
@@ -114,12 +124,15 @@ Resources:
             - ".amazonaws.com/v1/repos/ServiceCatalogFactory"
         BuildSpec: |
           version: 0.2
+          env:
+            parameter-store:
+              FACTORY_VERSION: service-catalog-factory-version
           phases:
             install:
               runtime-versions:
                 python: 3.8
               commands:
-                - pip install aws-service-catalog-factory
+                - pip install aws-service-catalog-factory==$FACTORY_VERSION
             build:
               commands:
                 - servicecatalog-factory show-pipelines . --format json > show-pipelines.json
