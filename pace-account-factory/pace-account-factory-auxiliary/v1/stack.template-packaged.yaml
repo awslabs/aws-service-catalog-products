@@ -15,6 +15,10 @@ Parameters:
     Default: servicecatalog-puppet-bootstrap-spoke
     Description: CodeBuild project that can bootstrap a spoke
     Type: String
+  SingleAccountRunProjectName:
+    Default: servicecatalog-puppet-single-account-run
+    Description: CodeBuild project that can bootstrap a spoke
+    Type: String
   AccountCreationRoleInRootAccountArn:
     Type: String
     Default: arn:aws:iam::156551640785:role/PACEAccountFactory/PACEAccountFactoryRole
@@ -23,10 +27,10 @@ Parameters:
 
       '
   AssumableRoleInRootAccountArn:
+    Type: String
+    Default: arn:aws:iam::156551640785:role/PACEAccountFactory/PACEAccountFactoryRole
     Description: Role to assume in the root account to allow cross account access
       to spokes
-    Default: arn:aws:iam::156551640785:role/PACEAccountFactory/PACEAccountFactoryRole
-    Type: String
   OrganizationAccountAccessRole:
     Description: Rolename used to get cross account access
     Default: OrganizationAccountAccessRole
@@ -34,6 +38,13 @@ Parameters:
   SSMOUMapPrefix:
     Default: /PACEAccountFactory/OUMap
     Description: Prefix where to find map of account type and group to ou
+    Type: String
+  AllowResumption:
+    Default: 'True'
+    AllowedValues:
+    - 'True'
+    - 'False'
+    Description: If an account already exists should we continue
     Type: String
 Resources:
   Role:
@@ -53,6 +64,16 @@ Resources:
             - ssm:GetParameter
             Resource:
               Fn::Sub: arn:${AWS::Partition}:ssm:${AWS::Region}:${AWS::AccountId}:parameter/*
+      - PolicyName: startbuilds
+        PolicyDocument:
+          Version: 2012-10-17
+          Statement:
+          - Effect: Allow
+            Action:
+            - codebuild:StartBuild
+            Resource:
+            - Fn::Sub: arn:${AWS::Partition}:codebuild:${AWS::Region}:${AWS::AccountId}:project/${ServiceCatalogPuppetBootstrapSpokeProjectName}
+            - Fn::Sub: arn:${AWS::Partition}:codebuild:${AWS::Region}:${AWS::AccountId}:project/${SingleAccountRunProjectName}
       - PolicyName: crhelper
         PolicyDocument:
           Version: 2012-10-17
@@ -96,7 +117,7 @@ Resources:
   Function:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://sc-factory-artifacts-156551640785-eu-west-1/bbf1b9093ccd3581d946aae56a972c2f
+      CodeUri: s3://sc-factory-artifacts-156551640785-eu-west-1/16d8f7b983973ed9654e4399afe6fd9b
       Handler: handler.handler
       Description: Lambda for creating AWS accounts
       Role:
@@ -104,7 +125,7 @@ Resources:
         - Role
         - Arn
       Runtime: python3.7
-      Timeout: 5
+      Timeout: 20
       Environment:
         Variables:
           ACCOUNT_CREATION_ROLE_IN_ROOT_ACCOUNT_ARN:
@@ -117,6 +138,10 @@ Resources:
             Ref: SSMOUMapPrefix
           BOOTSTRAPPER_PROJECT_NAME:
             Ref: ServiceCatalogPuppetBootstrapSpokeProjectName
+          SINGLE_ACCOUNT_RUN_PROJECT_NAME:
+            Ref: SingleAccountRunProjectName
+          ALLOW_RESUMPTION:
+            Ref: AllowResumption
 Outputs:
   PACEAccountFactoryLambdaFunctionArn:
     Description: 'the Arn of the custom resource that can be used to create accounts
