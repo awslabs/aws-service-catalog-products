@@ -181,6 +181,9 @@ launches:
           regions: default_region
 ```
 
+Within the manifest.yaml file you should be able to use the values of the tags on the launches/stacks to understand
+which account the solution should be provisioned into.
+
 ## License Summary
 
 This sample code is made available under the MIT-0 license. See the LICENSE file.
