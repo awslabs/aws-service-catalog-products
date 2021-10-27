@@ -1,0 +1,64 @@
+# Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+Schema: factory-2019-04-01
+Stacks:
+  - Name: cloud-custodian-codestar-connection
+    Tags:
+      - Key: product-type
+        Value: iam
+    Versions:
+      - Name: v1
+        Source:
+          Provider: CodeCommit
+          Configuration:
+            RepositoryName: cloud-custodian-codestar-connection
+            BranchName: v1
+
+  - Name: cloud-custodian-event-forwarding
+    Tags:
+      - Key: product-type
+        Value: iam
+    Versions:
+      - Name: v1
+        Source:
+          Provider: CodeCommit
+          Configuration:
+            RepositoryName: cloud-custodian-event-forwarding
+            BranchName: v1
+
+  - Name: cloud-custodian-hub
+    Tags:
+      - Key: product-type
+        Value: iam
+    Versions:
+      - Name: v4
+        Source:
+          Provider: CodeCommit
+          Configuration:
+            RepositoryName: cloud-custodian-hub
+            BranchName: v4
+
+  - Name: cloud-custodian-pipeline
+    Tags:
+      - Key: product-type
+        Value: iam
+    Versions:
+      - Name: v1
+        Source:
+          Provider: CodeCommit
+          Configuration:
+            RepositoryName: cloud-custodian-pipeline
+            BranchName: v1
+
+  - Name: cloud-custodian-spoke
+    Tags:
+      - Key: product-type
+        Value: iam
+    Versions:
+      - Name: v2
+        Source:
+          Provider: CodeCommit
+          Configuration:
+            RepositoryName: cloud-custodian-spoke
+            BranchName: v2

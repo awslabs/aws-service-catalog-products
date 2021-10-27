@@ -1,0 +1,53 @@
+# Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+Schema: factory-2019-04-01
+Portfolios:
+  Components:
+    - Name: assumable-role-account
+      Tags:
+        - Key: product-type
+          Value: iam
+      Versions:
+        - Name: v1
+          Source:
+            Provider: CodeCommit
+            Configuration:
+              RepositoryName: assumable-role-account
+              BranchName: v1
+
+    - Name: assumable-role-service
+      Tags:
+        - Key: product-type
+          Value: iam
+      Versions:
+        - Name: v1
+          Source:
+            Provider: CodeCommit
+            Configuration:
+              RepositoryName: assumable-role-service
+              BranchName: v1
+
+    - Name: assume-roles-spoke
+      Tags:
+        - Key: product-type
+          Value: iam
+      Versions:
+        - Name: v1
+          Source:
+            Provider: CodeCommit
+            Configuration:
+              RepositoryName: assume-roles-spoke
+              BranchName: v1
+
+    - Name: groups-security-account
+      Tags:
+        - Key: product-type
+          Value: iam
+      Versions:
+        - Name: v1
+          Source:
+            Provider: CodeCommit
+            Configuration:
+              RepositoryName: groups-security-account
+              BranchName: v1

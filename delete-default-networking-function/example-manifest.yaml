@@ -1,0 +1,32 @@
+# Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+schema: puppet-2019-04-01
+
+stacks:
+  delete-default-networking-function:
+    name: delete-default-networking-function
+    version: v1
+    parameters:
+      DeleteDefaultNetworkingRoleNameToAssume:
+        default: servicecatalog-puppet/PuppetRole
+      DeleteDefaultVPCLambdaExecutionIAMRoleName:
+        default: DeleteDefaultVPCLambdaExecution
+      DeleteDefaultVPCLambdaExecutionIAMRolePath:
+        default: /DeleteDefaultVPCLambdaExecution/
+      DeleteDefaultNetworkingLambdaFunctionName:
+        default: DeleteDefaultNetworking
+    deploy_to:
+      tags:
+        - regions: default_region
+          tag: scope:hub
+
+lambda-invocations:
+  delete-default-networking:
+    function_name: DeleteDefaultNetworking
+    qualifier: $LATEST
+    invocation_type: Event
+    invoke_for:
+      tags:
+        - regions: enabled_regions
+          tag: scope:all

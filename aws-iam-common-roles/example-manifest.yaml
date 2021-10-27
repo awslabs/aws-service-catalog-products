@@ -1,0 +1,37 @@
+# Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+schema: puppet-2019-04-01
+
+launches:
+  assumable-role-account:
+    name: assumable-role-account
+    version: v1
+    deploy_to:
+      tags:
+      - regions: default_region
+        tag: scope:spoke
+    
+  assumable-role-service:
+    name: assumable-role-service
+    version: v1
+    deploy_to:
+      tags:
+      - regions: default_region
+        tag: scope:spoke
+
+  assume-roles-spoke:
+    name: assume-roles-spoke
+    version: v1
+    deploy_to:
+      tags:
+      - regions: default_region
+        tag: scope:spoke
+
+  groups-security-account:
+    name: groups-security-account
+    version: v1
+    deploy_to:
+      tags:
+      - regions: default_region
+        tag: scope:spoke

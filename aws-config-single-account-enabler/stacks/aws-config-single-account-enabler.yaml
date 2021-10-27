@@ -1,0 +1,16 @@
+# Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+Schema: factory-2019-04-01
+Stacks:
+    - Name: aws-config-aggregator
+      Tags:
+        - Key: product-type
+          Value: aws-config
+      Versions:
+        - Name: v1
+          Source:
+            Provider: CodeCommit
+            Configuration:
+              RepositoryName: aws-config-aggregator
+              BranchName: v1

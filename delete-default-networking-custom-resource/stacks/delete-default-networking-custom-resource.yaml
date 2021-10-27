@@ -1,0 +1,16 @@
+# Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+Schema: factory-2019-04-01
+Stacks:
+  - Name: delete-default-networking-custom-resource
+    Tags:
+      - Key: product-type
+        Value: networking
+    Versions:
+      - Name: v1
+        Source:
+          Provider: CodeCommit
+          Configuration:
+            RepositoryName: delete-default-networking-custom-resource
+            BranchName: master

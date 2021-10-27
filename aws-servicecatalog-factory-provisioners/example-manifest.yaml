@@ -1,0 +1,13 @@
+# Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+schema: puppet-2019-04-01
+
+stacks:
+  aws-servicecatalog-factory-provisioners-terraform:
+    name: aws-servicecatalog-factory-provisioners-terraform
+    version: v4
+    deploy_to:
+      tags:
+      - regions: default_region
+        tag: scope:spoke

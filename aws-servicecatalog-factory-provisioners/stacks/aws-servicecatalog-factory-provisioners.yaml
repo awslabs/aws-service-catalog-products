@@ -1,0 +1,16 @@
+# Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+Schema: factory-2019-04-01
+Stacks:
+  - Name: aws-servicecatalog-factory-provisioners-terraform
+    Tags:
+      - Key: product-type
+        Value: iam
+    Versions:
+      - Name: v4
+        Source:
+          Provider: CodeCommit
+          Configuration:
+            RepositoryName: aws-servicecatalog-factory-provisioners-terraform
+            BranchName: master

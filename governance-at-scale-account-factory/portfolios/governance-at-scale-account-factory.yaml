@@ -1,0 +1,125 @@
+# Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+Schema: factory-2019-04-01
+Portfolios:
+  Components:
+    - Description: aws-control-tower-account-factory
+      Distributor: CCOE
+      Name: aws-control-tower-account-factory
+      Owner: CCOE@Example.com
+      Source:
+        Configuration:
+          RepositoryName: aws-control-tower-account-factory
+        Provider: CodeCommit
+      SupportDescription: Find us on Slack or Wiki
+      SupportEmail: ccoe-support@Example.com
+      SupportUrl: https://example.com/intranet/teams/ccoe/products/account-factory
+      Tags: []
+      Versions:
+        - Description: Augments AWS Control Tower Account Factory - simplifies user input,
+            dispatches extra parameters via AWS SNS andreturns the account id as an output
+          Name: v1
+          Source:
+            Provider: CodeCommit
+            Configuration:
+              BranchName: v1
+              RepositoryName: aws-control-tower-account-factory
+    - Description: account-details-org-bootstrap
+      Distributor: CCOE
+      Name: account-details-org-bootstrap
+      Owner: CCOE@Example.com
+      Source:
+        Configuration:
+          RepositoryName: account-details-org-bootstrap
+        Provider: CodeCommit
+      SupportDescription: Find us on Slack or Wiki
+      SupportEmail: ccoe-support@Example.com
+      SupportUrl: https://example.com/intranet/teams/ccoe/products/account-factory
+      Tags: []
+      Versions:
+        - Description: IAM Role needed to use AWS Organizations to list AWS Accounts.
+          Name: v1
+          Source:
+            Provider: CodeCommit
+            Configuration:
+              BranchName: v1
+              RepositoryName: account-details-org-bootstrap
+
+    - Description: aws-service-catalog-account-creation
+      Distributor: CCOE
+      Name: aws-service-catalog-account-creation
+      Owner: CCOE@Example.com
+      Source:
+        Configuration:
+          RepositoryName: aws-service-catalog-account-creation
+        Provider: CodeCommit
+      SupportDescription: Find us on Slack or Wiki
+      SupportEmail: ccoe-support@Example.com
+      SupportUrl: https://example.com/intranet/teams/ccoe/products/account-factory
+      Versions:
+        - Description: account-bootstrap-shared-product and account-creation-shared-product
+            must both be provisioned into the same accountbefore this will work - they
+            build some resources needed for this to work and they provision the SSM params
+            with thecorrect ARNs so this works with no copy and pasting.Provisioning this
+            template will create an AWS Account and bootstrap it using aws-service-catalog-puppet
+            so you canprovision products into the account.
+          Name: v2
+          Source:
+            Provider: CodeCommit
+            Configuration:
+              BranchName: v2
+              RepositoryName: aws-service-catalog-account-creation
+      ProviderName: ccoe
+      Tags:
+        - Key: team
+          Value: ccoe
+
+    - Description: Lambda for backing custom resources to wait for an account to become available
+      Distributor: CCOE
+      Name: account-waiter
+      Owner: CCOE@Example.com
+      Source:
+        Configuration:
+          RepositoryName: account-waiter
+        Provider: CodeCommit
+      SupportDescription: Find us on Slack or Wiki
+      SupportEmail: ccoe-support@Example.com
+      SupportUrl: https://example.com/intranet/teams/ccoe/products/account-factory
+      Versions:
+        - Description: Lambda for backing custom resources to wait for an account to become available
+          Name: v3
+          Source:
+            Provider: CodeCommit
+            Configuration:
+              BranchName: v3
+              RepositoryName: account-waiter
+      ProviderName: ccoe
+      Tags:
+        - Key: team
+          Value: ccoe
+
+    - Description: Lambda for backing custom resources to move an account into the correct OU
+      Distributor: CCOE
+      Name: move-to-ou
+      Owner: CCOE@Example.com
+      Source:
+        Configuration:
+          RepositoryName: move-to-ou
+        Provider: CodeCommit
+      SupportDescription: Find us on Slack or Wiki
+      SupportEmail: ccoe-support@Example.com
+      SupportUrl: https://example.com/intranet/teams/ccoe/products/account-factory
+      Versions:
+        - Description: Lambda for backing custom resources to move an account into the correct OU
+          Name: v2
+          Source:
+            Provider: CodeCommit
+            Configuration:
+              BranchName: v2
+              RepositoryName: move-to-ou
+      ProviderName: ccoe
+      Tags:
+        - Key: team
+          Value: ccoe
+

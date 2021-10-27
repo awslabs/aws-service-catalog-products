@@ -1,0 +1,13 @@
+# Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+schema: puppet-2019-04-01
+
+stacks:
+  aws-config-aggregator:
+    name: aws-config-aggregator
+    version: v1
+    deploy_to:
+      tags:
+      - regions: default_region
+        tag: scope:all

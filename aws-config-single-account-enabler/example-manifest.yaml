@@ -1,0 +1,9 @@
+schema: puppet-2019-04-01
+stacks:
+  aws-config:
+    name: aws-config-aggregator
+    version: v1
+    deploy_to:
+      tags:
+      - regions: default_region
+        tag: scope:all

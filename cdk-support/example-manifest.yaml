@@ -1,0 +1,33 @@
+# Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+schema: puppet-2019-04-01
+
+stacks:
+  cdk-support-iam:
+    portfolio: bug-demo-portfolio
+    product: cdk-support-iam
+    version: v2
+    deploy_to:
+      tags:
+        - tag: role:spoke
+          regions: default_region
+
+  cdk-support-bootstrap:
+    portfolio: bug-demo-portfolio
+    product: cdk-support-bootstrap
+    version: v4
+    depends_on:
+      - cdk-support-iam
+    deploy_to:
+      tags:
+        - tag: role:spoke
+          regions: regions_enabled
+    outputs:
+      ssm:
+        - param_name: "/cdk-support/bootstrap/${AWS::AccountId}/${AWS::Region}/StartCDKDeployFunctionArn"
+          stack_output: "StartCDKDeployFunctionArn"
+        - param_name: "/cdk-support/bootstrap/${AWS::AccountId}/${AWS::Region}/GetOutputsForGivenCodebuildIdFunctionArn"
+          stack_output: "GetOutputsForGivenCodebuildIdFunctionArn"
+        - param_name: "/cdk-support/bootstrap/${AWS::AccountId}/${AWS::Region}/CDKDeployProject"
+          stack_output: "CDKDeployProject"
