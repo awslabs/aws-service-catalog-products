@@ -10,7 +10,7 @@ stacks:
     version: v2
     deploy_to:
       tags:
-        - tag: role:spoke
+        - tag: CHANGE_ME
           regions: default_region
 
   cdk-support-bootstrap:
@@ -21,7 +21,7 @@ stacks:
       - cdk-support-iam
     deploy_to:
       tags:
-        - tag: role:spoke
+        - tag: CHANGE_ME
           regions: regions_enabled
     outputs:
       ssm:

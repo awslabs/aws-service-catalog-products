@@ -42,7 +42,7 @@ launches:
             stack_output: CloudWatchRule
     deploy_to:
       tags:
-        - tag: aws_account_name:Organization_Management_Account
+        - tag: role:organizations-management
           regions: default_region
 
   ssm-backup-restore-ssm-restore:
@@ -58,5 +58,5 @@ launches:
           stack_output: oRestoreFunctionArn
     deploy_to:
       tags:
-        - tag: aws_account_name:Organization_Management_Account
+        - tag: role:organizations-management
           regions: default_region

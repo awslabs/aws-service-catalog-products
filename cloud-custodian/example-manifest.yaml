@@ -16,7 +16,7 @@ stacks:
     deploy_to:
       tags:
         - regions: default_region
-          tag: scope:cloud-custodian-hub
+          tag: role:cloudcustodian-hub
 
   event-forwarding:
     portfolio: demo-central-it-team-portfolio
@@ -36,7 +36,7 @@ stacks:
     deploy_to:
       tags:
         - regions: enabled_regions
-          tag: scope:cloud-custodian-spoke
+          tag: role:cloudcustodian-spoke
 
   hub:
     portfolio: demo-central-it-team-portfolio
@@ -48,7 +48,7 @@ stacks:
     deploy_to:
       tags:
         - regions: enabled_regions
-          tag: scope:cloud-custodian-hub
+          tag: role:cloudcustodian-hub
 
   pipeline:
     portfolio: demo-central-it-team-portfolio
@@ -86,7 +86,7 @@ stacks:
     deploy_to:
       tags:
         - regions: default_region
-          tag: scope:cloud-custodian-hub
+          tag: role:cloudcustodian-hub
 
   cloud-custodian-spoke:
     portfolio: demo-central-it-team-portfolio
@@ -102,4 +102,4 @@ stacks:
     deploy_to:
       tags:
         - regions: default_region
-          tag: scope:cloud-custodian-spoke
+          tag: role:cloudcustodian-spoke

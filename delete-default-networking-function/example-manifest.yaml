@@ -19,7 +19,7 @@ stacks:
     deploy_to:
       tags:
         - regions: default_region
-          tag: scope:hub
+          tag: role:servicecatalogpuppet-hub
 
 lambda-invocations:
   delete-default-networking:
@@ -29,4 +29,4 @@ lambda-invocations:
     invoke_for:
       tags:
         - regions: enabled_regions
-          tag: scope:all
+          tag: feature:deletedefaultnetworking-enabled

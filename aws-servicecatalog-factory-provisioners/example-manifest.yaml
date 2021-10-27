@@ -10,4 +10,4 @@ stacks:
     deploy_to:
       tags:
       - regions: default_region
-        tag: scope:spoke
+        tag: CHANGE_ME

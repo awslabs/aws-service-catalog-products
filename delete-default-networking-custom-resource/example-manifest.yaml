@@ -20,4 +20,4 @@ stacks:
     deploy_to:
       tags:
       - regions: enabled_regions
-        tag: scope:all
+        tag: CHANGE_ME

@@ -6,4 +6,4 @@ stacks:
     deploy_to:
       tags:
       - regions: default_region
-        tag: scope:all
+        tag: CHANGE_ME

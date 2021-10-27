@@ -10,7 +10,7 @@ launches:
     deploy_to:
       tags:
       - regions: default_region
-        tag: scope:spoke
+        tag: CHANGE_ME
     
   assumable-role-service:
     name: assumable-role-service
@@ -18,7 +18,7 @@ launches:
     deploy_to:
       tags:
       - regions: default_region
-        tag: scope:spoke
+        tag: CHANGE_ME
 
   assume-roles-spoke:
     name: assume-roles-spoke
@@ -26,7 +26,7 @@ launches:
     deploy_to:
       tags:
       - regions: default_region
-        tag: scope:spoke
+        tag: CHANGE_ME
 
   groups-security-account:
     name: groups-security-account
@@ -34,4 +34,4 @@ launches:
     deploy_to:
       tags:
       - regions: default_region
-        tag: scope:spoke
+        tag: CHANGE_ME

@@ -11,13 +11,25 @@ launches:
     depends_on:
       - guardduty-master
       - guardduty-org-bootstrap
+    deploy_to:
+      tags:
+        - tag: role:guardduty-spoke
+          regions: default_region
 
   guardduty-master:
     portfolio: demo-central-it-team-portfolio
     product: guardduty-master
     version: v2
-  
+    deploy_to:
+      tags:
+        - tag: role:guardduty-hub
+          regions: default_region
+
   guardduty-org-bootstrap:
     portfolio: demo-central-it-team-portfolio
     product: guardduty-org-bootstrap
     version: v2
+    deploy_to:
+      tags:
+        - tag: role:organizations-management
+          regions: default_region

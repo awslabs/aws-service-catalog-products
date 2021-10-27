@@ -20,6 +20,10 @@ launches:
       ssm:
         - param_name: my-wonderful-subnet
           stack_output: PublicSubnetId
+    deploy_to:
+      tags:
+        - tag: CHANGE_ME
+          regions: CHANGE_ME
 
   networking-vpc:
     portfolio: demo-central-it-team-portfolio
@@ -32,3 +36,7 @@ launches:
       ssm:
         - param_name: my-wonderful-vpc
           stack_output: VPCId
+    deploy_to:
+      tags:
+        - tag: CHANGE_ME
+          regions: CHANGE_ME

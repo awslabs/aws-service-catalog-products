@@ -10,5 +10,5 @@ launches:
     version: v1
     deploy_to:
       tags:
-        - tag: aws_account_name:app_dev
+        - tag: CHANGE_ME
           regions: default_region

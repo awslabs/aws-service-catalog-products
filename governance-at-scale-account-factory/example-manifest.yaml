@@ -5,7 +5,7 @@ launches:
     deploy_to:
       tags:
         - regions: default_region
-          tag: scope:puppet_account
+          tag: role:servicecatalogpuppet-hub
     outputs:
       ssm:
         - param_name: /governance-at-scale-account-factory/account-bootstrap-shared/GovernanceAtScaleAccountFactoryBootstrapperProjectCustomResourceArn
@@ -27,7 +27,7 @@ launches:
     deploy_to:
       tags:
         - regions: default_region
-          tag: scope:org_management
+          tag: role:organizations-management
     outputs:
       ssm:
         - param_name: /governance-at-scale-account-factory/account-bootstrap-shared-org-bootstrap/AssumableRoleArnInRootAccountForBootstrapping
@@ -48,7 +48,7 @@ launches:
     deploy_to:
       tags:
         - regions: default_region
-          tag: scope:puppet_account
+          tag: role:servicecatalogpuppet-hub
     outputs:
       ssm:
         - param_name: /governance-at-scale-account-factory/account-create-update-notifier/AccountCreateUpdateNotifierTopicArn
@@ -71,7 +71,7 @@ launches:
     deploy_to:
       tags:
         - regions: default_region
-          tag: scope:puppet_account
+          tag: role:servicecatalogpuppet-hub
     parameters:
       AccountCreateUpdateNotifierTopicArn:
         ssm:
@@ -89,7 +89,7 @@ launches:
     deploy_to:
       tags:
         - regions: default_region
-          tag: scope:puppet_account
+          tag: role:servicecatalogpuppet-hub
     outputs:
       ssm:
         - param_name: /governance-at-scale-account-factory/account-creation-shared/GovernanceAtScaleAccountFactoryAccountCreationCRArn
@@ -109,7 +109,7 @@ launches:
     deploy_to:
       tags:
         - regions: default_region
-          tag: scope:org_management
+          tag: role:organizations-management
     outputs:
       ssm:
         - param_name: /governance-at-scale-account-factory/account-creation-shared-org-bootstrap/GovernanceAtScaleAccountFactoryAccountCreationSharedOrgRoleArn
@@ -132,7 +132,7 @@ launches:
     deploy_to:
       tags:
         - regions: default_region
-          tag: scope:puppet_account
+          tag: role:servicecatalogpuppet-hub
     outputs:
       ssm:
         - param_name: /governance-at-scale-account-factory/account-details/GovernanceAtScaleAccountFactoryAccountDetailsCRArn
@@ -152,7 +152,7 @@ launches:
     deploy_to:
       tags:
         - regions: default_region
-          tag: scope:org_management
+          tag: role:organizations-management
     outputs:
       ssm:
         - param_name: /governance-at-scale-account-factory/account-details-org-bootstrap/GovernanceAtScaleAccountFactoryAccountDetailsOrgRoleArn
@@ -171,7 +171,7 @@ launches:
     deploy_to:
       tags:
         - regions: default_region
-          tag: scope:puppet_account
+          tag: role:servicecatalogpuppet-hub
     outputs:
       ssm:
         - param_name: /governance-at-scale-account-factory/account-type-to-organizational-unit-chooser/GovernanceAtScaleAccountFactoryAccountTypeToOUChooserCRArn
@@ -191,7 +191,7 @@ launches:
     deploy_to:
       tags:
         - regions: default_region
-          tag: role:puppethub
+          tag: role:servicecatalogpuppet-hub
     parameters:
       GovernanceAtScaleAccountFactoryAccountCreationSharedOrgRoleArn:
         ssm:
@@ -212,7 +212,7 @@ launches:
     deploy_to:
       tags:
         - regions: default_region
-          tag: role:puppethub
+          tag: role:servicecatalogpuppet-hub
     parameters:
       GovernanceAtScaleAccountFactoryAccountCreationSharedOrgRoleArn:
         ssm:
@@ -236,7 +236,7 @@ launches:
     deploy_to:
       tags:
         - regions: default_region
-          tag: scope:puppet_account
+          tag: role:servicecatalogpuppet-hub
     parameters:
       AccountEmail:
         default: emailme@example.com
@@ -279,7 +279,7 @@ launches:
     deploy_to:
       tags:
         - regions: default_region
-          tag: scope:puppet_account
+          tag: role:servicecatalogpuppet-hub
     parameters:
       AccountEmail:
         default: emailme@example.com

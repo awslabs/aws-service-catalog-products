@@ -8,6 +8,30 @@ AWS Config, AWS CloudTrail and AWS GuardDuty etc...
 
 ## Tags to accounts mapping
 
+
+#### clean list
+
+feature:cloudtrail-enabled
+feature:deletedefaultnetworking-enabled
+
+role:servicecatalogpuppet-hub
+role:organizations-management
+
+
+role:guardduty-hub
+role:guardduty-spoke
+role:securityhub-hub
+role:securityhub-spoke
+role:cloudcustodian-hub
+role:cloudcustodian-spoke
+
+
+
+security-hub-spoke
+
+
+
+
 scope:hub
 scope:all
 

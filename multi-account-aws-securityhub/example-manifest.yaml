@@ -17,7 +17,7 @@ launches:
           stack_output: SecurityHubRegisterRoleArn
     deploy_to:
       tags:
-        - tag: aws_account_name:security
+        - tag: role:securityhub-hub
           regions: default_region
   securityhub-spoke:
     portfolio: demo-central-it-team-portfolio
@@ -38,6 +38,6 @@ launches:
           region: eu-central-1
     deploy_to:
       tags:
-        - tag: aws_account_name:development01
+        - tag: role:securityhub-spoke
           regions: default_region
 
