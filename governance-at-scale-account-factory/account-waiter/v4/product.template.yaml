@@ -1,0 +1,161 @@
+# Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: |
+  This product creates an AWS Lambda function for backing custom resources that will wait for CodeBuild and CloudFormation to become available in a newly created account
+  {"framework": "servicecatalog-products", "role": "product", "product-set": "governance-at-scale-account-factory", "product": "account-waiter", "version": "v4"}
+
+Parameters:
+  GovernanceAtScaleAccountFactoryAccountCreationSharedOrgRoleArn:
+    Type: String
+    Description: |
+      The ARN of the assumable role in the organization root account that is used to interact with AWS Organizations
+  OrganizationAccountAccessRole:
+    Type: String
+    Default: OrganizationAccountAccessRole
+    Description: |
+      The name of the the IAM Role used for cross account assess for AWS Organizations
+  GovernanceAtScaleAccountFactoryIAMRolePath:
+    Description: The path to use for IAM roles in this template
+    Type: String
+  ServiceCatalogPuppetVersion:
+    Type: String
+    Description: The version of Service Catalog Puppet in use
+
+Resources:
+  AccountWaiterCustomResourceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      Description: | 
+        An IAM role that is used as the execution role for the AccountWaiterCustomResource 
+        AWS Lambda function
+      Path: !Ref GovernanceAtScaleAccountFactoryIAMRolePath
+      ManagedPolicyArns:
+        - !Sub arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Policies:
+        - PolicyName: ServiceCatalogActions
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - sts:AssumeRole
+                Resource: !Ref GovernanceAtScaleAccountFactoryAccountCreationSharedOrgRoleArn
+              - Effect: Allow
+                Action:
+                  - 'codebuild:*'
+                Resource: '*'
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Principal:
+              AWS: !Sub "arn:${AWS::Partition}:iam::${AWS::AccountId}:root"
+            Action:
+              - "sts:AssumeRole"
+          - Effect: "Allow"
+            Principal:
+              Service:
+                - "lambda.amazonaws.com"
+            Action:
+              - "sts:AssumeRole"
+
+  AccountWaiterCustomResource:
+    Type: AWS::Serverless::Function
+    Description: |
+      An AWS Lambda function that starts an AWS CodeBuild project used to wait for CodeBuild and CloudFormation to become available in a newly created account
+      ```yaml
+      AccountWaiter1:
+        Type: Custom::Resource
+        Description: A custom resource for waiting for an account to become active
+        Properties:
+          ServiceToken: !Ref GovernanceAtScaleAccountFactoryAccountWaiterArn
+          AccountId: !GetAtt Account.account_id
+          ServiceCatalogPuppetVersion: !Ref ServiceCatalogPuppetVersion
+          Handle: !Ref AccountWaiterConditionHandle1
+      ```
+    Properties:
+      CodeUri: ./src
+      Handler: handler.handler
+      Description: Lambda for waiting for AWS accounts
+      Role: !GetAtt AccountWaiterCustomResourceRole.Arn
+      Runtime: python3.7
+      Timeout: 900
+      Environment:
+        Variables:
+          ASSUMABLE_ROLE_IN_ROOT_ACCOUNT_ARN: !Ref GovernanceAtScaleAccountFactoryAccountCreationSharedOrgRoleArn
+          ORGANIZATION_ACCOUNT_ACCESS_ROLE: !Ref OrganizationAccountAccessRole
+          CODEBUILD_PROJECT_TO_RUN: !Ref AccountWaiterCodeBuildProject
+
+  AccountWaiterCodeBuildProjectRole:
+    Type: AWS::IAM::Role
+    Properties:
+      Description: |
+        An IAM role that is assigned to the AccountWaiterCodeBuildProject 
+        AWS CodeBuild project
+      Path: !Ref GovernanceAtScaleAccountFactoryIAMRolePath
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Principal:
+              Service:
+                - "codebuild.amazonaws.com"
+            Action:
+              - "sts:AssumeRole"
+      ManagedPolicyArns:
+        - !Sub arn:${AWS::Partition}:iam::aws:policy/AdministratorAccess
+
+  AccountWaiterCodeBuildProject:
+    Type: AWS::CodeBuild::Project
+    Properties:
+      Name: governance-at-scale-account-waiter
+      Description: | 
+        An AWS CodeBuild project used to wait for an account to become active with 
+        CodeBuild and CloudFormation available
+      ServiceRole: !GetAtt AccountWaiterCodeBuildProjectRole.Arn
+      Artifacts:
+        Type: NO_ARTIFACTS
+      Environment:
+        Type: linuxContainer
+        ComputeType: BUILD_GENERAL1_SMALL
+        Image: aws/codebuild/standard:4.0
+        EnvironmentVariables:
+          - Name: ASSUMABLE_ROLE_IN_ROOT_ACCOUNT_ARN
+            Type: PLAINTEXT
+            Value: !Ref GovernanceAtScaleAccountFactoryAccountCreationSharedOrgRoleArn
+          - Name: ORGANIZATION_ACCOUNT_ACCESS_ROLE
+            Type: PLAINTEXT
+            Value: !Ref OrganizationAccountAccessRole
+          - Name: TARGET_ACCOUNT_ID
+            Type: PLAINTEXT
+            Value: CHANGE_ME
+          - Name: RESULTS_URL
+            Type: PLAINTEXT
+            Value: CHANGE_ME
+          - Name: PARTITION
+            Value: CHANGE_ME
+      Source:
+        Type: NO_SOURCE
+        BuildSpec: !Sub |
+          version: 0.2
+          phases:
+            install:
+              runtime-versions:
+                python: 3.x
+              commands:
+                - pip install aws-service-catalog-puppet==${ServiceCatalogPuppetVersion}
+            build:
+              commands:
+                - servicecatalog-puppet --info wait-for-code-build-in $ASSUMABLE_ROLE_IN_ROOT_ACCOUNT_ARN arn:$PARTITION:iam::$TARGET_ACCOUNT_ID:role/$ORGANIZATION_ACCOUNT_ACCESS_ROLE
+                - >
+                  curl -X PUT -H 'Content-Type:' --data-binary '{"Status" : "SUCCESS","Reason" : "Configuration Complete","UniqueId" : "'$CODEBUILD_BUILD_NUMBER'","Data" : "Application has completed configuration."}' $RESULTS_URL
+      TimeoutInMinutes: 480
+
+Outputs:
+  GovernanceAtScaleAccountFactoryAccountWaiterCRArn:
+    Description: |
+      The Arn of the custom resource that can be used to wait for an account to become available
+    Value: !GetAtt AccountWaiterCustomResource.Arn

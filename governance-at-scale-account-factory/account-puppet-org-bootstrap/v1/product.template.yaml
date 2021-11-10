@@ -1,0 +1,64 @@
+# Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+AWSTemplateFormatVersion: "2010-09-09"
+Description: |
+  This product creates the IAM role that is required in order to bootstrap a new account as a spoke of the Puppet account
+  {"framework": "servicecatalog-products", "role": "product", "product-set": "governance-at-scale-account-factory", "product": "account-puppet-org-bootstrap", "version": "v1"}
+
+Parameters:
+  OrganizationRootAccountId:
+    Description: The account ID of the Organization root
+    Type: String
+  OrganizationAccountAccessRole:
+    Description: Name of the IAM role used to access cross accounts for AWS Organizations usage
+    Default: OrganizationAccountAccessRole
+    Type: String
+  AccountOnboardPuppetRoleName:
+    Description: The name to use for IAM role that will be used to bootstrap an account
+    Default: PuppetAccountAccessRole
+    Type: String
+
+Resources:
+  AssumableRoleInPuppetAccount:
+    Type: AWS::IAM::Role
+    Properties:
+      Description: |
+        An assumable IAM Role that allows the govcloud-account-onboard and 
+        account-bootstrap-shared products to bootstrap accounts with 
+        Service Catalog Puppet
+      RoleName: !Ref AccountOnboardPuppetRoleName
+      Path: /
+      Policies:
+        - PolicyName: BootstrapPuppet
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Sid: SSMParameters
+                Effect: Allow
+                Action:
+                  - ssm:GetParameter
+                Resource: "*"
+              - Sid: CodeBuildStartBuilds
+                Effect: Allow
+                Action:
+                  - codebuild:StartBuild
+                  - codebuild:BatchGetBuilds
+                Resource: "*"
+              - Effect: Allow
+                Action:
+                  - sts:AssumeRole
+                Resource: !Sub "arn:${AWS::Partition}:iam::*:role/${OrganizationAccountAccessRole}"
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Principal:
+              AWS: !Sub "arn:${AWS::Partition}:iam::${OrganizationRootAccountId}:root"
+            Action:
+              - "sts:AssumeRole"
+
+Outputs:
+  AssumableRoleArnInPuppetAccountForBootstrapping:
+    Description: The ARN for your assumable role in the Puppet account
+    Value: !GetAtt AssumableRoleInPuppetAccount.Arn

@@ -1,0 +1,132 @@
+accounts:
+  - account_id: "SET_ME"
+    name: "puppet"
+    default_region: us-gov-west-1
+    regions_enabled:
+      - us-gov-west-1
+    tags:
+      - type:prod
+      - partition:aws-us-gov
+      - scope:puppet_account
+  - ou: "/SET_ME"
+    name: "organization-spokes"
+    default_region: us-gov-west-1
+    regions_enabled:
+      - us-gov-west-1
+    tags:
+      - type:prod
+      - partition:aws-us-gov
+      - scope:spoke
+  - account_id: "SET_ME"
+    name: "gov-organization-management"
+    default_region: us-gov-west-1
+    regions_enabled:
+      - us-gov-west-1
+    tags:
+      - type:prod
+      - partition:aws-us-gov
+      - scope:org_management
+launches:
+  account-bootstrap-shared:
+    depends_on:
+      - account-bootstrap-shared-org-bootstrap
+    deploy_to:
+      tags:
+        - regions: default_region
+          tag: scope:puppet_account
+    outputs:
+      ssm:
+        - param_name: /governance-at-scale-account-factory/account-bootstrap-shared/GovernanceAtScaleAccountFactoryBootstrapperProjectCustomResourceArn
+          stack_output: GovernanceAtScaleAccountFactoryBootstrapperProjectCustomResourceArn
+    parameters:
+      AssumableRoleArnInRootAccountForBootstrapping:
+        ssm:
+          name: /governance-at-scale-account-factory/account-bootstrap-shared-org-bootstrap/AssumableRoleArnInRootAccountForBootstrapping
+      ? GovernanceAtScaleAccountFactoryAccountBootstrapSharedBootstrapperIAMRoleName
+      : default: AccountBootstrapSharedBootstrapperIAMRoleName
+      ? GovernanceAtScaleAccountFactoryAccountBootstrapSharedCustomResourceIAMRoleName
+      : default: AccountBootstrapSharedCustomResourceIAMRoleName
+      GovernanceAtScaleAccountFactoryIAMRolePath:
+        default: /AccountFactoryIAMRolePath/
+    portfolio: gas-acct-factory
+    product: account-bootstrap-shared
+    version: v4
+  account-bootstrap-shared-org-bootstrap:
+    deploy_to:
+      tags:
+        - regions: default_region
+          tag: scope:org_management
+    outputs:
+      ssm:
+        - param_name: /governance-at-scale-account-factory/account-bootstrap-shared-org-bootstrap/AssumableRoleArnInRootAccountForBootstrapping
+          stack_output: AssumableRoleArnInRootAccountForBootstrapping
+    parameters:
+      ? GovernanceAtScaleAccountFactoryAccountBootstrapSharedBootstrapperOrgIAMRoleName
+      : default: AccountBootstrapSharedBootstrapperOrgIAMRoleName
+      GovernanceAtScaleAccountFactoryIAMRolePath:
+        default: /AccountFactoryIAMRolePath/
+      OrganizationAccountAccessRole:
+        default: OrganizationAccountAccessRole
+      ServiceCatalogToolsAccountId:
+        default: "SET_ME"
+    portfolio: gas-acct-factory
+    product: account-bootstrap-shared-org-bootstrap
+    version: v1
+  govcloud-account-onboard:
+    depends_on:
+      - account-puppet-org-bootstrap
+    deploy_to:
+      tags:
+        - regions: default_region
+          tag: scope:org_management
+    parameters:
+      OrganizationAccountAccessRole:
+        default: OrganizationAccountAccessRole
+      PuppetAccountAccessRoleArn:
+        ssm:
+          name: /governance-at-scale-account-factory/account-puppet-org-bootstrap/PuppetAccountAccessRoleArn
+      BootstrapperProjectName:
+        default: servicecatalog-puppet-single-account-bootstrapper
+      GovernanceAtScaleAccountFactoryIAMRolePath:
+        default: /AccountFactory-IAMRolePath/
+      GovernanceAtScaleAccountFactoryAccountAccountInvitationIAMRoleName:
+        default: AccountInvitationRole
+    portfolio: gas-acct-factory
+    product: govcloud-account-onboard
+    version: v1
+  account-puppet-org-bootstrap:
+    deploy_to:
+      tags:
+        - tag: scope:puppet_account
+          regions: default_region
+    outputs:
+      ssm:
+        - param_name: /governance-at-scale-account-factory/account-puppet-org-bootstrap/PuppetAccountAccessRoleArn
+          stack_output: AssumableRoleArnInPuppetAccountForBootstrapping
+    parameters:
+      OrganizationRootAccountId:
+        default: "SET_ME"
+      OrganizationAccountAccessRole:
+        default: OrganizationAccountAccessRole
+      AccountOnboardPuppetRoleName:
+        default: PuppetAccountAccessRole
+    portfolio: gas-acct-factory
+    product: account-puppet-org-bootstrap
+    version: v1
+spoke-local-portfolios:
+  account-vending-for-spokes:
+    portfolio: gas-acct-factory
+    associations:
+      - arn:aws-us-gov:iam::${AWS::AccountId}:role/SET_ME
+    constraints:
+      launch:
+        - products:
+            - govcloud-account-onboard
+            - account-bootstrap-shared-org-bootstrap
+          roles:
+            - arn:aws-us-gov:iam::${AWS::AccountId}:role/SET_ME
+    deploy_to:
+      tags:
+        - regions: default_region
+          tag: scope:org_management
+schema: puppet-2019-04-01

@@ -1,0 +1,65 @@
+# Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+AWSTemplateFormatVersion: '2010-09-09'
+Description: |
+  This product creates an IAM Role that is needed in order to use AWS Organizations to create AWS Accounts
+  {"framework": "servicecatalog-products", "role": "product", "product-set": "governance-at-scale-account-factory", "product": "account-creation-shared-org-bootstrap", "version": "v2"}
+
+Parameters:
+  ServiceCatalogToolsAccountId:
+    Description: The account ID of the account where you have installed AWS Service Catalog Factory 
+    Type: String
+  OrganizationAccountAccessRole:
+    Description: The name of the IAM role used to access cross accounts for AWS Organizations usage 
+    Default: OrganizationAccountAccessRole
+    Type: String
+  GovernanceAtScaleAccountFactoryIAMRolePath:
+    Description: The path to use for IAM roles in this template
+    Type: String
+  GovernanceAtScaleAccountFactoryAccountCreationSharedOrgIAMRoleName:
+    Description: The name to use for the IAM role that will be used to list accounts for bootstrapping purposes
+    Type: String
+
+
+Resources:
+  AssumableRoleInRootAccount:
+    Type: AWS::IAM::Role
+    Description: |
+      An IAM Role to be used by the account vending machine so it can create and move accounts
+    Properties:
+      RoleName: !Ref GovernanceAtScaleAccountFactoryAccountCreationSharedOrgIAMRoleName
+      Path: !Ref GovernanceAtScaleAccountFactoryIAMRolePath
+      Policies:
+        - PolicyName: Organizations
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - organizations:ListRoots
+                  - organizations:ListAccounts
+                  - organizations:ListParents
+                  - organizations:MoveAccount
+                  - organizations:CreateAccount
+                  - organizations:CreateGovCloudAccount
+                  - organizations:DescribeCreateAccountStatus
+                  - organizations:ListOrganizationalUnitsForParent
+                Resource: '*'
+              - Effect: Allow
+                Action:
+                  - sts:AssumeRole
+                Resource: !Sub "arn:${AWS::Partition}:iam::*:role/${OrganizationAccountAccessRole}"
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Principal:
+              AWS: !Sub "arn:${AWS::Partition}:iam::${ServiceCatalogToolsAccountId}:root"
+            Action:
+              - "sts:AssumeRole"
+
+Outputs:
+  GovernanceAtScaleAccountFactoryAccountCreationSharedOrgRoleArn:
+    Description: The ARN for the assumable role in the organization root account 
+    Value: !GetAtt AssumableRoleInRootAccount.Arn

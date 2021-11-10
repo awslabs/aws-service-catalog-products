@@ -1,0 +1,154 @@
+# Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+Schema: factory-2019-04-01
+Portfolios:
+  - DisplayName: "gas-acct-factory"
+    Description: "G@S account vending machine"
+    ProviderName: "G@S-Team"
+    Tags:
+      - Key: "type"
+        Value: "governance"
+      - Key: "creator"
+        Value: "G@S-Team"
+    Components:
+      - Description: account-bootstrap-shared
+        Distributor: CCOE
+        Name: account-bootstrap-shared
+        Owner: CCOE@Example.com
+        Source:
+          Configuration:
+            RepositoryName: account-bootstrap-shared
+          Provider: CodeCommit
+        Constraints:
+          Launch:
+            LocalRoleName: SET_ME
+        BuildSpec: |
+          version: 0.2
+          phases:
+            install:
+              runtime-versions:
+                python: 3.8
+            build:
+              commands:
+                - pip install -r requirements.txt -t src
+              {% for region in ALL_REGIONS %}
+                - aws cloudformation package --template $(pwd)/product.template.yaml --s3-bucket sc-factory-artifacts-${ACCOUNT_ID}-{{ region }} --s3-prefix ${STACK_NAME} --output-template-file product.template-{{ region }}.yaml
+              {% endfor %}
+          artifacts:
+            files:
+              - '*'
+              - '**/*'
+        SupportDescription: Find us on Slack or Wiki
+        SupportEmail: ccoe-support@Example.com
+        SupportUrl: https://example.com/intranet/teams/ccoe/products/account-factory
+        Tags: []
+        Versions:
+          - Description:
+              This product creates an AWS CodeBuild project that can be run to bootstrap an account.
+              It also includes an AWS Lambda function that can be used to back a custom resource
+              so that the CodeBuild project can be started from AWS CloudFormation
+            Name: v4
+            Source:
+              Provider: CodeCommit
+              Configuration:
+                BranchName: v4
+                RepositoryName: account-bootstrap-shared
+      - Description: account-bootstrap-shared-org-bootstrap
+        Distributor: CCOE
+        Name: account-bootstrap-shared-org-bootstrap
+        Owner: CCOE@Example.com
+        Source:
+          Configuration:
+            RepositoryName: account-bootstrap-shared-org-bootstrap
+          Provider: CodeCommit
+        Constraints:
+          Launch:
+            LocalRoleName: SET_ME
+        SupportDescription: Find us on Slack or Wiki
+        SupportEmail: ccoe-support@Example.com
+        SupportUrl: https://example.com/intranet/teams/ccoe/products/account-factory
+        Tags: []
+        Versions:
+          - Description:
+              This product creates an IAM Role that is required to use AWS Organizations
+              to bootstrap AWS accounts
+            Name: v1
+            Source:
+              Provider: CodeCommit
+              Configuration:
+                BranchName: v1
+                RepositoryName: account-bootstrap-shared-org-bootstrap
+      - Description: govcloud-account-onboard
+        Distributor: CCOE
+        Name: govcloud-account-onboard
+        Owner: CCOE@Example.com
+        Source:
+          Configuration:
+            RepositoryName: govcloud-account-onboard
+          Provider: CodeCommit
+        Constraints:
+          Launch:
+            LocalRoleName: SET_ME
+        BuildSpec: |
+          version: 0.2
+          phases:
+            install:
+              runtime-versions:
+                python: 3.8
+            build:
+              commands:
+                - pip install -r requirements.txt -t src
+              {% for region in ALL_REGIONS %}
+                - aws cloudformation package --template $(pwd)/product.template.yaml --s3-bucket sc-factory-artifacts-${ACCOUNT_ID}-{{ region }} --s3-prefix ${STACK_NAME} --output-template-file product.template-{{ region }}.yaml
+              {% endfor %}
+          artifacts:
+            files:
+              - '*'
+              - '**/*'
+        SupportDescription: Find us on Slack or Wiki
+        SupportEmail: ccoe-support@Example.com
+        SupportUrl: https://example.com/intranet/teams/ccoe/products/account-factory
+        Versions:
+          - Description:
+              "This product creates a Lambda function with an API Gateway endpoint.
+              The purpose of the Lambda function is to
+              Add a newly created GovCloud account to the GovCloud organization through an
+              automated invitation and handshake process
+              Move the account to the correct Organizational Unit (OU)
+              Bootstrap the account as a spoke of the GovCloud Service Catalog Puppet account"
+            Name: v1
+            Source:
+              Provider: CodeCommit
+              Configuration:
+                BranchName: v1
+                RepositoryName: govcloud-account-onboard
+      - Description: account-puppet-org-bootstrap
+        Distributor: CCOE
+        Name: account-puppet-org-bootstrap
+        Owner: CCOE@Example.com
+        Source:
+          Configuration:
+            RepositoryName: account-puppet-org-bootstrap
+          Provider: CodeCommit
+        Constraints:
+          Launch:
+            LocalRoleName: SET_ME
+        SupportDescription: Find us on Slack or Wiki
+        SupportEmail: ccoe-support@Example.com
+        SupportUrl: https://example.com/intranet/teams/ccoe/products/account-factory
+        Versions:
+          - Description:
+              This product creates the IAM role that govcloud-account-onboard requires
+              in order to bootstrap a new GovCloud account as a spoke of the GovCloud Service
+              Catalog Puppet account
+            Name: v1
+            Source:
+              Provider: CodeCommit
+              Configuration:
+                BranchName: v1
+                RepositoryName: account-puppet-org-bootstrap
+        ProviderName: ccoe
+        Tags:
+          - Key: team
+            Value: ccoe

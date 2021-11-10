@@ -29,7 +29,7 @@ Resources:
     Properties:
       Path: !Ref GovernanceAtScaleAccountFactoryIAMRolePath
       ManagedPolicyArns:
-        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+        - !Sub arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
       Policies:
         - PolicyName: ServiceCatalogActions
           PolicyDocument:
@@ -44,7 +44,7 @@ Resources:
         Statement:
           - Effect: "Allow"
             Principal:
-              AWS: !Sub "arn:aws:iam::${AWS::AccountId}:root"
+              AWS: !Sub "arn:${AWS::Partition}:iam::${AWS::AccountId}:root"
             Action:
               - "sts:AssumeRole"
           - Effect: "Allow"
