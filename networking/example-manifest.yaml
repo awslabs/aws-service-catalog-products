@@ -3,10 +3,9 @@
 
 schema: puppet-2019-04-01
 
-launches:
+stacks:
   networking-public-subnet:
-    portfolio: demo-central-it-team-portfolio
-    product: networking-public-subnet
+    name: networking-public-subnet
     version: v1
     depends_on:
       - networking-vpc
@@ -26,8 +25,7 @@ launches:
           regions: CHANGE_ME
 
   networking-vpc:
-    portfolio: demo-central-it-team-portfolio
-    product: networking-vpc
+    name: networking-vpc
     version: v1
     parameters:
       VPCCIDR:

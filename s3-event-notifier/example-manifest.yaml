@@ -3,10 +3,9 @@
 
 schema: puppet-2019-04-01
 
-launches:
+stacks:
   s3-event-notification:
-    portfolio: demo-central-it-team-portfolio
-    product: s3-event-notifier
+    name: s3-event-notifier
     version: v1
     deploy_to:
       tags:

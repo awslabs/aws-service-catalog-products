@@ -2,80 +2,63 @@
 # SPDX-License-Identifier: Apache-2.0
 
 Schema: factory-2019-04-01
-Portfolios:
-  Components:
-    - Name: ssm-backup
-      Owner: central-it@customer.com
-      Description: back-up SSM Parameter Store for DR.
-      Distributor: IT-Support-Customer
-      SupportDescription: Contact us on Chime for help #central-it-team
-      SupportEmail: central-it@customer.com
-      SupportUrl: https://wiki.customer.com/central-it-team/self-service/ssm-backup-product
-      Tags:
-        - Key: product-type
-          Value: ssm-backup
-      Versions:
-        - Name: v1
-          Description: ssm-backup-product for backing up all SSM Parameters to S3 within a given account/region. 
-          Active: True
-          Options:
-            ShouldCFNNag: True
-          Source:
-            Provider: CodeCommit
-            Configuration:
-              RepositoryName: ssm-backup
-              BranchName: v1
-      BuildSpec: |
-        version: 0.2  
-        phases:  
-          install:
-            runtime-versions:
-              python: 3.8
-          build:
-            commands:  
-              - pip install -r requirements.txt -t src
-            {% for region in ALL_REGIONS %}  
-              - aws cloudformation package --template $(pwd)/product.template.yaml --s3-bucket sc-factory-artifacts-${ACCOUNT_ID}-{{ region }} --s3-prefix ${STACK_NAME} --output-template-file product.template-{{ region }}.yaml  
-            {% endfor %}  
-        artifacts:  
-          files:  
-            - '*'  
-            - '**/*'
+Stacks:
+  - Name: ssm-backup
+    Tags:
+      - Key: product-type
+        Value: ssm-backup
+    Versions:
+      - Name: v1
+        Options:
+          ShouldCFNNag: True
+        Source:
+          Provider: CodeCommit
+          Configuration:
+            RepositoryName: ssm-backup
+            BranchName: v1
+    BuildSpec: |
+      version: 0.2
+      phases:
+        install:
+          runtime-versions:
+            python: 3.8
+        build:
+          commands:
+            - pip install -r requirements.txt -t src
+          {% for region in ALL_REGIONS %}
+            - aws cloudformation package --template $(pwd)/product.template.yaml --s3-bucket sc-factory-artifacts-${ACCOUNT_ID}-{{ region }} --s3-prefix ${STACK_NAME} --output-template-file product.template-{{ region }}.yaml
+          {% endfor %}
+      artifacts:
+        files:
+          - '*'
+          - '**/*'
 
-    - Name: ssm-restore
-      Owner: central-it@customer.com
-      Description: restore SSM Parameter Store from S3 DR bucket.
-      Distributor: IT-Support-Customer
-      SupportDescription: Contact us on Chime for help #central-it-team
-      SupportEmail: central-it@customer.com
-      SupportUrl: https://wiki.customer.com/central-it-team/self-service/ssm-backup-product
-      Tags:
-        - Key: product-type
-          Value: ssm-restore
-      Versions:
-        - Name: v1
-          Description: ssm-restore-product for restoring SSM Parameter Store from S3 DR bucket within a given account.
-          Active: True
-          Options:
-            ShouldCFNNag: True
-          Source:
-            Provider: CodeCommit
-            Configuration:
-              RepositoryName: ssm-restore
-              BranchName: v1
-      BuildSpec: |
-        version: 0.2
-        phases:
-          install:
-            runtime-versions:
-              python: 3.8
-          build:
-            commands:
-              - pip install -r requirements.txt -t src
-            {% for region in ALL_REGIONS %}
-              - aws cloudformation package --template $(pwd)/product.template.yaml --s3-bucket sc-factory-artifacts-${ACCOUNT_ID}-{{ region }} --s3-prefix ${STACK_NAME} --output-template-file product.template-{{ region }}.yaml
-            {% endfor %}
-        artifacts:
-          files:
-            - '*'
-            - '**/*'
+  - Name: ssm-restore
+    Tags:
+      - Key: product-type
+        Value: ssm-restore
+    Versions:
+      - Name: v1
+        Options:
+          ShouldCFNNag: True
+        Source:
+          Provider: CodeCommit
+          Configuration:
+            RepositoryName: ssm-restore
+            BranchName: v1
+    BuildSpec: |
+      version: 0.2
+      phases:
+        install:
+          runtime-versions:
+            python: 3.8
+        build:
+          commands:
+            - pip install -r requirements.txt -t src
+          {% for region in ALL_REGIONS %}
+            - aws cloudformation package --template $(pwd)/product.template.yaml --s3-bucket sc-factory-artifacts-${ACCOUNT_ID}-{{ region }} --s3-prefix ${STACK_NAME} --output-template-file product.template-{{ region }}.yaml
+          {% endfor %}
+      artifacts:
+        files:
+          - '*'
+          - '**/*'

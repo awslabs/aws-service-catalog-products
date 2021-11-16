@@ -3,11 +3,9 @@
 
 schema: puppet-2019-04-01
 
-launches:
-
+stacks:
   ssm-backup-restore-ssm-backup:
-    portfolio: demo-central-it-team-portfolio
-    product: ssm-backup
+    name: ssm-backup
     version: v1
     parameters:
         pS3BucketName:
@@ -46,8 +44,7 @@ launches:
           regions: default_region
 
   ssm-backup-restore-ssm-restore:
-    portfolio: demo-central-it-team-portfolio
-    product: ssm-backup
+    name: ssm-backup
     version: v1
     parameters:
       pS3BucketName:

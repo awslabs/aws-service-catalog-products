@@ -3,10 +3,9 @@
 
 schema: puppet-2019-04-01
 
-launches:
+stacks:
   guardduty-spoke:
-    portfolio: demo-central-it-team-portfolio
-    product: guardduty-spoke
+    name: guardduty-spoke
     version: v2
     depends_on:
       - guardduty-master
@@ -17,8 +16,7 @@ launches:
           regions: default_region
 
   guardduty-master:
-    portfolio: demo-central-it-team-portfolio
-    product: guardduty-master
+    name: guardduty-master
     version: v2
     deploy_to:
       tags:
@@ -26,8 +24,7 @@ launches:
           regions: default_region
 
   guardduty-org-bootstrap:
-    portfolio: demo-central-it-team-portfolio
-    product: guardduty-org-bootstrap
+    name: guardduty-org-bootstrap
     version: v2
     deploy_to:
       tags:

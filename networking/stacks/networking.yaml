@@ -1,44 +1,27 @@
 # Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 # SPDX-License-Identifier: Apache-2.0
 
-Portfolios:
-    Components:
-      - Name: networking-vpc
-        Owner: Amazon-Web-Services
-        Description: VPC Product
-        Distributor: Amazon-Web-Services
-        SupportDescription: Contact us on Chime for help #central-it-team
-        SupportEmail: central-it-team@customer.com
-        SupportUrl: https://wiki.customer.com/central-it-team/self-service/
-        Tags:
-        - Key: product-type
-          Value: networking
-        Versions:
-          - Name: v1
-            Description: VPC Product
-            Active: True
-            Source:
-              Provider: CodeCommit
-              Configuration:
-                RepositoryName: networking-vpc
-                BranchName: v1
+Stacks:
+  - Name: networking-vpc
+    Tags:
+      - Key: product-type
+        Value: networking
+    Versions:
+      - Name: v1
+        Source:
+          Provider: CodeCommit
+          Configuration:
+            RepositoryName: networking-vpc
+            BranchName: v1
 
-      - Name: networking-public-subnet
-        Owner: Amazon-Web-Services
-        Description: public-subnet Product
-        Distributor: Amazon-Web-Services
-        SupportDescription: Contact us on Chime for help #central-it-team
-        SupportEmail: central-it-team@customer.com
-        SupportUrl: https://wiki.customer.com/central-it-team/self-service/
-        Tags:
-        - Key: product-type
-          Value: networking
-        Versions:
-          - Name: v1
-            Description: public-subnet Product
-            Active: True
-            Source:
-              Provider: CodeCommit
-              Configuration:
-                RepositoryName: networking-public-subnet
-                BranchName: v1
+  - Name: networking-public-subnet
+    Tags:
+      - Key: product-type
+        Value: networking
+    Versions:
+      - Name: v1
+        Source:
+          Provider: CodeCommit
+          Configuration:
+            RepositoryName: networking-public-subnet
+            BranchName: v1

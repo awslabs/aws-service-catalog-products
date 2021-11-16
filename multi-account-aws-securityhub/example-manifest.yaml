@@ -3,10 +3,9 @@
 
 schema: puppet-2019-04-01
 
-launches:
+stacks:
   securityhub-master:
-    portfolio: demo-central-it-team-portfolio
-    product: securityhub-master
+    name: securityhub-master
     version: v1
     parameters:
       AWSOrganizationId:
@@ -20,8 +19,7 @@ launches:
         - tag: role:securityhub-hub
           regions: default_region
   securityhub-spoke:
-    portfolio: demo-central-it-team-portfolio
-    product: securityhub-spoke
+    name: securityhub-spoke
     version: v1
     depends_on:
       - securityhub-master
