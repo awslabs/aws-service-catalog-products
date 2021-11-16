@@ -1,0 +1,42 @@
+Parameters:
+  CuratedReportingCreateOrUpdateReportOrgsRoleName:
+    Type: String
+    Default: "OrgsRole"
+
+  CuratedReportingCreateOrUpdateReportOrgsRolePath:
+    Type: String
+    Default: "/platform/CuratedReporting/"
+
+  FinanceAccountId:
+    Type: String
+
+Resources:
+  CuratedReportingCreateOrUpdateReportOrgsRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Ref CuratedReportingCreateOrUpdateReportOrgsRoleName
+      Path: !Ref CuratedReportingCreateOrUpdateReportOrgsRolePath
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Principal:
+              AWS: !Sub "arn:aws:iam::${FinanceAccountId}:root"
+            Action:
+              - "sts:AssumeRole"
+      Policies:
+        - PolicyName: CurPerms
+          PolicyDocument:
+            Statement:
+              - Effect: Allow
+                Action:
+                  - cur:DeleteReportDefinition
+                  - cur:DescribeReportDefinitions
+                  - cur:ModifyReportDefinition
+                  - cur:PutReportDefinition
+                Resource: "*"
+
+Outputs:
+  CuratedReportingCreateOrUpdateReportOrgsRoleArn:
+    Description: Arn of the CuratedReportingCreateOrUpdateReportOrgsRole
+    Value: !GetAtt CuratedReportingCreateOrUpdateReportOrgsRole.Arn
