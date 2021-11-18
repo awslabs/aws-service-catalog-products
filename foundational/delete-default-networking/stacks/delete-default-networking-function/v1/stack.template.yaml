@@ -21,7 +21,7 @@ Parameters:
   DeleteDefaultVPCLambdaExecutionIAMRolePath:
     Description: "The path for the IAM Role that will be created to execute the lambda function"
     Type: String
-    Default: "/DeleteDefaultVPCLambdaExecution/"
+    Default: "/foundational/DeleteDefaultVPCLambdaExecution/"
   DeleteDefaultNetworkingLambdaFunctionName:
     Description: "The name to give the function that deletes the default networking resources"
     Type: String
