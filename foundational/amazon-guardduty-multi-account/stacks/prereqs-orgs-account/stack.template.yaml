@@ -1,0 +1,51 @@
+Parameters:
+  GuardDutyMultiAccountDelegateAdminRoleName:
+    Type: String
+    Default: "GuardDutyMultiAccountDelegateAdminRole"
+
+  GuardDutyMultiAccountRolePath:
+    Type: String
+    Default: "/foundational/GuardDutyMultiAccount/"
+
+  SecurityToolingAccountId:
+    Type: String
+
+Resources:
+  GuardDutyMultiAccountDelegateAdminRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Ref GuardDutyMultiAccountDelegateAdminRoleName
+      Path: !Ref GuardDutyMultiAccountRolePath
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Principal:
+              AWS: !Sub "arn:aws:iam::${SecurityToolingAccountId}:root"
+            Action:
+              - "sts:AssumeRole"
+      Policies:
+        - PolicyName: PermissionsForGuardDutyAdmin
+          PolicyDocument:
+            Statement:
+              - Effect: Allow
+                Action:
+                  - "organizations:EnableAWSServiceAccess"
+                  - "organizations:RegisterDelegatedAdministrator"
+                  - "organizations:ListDelegatedAdministrators"
+                  - "organizations:ListAWSServiceAccessForOrganization"
+                  - "organizations:DescribeOrganizationalUnit"
+                  - "organizations:DescribeAccount"
+                  - "organizations:DescribeOrganization"
+                  - "guardduty:ListOrganizationAdminAccounts"
+                  - "guardduty:EnableOrganizationAdminAccount"
+#                  - "guardduty:ListDetectors" #TODO remove after fresh test
+#                  - "guardduty:GetDetector" #TODO remove after fresh test
+#                  - "guardduty:CreateDetector" #TODO remove after fresh test
+#                  - "guardduty:DescribeOrganizationConfiguration" #TODO remove after fresh test
+                Resource: "*"
+
+Outputs:
+  GuardDutyMultiAccountDelegateAdminRoleArn:
+    Description: Arn of the GuardDutyMultiAccountDelegateAdminRole
+    Value: !GetAtt GuardDutyMultiAccountDelegateAdminRole.Arn

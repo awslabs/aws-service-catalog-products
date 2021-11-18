@@ -5,7 +5,7 @@ Parameters:
 
   CuratedReportingCreateOrUpdateReportOrgsRolePath:
     Type: String
-    Default: "/platform/CuratedReporting/"
+    Default: "/foundational/CuratedReporting/"
 
   FinanceAccountId:
     Type: String
