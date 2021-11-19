@@ -1,0 +1,42 @@
+Parameters:
+  GuardDutyMultiAccountGuardDutyRoleName:
+    Type: String
+    Default: "GuardDutyMultiAccountGuardDutyRole"
+
+  GuardDutyMultiAccountRolePath:
+    Type: String
+    Default: "/foundational/GuardDutyMultiAccount/"
+
+  SCTAccountId:
+    Type: String
+
+Resources:
+  GuardDutyMultiAccountGuardDutyRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Ref GuardDutyMultiAccountGuardDutyRoleName
+      Path: !Ref GuardDutyMultiAccountRolePath
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Principal:
+              AWS: !Sub "arn:aws:iam::${SCTAccountId}:root"
+            Action:
+              - "sts:AssumeRole"
+      Policies:
+        - PolicyName: GDPerms
+          PolicyDocument:
+            Statement:
+              - Effect: Allow
+                Action:
+                  - guardduty:ListDetectors
+                  - guardduty:GetDetector
+                  - guardduty:CreateDetector
+                  - guardduty:DescribeOrganizationConfiguration
+                  - guardduty:UpdateOrganizationConfiguration
+                Resource: "*"
+Outputs:
+  GuardDutyMultiAccountGuardDutyRoleArn:
+    Description: Arn of the GuardDutyMultiAccountGuardDutyRole
+    Value: !GetAtt GuardDutyMultiAccountGuardDutyRole.Arn

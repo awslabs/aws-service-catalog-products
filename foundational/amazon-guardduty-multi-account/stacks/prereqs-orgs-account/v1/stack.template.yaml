@@ -7,7 +7,7 @@ Parameters:
     Type: String
     Default: "/foundational/GuardDutyMultiAccount/"
 
-  SecurityToolingAccountId:
+  SCTAccountId:
     Type: String
 
 Resources:
@@ -21,7 +21,7 @@ Resources:
         Statement:
           - Effect: "Allow"
             Principal:
-              AWS: !Sub "arn:aws:iam::${SecurityToolingAccountId}:root"
+              AWS: !Sub "arn:aws:iam::${SCTAccountId}:root"
             Action:
               - "sts:AssumeRole"
       Policies:

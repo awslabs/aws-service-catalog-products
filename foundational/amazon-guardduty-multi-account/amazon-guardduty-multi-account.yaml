@@ -33,3 +33,18 @@ Stacks:
           Configuration:
             RepositoryName: amazon-guardduty-multi-account
             BranchName: main
+  - Name: amazon-guardduty-multi-account-prereqs-securitytooling-account
+    Tags:
+      - Key: category
+        Value: foundational
+      - Key: product-type
+        Value: governance
+    Versions:
+      - Name: v1
+        Active: True
+        Source:
+          Provider: CodeCommit
+          Path: stacks/prereqs-securitytooling-account/v1
+          Configuration:
+            RepositoryName: amazon-guardduty-multi-account
+            BranchName: main

@@ -1,0 +1,36 @@
+Parameters:
+  SecurityHubMultiAccountSecutityHubRoleName:
+    Type: String
+    Default: "SecurityHubMultiAccountSecutityHubRole"
+
+  SecurityHubMultiAccountRolePath:
+    Type: String
+    Default: "/foundational/SecurityHubMultiAccount/"
+
+Resources:
+  SecurityHubMultiAccountSecutityHubRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Ref SecurityHubMultiAccountSecutityHubRoleName
+      Path: !Ref SecurityHubMultiAccountRolePath
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: GDPerms
+          PolicyDocument:
+            Statement:
+              - Effect: Allow
+                Action:
+                  - securityhub:DescribeOrganizationConfiguration
+                  - securityhub:UpdateOrganizationConfiguration
+                Resource: "*"
+
+Outputs:
+  SecurityHubMultiAccountSecutityHubRoleArn:
+    Description: Arn of the SecurityHubMultiAccountSecutityHubRole
+    Value: !GetAtt SecurityHubMultiAccountSecutityHubRole.Arn

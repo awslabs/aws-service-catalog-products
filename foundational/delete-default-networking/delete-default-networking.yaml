@@ -3,7 +3,7 @@
 
 Schema: factory-2019-04-01
 Stacks:
-  - Name: delete-default-networking
+  - Name: delete-default-networking-function
     Tags:
       - Key: category
         Value: foundational
@@ -14,6 +14,7 @@ Stacks:
         Active: True
         Source:
           Provider: CodeCommit
+          Path: stacks/function/v1
           Configuration:
             RepositoryName: delete-default-networking
             BranchName: main

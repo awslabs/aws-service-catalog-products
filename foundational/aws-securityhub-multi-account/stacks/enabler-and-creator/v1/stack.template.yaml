@@ -2,6 +2,9 @@ Parameters:
   SecurityHubMultiAccountDelegateAdminRoleArn:
     Type: String
 
+  SecurityHubMultiAccountSecurityHubRoleArn:
+    Type: String
+
   SecurityHubMultiAccountExecutionRoleName:
     Type: String
     Default: "SecurityHubMultiAccountExecutionRole"
@@ -87,7 +90,20 @@ Resources:
 
 
           def create_client(region):
-              return boto3.client('securityhub', region_name=region)
+              security_hub_multi_account_security_hub_role_arn = os.environ.get(
+                  "SECURITY_HUB_MULTI_ACCOUNT_SECURITY_HUB_ROLE_ARN")
+              sts = boto3.client('sts')
+              assumed_role_object = sts.assume_role(
+                  RoleArn=security_hub_multi_account_security_hub_role_arn,
+                  RoleSessionName='security_hub_multi_account_security_hub_role_arn',
+              )
+              credentials = assumed_role_object['Credentials']
+              kwargs = {
+                  "aws_access_key_id": credentials['AccessKeyId'],
+                  "aws_secret_access_key": credentials['SecretAccessKey'],
+                  "aws_session_token": credentials['SessionToken'],
+              }
+              return boto3.client('securityhub', region_name=region, **kwargs)
 
 
           def ensure_all_are_members(client, accounts_to_ensure):
@@ -129,6 +145,7 @@ Resources:
       Environment:
         Variables:
           SECURITY_HUB_MULTI_ACCOUNT_DELEGATE_ADMIN_ROLE_ARN: !Ref SecurityHubMultiAccountDelegateAdminRoleArn
+          SECURITY_HUB_MULTI_ACCOUNT_SECURITY_HUB_ROLE_ARN: !Ref SecurityHubMultiAccountSecurityHubRoleArn
           BOTO_LOG_LEVEL: CRITICAL
           LOG_LEVEL: INFO
 
@@ -157,9 +174,8 @@ Resources:
             Statement:
               - Effect: Allow
                 Action:
-                  - securityhub:DescribeOrganizationConfiguration
-                  - securityhub:UpdateOrganizationConfiguration
-                Resource: "*"
+                  - sts:AssumeRole
+                Resource: !Ref SecurityHubMultiAccountSecurityHubRoleArn
         - PolicyName: Logging
           PolicyDocument:
             Statement:

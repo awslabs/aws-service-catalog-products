@@ -2,6 +2,9 @@ Parameters:
   GuardDutyMultiAccountDelegateAdminRoleArn:
     Type: String
 
+  GuardDutyMultiAccountGuardDutyRoleArn:
+    Type: String
+
   GuardDutyMultiAccountExecutionRoleName:
     Type: String
     Default: "GuardDutyMultiAccountExecutionRole"
@@ -10,10 +13,18 @@ Parameters:
     Type: String
     Default: "/foundational/GuardDutyMultiAccount/"
 
+  GuardDutyMultiAccountFunctionName:
+    Type: String
+    Default: "GuardDutyMultiAccountFunction"
+
+  SecurityToolingAccountId:
+    Type: String
+
 Resources:
   Function:
     Type: AWS::Lambda::Function
     Properties:
+      FunctionName: !Ref GuardDutyMultiAccountFunctionName
       Code:
         ZipFile: |
           import logging
@@ -120,7 +131,20 @@ Resources:
 
 
           def create_client(region):
-              return boto3.client('guardduty', region_name=region)
+              guard_duty_multi_account_guard_duty_role_arn = os.environ.get(
+                  "GUARD_DUTY_MULTI_ACCOUNT_GUARD_DUTY_ROLE_ARN")
+              sts = boto3.client('sts')
+              assumed_role_object = sts.assume_role(
+                  RoleArn=guard_duty_multi_account_guard_duty_role_arn,
+                  RoleSessionName='guard_duty_multi_account_guard_duty_role_arn',
+              )
+              credentials = assumed_role_object['Credentials']
+              kwargs = {
+                  "aws_access_key_id": credentials['AccessKeyId'],
+                  "aws_secret_access_key": credentials['SecretAccessKey'],
+                  "aws_session_token": credentials['SessionToken'],
+              }
+              return boto3.client('guardduty', region_name=region, **kwargs)
 
 
           def ensure_all_are_members(client, detector_id, accounts_to_ensure):
@@ -138,7 +162,7 @@ Resources:
               logger.info("starting")
               logger.debug(json.dumps(event, default=str))
               region = event.get("region")
-              account_id = event.get("account_id")
+              account_id = os.environ.get("SECURITY_TOOLING_ACCOUNT_ID")
               accounts_to_ensure = event.get("accounts_to_ensure", [])
 
               guardduty = create_client(region)
@@ -164,6 +188,8 @@ Resources:
       Environment:
         Variables:
           GUARD_DUTY_MULTI_ACCOUNT_DELEGATE_ADMIN_ROLE_ARN: !Ref GuardDutyMultiAccountDelegateAdminRoleArn
+          GUARD_DUTY_MULTI_ACCOUNT_GUARD_DUTY_ROLE_ARN: !Ref GuardDutyMultiAccountGuardDutyRoleArn
+          SECURITY_TOOLING_ACCOUNT_ID: !Ref SecurityToolingAccountId
           BOTO_LOG_LEVEL: CRITICAL
           LOG_LEVEL: INFO
 
@@ -187,17 +213,10 @@ Resources:
                 Action:
                   - sts:AssumeRole
                 Resource: !Ref GuardDutyMultiAccountDelegateAdminRoleArn
-        - PolicyName: GDPerms
-          PolicyDocument:
-            Statement:
               - Effect: Allow
                 Action:
-                  - guardduty:ListDetectors
-                  - guardduty:GetDetector
-                  - guardduty:CreateDetector
-                  - guardduty:DescribeOrganizationConfiguration
-                  - guardduty:UpdateOrganizationConfiguration
-                Resource: "*"
+                  - sts:AssumeRole
+                Resource: !Ref GuardDutyMultiAccountGuardDutyRoleArn
         - PolicyName: Logging
           PolicyDocument:
             Statement:

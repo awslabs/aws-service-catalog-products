@@ -33,3 +33,19 @@ Stacks:
           Configuration:
             RepositoryName: aws-securityhub-multi-account
             BranchName: main
+
+  - Name: aws-securityhub-multi-account-prereqs-securitytooling-account
+    Tags:
+      - Key: category
+        Value: foundational
+      - Key: product-type
+        Value: governance
+    Versions:
+      - Name: v1
+        Active: True
+        Source:
+          Provider: CodeCommit
+          Path: stacks/prereqs-securitytooling-account/v1
+          Configuration:
+            RepositoryName: aws-securityhub-multi-account
+            BranchName: main
