@@ -148,35 +148,44 @@ Resources:
 
 
           def ensure_all_are_members(client, detector_id, accounts_to_ensure):
+              accounts_to_add = [{
+                  'AccountId': account_to_ensure.get("account_id"),
+                  'Email': account_to_ensure.get("email")
+              } for account_to_ensure in accounts_to_ensure]
               client.create_members(
                   DetectorId=detector_id,
-                  AccountDetails=[{
-                      'AccountId': account_to_ensure.get("account_id"),
-                      'Email': account_to_ensure.get("email")
-                  } for account_to_ensure in accounts_to_ensure]
+                  AccountDetails=accounts_to_add
               )
-              logger.info(f"created members")
+              logger.info(f"created members: {accounts_to_add}")
 
 
           def handle(event, context):
               logger.info("starting")
               logger.debug(json.dumps(event, default=str))
-              region = event.get("region")
-              account_id = os.environ.get("SECURITY_TOOLING_ACCOUNT_ID")
-              accounts_to_ensure = event.get("accounts_to_ensure", [])
+              parameters = event.get("parameters")
 
-              guardduty = create_client(region)
-              detector_id = get_detector_id(guardduty)
-              if detector_id is None:
-                  detector_id = create_detector(guardduty)
+              security_tooling_account_id = parameters.get("SecurityToolingAccountId")
+              accounts_to_ensure = parameters.get("SCTManifestSpokes")
+              regions_to_ensure = parameters.get("SCTConfigRegions").split(",")
 
-              org_client = get_org_client(region)
-              if not is_an_organization_admin_accounts(org_client, account_id):
-                  logger.info(f"{account_id} is not an org admin account")
-                  make_an_organization_admin_accounts(org_client, account_id)
+              for region in regions_to_ensure:
+                  org_client = get_org_client(region)
+                  if not is_an_organization_admin_accounts(org_client, security_tooling_account_id):
+                      logger.info(f"{security_tooling_account_id} is not an org admin account")
+                      make_an_organization_admin_accounts(org_client, security_tooling_account_id)
+                  logger.info(f"Finished with org setup/config")
 
-              update_organization_configuration(guardduty, detector_id)
-              ensure_all_are_members(guardduty, detector_id, json.loads(accounts_to_ensure))
+                  guardduty = create_client(region)
+                  detector_id = get_detector_id(guardduty)
+                  if detector_id is None:
+                      detector_id = create_detector(guardduty)
+
+                  update_organization_configuration(guardduty, detector_id)
+                  ensure_all_are_members(guardduty, detector_id, json.loads(accounts_to_ensure))
+                  logger.info(f"Finished with region: {region}")
+
+              logger.info(f"Finished with regional setup/config")
+
               logger.info("created")
 
 

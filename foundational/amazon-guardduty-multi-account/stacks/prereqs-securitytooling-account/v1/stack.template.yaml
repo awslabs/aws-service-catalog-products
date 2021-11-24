@@ -35,6 +35,7 @@ Resources:
                   - guardduty:CreateDetector
                   - guardduty:DescribeOrganizationConfiguration
                   - guardduty:UpdateOrganizationConfiguration
+                  - guardduty:CreateMembers
                 Resource: "*"
 Outputs:
   GuardDutyMultiAccountGuardDutyRoleArn:
