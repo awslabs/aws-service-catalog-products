@@ -1,0 +1,213 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Automatically logs failure events to an S3 bucket for easier parsing and troubleshooting
+Resources:
+  # S3 Bucket for pipeline logs
+  rS3Bucket:
+    Type: AWS::S3::Bucket
+    DeletionPolicy: Retain
+    Properties:
+      BucketName: !Sub scpuppet-logs-${AWS::Region}-${AWS::AccountId}
+      BucketEncryption: 
+        ServerSideEncryptionConfiguration: 
+        - ServerSideEncryptionByDefault:
+            SSEAlgorithm: AES256
+
+  
+  # Cloudwatch role associated with events rule to catch jobs in cancelled/failed/superseded state
+  rCloudWatchRole:
+      Type: AWS::IAM::Role
+      Properties:
+        AssumeRolePolicyDocument:
+          Version: 2012-10-17
+          Statement:
+            - Effect: Allow
+              Principal:
+                Service: [events.amazonaws.com]
+              Action: ["sts:AssumeRole"]
+        Description: Role for Cloudwatch to publish to codecommit backup bucket
+        Policies:
+          - PolicyName: CwForwardEventPolicy
+            PolicyDocument:
+              Version: 2012-10-17
+              Statement:
+                - Effect: Allow
+                  Action:
+                    - codebuild:StartBuild
+                  Resource:
+                    - !GetAtt rCodeBuildProject.Arn
+  # Cloudwatch events rule to catch jobs in cancelled/failed/superseded state
+  rCloudwatchRule:
+    Type: AWS::Events::Rule
+    Properties:
+      Description: Cloudwatch events rule to grab servicecatalog puppet pipeline execution on failure/cancellation/superseded state
+      EventPattern:
+        source:
+          - aws.codepipeline
+        detail-type:
+          - CodePipeline Pipeline Execution State Change
+        detail:
+          state:
+            - FAILED
+            - CANCELED
+            - SUPERSEDED
+          pipeline: 
+            - servicecatalog-puppet-pipeline
+          
+      Targets:
+      - 
+        Arn: !GetAtt rCodeBuildProject.Arn
+        Id: codebuild-trigger-logs
+        RoleArn: !GetAtt rCloudWatchRole.Arn
+        InputTransformer:
+          InputPathsMap: {"State":"$.detail.state","executionid":"$.detail.execution-id","detailtype":"$.detail-type"}
+          InputTemplate: |
+              {"environmentVariablesOverride": [
+                    {
+                        "name": "State",
+                        "value": <State>
+                    },
+                    {
+                        "name": "EXECUTION_ID",
+                        "value": <executionid>
+                    },
+                    {
+                        "name": "DETAIL_TYPE",
+                        "value": <detailtype>
+                    }
+              ]}
+
+  # LogGroup for storing Codebuild logs
+  rCodeBuildLogs:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: /aws/codebuild/scpuppet-build-pipeline-logs
+      RetentionInDays: 7 
+
+  # Service role for Codebuild  
+  rCodeBuildRole:
+    Type: AWS::IAM::Role
+    DependsOn: rCodeBuildLogs
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: codebuild.amazonaws.com
+            Action: sts:AssumeRole
+      Path: /
+      Policies:
+        - PolicyName: codebuildservicerole-permissions
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - s3:PutObject
+                  - s3:GetObject
+                  - s3:GetObjectVersion
+                  - s3:GetBucketAcl
+                  - s3:GetBucketLocation
+                Resource:
+                  - !Sub 'arn:aws:s3:::scpuppet-logs-${AWS::Region}-${AWS::AccountId}/*'
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource:
+                  - !GetAtt rCodeBuildLogs.Arn
+              - Effect: Allow
+                Action: 
+                  - logs:GetLogEvents
+                Resource: 
+                  - !Sub arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/codebuild/servicecatalog-puppet*:log-stream:*
+              - Effect: Allow
+                Action:
+                  - s3:PutObject
+                  - s3:GetObject
+                  - s3:GetObjectVersion
+                  - s3:GetBucketAcl
+                  - s3:GetBucketLocation
+                Resource:
+                  - !Sub arn:aws:s3:::codepipeline-${AWS::Region}-*
+              - Effect: Allow
+                Action:
+                  - codebuild:CreateReportGroup
+                  - codebuild:CreateReport
+                  - codebuild:UpdateReport
+                  - codebuild:BatchPutTestCases
+                  - codebuild:BatchPutCodeCoverages
+                Resource:
+                  - !Sub arn:aws:codebuild:${AWS::Region}:${AWS::AccountId}:report-group/scpuppet-logs-pipeline*
+              - Effect: Allow
+                Action:
+                  - codebuild:BatchGetBuilds
+                Resource:
+                  - !Sub arn:aws:codebuild:${AWS::Region}:${AWS::AccountId}:project/servicecatalog-puppet*
+              - Effect: Allow
+                Action:
+                  - ssm:GetParameters
+                Resource:
+                  - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/service-catalog-puppet-version
+              - Effect: Allow
+                Action:
+                  - sts:AssumeRole
+                Resource:
+                  - !Sub arn:aws:iam::${AWS::AccountId}:role/servicecatalog-puppet/PuppetRole
+              - Effect: Allow
+                Action:
+                  - codepipeline:ListActionExecutions 
+                Resource: 
+                 - !Sub arn:aws:codepipeline:${AWS::Region}:${AWS::AccountId}:servicecatalog-puppet-pipeline
+        
+  # Codebuild project 
+  rCodeBuildProject:
+    Type: AWS::CodeBuild::Project
+    DependsOn: 
+      - rCodeBuildRole
+      - rS3Bucket
+    Properties:
+      Name: scpuppet-logs-pipeline
+      LogsConfig:
+        CloudWatchLogs:
+          GroupName: !Ref rCodeBuildLogs
+          Status: ENABLED
+      Environment:
+        Type: LINUX_CONTAINER
+        ComputeType: BUILD_GENERAL1_SMALL
+        Image: aws/codebuild/standard:5.0
+        EnvironmentVariables:
+          - Name: S3Bucket
+            Type: PLAINTEXT
+            Value: !Ref rS3Bucket
+          - Name: PuppetVersion
+            Type: PARAMETER_STORE
+            Value: service-catalog-puppet-version
+      ServiceRole: !GetAtt rCodeBuildRole.Arn
+      Source:
+        Type: NO_SOURCE
+        BuildSpec: |
+          version: 0.2
+          phases:
+            install:
+              commands:
+                - pip install aws-service-catalog-puppet==$PuppetVersion
+            build:
+              commands:
+                - env
+                - echo "Pipeline state is $State"
+                - dt=$(date '+%d-%m-%Y-%H:%M:%S');
+                - echo $dt
+                - servicecatalog-puppet export-puppet-pipeline-logs $EXECUTION_ID
+                - logbundle=servicecatalogpuppet-pipelinelogs-$dt.zip
+                - zip $logbundle log-servicecatalog*.log
+          artifacts: 
+            files:
+             - $logbundle
+      Artifacts:
+        Type: S3
+        Location: !Ref rS3Bucket
+        Name: logs
+        Packaging: NONE
+        EncryptionDisabled: false
