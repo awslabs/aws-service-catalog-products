@@ -1,5 +1,16 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: Automatically logs failure events to an S3 bucket for easier parsing and troubleshooting
+Description: |
+  Creates a Cloudwatch events rule that triggers a Codebuild project to export all logs from a failed/cancelled/superseded Service Catalog Puppet pipeline execution. Provides a pre-signed S3 url at the end of execution
+  {"framework": "servicecatalog-products", "role": "product", "product-set": "operations", "product": "service-catalog-puppet-pipeline-logs-exporter", "version": "v1"}
+Parameters:
+  pCodeBuildEnvVersion:
+    Type: String
+    Description: Version of Codebuild Environment Version
+    Default: '5.0'
+  pExportExpiresIn:
+    Type: String
+    Description: Time in seconds that the Pre-signed S3 link expires in, default is 3600 (one hour)
+    Default: '3600'
 Resources:
   # S3 Bucket for pipeline logs
   rS3Bucket:
@@ -12,11 +23,12 @@ Resources:
         - ServerSideEncryptionByDefault:
             SSEAlgorithm: AES256
 
-  
   # Cloudwatch role associated with events rule to catch jobs in cancelled/failed/superseded state
   rCloudWatchRole:
       Type: AWS::IAM::Role
       Properties:
+        RoleName: scpuppet-logs-cloudwatch-role
+        Path: /foundational/servicecatalog-puppet-logs-export/
         AssumeRolePolicyDocument:
           Version: 2012-10-17
           Statement:
@@ -88,6 +100,8 @@ Resources:
     Type: AWS::IAM::Role
     DependsOn: rCodeBuildLogs
     Properties:
+      RoleName: scpuppet-logs-codebuild-role
+      Path: /foundational/servicecatalog-puppet-logs-export/
       AssumeRolePolicyDocument:
         Version: '2012-10-17'
         Statement:
@@ -95,7 +109,7 @@ Resources:
             Principal:
               Service: codebuild.amazonaws.com
             Action: sts:AssumeRole
-      Path: /
+      MaxSessionDuration: !Ref pExportExpiresIn
       Policies:
         - PolicyName: codebuildservicerole-permissions
           PolicyDocument:
@@ -176,7 +190,7 @@ Resources:
       Environment:
         Type: LINUX_CONTAINER
         ComputeType: BUILD_GENERAL1_SMALL
-        Image: aws/codebuild/standard:5.0
+        Image: !Sub aws/codebuild/standard:${pCodeBuildEnvVersion}
         EnvironmentVariables:
           - Name: S3Bucket
             Type: PLAINTEXT
@@ -184,6 +198,9 @@ Resources:
           - Name: PuppetVersion
             Type: PARAMETER_STORE
             Value: service-catalog-puppet-version
+          - Name: ExportExpiresIn
+            Type: PLAINTEXT
+            Value: !Ref pExportExpiresIn
       ServiceRole: !GetAtt rCodeBuildRole.Arn
       Source:
         Type: NO_SOURCE
@@ -202,6 +219,8 @@ Resources:
                 - servicecatalog-puppet export-puppet-pipeline-logs $EXECUTION_ID
                 - logbundle=servicecatalogpuppet-pipelinelogs-$dt.zip
                 - zip $logbundle log-servicecatalog*.log
+                - echo "Pre-signing S3 URL"
+                - aws s3 presign s3://$S3Bucket/logs/$logbundle --expires-in $ExportExpiresIn
           artifacts: 
             files:
              - $logbundle
@@ -211,3 +230,17 @@ Resources:
         Name: logs
         Packaging: NONE
         EncryptionDisabled: false
+
+Outputs: 
+  oS3Bucket: 
+    Description: S3 Bucket that is a location for log exports
+    Value: !Ref rS3Bucket
+  oCloudwatchRoleArn: 
+    Description: Arn for Cloudwatch Role 
+    Value: !GetAtt rCloudWatchRole.Arn
+  oCodebuildProject:
+    Description: Codebuild project that exports puppet pipeline logs
+    Value: !Ref rCodeBuildProject
+  oCodebuildRoleArn:
+    Description: Codebuild Role Arn
+    Value: !GetAtt rCodeBuildRole.Arn
