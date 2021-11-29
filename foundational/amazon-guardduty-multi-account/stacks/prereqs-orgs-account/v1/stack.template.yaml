@@ -39,10 +39,6 @@ Resources:
                   - "organizations:DescribeOrganization"
                   - "guardduty:ListOrganizationAdminAccounts"
                   - "guardduty:EnableOrganizationAdminAccount"
-#                  - "guardduty:ListDetectors" #TODO remove after fresh test
-#                  - "guardduty:GetDetector" #TODO remove after fresh test
-#                  - "guardduty:CreateDetector" #TODO remove after fresh test
-#                  - "guardduty:DescribeOrganizationConfiguration" #TODO remove after fresh test
                 Resource: "*"
 
 Outputs:

@@ -198,7 +198,6 @@ Resources:
         Variables:
           GUARD_DUTY_MULTI_ACCOUNT_DELEGATE_ADMIN_ROLE_ARN: !Ref GuardDutyMultiAccountDelegateAdminRoleArn
           GUARD_DUTY_MULTI_ACCOUNT_GUARD_DUTY_ROLE_ARN: !Ref GuardDutyMultiAccountGuardDutyRoleArn
-          SECURITY_TOOLING_ACCOUNT_ID: !Ref SecurityToolingAccountId
           BOTO_LOG_LEVEL: CRITICAL
           LOG_LEVEL: INFO
 
