@@ -109,7 +109,7 @@ Resources:
             Principal:
               Service: codebuild.amazonaws.com
             Action: sts:AssumeRole
-      MaxSessionDuration: !Ref pExportExpiresIn
+      MaxSessionDuration: 43200
       Policies:
         - PolicyName: codebuildservicerole-permissions
           PolicyDocument:
