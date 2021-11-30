@@ -1,0 +1,469 @@
+# Copyright 2021 Amazon.com Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: |
+  Product that zips up code commit repo when a cloudwatch commit event occurs the zip is added to an s3 bucket.
+  {"framework": "servicecatalog-products", "role": "product", "product-set": "operations", "product": "codecommit-backups", "version": "v1"}
+
+Parameters:
+  pSNSEmail:
+    Type: String
+    Description: Email address for SNS Notifications
+  pScheduleBackups:
+    Type: String
+    Default: 'false'
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Description: Option whether to enable scheduled backups for the repo's in the account
+    ConstraintDescription: Can only specify True or False
+  pCloudwatchEventsRoleName: 
+    Type: String
+    Default: scpuppet-codecommit-backup-cloudwatchrole
+  pCodebuildRoleName:
+    Type: String
+    Default: scpuppet-codecommit-backup-codebuildrole
+  pLambdaRoleName:
+    Type: String 
+    Default: scpuppet-codecommit-backup-lambdarole
+  pServiceCatalogCodeCommitBackupRolePath:
+    Type: String
+    Default: /operations/service-catalog-code-commit-backups/
+  pServiceCatalogCodeCommitBackupdEnvVersion:
+    Type: String
+    Description: Version of Codebuild Environment Version
+    Default: '5.0'
+
+Conditions:
+  ScheduleBackups: !Equals ['true', !Ref pScheduleBackups]
+
+Resources:
+  # S3 Bucket to store backup files
+  rS3Bucket:
+    Type: AWS::S3::Bucket
+    DeletionPolicy: Retain
+    Properties:
+      BucketName: !Sub codecommit-backups-${AWS::AccountId}-${AWS::Region}
+      BucketEncryption: 
+        ServerSideEncryptionConfiguration: 
+        - ServerSideEncryptionByDefault:
+            SSEAlgorithm: AES256
+
+  # LogGroup for storing Codebuild logs
+  rCodeBuildLogs:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: /aws/codebuild/codecommit-backup-pipeline-logs
+      RetentionInDays: 7 
+
+  # Service role for Codebuild  
+  rCodeBuildRole:
+    Type: AWS::IAM::Role
+    DependsOn: rCodeBuildLogs
+    Properties:
+      RoleName: !Ref pCodebuildRoleName
+      Path: !Ref pServiceCatalogCodeCommitBackupRolePath
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: codebuild.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Policies:
+        - PolicyName: codecommit-clone
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - codecommit:GitPull
+                Resource:
+                  - !Sub 'arn:aws:codecommit:${AWS::Region}:${AWS::AccountId}:*'
+              - Effect: Allow
+                Action:
+                  - s3:PutObject
+                  - s3:GetObject
+                  - s3:GetObjectVersion
+                  - s3:GetBucketAcl
+                  - s3:GetBucketLocation
+                Resource:
+                  - !Sub 'arn:aws:s3:::codecommit-backups-${AWS::AccountId}-${AWS::Region}/*'
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource:
+                  - !GetAtt rCodeBuildLogs.Arn
+              - Effect: Allow
+                Action:
+                  - s3:PutObject
+                  - s3:GetObject
+                  - s3:GetObjectVersion
+                  - s3:GetBucketAcl
+                  - s3:GetBucketLocation
+                Resource:
+                  - !Sub arn:aws:s3:::codepipeline-${AWS::Region}-*
+              - Effect: Allow
+                Action:
+                  - codebuild:CreateReportGroup
+                  - codebuild:CreateReport
+                  - codebuild:UpdateReport
+                  - codebuild:BatchPutTestCases
+                  - codebuild:BatchPutCodeCoverages
+                Resource:
+                  - !Sub arn:aws:codebuild:${AWS::Region}:${AWS::AccountId}:report-group/codecommit-backup*
+  
+  # Codebuild project 
+  rCodeBuildProject:
+    Type: AWS::CodeBuild::Project
+    DependsOn: 
+      - rCodeBuildRole
+      - rS3Bucket
+    Properties:
+      Name: codecommit-backup-pipeline
+      LogsConfig:
+        CloudWatchLogs:
+          GroupName: !Ref rCodeBuildLogs
+          Status: ENABLED
+      Environment:
+        Type: LINUX_CONTAINER
+        ComputeType: BUILD_GENERAL1_SMALL
+        Image: !Sub aws/codebuild/standard:${pServiceCatalogCodeCommitBackupdEnvVersion}
+        EnvironmentVariables:
+          - Name: S3Bucket
+            Type: PLAINTEXT
+            Value: !Ref rS3Bucket
+      ServiceRole: !GetAtt rCodeBuildRole.Arn
+      Source:
+        Type: NO_SOURCE
+        BuildSpec: |
+          version: 0.2
+          phases:
+            install:
+              commands:
+                - pip install git-remote-codecommit
+            build:
+              commands:
+                - env
+                - git clone -b $REFERENCE_NAME codecommit::$REPO_REGION://$REPOSITORY_NAME
+                - dt=$(date '+%d-%m-%Y-%H:%M:%S');
+                - echo $dt 
+                - zip -r $dt-$REPOSITORY_NAME-backup.zip ./
+          artifacts: 
+            files:
+             - $dt-$REPOSITORY_NAME-backup.zip
+      Artifacts:
+        Type: S3
+        Location: !Ref rS3Bucket
+        Name: backups
+        Packaging: NONE
+        EncryptionDisabled: false
+
+  # Cloudwatch role to put artifact in S3 bucket
+  rCloudWatchRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Ref pCloudwatchEventsRoleName
+      Path: !Ref pServiceCatalogCodeCommitBackupRolePath
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: [events.amazonaws.com]
+            Action: ["sts:AssumeRole"]
+      Description: Role for Cloudwatch to publish to codecommit backup bucket
+      Policies:
+        - PolicyName: CwForwardEventPolicy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - codebuild:StartBuild
+                Resource:
+                  - !GetAtt rCodeBuildProject.Arn
+  
+  # Cloudwatch rule to monitor for state change to Codecommit repository
+  rCloudWatchRule:
+    Type: AWS::Events::Rule
+    Properties:
+      Description: Cloudwatch rule that watches for commit events 
+      Name: code-commit-backup-trigger
+      EventPattern:
+        source:
+          - aws.codecommit
+        detail-type:
+          - CodeCommit Repository State Change
+        detail:
+          event:
+           - referenceCreated
+           - referenceUpdated
+          referenceType: 
+           - branch
+          referenceName:
+           - main
+           - master
+           - Master
+           - Main
+      Targets:
+        - Arn: !GetAtt rCodeBuildProject.Arn
+          Id: codebuild-trigger-backup
+          RoleArn: !GetAtt rCloudWatchRole.Arn
+          InputTransformer:
+            InputPathsMap: {"referenceType":"$.detail.referenceType","region":"$.region","repositoryName":"$.detail.repositoryName","account":"$.account","referenceName":"$.detail.referenceName"}
+            InputTemplate: | 
+              {"environmentVariablesOverride": [
+                    {
+                        "name": "REFERENCE_NAME",
+                        "value": <referenceName>
+                    },
+                    {
+                        "name": "REFERENCE_TYPE",
+                        "value": <referenceType>
+                    },
+                    {
+                        "name": "REPOSITORY_NAME",
+                        "value": <repositoryName>
+                    },
+                    {
+                        "name": "REPO_REGION",
+                        "value": <region>
+                    },
+                    {
+                        "name": "ACCOUNT_ID",
+                        "value": <account>
+                    }
+              ]}
+
+  # sns topic for notifications
+  rSnsTopic:
+    Type: AWS::SNS::Topic
+    Properties: 
+      DisplayName: codecommit-backups
+      TopicName: codecommitbackups
+
+  # sns subscription for notifications
+  rSnsSubscription:
+    Type: AWS::SNS::Subscription
+    Properties:
+      Endpoint:
+        Ref: pSNSEmail
+      Protocol: email
+      TopicArn:
+        Ref: rSnsTopic
+
+  # policy to allow cloudwatch to publish to sns
+  rEventTopicPolicy:
+    Type: 'AWS::SNS::TopicPolicy'
+    Properties:
+      PolicyDocument:
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: events.amazonaws.com
+            Action: 'sns:Publish'
+            Resource: '*'
+      Topics:
+        - !Ref rSnsTopic
+
+  # SNS notification Cloudwatch rule
+  rCloudwatchNotifyRule:
+    Type: AWS::Events::Rule
+    DependsOn: 
+      - rCodeBuildProject
+    Properties:
+      Description: Cloudwatch rule that watches for codebuild events
+      Name: codebuild-commitbackup-notify
+      EventPattern:
+        source:
+          - aws.codebuild
+        detail-type:
+          - CodeBuild Build State Change
+        detail:
+          build-status:
+            - SUCCEEDED
+            - FAILED
+            - STOPPED
+          project-name: 
+            - codecommit-backup-pipeline
+      Targets:
+        - Arn: !Ref rSnsTopic
+          Id: codebuild-trigger-notify
+          InputTransformer:
+            InputPathsMap: {"build-id":"$.detail.build-id","project-name":"$.detail.project-name","build-status":"$.detail.build-status"}
+            InputTemplate: |
+              "Build '<build-id>' for build project '<project-name>' has reached the build status of '<build-status>'."
+
+  rCodeCommitBackupLambdaFunction:
+    Type: AWS::Serverless::Function
+    Condition: ScheduleBackups
+    Properties:
+      InlineCode: |
+          import boto3
+          import logging
+          import os
+          import time
+          from botocore.exceptions import ClientError
+
+          # set region
+          region = os.environ['region']
+
+          log = logging.getLogger()
+          log.setLevel(logging.INFO)
+
+          def export_repos():
+              try:
+                  # obtain repositories in aws account
+                  client = boto3.client('codecommit')
+                  codecommit = boto3.client('codebuild')
+                  log.info('listing code commit repositories')
+                  repos = client.list_repositories()
+                  log.info(repos)
+                  for repo in repos['repositories']:
+                      reponame = repo['repositoryName']
+                      log.info('get branches for repository')
+                      log.info('repo name is:' +reponame)
+                      branchpoll = getrepobranch(reponame)
+                      for branch in branchpoll:
+                          targetbranches = ['main','master','Main','Master']
+                          # only targeting main branche(s)
+                          if branch in targetbranches:
+                              log.info(f'starting build for repo: {reponame}, branch {branch}')
+                              buildjob = codecommit.start_build(
+                                  projectName='codecommit-backup-pipeline',
+                                  environmentVariablesOverride=[
+                                      {
+                                          'name': 'REFERENCE_NAME',
+                                          'value': branch,
+                                          'type': 'PLAINTEXT'
+                                      },
+                                      {
+                                          'name': 'REPOSITORY_NAME',
+                                          'value': reponame,
+                                          'type': 'PLAINTEXT'
+                                      },
+                                      {
+                                          'name': 'REPO_REGION',
+                                          'value': region,
+                                          'type': 'PLAINTEXT'
+                                      },
+                                      
+                                  ]
+                              )
+              except ClientError as e:
+                  log.error('issue backing up repository')
+                  log.error(str(e))
+
+          def getrepobranch(repo):
+              client = boto3.client('codecommit')
+              branchList = client.list_branches(repositoryName=repo)
+              if not branchList:
+                  log.error('no branches found for repository:'+repo)
+                  return
+              # obtaining list of branches
+              branches =  branchList['branches']
+              return branches
+
+          def lambda_handler(event, context):
+              try:
+                  export_repos()
+              except Exception as e:
+                  log.error('error in execution of backups for repo')
+
+      Handler: index.lambda_handler
+      PackageType: Zip
+      MemorySize: 256
+      Role: !GetAtt rCodeCommitBackupLambdaRole.Arn
+      Runtime: python3.9
+      Timeout: 900
+      Environment:
+        Variables:
+          region: !Sub ${AWS::Region}
+
+  rCodeCommitBackupLambdaRole:
+    Type: AWS::IAM::Role
+    Condition: ScheduleBackups
+    Properties:
+      RoleName: !Ref pLambdaRoleName
+      Path: !Ref pServiceCatalogCodeCommitBackupRolePath
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action:
+              - sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+        Version: "2012-10-17"
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Policies:
+        - PolicyName: StartCodebuild
+          PolicyDocument:
+            Statement:
+              - Action:
+                  - codebuild:StartBuild
+                Effect: Allow
+                Resource: 
+                  - !GetAtt rCodeBuildProject.Arn
+        - PolicyName: ListRepos
+          PolicyDocument:
+            Statement:
+              - Action:
+                  - codecommit:ListBranches
+                  - codecommit:ListRepositories
+                Effect: Allow
+                Resource: '*'
+
+  rCodeCommitBackupSchedule:
+    Type: AWS::Events::Rule
+    DependsOn:
+      - rCodeCommitBackupLambdaFunction
+    Condition: ScheduleBackups
+    Properties:
+      Name: scpuppet-codecommit-backup-schedule-rule
+      Description: Creates a backup job that runs on a daily basis
+      ScheduleExpression: "cron(0 12 * * ? *)"
+      Targets:
+        - Arn: !GetAtt rCodeCommitBackupLambdaFunction.Arn
+          Id: codecommit-backup-schedule
+  
+  rCodeCommitLambdaInvokePermission:
+    Type: AWS::Lambda::Permission
+    Condition: ScheduleBackups
+    Properties: 
+      FunctionName: !GetAtt rCodeCommitBackupLambdaFunction.Arn
+      Action: lambda:InvokeFunction
+      Principal: events.amazonaws.com
+      SourceArn: !GetAtt rCodeCommitBackupSchedule.Arn
+
+Outputs:
+  oBackupBucketName:
+    Description: S3 Backup bucket name
+    Value: !Ref rS3Bucket
+  oBackupBuildProject:
+    Description: Codebuild project that runs the backup job
+    Value: !Ref rCodeBuildProject
+  oCloudwatchRuleArn:
+    Description: CloudWatch role that puts backup exports into the target S3 bucket
+    Value: !GetAtt rCloudWatchRole.Arn
+  oCodebuildRoleArn: 
+    Description: Role created for Codebuild project execution
+    Value: !GetAtt rCodeBuildRole.Arn
+  oCodebuildProject:
+    Description: Codebuild Project used to export Code Commit repos to s3
+    Value: !Ref rCodeBuildProject
+  oBackupLambdaFunctionArn:
+    Description: Lambda Backup function
+    Value: !GetAtt rCodeCommitBackupLambdaFunction.Arn
+    Condition: ScheduleBackups
+  
+
+
+

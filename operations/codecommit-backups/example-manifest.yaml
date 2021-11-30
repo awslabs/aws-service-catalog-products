@@ -1,0 +1,17 @@
+# Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+schema: puppet-2019-04-01
+stacks:
+  code-commitbackups:
+    name: code-commit-backups
+    version: v1
+    parameters:
+      pScheduleBackups:
+        default: 'true'
+      pSNSEmail: 
+        default: 'itops@company.com'
+    deploy_to:
+      tags:
+        - tag: role:sct
+          regions: default_region
