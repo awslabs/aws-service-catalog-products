@@ -18,6 +18,7 @@ Stacks:
           Configuration:
             RepositoryName: aws-securityhub-multi-account
             BranchName: main
+
   - Name: aws-securityhub-multi-account-prereqs-orgs-account
     Tags:
       - Key: category

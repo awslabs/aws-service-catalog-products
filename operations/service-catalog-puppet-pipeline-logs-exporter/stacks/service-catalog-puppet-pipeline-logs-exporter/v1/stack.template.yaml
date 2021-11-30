@@ -11,10 +11,17 @@ Parameters:
     Type: String
     Description: Time in seconds that the Pre-signed S3 link expires in, default is 3600 (one hour)
     Default: '3600'
+  ServiceCatalogPuppetLogsExporterCloudWatchRoleName:
+    Type: String
+    Default: scpuppet-logs-cloudwatch-role
+  ServiceCatalogPuppetLogsExporterCloudWatchRolePath:
+    Type: String
+    Default: /operations/servicecatalog-puppet-logs-export/
+
 Resources:
-  # S3 Bucket for pipeline logs
   rS3Bucket:
     Type: AWS::S3::Bucket
+    Description: "S3 Bucket for pipeline logs"
     DeletionPolicy: Retain
     Properties:
       BucketName: !Sub scpuppet-logs-${AWS::Region}-${AWS::AccountId}
@@ -23,12 +30,12 @@ Resources:
         - ServerSideEncryptionByDefault:
             SSEAlgorithm: AES256
 
-  # Cloudwatch role associated with events rule to catch jobs in cancelled/failed/superseded state
-  rCloudWatchRole:
+  rServiceCatalogPuppetLogsExporterCloudWatchRole:
       Type: AWS::IAM::Role
+      Description: "Cloudwatch role associated with events rule to catch jobs in cancelled/failed/superseded state"
       Properties:
-        RoleName: scpuppet-logs-cloudwatch-role
-        Path: /foundational/servicecatalog-puppet-logs-export/
+        RoleName: !Ref ServiceCatalogPuppetLogsExporterCloudWatchRoleName
+        Path: !Ref ServiceCatalogPuppetLogsExporterCloudWatchRolePath
         AssumeRolePolicyDocument:
           Version: 2012-10-17
           Statement:
@@ -47,9 +54,9 @@ Resources:
                     - codebuild:StartBuild
                   Resource:
                     - !GetAtt rCodeBuildProject.Arn
-  # Cloudwatch events rule to catch jobs in cancelled/failed/superseded state
   rCloudwatchRule:
     Type: AWS::Events::Rule
+    Description: "Cloudwatch events rule to grab servicecatalog puppet pipeline execution on failure/cancellation/superseded state"
     Properties:
       Description: Cloudwatch events rule to grab servicecatalog puppet pipeline execution on failure/cancellation/superseded state
       EventPattern:
@@ -69,7 +76,7 @@ Resources:
       - 
         Arn: !GetAtt rCodeBuildProject.Arn
         Id: codebuild-trigger-logs
-        RoleArn: !GetAtt rCloudWatchRole.Arn
+        RoleArn: !GetAtt rServiceCatalogPuppetLogsExporterCloudWatchRole.Arn
         InputTransformer:
           InputPathsMap: {"State":"$.detail.state","executionid":"$.detail.execution-id","detailtype":"$.detail-type"}
           InputTemplate: |
@@ -88,16 +95,16 @@ Resources:
                     }
               ]}
 
-  # LogGroup for storing Codebuild logs
   rCodeBuildLogs:
     Type: AWS::Logs::LogGroup
+    Description: "LogGroup for storing Codebuild logs"
     Properties:
       LogGroupName: /aws/codebuild/scpuppet-build-pipeline-logs
       RetentionInDays: 7 
 
-  # Service role for Codebuild  
   rCodeBuildRole:
     Type: AWS::IAM::Role
+    Description: "Service role for Codebuild"
     DependsOn: rCodeBuildLogs
     Properties:
       RoleName: scpuppet-logs-codebuild-role
@@ -175,7 +182,6 @@ Resources:
                 Resource: 
                  - !Sub arn:aws:codepipeline:${AWS::Region}:${AWS::AccountId}:servicecatalog-puppet-pipeline
         
-  # Codebuild project 
   rCodeBuildProject:
     Type: AWS::CodeBuild::Project
     DependsOn: 
@@ -235,9 +241,9 @@ Outputs:
   oS3Bucket: 
     Description: S3 Bucket that is a location for log exports
     Value: !Ref rS3Bucket
-  oCloudwatchRoleArn: 
+  oServiceCatalogPuppetLogsExporterCloudWatchRoleArn:
     Description: Arn for Cloudwatch Role 
-    Value: !GetAtt rCloudWatchRole.Arn
+    Value: !GetAtt rServiceCatalogPuppetLogsExporterCloudWatchRole.Arn
   oCodebuildProject:
     Description: Codebuild project that exports puppet pipeline logs
     Value: !Ref rCodeBuildProject

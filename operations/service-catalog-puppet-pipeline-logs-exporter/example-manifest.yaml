@@ -8,5 +8,5 @@ stacks:
     version: v1
     deploy_to:
       tags:
-        - tag: puppet-hub-account
+        - tag: role:sct
           regions: default_region

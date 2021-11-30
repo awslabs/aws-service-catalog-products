@@ -19,7 +19,7 @@ stacks:
     deploy_to:
       tags:
         - regions: default_region
-          tag: puppet-hub-account
+          tag: role:sct
 
 lambda-invocations:
   delete-default-networking:
@@ -29,4 +29,4 @@ lambda-invocations:
     invoke_for:
       tags:
         - regions: enabled_regions
-          tag: "type:prod"
+          tag: "role:spoke"
