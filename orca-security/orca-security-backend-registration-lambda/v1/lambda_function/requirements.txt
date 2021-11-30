@@ -1,0 +1,5 @@
+requests==2.26.0
+aws-lambda-powertools==1.22.0
+jsonschema==4.2.1
+better-boto==0.43.0
+crhelper==2.0.10

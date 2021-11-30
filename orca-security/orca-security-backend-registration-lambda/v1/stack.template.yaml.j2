@@ -1,0 +1,172 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: "AWS::Serverless-2016-10-31"
+Parameters:
+  LogsRetentionInDays:
+    Description: Retention for Log Groups
+    Type: String
+    Default: 14
+  OrgID:
+    Type: String
+Resources:
+  DockerImageLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      PackageType: Image
+      FunctionName: {{ REPO_NAME }}
+      Role: !GetAtt DockerImageLambdaRole.Arn
+      Environment:
+        Variables:
+          SECRET_NAME: !Ref SecretForLambda
+      ImageUri: "{{ REPOSITORY_URI }}:{{ IMAGE_TAG }}"
+      Events:
+        SNSTrigger:
+          Type: SNS
+          Properties:
+            Topic: !Ref SNSTopic
+      Timeout: 300
+  SNSTopic:
+    Type: "AWS::SNS::Topic"
+    Properties:
+      TopicName: {{ REPO_NAME }}
+      KmsMasterKeyId: !Ref KMSKey
+  SNSTopicOrgPermissions:
+    Type: "AWS::SNS::TopicPolicy"
+    Properties:
+      PolicyDocument:
+        Id: Id1a
+        Version: "2012-10-17"
+        Statement:
+          - Sid: ORGPermissions
+            Effect: Allow
+            Principal:
+              AWS: "*"
+            Action: "sns:Publish"
+            Resource: !Ref SNSTopic
+            Condition:
+              StringEquals:
+                "aws:PrincipalOrgID":  !Ref OrgID
+      Topics:
+        - !Ref SNSTopic
+  DockerImageLambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: {{ REPO_NAME }}
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Path: /
+      Policies:
+        - PolicyName: AWSLambdaBasicExecutionRole
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource: "*"
+              - Effect: Allow
+                Action:
+                  - kms:Encrypt
+                  - kms:Decrypt
+                  - kms:ReEncrypt*
+                  - kms:GenerateDataKey*
+                  - kms:DescribeKey
+                Resource: !GetAtt KMSKey.Arn
+              - Effect: Allow
+                Action:
+                  - secretsmanager:GetSecretValue
+                Resource: !Ref SecretForLambda
+              - Effect: Allow
+                Action:
+                  - sts:AssumeRole
+                Resource: arn:aws:iam::*:role/orca-security/OrcaSecurityScannerRole
+  LambdaLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub "/aws/lambda/${DockerImageLambda}"
+      RetentionInDays: !Ref LogsRetentionInDays
+  SecretForLambda:
+    Type: "AWS::SecretsManager::Secret"
+    Properties:
+      Name: !Sub "${AWS::StackName}"
+      Description: >-
+        Secrets Manager that is going to keep secret needed for Lambda Function.
+      SecretString: '{"API_KEY":"REPLACE_ME", "API_ENDPOINT_URL": "https://app.eu.orcasecurity.io/api"}'
+      KmsKeyId: !GetAtt KMSKey.Arn
+  KMSKey:
+    Type: "AWS::KMS::Key"
+    Properties:
+      EnableKeyRotation: true
+      KeyPolicy:
+        Version: "2012-10-17"
+        Statement:
+          - Sid: Allow access for Key Administrators
+            Effect: Allow
+            Principal:
+              AWS:
+                - !Join
+                  - ""
+                  - - "arn:aws:iam::"
+                    - !Ref "AWS::AccountId"
+                    - ":root"
+            Action:
+              - "kms:Create*"
+              - "kms:Describe*"
+              - "kms:Enable*"
+              - "kms:List*"
+              - "kms:Put*"
+              - "kms:Update*"
+              - "kms:Revoke*"
+              - "kms:Disable*"
+              - "kms:Get*"
+              - "kms:Delete*"
+              - "kms:ScheduleKeyDeletion"
+              - "kms:CancelKeyDeletion"
+            Resource: "*"
+          - Sid: Secrets Manager
+            Effect: Allow
+            Principal:
+              AWS:
+                - "*"
+            Action:
+              - "kms:Encrypt"
+              - "kms:Decrypt"
+              - "kms:ReEncrypt*"
+              - "kms:GenerateDataKey*"
+              - "kms:DescribeKey"
+            Resource: "*"
+            Condition:
+              "ForAnyValue:StringEquals":
+                "kms:ViaService":
+                  - !Sub "secretsmanager.${AWS::Region}.amazonaws.com"
+                "kms:CallerAccount": !Ref "AWS::AccountId"
+          - Sid: SNSTopic
+            Effect: Allow
+            Principal:
+              AWS:
+                - "*"
+            Action:
+              - "kms:Decrypt"
+              - "kms:GenerateDataKey*"
+            Resource: "*"
+            Condition:
+              "ForAnyValue:StringEquals":
+                "kms:ViaService":
+                  - !Sub "sns.${AWS::Region}.amazonaws.com"
+  KMSKeyAlias:
+    Type: "AWS::KMS::Alias"
+    Properties:
+      AliasName: !Sub "alias/${AWS::StackName}"
+      TargetKeyId: !GetAtt KMSKey.Arn
+Outputs:
+  SNSTopic:
+    Description: Custom resource SNS Topic for subscribing to Orca.
+    Value: !Ref SNSTopic

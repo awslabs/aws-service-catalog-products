@@ -1,0 +1,31 @@
+# Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+Schema: factory-2019-04-01
+
+Stacks:
+
+  - Name: "orca-security-backend-registration-lambda"
+    Versions:
+      - Name: "v1"
+        Description: "This creates an Docker Image and publishes to ECR Factory Account, which is used for Registering AWS Accounts as Custom Resource to ORCA Security backend."
+        Stages:
+          Build:
+            PrivilegedMode: True
+            BuildSpecImage: aws/codebuild/standard:5.0
+            BuildSpec: buildspec.yaml
+        Source:
+          Provider: CodeCommit
+          Configuration:
+            RepositoryName: orca-security-backend-registration-lambda
+            BranchName: v1
+
+  - Name: "orca-security-scanner-role"
+    Versions:
+      - Name: "v1"
+        Description: "This is Stack behind Orca Security Scanner role and Cloudformation CR via SNS to register to ORCA Security backend."
+        Source:
+          Provider: CodeCommit
+          Configuration:
+            RepositoryName: orca-security-scanner-role
+            BranchName: v1

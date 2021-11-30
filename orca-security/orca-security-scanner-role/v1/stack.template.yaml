@@ -1,0 +1,108 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Outputs:
+  OrcaRoleArn:
+    Value: !GetAtt 
+      - OrcaSecurityRole
+      - Arn
+Parameters:
+  ExternalId:
+    Type: String
+  FactoryAccountId:
+    Type: String
+  OrcaCustomResourceSNSTopicArn:
+    Type: String
+  SecretManagerAccess:
+    Type: String
+    Default: true
+    AllowedValues:
+      - true
+      - false
+Conditions:
+  SecretManagerAccessAllowed: !Equals 
+    - !Ref SecretManagerAccess
+    - true
+Resources:
+  OrcaSecurityPolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      Description: Orca Security Account Policy
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Sid: InspectSnapshots
+            Effect: Allow
+            Action:
+              - ec2:CreateSnapshot
+              - ec2:CreateSnapshots
+              - ec2:CopySnapshot
+              - ec2:ModifySnapshotAttribute
+              - ec2:CreateTags
+            Resource: '*'
+          - Sid: DeleteSnapshots
+            Effect: Allow
+            Action: ec2:DeleteSnapshot
+            Resource: '*'
+            Condition:
+              StringLike:
+                ec2:ResourceTag/Orca: '*'
+          - Sid: EncryptedSnapshots
+            Effect: Allow
+            Action:
+              - kms:Decrypt
+              - kms:Encrypt
+              - kms:ReEncrypt'*'
+              - kms:CreateGrant
+              - kms:GenerateDataKeyWithoutPlaintext
+              - kms:PutKeyPolicy
+            Resource: '*'
+          - Sid: InspectLakeFormation
+            Effect: Allow
+            Action:
+              - lakeformation:GetDataLakeSettings
+              - lakeformation:ListResources
+              - lakeformation:GetEffectivePermissionsForPath
+            Resource: '*'
+  OrcaSecuritySecretsManagerPolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Condition: SecretManagerAccessAllowed
+    Properties:
+      Description: Orca Security Secrets Manager Policy
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Sid: GetSecrets
+            Effect: Allow
+            Action:
+              - kms:Decrypt
+              - secretsmanager:GetSecretValue
+            Resource: '*'
+  OrcaSecurityRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: OrcaSecurityScannerRole
+      Path: /orca-security/
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              AWS: 
+                - arn:aws:iam::976280145156:root
+                - !Ref FactoryAccountId
+            Action: sts:AssumeRole
+            Condition:
+              StringEquals:
+                sts:ExternalId: !Ref ExternalId
+      ManagedPolicyArns: !If 
+        - SecretManagerAccessAllowed
+        - - arn:aws:iam::aws:policy/ReadOnlyAccess
+          - !Ref OrcaSecurityPolicy
+          - !Ref OrcaSecuritySecretsManagerPolicy
+        - - arn:aws:iam::aws:policy/ReadOnlyAccess
+          - !Ref OrcaSecurityPolicy
+  RegisterAccountToOrca:
+    Type: 'AWS::CloudFormation::CustomResource'
+    Properties:
+      ServiceToken: !Ref OrcaCustomResourceSNSTopicArn
+      RoleArn: !GetAtt OrcaSecurityRole.Arn
+      ExternalId: !Ref ExternalId

@@ -1,0 +1,107 @@
+version: 0.2
+env: 
+  shell: bash
+  variables:
+    # Idea would be to reuse the buildspec for another lambda, by just changing REPO_NAME
+    REPO_NAME: lambda-orca-register-account-via-api-cfn-cr
+    PYTHON_VERSION: 3.9
+
+phases:
+  install:
+    commands:
+      - env
+      - aws --version
+      - bash --version
+      - pip3 install j2cli
+  pre_build:
+    commands:
+      - export AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
+      - |
+        cat > create_ecr_repository_skeleton.json <<EOF
+        {
+          "repositoryName": "${REPO_NAME}",
+          "tags": [
+              {
+                  "Key": "Description",
+                  "Value": "Lambda function used for registering AWS Account to ORCA via API."
+              }
+          ],
+          "imageTagMutability": "IMMUTABLE",
+          "imageScanningConfiguration": {
+              "scanOnPush": true
+          },
+          "encryptionConfiguration": {
+              "encryptionType": "AES256"
+          }
+        }
+        EOF
+      - cat create_ecr_repository_skeleton.json
+      - |
+        cat > ecr_repository_lifecycle_rule.json <<EOF
+        {
+            "rules": [
+                {
+                    "rulePriority": 1,
+                    "description": "Keep last 5 builds only",
+                    "selection": {
+                        "tagStatus": "any",
+                        "countType": "imageCountMoreThan",
+                        "countNumber": 5
+                    },
+                    "action": {
+                        "type": "expire"
+                    }
+                }
+            ]
+        }
+        EOF
+      - cat ecr_repository_lifecycle_rule.json
+      - aws ecr describe-repositories --repository-names ${REPO_NAME} || aws ecr create-repository --cli-input-json file://./create_ecr_repository_skeleton.json
+      - aws ecr put-lifecycle-policy --repository-name "${REPO_NAME}" --lifecycle-policy-text file://./ecr_repository_lifecycle_rule.json
+      - REPOSITORY_URI="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}"
+      - IMAGE_TAG=$(find ./lambda_function -type f -exec md5sum {} \; | sort -k 2 | md5sum | awk '{print $1}')
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo "Rendering J2 templates ..."
+      - |-
+          jinja_files=$(\find ./ | grep ".j2$" 2>/dev/null)
+          if [ $? -ne 0 ]; then
+            echo "No j2 templates"
+          else
+          for i in $jinja_files ; do
+            new_file="$(echo $i | sed 's/\(.*\)\.j2/\1/')"
+            NOTICE "Generating: \"$new_file\""
+            j2 $i -e REPO_NAME -e REPOSITORY_URI -e IMAGE_TAG -o $new_file || exit 1
+            echo "#### RENDERED ####"
+            echo ""
+            cat $new_file
+            echo ""
+            echo "#### END ####"
+          done
+          fi
+      - echo Building the Docker image...
+      - echo Image_tag ${IMAGE_TAG}
+      - aws ecr describe-images --repository-name=${REPO_NAME} --image-ids=imageTag=${IMAGE_TAG} 2>/dev/null || STATUS="Image, ${IMAGE_TAG} doesn't exist..."
+      - |-
+          if [[ -v STATUS ]];then
+            echo "Build ${STATUS}"
+            docker build -t ${REPOSITORY_URI}:${IMAGE_TAG} .
+          else
+            echo "Image, ${IMAGE_TAG} already exist..."
+          fi
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Pushing the Docker images...
+      - |-
+          if [[ -v STATUS ]];then
+            echo "Push ${STATUS}"
+            docker push $REPOSITORY_URI:$IMAGE_TAG
+          else
+            echo "Image, ${IMAGE_TAG} already exist..."
+          fi
+artifacts:
+    files: stack.template.yaml
