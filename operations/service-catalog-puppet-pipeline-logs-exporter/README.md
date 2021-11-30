@@ -1,6 +1,6 @@
 # Service Catalog Puppet Logs Exporter
 
-This solution exports the pipeline logs to an S3 bucket in the event that the Service Catalog Pipeline fails, succeeds or is cancelled.
+This solution exports the pipeline logs to an S3 bucket in the event that the Service Catalog Pipeline fails, is superseded or is cancelled.
 
 ![Template Design](scpuppet-logs.png)
 
