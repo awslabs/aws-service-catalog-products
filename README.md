@@ -110,10 +110,11 @@ You should also use the following tags in your example-manifest.yaml:
 - role:spoke - spoke accounts  
 
 ### AWS CloudFormation
-1. All AWS CloudFormation templates should pass a CFN Nag check
-2. Each AWS CloudFormation template should have a description
-3. Each AWS CloudFormation template parameter should have a description
-4. Each AWS CloudFormation template output should have a description
+1. All AWS CloudFormation parameter names should be prefixed with the solution name to avoid parameter clashes.
+2. All AWS CloudFormation templates should pass a CFN Nag check
+3. Each AWS CloudFormation template should have a description
+4. Each AWS CloudFormation template parameter should have a description
+5. Each AWS CloudFormation template output should have a description
 
 ### AWS IAM Resources
 1. When creating IAM resources you should allow others to configure the path and role name via parameters.  

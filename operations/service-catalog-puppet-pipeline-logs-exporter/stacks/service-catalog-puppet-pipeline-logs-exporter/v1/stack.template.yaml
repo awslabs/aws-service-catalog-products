@@ -3,11 +3,11 @@ Description: |
   Creates a Cloudwatch events rule that triggers a Codebuild project to export all logs from a failed/cancelled/superseded Service Catalog Puppet pipeline execution. Provides a pre-signed S3 url at the end of execution
   {"framework": "servicecatalog-products", "role": "product", "product-set": "operations", "product": "service-catalog-puppet-pipeline-logs-exporter", "version": "v1"}
 Parameters:
-  pCodeBuildEnvVersion:
+  pServiceCatalogPuppetLogsExporterCodeBuildEnvVersion:
     Type: String
     Description: Version of Codebuild Environment Version
     Default: '5.0'
-  pExportExpiresIn:
+  pServiceCatalogPuppetLogsExporterExportExpiresIn:
     Type: String
     Description: Time in seconds that the Pre-signed S3 link expires in, default is 3600 (one hour)
     Default: '3600'
@@ -196,7 +196,7 @@ Resources:
       Environment:
         Type: LINUX_CONTAINER
         ComputeType: BUILD_GENERAL1_SMALL
-        Image: !Sub aws/codebuild/standard:${pCodeBuildEnvVersion}
+        Image: !Sub aws/codebuild/standard:${pServiceCatalogPuppetLogsExporterCodeBuildEnvVersion}
         EnvironmentVariables:
           - Name: S3Bucket
             Type: PLAINTEXT
@@ -206,7 +206,7 @@ Resources:
             Value: service-catalog-puppet-version
           - Name: ExportExpiresIn
             Type: PLAINTEXT
-            Value: !Ref pExportExpiresIn
+            Value: !Ref pServiceCatalogPuppetLogsExporterExportExpiresIn
       ServiceRole: !GetAtt rCodeBuildRole.Arn
       Source:
         Type: NO_SOURCE
