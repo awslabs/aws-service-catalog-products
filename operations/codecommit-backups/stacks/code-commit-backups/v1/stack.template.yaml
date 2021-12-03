@@ -8,24 +8,19 @@ Description: |
   {"framework": "servicecatalog-products", "role": "product", "product-set": "operations", "product": "codecommit-backups", "version": "v1"}
 
 Parameters:
-  pSNSEmail:
+  pServiceCatalogCodeCommitBackupsScheduleBackups:
     Type: String
-    Description: Email address for SNS Notifications
-  pScheduleBackups:
-    Type: String
-    Default: 'false'
-    AllowedValues:
-      - 'true'
-      - 'false'
     Description: Option whether to enable scheduled backups for the repo's in the account
-    ConstraintDescription: Can only specify True or False
-  pCloudwatchEventsRoleName: 
+    AllowedValues:
+      - ''
+      - configured
+  pServiceCatalogCodeCommitBackupsCloudwatchEventsRoleName: 
     Type: String
     Default: scpuppet-codecommit-backup-cloudwatchrole
-  pCodebuildRoleName:
+  pServiceCatalogCodeCommitBackupsCodebuildRoleName:
     Type: String
     Default: scpuppet-codecommit-backup-codebuildrole
-  pLambdaRoleName:
+  pServiceCatalogCodeCommitBackupsLambdaRoleName:
     Type: String 
     Default: scpuppet-codecommit-backup-lambdarole
   pServiceCatalogCodeCommitBackupRolePath:
@@ -35,9 +30,21 @@ Parameters:
     Type: String
     Description: Version of Codebuild Environment Version
     Default: '5.0'
+  pServiceCatalogCodeCommitBackupschedule:
+    Type: String
+    Description: Expression for how frequently the backup is created. See https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html for syntax
+    Default: 'cron(0 12 * * ? *)'
+  pServiceCatalogCodeCommitBackupsGitExtraArgs:
+    Type: String
+    Description: Extra arguments to pass to git clone operation, for example --depth or --recurse-submodules
+    Default: ''
+  pServiceCatalogCodeCommitBackupGrcVersion:
+    Type: String
+    Description: Version of Git remote codecommit to be installed
+    Default: '1.16'
 
 Conditions:
-  ScheduleBackups: !Equals ['true', !Ref pScheduleBackups]
+  ScheduleBackups: !Not [!Equals ['', !Ref pServiceCatalogCodeCommitBackupsScheduleBackups]]
 
 Resources:
   # S3 Bucket to store backup files
@@ -50,6 +57,8 @@ Resources:
         ServerSideEncryptionConfiguration: 
         - ServerSideEncryptionByDefault:
             SSEAlgorithm: AES256
+      VersioningConfiguration:
+        Status: Enabled
 
   # LogGroup for storing Codebuild logs
   rCodeBuildLogs:
@@ -63,7 +72,7 @@ Resources:
     Type: AWS::IAM::Role
     DependsOn: rCodeBuildLogs
     Properties:
-      RoleName: !Ref pCodebuildRoleName
+      RoleName: !Ref pServiceCatalogCodeCommitBackupsCodebuildRoleName
       Path: !Ref pServiceCatalogCodeCommitBackupRolePath
       AssumeRolePolicyDocument:
         Version: '2012-10-17'
@@ -139,6 +148,11 @@ Resources:
           - Name: S3Bucket
             Type: PLAINTEXT
             Value: !Ref rS3Bucket
+          - Name: GIT_EXTRA_ARGS
+            Type: PLAINTEXT
+            Value: !Ref pServiceCatalogCodeCommitBackupsGitExtraArgs
+          - Name: GRC_VERSION
+            Value: !Ref pServiceCatalogCodeCommitBackupGrcVersion
       ServiceRole: !GetAtt rCodeBuildRole.Arn
       Source:
         Type: NO_SOURCE
@@ -147,17 +161,17 @@ Resources:
           phases:
             install:
               commands:
-                - pip install git-remote-codecommit
+                - pip install git-remote-codecommit==$GRC_VERSION
             build:
               commands:
                 - env
-                - git clone -b $REFERENCE_NAME codecommit::$REPO_REGION://$REPOSITORY_NAME
+                - git clone $GIT_EXTRA_ARGS -b $REFERENCE_NAME codecommit::$REPO_REGION://$REPOSITORY_NAME
                 - dt=$(date '+%d-%m-%Y-%H:%M:%S');
                 - echo $dt 
-                - zip -r $dt-$REPOSITORY_NAME-backup.zip ./
+                - zip -r $REFERENCE_NAME-$dt-$REPOSITORY_NAME-backup.zip ./
           artifacts: 
             files:
-             - $dt-$REPOSITORY_NAME-backup.zip
+             - $REFERENCE_NAME-$dt-$REPOSITORY_NAME-backup.zip
       Artifacts:
         Type: S3
         Location: !Ref rS3Bucket
@@ -169,7 +183,7 @@ Resources:
   rCloudWatchRole:
     Type: AWS::IAM::Role
     Properties:
-      RoleName: !Ref pCloudwatchEventsRoleName
+      RoleName: !Ref pServiceCatalogCodeCommitBackupsCloudwatchEventsRoleName
       Path: !Ref pServiceCatalogCodeCommitBackupRolePath
       AssumeRolePolicyDocument:
         Version: 2012-10-17
@@ -242,65 +256,6 @@ Resources:
                     }
               ]}
 
-  # sns topic for notifications
-  rSnsTopic:
-    Type: AWS::SNS::Topic
-    Properties: 
-      DisplayName: codecommit-backups
-      TopicName: codecommitbackups
-
-  # sns subscription for notifications
-  rSnsSubscription:
-    Type: AWS::SNS::Subscription
-    Properties:
-      Endpoint:
-        Ref: pSNSEmail
-      Protocol: email
-      TopicArn:
-        Ref: rSnsTopic
-
-  # policy to allow cloudwatch to publish to sns
-  rEventTopicPolicy:
-    Type: 'AWS::SNS::TopicPolicy'
-    Properties:
-      PolicyDocument:
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: events.amazonaws.com
-            Action: 'sns:Publish'
-            Resource: '*'
-      Topics:
-        - !Ref rSnsTopic
-
-  # SNS notification Cloudwatch rule
-  rCloudwatchNotifyRule:
-    Type: AWS::Events::Rule
-    DependsOn: 
-      - rCodeBuildProject
-    Properties:
-      Description: Cloudwatch rule that watches for codebuild events
-      Name: codebuild-commitbackup-notify
-      EventPattern:
-        source:
-          - aws.codebuild
-        detail-type:
-          - CodeBuild Build State Change
-        detail:
-          build-status:
-            - SUCCEEDED
-            - FAILED
-            - STOPPED
-          project-name: 
-            - codecommit-backup-pipeline
-      Targets:
-        - Arn: !Ref rSnsTopic
-          Id: codebuild-trigger-notify
-          InputTransformer:
-            InputPathsMap: {"build-id":"$.detail.build-id","project-name":"$.detail.project-name","build-status":"$.detail.build-status"}
-            InputTemplate: |
-              "Build '<build-id>' for build project '<project-name>' has reached the build status of '<build-status>'."
-
   rCodeCommitBackupLambdaFunction:
     Type: AWS::Serverless::Function
     Condition: ScheduleBackups
@@ -314,9 +269,15 @@ Resources:
 
           # set region
           region = os.environ['region']
-
-          log = logging.getLogger()
-          log.setLevel(logging.INFO)
+          boto_level = os.environ.get("BOTO_LOG_LEVEL", logging.CRITICAL)
+          logging.getLogger("boto").setLevel(boto_level)
+          logging.getLogger("boto3").setLevel(boto_level)
+          logging.getLogger("botocore").setLevel(boto_level)
+          logging.getLogger("urllib3").setLevel(boto_level)
+          log_level = os.environ.get("LOG_LEVEL", logging.WARNING)
+          log = logging.getLogger(__name__)
+          logging.basicConfig(format="%(levelname)s %(threadName)s %(message)s", level=logging.INFO)
+          log.setLevel(log_level)
 
           def export_repos():
               try:
@@ -386,12 +347,14 @@ Resources:
       Environment:
         Variables:
           region: !Sub ${AWS::Region}
+          BOTO_LOG_LEVEL: CRITICAL
+          LOG_LEVEL: WARNING
 
   rCodeCommitBackupLambdaRole:
     Type: AWS::IAM::Role
     Condition: ScheduleBackups
     Properties:
-      RoleName: !Ref pLambdaRoleName
+      RoleName: !Ref pServiceCatalogCodeCommitBackupsLambdaRoleName
       Path: !Ref pServiceCatalogCodeCommitBackupRolePath
       AssumeRolePolicyDocument:
         Statement:
@@ -429,7 +392,7 @@ Resources:
     Properties:
       Name: scpuppet-codecommit-backup-schedule-rule
       Description: Creates a backup job that runs on a daily basis
-      ScheduleExpression: "cron(0 12 * * ? *)"
+      ScheduleExpression: !Ref pServiceCatalogCodeCommitBackupschedule
       Targets:
         - Arn: !GetAtt rCodeCommitBackupLambdaFunction.Arn
           Id: codecommit-backup-schedule
