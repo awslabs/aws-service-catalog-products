@@ -12,8 +12,8 @@ Parameters:
     Type: String
     Description: Option whether to enable scheduled backups for the repo's in the account
     AllowedValues:
-      - ''
-      - configured
+      - 'Yes'
+      - 'No'
   pServiceCatalogCodeCommitBackupsCloudwatchEventsRoleName: 
     Type: String
     Default: scpuppet-codecommit-backup-cloudwatchrole
@@ -32,7 +32,7 @@ Parameters:
     Default: '5.0'
   pServiceCatalogCodeCommitBackupschedule:
     Type: String
-    Description: Expression for how frequently the backup is created. See https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html for syntax
+    Description: Expression for how frequently the backup is created. See https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html for syntax.
     Default: 'cron(0 12 * * ? *)'
   pServiceCatalogCodeCommitBackupsGitExtraArgs:
     Type: String
@@ -44,7 +44,7 @@ Parameters:
     Default: '1.16'
 
 Conditions:
-  ScheduleBackups: !Not [!Equals ['', !Ref pServiceCatalogCodeCommitBackupsScheduleBackups]]
+  ScheduleBackups: !Not [!Equals ['Yes', !Ref pServiceCatalogCodeCommitBackupsScheduleBackups]]
 
 Resources:
   # S3 Bucket to store backup files
@@ -164,11 +164,10 @@ Resources:
                 - pip install git-remote-codecommit==$GRC_VERSION
             build:
               commands:
-                - env
                 - git clone $GIT_EXTRA_ARGS -b $REFERENCE_NAME codecommit::$REPO_REGION://$REPOSITORY_NAME
                 - dt=$(date '+%d-%m-%Y-%H:%M:%S');
-                - echo $dt 
-                - zip -r $REFERENCE_NAME-$dt-$REPOSITORY_NAME-backup.zip ./
+                - hash=$(git rev-parse --short HEAD);
+                - zip -r $REPOSITORY_NAME-$REFERENCE_NAME-$dt-$hash-backup.zip ./
           artifacts: 
             files:
              - $REFERENCE_NAME-$dt-$REPOSITORY_NAME-backup.zip
@@ -407,22 +406,22 @@ Resources:
       SourceArn: !GetAtt rCodeCommitBackupSchedule.Arn
 
 Outputs:
-  oBackupBucketName:
+  oServiceCatalogCodeCommitBackupsBackupBucketName:
     Description: S3 Backup bucket name
     Value: !Ref rS3Bucket
-  oBackupBuildProject:
+  oServiceCatalogCodeCommitBackupsBackupBuildProject:
     Description: Codebuild project that runs the backup job
     Value: !Ref rCodeBuildProject
-  oCloudwatchRuleArn:
+  oServiceCatalogCodeCommitBackupsCloudwatchRuleArn:
     Description: CloudWatch role that puts backup exports into the target S3 bucket
     Value: !GetAtt rCloudWatchRole.Arn
-  oCodebuildRoleArn: 
+  oServiceCatalogCodeCommitBackupsCodebuildRoleArn:
     Description: Role created for Codebuild project execution
     Value: !GetAtt rCodeBuildRole.Arn
-  oCodebuildProject:
+  oServiceCatalogCodeCommitBackupsCodebuildProject:
     Description: Codebuild Project used to export Code Commit repos to s3
     Value: !Ref rCodeBuildProject
-  oBackupLambdaFunctionArn:
+  oServiceCatalogCodeCommitBackupsBackupLambdaFunctionArn:
     Description: Lambda Backup function
     Value: !GetAtt rCodeCommitBackupLambdaFunction.Arn
     Condition: ScheduleBackups
