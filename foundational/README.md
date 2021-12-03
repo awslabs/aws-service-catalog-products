@@ -1,0 +1,6 @@
+
+
+## Global Parameters
+
+SecurityToolingAccountId
+FinanceAccountId

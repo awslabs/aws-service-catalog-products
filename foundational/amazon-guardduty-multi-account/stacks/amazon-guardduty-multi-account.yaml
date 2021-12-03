@@ -1,0 +1,50 @@
+# Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+Schema: factory-2019-04-01
+Stacks:
+  - Name: amazon-guardduty-multi-account-enabler-and-creator
+    Tags:
+      - Key: category
+        Value: foundational
+      - Key: product-type
+        Value: governance
+    Versions:
+      - Name: v1
+        Active: True
+        Source:
+          Provider: CodeCommit
+          Path: stacks/enabler-and-creator/v1
+          Configuration:
+            RepositoryName: amazon-guardduty-multi-account
+            BranchName: main
+  - Name: amazon-guardduty-multi-account-prereqs-orgs-account
+    Tags:
+      - Key: category
+        Value: foundational
+      - Key: product-type
+        Value: governance
+    Versions:
+      - Name: v1
+        Active: True
+        Source:
+          Provider: CodeCommit
+          Path: stacks/prereqs-orgs-account/v1
+          Configuration:
+            RepositoryName: amazon-guardduty-multi-account
+            BranchName: main
+  - Name: amazon-guardduty-multi-account-prereqs-securitytooling-account
+    Tags:
+      - Key: category
+        Value: foundational
+      - Key: product-type
+        Value: governance
+    Versions:
+      - Name: v1
+        Active: True
+        Source:
+          Provider: CodeCommit
+          Path: stacks/prereqs-securitytooling-account/v1
+          Configuration:
+            RepositoryName: amazon-guardduty-multi-account
+            BranchName: main

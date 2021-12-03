@@ -1,0 +1,236 @@
+Parameters:
+  GuardDutyMultiAccountDelegateAdminRoleArn:
+    Type: String
+
+  GuardDutyMultiAccountGuardDutyRoleArn:
+    Type: String
+
+  GuardDutyMultiAccountExecutionRoleName:
+    Type: String
+    Default: "GuardDutyMultiAccountExecutionRole"
+
+  GuardDutyMultiAccountRolePath:
+    Type: String
+    Default: "/foundational/GuardDutyMultiAccount/"
+
+  GuardDutyMultiAccountFunctionName:
+    Type: String
+    Default: "GuardDutyMultiAccountFunction"
+
+  SecurityToolingAccountId:
+    Type: String
+
+Resources:
+  Function:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: !Ref GuardDutyMultiAccountFunctionName
+      Code:
+        ZipFile: |
+          import logging
+          import boto3
+          import os
+          import json
+
+          boto_level = os.environ.get("BOTO_LOG_LEVEL", logging.CRITICAL)
+          logging.getLogger("boto").setLevel(boto_level)
+          logging.getLogger("boto3").setLevel(boto_level)
+          logging.getLogger("botocore").setLevel(boto_level)
+          logging.getLogger("urllib3").setLevel(boto_level)
+
+          log_level = os.environ.get("LOG_LEVEL", logging.WARNING)
+          logger = logging.getLogger(__name__)
+          logging.basicConfig(
+              format="%(levelname)s %(threadName)s %(message)s", level=logging.INFO
+          )
+          logger.setLevel(log_level)
+
+
+          def get_detector_id(client):
+              paginator = client.get_paginator('list_detectors')
+              for page in paginator.paginate():
+                  for detector_id in page.get("DetectorIds", []):
+                      logger.debug(f"Looking at {detector_id}")
+                      detector = client.get_detector(
+                          DetectorId=detector_id
+                      )
+                      logger.debug(f"Checking detector: {detector.get('Status')}")
+                      if detector.get("Status") == "ENABLED":
+                          return detector_id
+              logger.info("Did not find an enabled detector")
+              return None
+
+
+          def create_detector(client):
+              response = client.create_detector(
+                  Enable=True,
+                  ClientToken='foundational-aws-guardduty-multi-account',
+                  FindingPublishingFrequency='FIFTEEN_MINUTES',
+                  DataSources={
+                      'S3Logs': {
+                          'Enable': True
+                      }
+                  },
+              )
+              logger.info("created a detector")
+              return response.get("DetectorId")
+
+
+          def update_organization_configuration(client, detector_id):
+              if client.describe_organization_configuration(DetectorId=detector_id).get("AutoEnable", False) is not True:
+                  logger.info("AutoEnabled was not enabled")
+                  client.update_organization_configuration(
+                      DetectorId=detector_id,
+                      AutoEnable=True,
+                      DataSources={
+                          'S3Logs': {
+                              'AutoEnable': True
+                          }
+                      }
+                  )
+                  logger.info("AutoEnabled set to true")
+
+
+          def enable_organization_admin_account(client, admin_account_id):
+              client.enable_organization_admin_account(
+                  AdminAccountId=admin_account_id
+              )
+
+
+          def is_an_organization_admin_accounts(client, account_id):
+              paginator = client.get_paginator('list_organization_admin_accounts')
+              for page in paginator.paginate():
+                  for admin_accounts in page.get("AdminAccounts", []):
+                      if admin_accounts.get("AdminAccountId") == account_id:
+                          return admin_accounts.get("AdminStatus") == "ENABLED"
+              return False
+
+
+          def make_an_organization_admin_accounts(client, account_id):
+              client.enable_organization_admin_account(
+                  AdminAccountId=account_id
+              )
+              logger.info(f"made {account_id} an org admin account")
+
+
+          def get_org_client(region):
+              guard_duty_multi_account_delegate_admin_role_arn = os.environ.get(
+                  "GUARD_DUTY_MULTI_ACCOUNT_DELEGATE_ADMIN_ROLE_ARN")
+              sts = boto3.client('sts')
+              assumed_role_object = sts.assume_role(
+                  RoleArn=guard_duty_multi_account_delegate_admin_role_arn,
+                  RoleSessionName='guard_duty_multi_account_delegate_admin_role_arn',
+              )
+              credentials = assumed_role_object['Credentials']
+              kwargs = {
+                  "aws_access_key_id": credentials['AccessKeyId'],
+                  "aws_secret_access_key": credentials['SecretAccessKey'],
+                  "aws_session_token": credentials['SessionToken'],
+              }
+              return boto3.client('guardduty', region_name=region, **kwargs)
+
+
+          def create_client(region):
+              guard_duty_multi_account_guard_duty_role_arn = os.environ.get(
+                  "GUARD_DUTY_MULTI_ACCOUNT_GUARD_DUTY_ROLE_ARN")
+              sts = boto3.client('sts')
+              assumed_role_object = sts.assume_role(
+                  RoleArn=guard_duty_multi_account_guard_duty_role_arn,
+                  RoleSessionName='guard_duty_multi_account_guard_duty_role_arn',
+              )
+              credentials = assumed_role_object['Credentials']
+              kwargs = {
+                  "aws_access_key_id": credentials['AccessKeyId'],
+                  "aws_secret_access_key": credentials['SecretAccessKey'],
+                  "aws_session_token": credentials['SessionToken'],
+              }
+              return boto3.client('guardduty', region_name=region, **kwargs)
+
+
+          def ensure_all_are_members(client, detector_id, accounts_to_ensure):
+              accounts_to_add = [{
+                  'AccountId': account_to_ensure.get("account_id"),
+                  'Email': account_to_ensure.get("email")
+              } for account_to_ensure in accounts_to_ensure]
+              client.create_members(
+                  DetectorId=detector_id,
+                  AccountDetails=accounts_to_add
+              )
+              logger.info(f"created members: {accounts_to_add}")
+
+
+          def handle(event, context):
+              logger.info("starting")
+              logger.debug(json.dumps(event, default=str))
+              parameters = event.get("parameters")
+
+              security_tooling_account_id = parameters.get("SecurityToolingAccountId")
+              accounts_to_ensure = parameters.get("SCTManifestSpokes")
+              regions_to_ensure = parameters.get("SCTConfigRegions").split(",")
+
+              for region in regions_to_ensure:
+                  org_client = get_org_client(region)
+                  if not is_an_organization_admin_accounts(org_client, security_tooling_account_id):
+                      logger.info(f"{security_tooling_account_id} is not an org admin account")
+                      make_an_organization_admin_accounts(org_client, security_tooling_account_id)
+                  logger.info(f"Finished with org setup/config")
+
+                  guardduty = create_client(region)
+                  detector_id = get_detector_id(guardduty)
+                  if detector_id is None:
+                      detector_id = create_detector(guardduty)
+
+                  update_organization_configuration(guardduty, detector_id)
+                  ensure_all_are_members(guardduty, detector_id, json.loads(accounts_to_ensure))
+                  logger.info(f"Finished with region: {region}")
+
+              logger.info(f"Finished with regional setup/config")
+
+              logger.info("created")
+
+
+      Handler: index.handle
+      MemorySize: 128
+      Runtime: python3.8
+      Role: !GetAtt ExecutionRole.Arn
+      Timeout: 30
+      Environment:
+        Variables:
+          GUARD_DUTY_MULTI_ACCOUNT_DELEGATE_ADMIN_ROLE_ARN: !Ref GuardDutyMultiAccountDelegateAdminRoleArn
+          GUARD_DUTY_MULTI_ACCOUNT_GUARD_DUTY_ROLE_ARN: !Ref GuardDutyMultiAccountGuardDutyRoleArn
+          BOTO_LOG_LEVEL: CRITICAL
+          LOG_LEVEL: INFO
+
+  ExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Ref GuardDutyMultiAccountExecutionRoleName
+      Path: !Ref GuardDutyMultiAccountRolePath
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: OrgsPerms
+          PolicyDocument:
+            Statement:
+              - Effect: Allow
+                Action:
+                  - sts:AssumeRole
+                Resource: !Ref GuardDutyMultiAccountDelegateAdminRoleArn
+              - Effect: Allow
+                Action:
+                  - sts:AssumeRole
+                Resource: !Ref GuardDutyMultiAccountGuardDutyRoleArn
+        - PolicyName: Logging
+          PolicyDocument:
+            Statement:
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource: "*"

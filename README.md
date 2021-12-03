@@ -1,188 +1,133 @@
 ## AWS Service Catalog Products
 
-This repository contains a number of CloudFormation templates which can be used independently or as Products with AWS 
-Service Catalog including the Open Source Tools AWS Service Catalog Factory and AWS Service Catalog Puppet. The 
-templates include a number of the foundational AWS Services you may choose to manage Account Compliance including 
-AWS Config, AWS CloudTrail and GuardDuty
+This repository contains a number of solutions that can be easily deployed by the Service Catalog Tools 
+([aws-service-catalog-factory](https://github.com/awslabs/aws-service-catalog-factory) and
+[aws-service-catalog-puppet](https://github.com/awslabs/aws-service-catalog-puppet)).  The solutions are grouped by 
+functional area:
+
+- foundational - these are the solutions we recommend you use when building a foundation in AWS
+- operations - these are the solutions we recommend to help you with operations
+- reference - these are sample templates useful when you are learning how to write AWS Cloudformation templates
+- unsorted - these are solutions that have been tested but not yet classified or standardised
 
 ## Getting started
 
-In the root of this repository there are a collection of product sets.  Each set comprises of multiple products that 
-should be deployed to achieve a goal.  You can see how and where each product within the set should be provisioned by
-looking through the yaml files in the root of the product set.  For example the following portfolios.yaml file shows you
-how to set up factory for one of the sets:
+Within the functional area directories you will see a list of solutions:
 
-```yaml
+```bash
+ls -la foundational
 
-Schema: factory-2019-04-01
-Portfolios:
-  Components:
-    - Name: account-vending-account-creation-shared
-      Owner: central-it@customer.com
-      Description: lambda to used to back custom resources that create an AWS account and move it to an ou
-      Distributor: central-it-team
-      SupportDescription: Contact us on Chime for help
-      SupportEmail: central-it-team@customer.com
-      SupportUrl: https://wiki.customer.com/central-it-team/self-service/account-iam
-      Tags:
-        - Key: product-set
-          Value: account-vending
-      Versions:
-        - Name: v2
-          Description: lambda to used to back custom resources that create an AWS account and move it to an ou
-          Active: True
-          Source:
-            Provider: CodeCommit
-            Configuration:
-              RepositoryName: account-vending-account-creation-shared
-              BranchName: v2
-          BuildSpec: |
-            version: 0.2
-            phases:
-              install:
-                runtime-versions:
-                  python: 3.x
-              build:
-                commands:
-                  - pip install -r requirements.txt -t src
-                {% for region in ALL_REGIONS %}
-                  - aws cloudformation package --template $(pwd)/product.template.yaml --s3-bucket sc-factory-artifacts-${ACCOUNT_ID}-{{ region }} --s3-prefix ${STACK_NAME} --output-template-file product.template-{{ region }}.yaml
-                {% endfor %}
-            artifacts:
-              files:
-                - '*'
-                - '**/*'
-
-    - Name: account-vending-account-bootstrap-shared
-      Owner: central-it@customer.com
-      Description: Lambda and codebuild project needed to run servicecatalog-puppet bootstrap-spoke-as
-      Distributor: central-it-team
-      SupportDescription: Contact us on Chime for help
-      SupportEmail: central-it-team@customer.com
-      SupportUrl: https://wiki.customer.com/central-it-team/self-service/account-iam
-      Tags:
-        - Key: product-set
-          Value: account-vending
-      Versions:
-        - Name: v2
-          Description: Lambda and codebuild project needed to run servicecatalog-puppet bootstrap-spoke-as
-          Active: True
-          Source:
-            Provider: CodeCommit
-            Configuration:
-              RepositoryName: account-vending-account-bootstrap-shared
-              BranchName: v2
-          BuildSpec: |
-            version: 0.2
-            phases:
-              install:
-                runtime-versions:
-                  python: 3.x
-              build:
-                commands:
-                  - pip install -r requirements.txt -t src
-                {% for region in ALL_REGIONS %}
-                  - aws cloudformation package --template $(pwd)/product.template.yaml --s3-bucket sc-factory-artifacts-${ACCOUNT_ID}-{{ region }} --s3-prefix ${STACK_NAME} --output-template-file product.template-{{ region }}.yaml
-                {% endfor %}
-            artifacts:
-              files:
-                - '*'
-                - '**/*'
-
-    - Name: account-vending-account-creation
-      Owner: central-it@customer.com
-      Description: template used to interact with custom resources in the shared projects
-      Distributor: central-it-team
-      SupportDescription: Contact us on Chime for help
-      SupportEmail: central-it-team@customer.com
-      SupportUrl: https://wiki.customer.com/central-it-team/self-service/account-iam
-      Tags:
-        - Key: product-set
-          Value: account-vending
-      Versions:
-        - Name: v1
-          Description: template used to interact with custom resources in the shared projects.
-          Active: True
-          Source:
-            Provider: CodeCommit
-            Configuration:
-              RepositoryName: account-vending-account-creation
-              BranchName: master
+drwxr-xr-x   8 user  group   256 18 Nov 21:49 .
+drwxr-xr-x  15 user  group   480 29 Nov 09:55 ..
+drwxr-xr-x   7 user  group   224 19 Nov 14:39 amazon-guardduty-multi-account
+drwxr-xr-x   6 user  group   192 19 Nov 14:44 aws-securityhub-multi-account
+drwxr-xr-x   6 user  group   192 19 Nov 12:58 delete-default-networking
 ```
 
-And the manifest file shows how to set up puppet for one of the sets:
+Each solution should be deployable independently and each solution should be deployable with all other solutions in this
+repository without issue.  
 
-```yaml
+Each solution has the same consistent folder structure:
 
-schema: puppet-2019-04-01
+```bash
+ls -la foundational/amazon-guardduty-multi-account
 
-launches:
-  account-vending-account-creation-shared:
-    portfolio: demo-central-it-team-portfolio
-    product: account-vending-account-creation-shared
-    version: v3
-    parameters:
-      AssumableRoleInRootAccountArn:
-        default: arn:aws:iam::0123456789010:role/servicecatalog-puppet/AssumableRoleInRootAccount
-      OrganizationAccountAccessRole:
-        default: OrganizationAccountAccessRole
-    outputs:
-      ssm:
-        - param_name: /account-vending/account-custom-resource-arn
-          stack_output: AccountCustomResourceArn
-    deploy_to:
-      tags:
-        - tag: scope:puppet-hub
-          regions: default_region
-
-  account-vending-account-bootstrap-shared:
-    portfolio: demo-central-it-team-portfolio
-    product: account-vending-account-bootstrap-shared
-    version: v2
-    parameters:
-      AssumableRoleInRootAccountArn:
-        default: arn:aws:iam::0123456789010:role/servicecatalog-puppet/AssumableRoleInRootAccount
-    outputs:
-      ssm:
-        - param_name: /account-vending/bootstrapper-project-custom-resource-arn
-          stack_output: BootstrapperProjectCustomResourceArn
-    deploy_to:
-      tags:
-        - tag: scope:puppet-hub
-          regions: default_region
-
-  account-vending-account-001:
-    portfolio: demo-central-it-team-portfolio
-    product: account-vending-account-creation
-    version: v2
-    depends_on:
-      - account-vending-account-creation-shared
-      - account-vending-account-bootstrap-shared
-    parameters:
-      Email:
-        default: "mailing-list+account-001@somewhere.com"
-      AccountName:
-        default: "account-001"
-      OrganizationAccountAccessRole:
-        default: "OrganizationAccountAccessRole"
-      IamUserAccessToBilling:
-        default: "ALLOW"
-      TargetOU:
-        default: /
-      AccountVendingCreationLambdaArn:
-        ssm:
-          name: /account-vending/account-custom-resource-arn
-      AccountVendingBootstrapperLambdaArn:
-        ssm:
-          name: /account-vending/bootstrapper-project-custom-resource-arn
-    deploy_to:
-      tags:
-        - tag: scope:puppet-hub
-          regions: default_region
+drwxr-xr-x  7 user  group   224 19 Nov 14:39 .
+drwxr-xr-x  8 user  group   256 18 Nov 21:49 ..
+-rw-r--r--  1 user  group     0 18 Nov 21:43 README.md
+drwxr-xr-x  6 user  group   192 19 Nov 14:07 stacks
+drwxr-xr-x  6 user  group   192 19 Nov 14:07 portfolios
+drwxr-xr-x  6 user  group   192 19 Nov 14:07 apps
+drwxr-xr-x  6 user  group   192 19 Nov 14:07 workspaces
+-rw-r--r--  1 user  group  2602 19 Nov 14:39 example-manifest.yaml
 ```
 
-Within the manifest.yaml file you should be able to use the values of the tags on the launches/stacks to understand
-which account the solution should be provisioned into.
+- The README.md explains what the solution does.
+- The stacks directory is the source code for the parts of the solution that should be created as stacks
+- The portfolios directory is the source code for the parts of the solution that should be created as products
+- The apps directory is the source code for the parts of the solution that should be created as CDK apps
+- The workspaces directory is the source code for the parts of the solution that should be created as Terraform workspaces
+- The example-manifest.yaml is a valid YAML file providing an example of how to deploy the solution
+
+Within each of the directorys stacks, portfolios, apps, workspaces you will find a file named 
+amazon-guardduty-multi-account.yaml.  Each of the amazon-guardduty-multi-account.yaml files is a valid factory YAML file
+that can be used to configure your install to build the parts of the solution that are needed.
+
+### Importing a solution
+
+To import a solution you should copy each of the YAML files from its stacks, apps, workspaces and portfolios directories 
+into the matching directory in your ServiceCatalogFactory repo.  If you are not going to be using AWS CodeCommit for the
+source directory you will need to change that configuration.  Once you are ready commit the changes and run the factory
+pipeline.  The new pipelines will be created and you are now ready to copy over the source code for the different parts.
+
+### Deploying a solution
+
+To deploy a solution you should copy the contents of the example-manifest.yaml into your ServiceCatalogPuppet repo into 
+the path manifests/<functional_area>.yaml.  If there is a file in that path already you should merge the contents.  
+Ensure you are happy with the parameters specified and the tags used before committing and pushing the change. 
+
+### Contributing
+
+If you have a solution you would like to contribute please 
+[raise an issue](https://github.com/awslabs/aws-service-catalog-products/issues/new) to see verify if a similar solution
+existing already or is in active development.  
+
+Once you are ready to get started please fork the repository and complete the following TODOs:
+
+1. choose which or create a new functional area your solution should be added to (see above for descriptions)
+2. choose a unique and descriptive name - eg amazon-guardduty-multi-account
+3. create a foundational/amazon-guardduty-multi-account/README.md
+4. read over the programming standards section below
+5. build out your solution in the directories foundational/amazon-guardduty-multi-account/stacks, foundational/amazon-guardduty-multi-account/apps, foundational/amazon-guardduty-multi-account/workspaces, foundational/amazon-guardduty-multi-account/portfolios
+6. create each factory YAML file in each directory - eg. foundational/amazon-guardduty-multi-account/stacks/amazon-guardduty-multi-account.yaml 
+7. create an foundational/amazon-guardduty-multi-account/example-manifest.yaml file containing each part of the solution and each of the parameters you have created for each part. 
+8. raise a PR
+
+
+## Programming Standards
+Please read the following standards and follow them when implementing solutions for this repo
+
+### General and Structure
+1. You should not make changes to previously shared parts of your solution - you should create a new version of that part.
+2. For each part of your solution that will be provisioned by the Service Catalog Tools you should use stacks, apps or workspaces - portfolios should be reserved for self service use cases.
+3. When building your solution you should favour mono repos over poly repos - with the exception of when you are using portfolios.
+4. When building solutions where parts need to be provisioned into different accounts try to limit the number of parts needed for each account to 1. This will reduce the complexity for users wishing to deploy your solution.
+5. Each solution should be configured to use AWS CodeCommit as a git source to ensure a consistent experience when users import.
+
+### Common parameters and tags
+When writing your solution ensure you are using the autogenerated / provided parameters:
+
+- SCTAccountId - puppet and factory account id
+- SCTManifestAccounts - JSON encoded list of all accounts included in the manifest (including accounts in OUs specified) comprising of account_id and email attributes
+- SCTManifestSpokes - same as SCTManifestAccounts but without including the SCT account. 
+- SCTConfigRegions - JSON encoded list of regions specified in the config
+
+You should also use the following tags in your example-manifest.yaml:
+
+- role:sct - the account containing the Service Catalog Tools
+- role:org_management - the AWS Organizations management account
+- role:securitytooling - the account designated for security tooling 
+- role:spoke - spoke accounts  
+
+### AWS CloudFormation
+1. All AWS CloudFormation parameter names should be prefixed with the solution name to avoid parameter clashes.
+2. All AWS CloudFormation templates should pass a CFN Nag check
+3. Each AWS CloudFormation template should have a description
+4. Each AWS CloudFormation template parameter should have a description
+5. Each AWS CloudFormation template output should have a description
+
+### AWS IAM Resources
+1. When creating IAM resources you should allow others to configure the path and role name via parameters.  
+2. There should be default values for IAM path and role name values
+3. IAM path default values should be the same value across all parts of the solution and should contain the solution category and an indication of the solution name in it.
+4. IAM roles should follow least privilege or users should be able to specify an IAM boundary. 
+
+### AWS Lambda
+1. AWS Lambda function dependencies should be pinned to specific versions.
+2. AWS Lambda functions should allow the configuration of log level via an environmental variable.
+
+## Where is the old content
+The previous master branch is still available.
 
 ## License Summary
 

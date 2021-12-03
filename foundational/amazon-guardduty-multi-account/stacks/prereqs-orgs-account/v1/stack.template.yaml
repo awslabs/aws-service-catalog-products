@@ -1,0 +1,47 @@
+Parameters:
+  GuardDutyMultiAccountDelegateAdminRoleName:
+    Type: String
+    Default: "GuardDutyMultiAccountDelegateAdminRole"
+
+  GuardDutyMultiAccountRolePath:
+    Type: String
+    Default: "/foundational/GuardDutyMultiAccount/"
+
+  SCTAccountId:
+    Type: String
+
+Resources:
+  GuardDutyMultiAccountDelegateAdminRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Ref GuardDutyMultiAccountDelegateAdminRoleName
+      Path: !Ref GuardDutyMultiAccountRolePath
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Principal:
+              AWS: !Sub "arn:aws:iam::${SCTAccountId}:root"
+            Action:
+              - "sts:AssumeRole"
+      Policies:
+        - PolicyName: PermissionsForGuardDutyAdmin
+          PolicyDocument:
+            Statement:
+              - Effect: Allow
+                Action:
+                  - "organizations:EnableAWSServiceAccess"
+                  - "organizations:RegisterDelegatedAdministrator"
+                  - "organizations:ListDelegatedAdministrators"
+                  - "organizations:ListAWSServiceAccessForOrganization"
+                  - "organizations:DescribeOrganizationalUnit"
+                  - "organizations:DescribeAccount"
+                  - "organizations:DescribeOrganization"
+                  - "guardduty:ListOrganizationAdminAccounts"
+                  - "guardduty:EnableOrganizationAdminAccount"
+                Resource: "*"
+
+Outputs:
+  GuardDutyMultiAccountDelegateAdminRoleArn:
+    Description: Arn of the GuardDutyMultiAccountDelegateAdminRole
+    Value: !GetAtt GuardDutyMultiAccountDelegateAdminRole.Arn

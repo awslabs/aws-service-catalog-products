@@ -1,0 +1,12 @@
+# Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+schema: puppet-2019-04-01
+stacks:
+  scpuppet-logs:
+    name: service-catalog-puppet-pipeline-logs-exporter
+    version: v1
+    deploy_to:
+      tags:
+        - tag: role:sct
+          regions: default_region

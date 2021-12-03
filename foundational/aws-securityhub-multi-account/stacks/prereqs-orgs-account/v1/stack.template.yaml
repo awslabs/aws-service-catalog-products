@@ -1,0 +1,47 @@
+Parameters:
+  SecurityHubMultiAccountDelegateAdminRoleName:
+    Type: String
+    Default: "SecurityHubMultiAccountDelegateAdminRole"
+
+  SecurityHubMultiAccountRolePath:
+    Type: String
+    Default: "/foundational/SecurityHubMultiAccount/"
+
+  SCTAccountId:
+    Type: String
+
+Resources:
+  SecurityHubMultiAccountDelegateAdminRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Ref SecurityHubMultiAccountDelegateAdminRoleName
+      Path: !Ref SecurityHubMultiAccountRolePath
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Principal:
+              AWS: !Sub "arn:aws:iam::${SCTAccountId}:root"
+            Action:
+              - "sts:AssumeRole"
+      Policies:
+        - PolicyName: PermissionsForSecurityHubAdmin
+          PolicyDocument:
+            Statement:
+              - Effect: Allow
+                Action:
+                  - "organizations:EnableAWSServiceAccess"
+                  - "organizations:RegisterDelegatedAdministrator"
+                  - "organizations:ListDelegatedAdministrators"
+                  - "organizations:ListAWSServiceAccessForOrganization"
+                  - "organizations:DescribeOrganizationalUnit"
+                  - "organizations:DescribeAccount"
+                  - "organizations:DescribeOrganization"
+                  - "securityhub:ListOrganizationAdminAccounts"
+                  - "securityhub:EnableOrganizationAdminAccount"
+                Resource: "*"
+
+Outputs:
+  SecurityHubMultiAccountDelegateAdminRoleArn:
+    Description: Arn of the SecurityHubMultiAccountDelegateAdminRole
+    Value: !GetAtt SecurityHubMultiAccountDelegateAdminRole.Arn
