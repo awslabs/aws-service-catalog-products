@@ -127,7 +127,7 @@ You should also use the following tags in your example-manifest.yaml:
 2. AWS Lambda functions should allow the configuration of log level via an environmental variable.
 
 ## Where is the old content
-The previous master branch is still available.
+The previous master branch is still available as the branch archive
 
 ## License Summary
 
