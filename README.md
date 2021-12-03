@@ -124,6 +124,10 @@ You should also use the following tags in your example-manifest.yaml:
 
 ### AWS Lambda
 1. AWS Lambda function dependencies should be pinned to specific versions.
+2. AWS Lambda functions should allow the configuration of log level via an environmental variable.
+
+## Where is the old content
+The previous master branch is still available.
 
 ## License Summary
 
