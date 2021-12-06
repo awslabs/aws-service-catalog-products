@@ -62,10 +62,11 @@ Resources:
         - Arn: !Ref rSnsTopic
           Id: codebuild-trigger-notify
           InputTransformer:
-            InputPathsMap: {"build-id":"$.detail.build-id","project-name":"$.detail.project-name","build-status":"$.detail.build-status","account-id":"$.account","region":"$.region","stream-id":"$.detail.additional-information.logs.stream-name"} #uses jsonpath to pull logstream 
+            InputPathsMap: {"build-id":"$.detail.build-id","project-name":"$.detail.project-name","build-status":"$.detail.build-status","account-id":"$.account","region":"$.region","stream-id":"$.detail.additional-information.logs.stream-name","cloudwatchlogs-url":"$.detail.additional-information.logs.deep-link"} #uses jsonpath to pull logstream 
             InputTemplate: | 
                 {"Build '<build-id>' for build project '<project-name>' has reached the build status of": <build-status>,
                 "BuildUrl": "https://console.aws.amazon.com/codesuite/codebuild/<account-id>/projects/<project-name>/build/<project-name>%3A<stream-id>/log?region=<region>",
+                "CloudWatchLogsUrl": <cloudwatchlogs-url>,
                 "AccountId": <account-id>,
                 "Region": <region>
                 }
