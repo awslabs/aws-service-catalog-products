@@ -3,7 +3,7 @@
 
 AWSTemplateFormatVersion: '2010-09-09'
 Description: |
-  Product that zips up code commit repo when a cloudwatch commit event occurs the zip is added to an s3 bucket.
+  Product that sends an SNS notification when a CodeBuild Build job succeeeds or fails.
   {"framework": "servicecatalog-products", "role": "product", "product-set": "operations", "product": "codecommit-sns-notifier", "version": "v1"}
 
 Parameters:
@@ -62,9 +62,13 @@ Resources:
         - Arn: !Ref rSnsTopic
           Id: codebuild-trigger-notify
           InputTransformer:
-            InputPathsMap: {"build-id":"$.detail.build-id","project-name":"$.detail.project-name","build-status":"$.detail.build-status"}
-            InputTemplate: |
-              "Build '<build-id>' for build project '<project-name>' has reached the build status of '<build-status>'."
+            InputPathsMap: {"build-id":"$.detail.build-id","project-name":"$.detail.project-name","build-status":"$.detail.build-status","account-id":"$.account","region":"$.region","deep-link":"$.detail.additional-information.logs.deep-link"}
+            InputTemplate: | 
+                {"Build '<build-id>' for build project '<project-name>' has reached the build status of": <build-status>,
+                "BuildUrl": <deep-link>,
+                "AccountId": <account-id>,
+                "Region": <region>
+                }
 
 Outputs:
   oSnsTopic:
