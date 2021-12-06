@@ -1,0 +1,12 @@
+schema: puppet-2019-04-01
+stacks:
+  code-commitbackups:
+    name: code-commit-backups
+    version: v1
+    parameters:
+      pServiceCatalogCodeCommitSnsNotifyEmail:
+        default: 'itops@company.com'
+    deploy_to:
+      tags:
+        - tag: role:sct
+          regions: default_region
