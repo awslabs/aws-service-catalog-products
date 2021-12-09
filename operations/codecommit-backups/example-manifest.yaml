@@ -7,10 +7,8 @@ stacks:
     name: code-commit-backups
     version: v1
     parameters:
-      pScheduleBackups:
+      pServiceCatalogCodeCommitBackupsScheduleBackups:
         default: 'true'
-      pSNSEmail: 
-        default: 'itops@company.com'
     deploy_to:
       tags:
         - tag: role:sct

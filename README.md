@@ -110,7 +110,7 @@ You should also use the following tags in your example-manifest.yaml:
 - role:spoke - spoke accounts  
 
 ### AWS CloudFormation
-1. All AWS CloudFormation parameter names should be prefixed with the solution name to avoid parameter clashes.
+1. All AWS CloudFormation parameter and output names should be prefixed with the solution name to avoid parameter clashes.
 2. All AWS CloudFormation templates should pass a CFN Nag check
 3. Each AWS CloudFormation template should have a description
 4. Each AWS CloudFormation template parameter should have a description
@@ -124,6 +124,10 @@ You should also use the following tags in your example-manifest.yaml:
 
 ### AWS Lambda
 1. AWS Lambda function dependencies should be pinned to specific versions.
+2. AWS Lambda functions should allow the configuration of log level via an environmental variable.
+
+## Where is the old content
+The previous master branch is still available as the branch archive
 
 ## License Summary
 
