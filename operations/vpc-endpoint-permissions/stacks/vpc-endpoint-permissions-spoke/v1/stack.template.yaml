@@ -1,0 +1,69 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: |
+  Template that creates an IAM role in an account to modify VPC Endpoint Service allowed principials
+  {"framework": "servicecatalog-products", "role": "product", "product-set": "operations", "product": "vpc-endpoint-permissions-spoke", "version": "v1"}
+Parameters:
+  pVpcEndpointPermissionsLambdaResource:
+    Type: String
+    Description: Lambda resource that is triggered to add permissios to endpoint service role
+  pVpcEndpointPermissionsAccountId:
+    Type: String
+    Description: AWS Account ID to be added to vpcendpoint permissions
+  pVpcEndpointPermissionsRoleToAssume:
+    Type: String
+    Description: AWS IAM Role to assume in network core account
+
+Resources:
+  rLambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub App_modifyvpcendpointprincipal-spoke-${AWS::AccountId}
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal: 
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Policies:
+        - PolicyName: VPC_Modify_Endpoint_Permissions_Spoke
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - "sts:AssumeRole"
+                Resource: !Ref pVpcEndpointPermissionsRoleToAssume
+
+  rLambdaFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./src
+      Handler: handler.lambda_handler
+      MemorySize: 128
+      Role: !GetAtt rLambdaRole.Arn
+      Runtime: python3.9
+      Timeout: 300
+      Environment:
+        Variables:
+          VPCE_PERM_ROLE_ARN: !Ref pVpcEndpointPermissionsRoleToAssume
+          FUNC_NAME: !Ref pVpcEndpointPermissionsLambdaResource
+
+  CustomResource:
+      Type: 'Custom::AddVPCServiceEndpointPermissions'
+      Properties: 
+        ServiceToken: !GetAtt rLambdaFunction.Arn
+        AccountId: !Ref pVpcEndpointPermissionsAccountId
+
+Outputs:
+  oLambdaArn:
+    Description: Lambda Function Arn
+    Value: !GetAtt rLambdaFunction.Arn
+  oLambdaRoleArn:
+    Description: Lambda Excecution role Arn
+    Value: rLambdaRole.Arn
+
+
