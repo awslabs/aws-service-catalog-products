@@ -1,0 +1,85 @@
+  - Description: vpc-service-endpoint-hub
+    Distributor: company
+    Name: vpc-service-endpoint-hub
+    Owner: itops@company.com
+    SupportEmail: itops@company.com
+    SupportDescription: Contact us for support. 
+    SupportUrl: https://company-support.com/help
+    Tags:
+      - Key: team
+        Value: company-itops
+      - Key: name
+        Value: vpc-service-endpoint-hub
+      - Key: application
+        Value: cloud_infrastructure
+    Versions:
+      - Name: v1
+        Description: This will add a permission to an vpc endpoint 
+        Active: True
+        Options:
+          ShouldCFNNag: True
+        Source:
+          Provider: CodeCommit
+          Configuration:
+            RepositoryName: vpc-service-endpoint-hub
+            BranchName: main
+        BuildSpec: |
+            version: 0.2
+            phases:
+              install:
+                runtime-versions:
+                  python: 3.x
+              build:
+                commands:
+                  - pip install -r requirements.txt -t src
+                {% for region in ALL_REGIONS %}
+                  - aws cloudformation package --template $(pwd)/product.template.yaml --s3-bucket sc-factory-artifacts-${ACCOUNT_ID}-{{ region }} --s3-prefix ${STACK_NAME} --output-template-file product.template-{{ region }}.yaml
+                {% endfor %}
+            artifacts:
+              files:
+                - '*'
+                - '**/*'
+
+  - Description: dev-vpc-endpoint-spoke
+    Distributor: company
+    Name: vpc-service-endpoint-spoke
+    Owner: itops@company.com
+    SupportEmail: itops@company.com
+    SupportDescription: Contact us for support. 
+    SupportUrl: https://company-support.com/help
+    Tags:
+      - Key: team
+        Value: company-itops
+      - Key: name
+        Value: vpc-service-endpoint-spoke
+      - Key: application
+        Value: cloud_infrastructure
+    Versions:
+      - Name: v1
+        Description: This will add a permission to an vpc endpoint 
+        Active: True
+        Options:
+          ShouldCFNNag: True
+        Source:
+          Provider: CodeCommit
+          Configuration:
+            RepositoryName: vpc-service-endpoint-spoke
+            BranchName: main
+        BuildSpec: |
+            version: 0.2
+            phases:
+              install:
+                runtime-versions:
+                  python: 3.x
+              build:
+                commands:
+                  - pip install -r requirements.txt -t src
+                {% for region in ALL_REGIONS %}
+                  - aws cloudformation package --template $(pwd)/product.template.yaml --s3-bucket sc-factory-artifacts-${ACCOUNT_ID}-{{ region }} --s3-prefix ${STACK_NAME} --output-template-file product.template-{{ region }}.yaml
+                {% endfor %}
+            artifacts:
+              files:
+                - '*'
+                - '**/*'
+
+    

@@ -112,9 +112,9 @@ def lambda_handler(event, context):
         action = event['RequestType']
         log.info(f'ServiceId is {service_id}\nAccountId is {account_id}\nAction is {action}')
 
-        if action == 'create':
+        if action == 'Create':
             response = add_permission(service_id, account_id)
-        elif action == 'update':
+        elif action == 'Update':
             if old_account_id == '':
                 error_message = 'OldAccountId is not set'
                 log.error(error_message)
@@ -125,7 +125,7 @@ def lambda_handler(event, context):
                     'body': error_message
                 }
             response = update_permission(service_id, old_account_id, account_id)
-        elif action == 'delete':
+        elif action == 'Delete':
             response = delete_permission(service_id, account_id)
         else:
             error_message = f'Unsupported action: {action}'

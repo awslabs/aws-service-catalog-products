@@ -2,14 +2,11 @@ AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: |
   Template that creates an IAM role in an account to modify VPC Endpoint Service allowed principials
-  {"framework": "servicecatalog-products", "role": "product", "product-set": "operations", "product": "vpc-endpoint-permissions-spoke", "version": "v1"}
+  {"framework": "servicecatalog-products", "role": "product", "product-set": "operations", "product": "vpc-service-endpoint-permissions-spoke", "version": "v1"}
 Parameters:
   pVpcEndpointPermissionsLambdaResource:
     Type: String
     Description: Lambda resource that is triggered to add permissios to endpoint service role
-  pVpcEndpointPermissionsAccountId:
-    Type: String
-    Description: AWS Account ID to be added to vpcendpoint permissions
   pVpcEndpointPermissionsRoleToAssume:
     Type: String
     Description: AWS IAM Role to assume in network core account
@@ -24,6 +21,7 @@ Parameters:
 
 
 Resources:
+  # Lambda IAM Execution role
   rLambdaRole:
     Type: AWS::IAM::Role
     Properties:
@@ -48,9 +46,12 @@ Resources:
                   - "sts:AssumeRole"
                 Resource: !Ref pVpcEndpointPermissionsRoleToAssume
 
+
+  # Lambda Function that is triggered by the custom resource
   rLambdaFunction:
     Type: AWS::Serverless::Function
     Properties:
+      FunctionName: App_vpcendpoint_permissions_spoke
       CodeUri: ./src
       Handler: spoke_lambda.lambda_handler
       MemorySize: 128
@@ -61,12 +62,12 @@ Resources:
         Variables:
           VPCE_PERM_ROLE_ARN: !Ref pVpcEndpointPermissionsRoleToAssume
           FUNC_NAME: !Ref pVpcEndpointPermissionsLambdaResource
-
+  # Custom resource that triggers the Lambda- that makes the call to the Lambda in the Networking core account
   CustomResource:
       Type: 'Custom::AddVPCServiceEndpointPermissions'
       Properties: 
         ServiceToken: !GetAtt rLambdaFunction.Arn
-        AccountId: !Ref pVpcEndpointPermissionsAccountId
+        AccountId: !Ref AWS::AccountId
 
 Outputs:
   oLambdaArn:
