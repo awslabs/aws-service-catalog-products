@@ -109,8 +109,7 @@ def lambda_handler(event, context):
         service_id = os.environ['ServiceId']
         account_id = event['ResourceProperties']['AccountId']
         old_account_id = event['ResourceProperties'].get('OldAccountId', '')
-        action = event['ResourceProperties']['Action']
-        action = action.lower()
+        action = event['RequestType']
         log.info(f'ServiceId is {service_id}\nAccountId is {account_id}\nAction is {action}')
 
         if action == 'create':

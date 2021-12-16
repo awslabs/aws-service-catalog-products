@@ -13,12 +13,22 @@ Parameters:
   pVpcEndpointPermissionsRoleToAssume:
     Type: String
     Description: AWS IAM Role to assume in network core account
+  pRoleName: 
+    Type: String
+    Description: Role name for Lambda Function
+    Default: vpcpermission-serviceendpoint-spoke
+  pRolePath:
+    Type: String
+    Description: Path for Lambda Function 
+    Default: /servicecatalog-vpc-endpoint
+
 
 Resources:
   rLambdaRole:
     Type: AWS::IAM::Role
     Properties:
-      RoleName: !Sub App_modifyvpcendpointprincipal-spoke-${AWS::AccountId}
+      RoleName: !Ref pRoleName
+      Path: !Ref pRolePath
       AssumeRolePolicyDocument:
         Version: 2012-10-17
         Statement:
@@ -42,7 +52,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: ./src
-      Handler: handler.lambda_handler
+      Handler: spoke_lambda.lambda_handler
       MemorySize: 128
       Role: !GetAtt rLambdaRole.Arn
       Runtime: python3.9
