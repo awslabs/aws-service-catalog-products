@@ -1,0 +1,80 @@
+# Copyright 2021 Amazon.com Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+AWSTemplateFormatVersion: '2010-09-09'
+Description: |
+  Product that sends an SNS notification when a CodeBuild Build job succeeeds or fails.
+  {"framework": "servicecatalog-products", "role": "product", "product-set": "operations", "product": "codecommit-sns-notifier", "version": "v1"}
+
+Parameters:
+  pServiceCatalogCodeCommitSnsNotifyEmail:
+    Type: String
+    Description: Target E-mail address for SNS Notifications to be sent to
+
+Resources:
+# sns topic for notifications
+  rSnsTopic:
+    Type: AWS::SNS::Topic
+    Properties: 
+      DisplayName: codebuild-notify
+      TopicName: codebuild-notify
+
+  # sns subscription for notifications
+  rSnsSubscription:
+    Type: AWS::SNS::Subscription
+    Properties:
+      Endpoint:
+        Ref: pServiceCatalogCodeCommitSnsNotifyEmail
+      Protocol: email
+      TopicArn:
+        Ref: rSnsTopic
+
+  # policy to allow cloudwatch to publish to sns
+  rEventTopicPolicy:
+    Type: 'AWS::SNS::TopicPolicy'
+    Properties:
+      PolicyDocument:
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: events.amazonaws.com
+            Action: 'sns:Publish'
+            Resource: !Ref rSnsTopic
+      Topics:
+        - !Ref rSnsTopic
+
+  # SNS notification Cloudwatch rule
+  rCloudwatchNotifyRule:
+    Type: AWS::Events::Rule
+    Properties:
+      Description: Cloudwatch rule that watches for codebuild events
+      Name: codebuild-build-notify
+      EventPattern:
+        source:
+          - aws.codebuild
+        detail-type:
+          - CodeBuild Build State Change
+        detail:
+          build-status:
+            - FAILED
+            - STOPPED
+      Targets:
+        - Arn: !Ref rSnsTopic
+          Id: codebuild-trigger-notify
+          InputTransformer:
+            InputPathsMap: {"build-id":"$.detail.build-id","project-name":"$.detail.project-name","build-status":"$.detail.build-status","account-id":"$.account","region":"$.region","stream-id":"$.detail.additional-information.logs.stream-name","cloudwatchlogs-url":"$.detail.additional-information.logs.deep-link"} #uses jsonpath to pull logstream 
+            InputTemplate: | 
+                {"Build '<build-id>' for build project '<project-name>' has reached the build status of": <build-status>,
+                "BuildUrl": "https://console.aws.amazon.com/codesuite/codebuild/<account-id>/projects/<project-name>/build/<project-name>%3A<stream-id>/log?region=<region>",
+                "CloudWatchLogsUrl": <cloudwatchlogs-url>,
+                "AccountId": <account-id>,
+                "Region": <region>
+                }
+
+Outputs:
+  oSnsTopic:
+    Description: SNS Topic Arn
+    Value: !Ref  rSnsTopic
+  oSnsSubscription:
+    Description: SNS Subscription Arn
+    Value: !Ref rSnsSubscription
