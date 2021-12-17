@@ -1,6 +1,7 @@
 import boto3
 from botocore.exceptions import ClientError
 import logging
+import traceback
 from crhelper import CfnResource
 import os
 import json
@@ -129,7 +130,7 @@ def lambda_handler(event, context):
             response = delete_permission(service_id, account_id)
         else:
             error_message = f'Unsupported action: {action}'
-            log.error(error_message)
+            log.error(error_message, exc_info=1)
             return {
                 'event': event,
                 'statusCode': 400,
@@ -138,12 +139,13 @@ def lambda_handler(event, context):
             }
         return response
 
+
     except Exception as err:
         log.error('Error encountered')
-        log.error(str(err))
+        log.error(str(err), exc_info=1)
         return {
             'event': event,
             'statusCode': 400,
             'responseStatus': 'FAILED',
-            'body': json.dumps(str(err))
+            'body': json.dumps(traceback.format_exc())
         }

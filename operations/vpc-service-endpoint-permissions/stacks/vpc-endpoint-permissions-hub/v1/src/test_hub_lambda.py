@@ -9,6 +9,20 @@ test_vpc_endpoint_service_id = 'dummyServiceId'
 real_vpc_endpoint_service_id = os.environ['VPC_SERVICE_ENDPOINT_ID']
 
 
+def test_action_not_set():
+    event = {
+        'ResourceProperties': {
+            'AccountId': 'dummyAccountId'
+        }
+    }
+    context = []
+    os.environ['ServiceId'] = test_vpc_endpoint_service_id
+    response = lambda_handler(event, context)
+    assert response['statusCode'] == 400
+    assert response['responseStatus'] == 'FAILED'
+    assert 'KeyError: \'RequestType\'' in response['body']
+
+
 def test_unsupported_action():
     event = {
         'ResourceProperties': {
