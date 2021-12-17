@@ -9,8 +9,13 @@ import json
 helper = CfnResource()
 
 # define logging
-log = logging.getLogger(__name__)
-
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
+logging.basicConfig(
+    format='%(levelname)s %(threadName)s [%(filename)s:%(lineno)d] %(message)s',
+    datefmt='%Y-%m-%d:%H:%M:%S',
+    level=logging.INFO
+)
 
 @helper.create
 @helper.update
@@ -26,14 +31,12 @@ def handle_response_status_and_msg(response):
 
 
 def handle_error(event, error_message, statusCode, response_status):
-    log.error(error_message, exc_info=1)
+    logger.error(error_message, exc_info=1)
     return {
         'event': event,
         'statusCode': 400,
         'responseStatus': 'FAILED',
-        #'body': error_message
         'body': json.dumps(str(error_message))
-        #'body': json.dumps(traceback.format_exc())
     }
 
 
@@ -41,12 +44,12 @@ def add_permission(event, service_id, account_id):
     """
     Adds permission to the VPC Endpoint Service
     """
-    log.info(f'Adding permision to a VPC Endpoint Service')
+    logger.info(f'Adding permision to a VPC Endpoint Service')
     response = []
     try:
         Principal = 'arn:aws:iam::' + account_id + ':root'
-        log.info(f'Principal is {Principal}')
-        log.info(f'Adding permission for {Principal} to {service_id}')
+        logger.info(f'Principal is {Principal}')
+        logger.info(f'Adding permission for {Principal} to {service_id}')
         client = boto3.client('ec2')
         response = client.modify_vpc_endpoint_service_permissions(
             DryRun=False,
@@ -59,7 +62,7 @@ def add_permission(event, service_id, account_id):
         # {'ReturnValue': True, 'ResponseMetadata': {'RequestId': '1246566a-3ca9-4a87-a8f3-6e098e6171b1', 'HTTPStatusCode': 200, 'HTTPHeaders': {'x-amzn-requestid': '1246566a-3ca9-4a87-a8f3-6e098e6171b1', 'cache-control': 'no-cache, no-store', 'strict-transport-security': 'max-age=31536000; includeSubDomains', 'vary': 'accept-encoding', 'content-type': 'text/xml;charset=UTF-8', 'transfer-encoding': 'chunked', 'date': 'Fri, 10 Dec 2021 15:10:46 GMT', 'server': 'AmazonEC2'}, 'RetryAttempts': 0}}
         # see: https://boto3.amazonaws.com/v1/documentation/api/latest/guide/error-handling.html
         response = handle_response_status_and_msg(response)
-        log.info(response)
+        logger.info(response)
         return response
     except ClientError as e:
         error_message = f'Error adding permission for account id {account_id} to VPC Service Endpoint {service_id}:\n{str(e)}'
@@ -70,12 +73,12 @@ def delete_permission(event, service_id, account_id):
     """
     Deletes permission to the VPC Endpoint Service
     """
-    log.info(f'Deleting permision in a VPC Endpoint Service')
+    logger.info(f'Deleting permision in a VPC Endpoint Service')
     response = []
     try:
         Principal = 'arn:aws:iam::'+ account_id +':root'
-        log.info(f'Principal is {Principal}')
-        log.info(f'Deleting permission for {Principal} in {service_id}')
+        logger.info(f'Principal is {Principal}')
+        logger.info(f'Deleting permission for {Principal} in {service_id}')
         client = boto3.client('ec2')
         response = client.modify_vpc_endpoint_service_permissions(
             DryRun=False,
@@ -85,7 +88,7 @@ def delete_permission(event, service_id, account_id):
             ]
         )
         response = handle_response_status_and_msg(response)
-        log.info(response)
+        logger.info(response)
         return response
     except ClientError as e:
         error_message = f'Error deleting permission for account id {account_id} to VPC Service Endpoint {service_id}:\n{str(e)}'
@@ -93,7 +96,7 @@ def delete_permission(event, service_id, account_id):
 
 
 def update_permission(event, service_id, old_account_id, new_account_id):
-    log.info(f'Updating permision in a VPC Endpoint Service')
+    logger.info(f'Updating permision in a VPC Endpoint Service')
     response = delete_permission(event, service_id, old_account_id)
 
     if response['responseStatus'] == 'SUCCESS':
@@ -106,13 +109,13 @@ def update_permission(event, service_id, old_account_id, new_account_id):
 
 def lambda_handler(event, context):
     try:
-        log.info(event)
+        logger.info(event)
 
         # get parameters values
         service_id = os.environ['ServiceId']
         account_id = event['ResourceProperties']['AccountId']
         action = event['RequestType']
-        log.info(f'ServiceId is {service_id}\nAccountId is {account_id}\nAction is {action}')
+        logger.info(f'ServiceId is {service_id}\nAccountId is {account_id}\nAction is {action}')
 
         if action == 'Create':
             response = add_permission(event, service_id, account_id)
@@ -128,5 +131,5 @@ def lambda_handler(event, context):
 
 
     except Exception as err:
-        log.error(traceback.format_exc())
+        logger.error(traceback.format_exc())
         return handle_error(event, traceback.format_exc(), 500, 'FAILED')

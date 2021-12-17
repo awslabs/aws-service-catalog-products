@@ -8,6 +8,7 @@ import base64
 from botocore.exceptions import ClientError
 
 
+# define logging
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 logging.basicConfig(
