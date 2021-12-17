@@ -25,10 +25,10 @@ You have to ensure that:
 
 Set up local environment:
 ```
-cd vpc-endpoint-permissions/stacks/vpc-endpoint-permissions-hub/
+cd operations/vpc-service-endpoint-permissions/stacks/vpc-endpoint-permissions-hub/
 python3 -m venv ./venv
 source venv/bin/activate
-pip install -r v1/src/requirements_dev.txt
+pip install -r v1/requirements_dev.txt
 ```
 
 Run Pytest tests:
@@ -44,7 +44,7 @@ You have to ensure that:
 2. In the Hub Account, you have created a Role, which can be assumed from the Spoke AWS Account, e.g. `arn:aws:iam::TODO:role/VPCEndpointModifier`
 3. In the Hub Account, the Hub lambda function was deployed. You can zip the Hub lambda by:
 ```
-cd vpc-endpoint-permissions/stacks/vpc-endpoint-permissions-hub/
+cd operations/vpc-service-endpoint-permissions/stacks/vpc-endpoint-permissions-hub/
 cp v1/src/hub_lambda.py venv/lib/python3.9/site-packages
 cd venv/lib/python3.9/site-packages
 rm -f hub_lambda.zip

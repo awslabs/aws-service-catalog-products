@@ -12,24 +12,24 @@ real_vpc_endpoint_service_id = os.environ['VPC_SERVICE_ENDPOINT_ID']
 def test_unsupported_action():
     event = {
         'ResourceProperties': {
-            'AccountId': 'dummyAccountId',
-            'Action': 'dummyAction',
-        }
+            'AccountId': 'dummyAccountId'
+        },
+        'RequestType': 'dummyAction',
     }
     context = []
     os.environ['ServiceId'] = test_vpc_endpoint_service_id
     response = lambda_handler(event, context)
     assert response['statusCode'] == 400
     assert response['responseStatus'] == 'FAILED'
-    assert response['body'] == 'Unsupported action: dummyaction'
+    assert response['body'] == 'Unsupported action: dummyAction'
 
 
 def test_create_invalid_vpc_endpoint_service_id():
     event = {
         'ResourceProperties': {
-            'AccountId': 'dummyAccountId',
-            'Action': 'create',
-        }
+            'AccountId': 'dummyAccountId'
+        },
+        'RequestType': 'Create',
     }
     context = []
     os.environ['ServiceId'] = test_vpc_endpoint_service_id
@@ -43,9 +43,9 @@ def test_create_invalid_vpc_endpoint_service_id():
 def test_create_not_existing_vpc_endpoint_service_id():
     event = {
         'ResourceProperties': {
-            'AccountId': 'dummyAccountId',
-            'Action': 'create',
-        }
+            'AccountId': 'dummyAccountId'
+        },
+        'RequestType': 'Create',
     }
     context = []
     os.environ['ServiceId'] = 'vpce-svcnotexisting-0515bbd3ac7432640'
@@ -84,9 +84,9 @@ def test_create_one_permission():
     cleanup()
     event = {
         'ResourceProperties': {
-            'AccountId': 'dummyAccountId1',
-            'Action': 'create',
-        }
+            'AccountId': 'dummyAccountId1'
+        },
+        'RequestType': 'Create',
     }
     context = []
     response = lambda_handler(event, context)
@@ -104,9 +104,9 @@ def test_create_two_permissions():
     # create 1st principal
     event = {
         'ResourceProperties': {
-            'AccountId': 'dummyAccountId1',
-            'Action': 'create',
-        }
+            'AccountId': 'dummyAccountId1'
+        },
+        'RequestType': 'Create',
     }
     context = []
     response = lambda_handler(event, context)
@@ -116,9 +116,9 @@ def test_create_two_permissions():
     # create 2nd principal
     event = {
         'ResourceProperties': {
-            'AccountId': 'dummyAccountId2',
-            'Action': 'create',
-        }
+            'AccountId': 'dummyAccountId2'
+        },
+        'RequestType': 'Create',
     }
     context = []
     response = lambda_handler(event, context)
@@ -137,9 +137,9 @@ def test_delete_one_principal_when_no_permission_created():
 
     event = {
         'ResourceProperties': {
-            'AccountId': 'dummyAccountId1',
-            'Action': 'delete',
-        }
+            'AccountId': 'dummyAccountId1'
+        },
+        'RequestType': 'Delete',
     }
     context = []
     response = lambda_handler(event, context)
@@ -156,9 +156,9 @@ def test_delete_one_permission_after_one_permission_created():
     # create 1st principal
     event = {
         'ResourceProperties': {
-            'AccountId': 'dummyAccountId1',
-            'Action': 'create',
-        }
+            'AccountId': 'dummyAccountId1'
+        },
+        'RequestType': 'Create',
     }
     context = []
     response = lambda_handler(event, context)
@@ -168,9 +168,9 @@ def test_delete_one_permission_after_one_permission_created():
     # delete that principal
     event = {
         'ResourceProperties': {
-            'AccountId': 'dummyAccountId1',
-            'Action': 'delete',
-        }
+            'AccountId': 'dummyAccountId1'
+        },
+        'RequestType': 'Delete',
     }
     context = []
     response = lambda_handler(event, context)
@@ -185,9 +185,9 @@ def test_update_permission_when_permission_exists():
     cleanup()
     event = {
         'ResourceProperties': {
-            'AccountId': 'dummyAccountId1',
-            'Action': 'create',
-        }
+            'AccountId': 'dummyAccountId1'
+        },
+        'RequestType': 'Create',
     }
     context = []
     response = lambda_handler(event, context)
@@ -197,9 +197,9 @@ def test_update_permission_when_permission_exists():
     event = {
         'ResourceProperties': {
             'OldAccountId': 'dummyAccountId1',
-            'AccountId': 'dummyAccountId2',
-            'Action': 'update',
-        }
+            'AccountId': 'dummyAccountId2'
+        },
+        'RequestType': 'Update',
     }
     context = []
     response = lambda_handler(event, context)
@@ -216,9 +216,9 @@ def test_update_permission_when_no_permission_exists():
     event = {
         'ResourceProperties': {
             'OldAccountId': 'dummyAccountId1',
-            'AccountId': 'dummyAccountId2',
-            'Action': 'update',
-        }
+            'AccountId': 'dummyAccountId2'
+        },
+        'RequestType': 'Update',
     }
     context = []
     response = lambda_handler(event, context)
