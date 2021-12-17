@@ -1,0 +1,44 @@
+# Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+schema: puppet-2019-04-01
+launches:
+  vpc-service-endpoint-hub:
+    portfolio: networking
+    product: vpc-service-endpoint-hub
+    version: v1
+    parameters:
+        pVpcEndpointPermissionsServiceId:
+          default: vpce-svc-111111111111
+    deploy_to:
+      tags:
+        - regions: default_region
+          tag: networking:master
+    outputs:
+      ssm:
+        - param_name: /scnetworking/vpceperms/lambdaarn
+          stack_output: oLambaFunctionArn
+        - param_name: /scnetworking/vpceperms/lambdarolearn
+          stack_output: oLambdaRoleArn
+
+vpc-service-endpoint-spoke:
+  depends_on:
+    - vpc-service-endpoint-hub
+  portfolio: networking
+  product: vpc-service-endpoint-spoke
+  version: v1
+  parameters:
+    pVpcEndpointPermissionsLambdaResource:
+      ssm:
+        name: /scnetworking/vpceperms/lambdaarn
+    pVpcEndpointPermissionsRoleToAssume:
+      default: /scnetworking/vpceperms/lambdarolearn
+  deploy_to:
+    tags:
+      - regions: default_region
+        tag: networking:spoke
+  outputs:
+    ssm:
+      - param_name: /scnetworking/vpceperms/${AWS::AccountId}/spoke/lambdaarn
+        stack_output: oLambaFunctionArn
+

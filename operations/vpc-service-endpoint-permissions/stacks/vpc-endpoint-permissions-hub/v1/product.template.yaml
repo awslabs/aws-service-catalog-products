@@ -2,19 +2,29 @@ AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: |
   Template that creates an Iam role and Lambda function in an account to modify VPC Endpoint Service allowed principials
-  {"framework": "servicecatalog-products", "role": "product", "product-set": "operations", "product": "vpc-endpoint-permissions-hub", "version": "v1"}
+  {"framework": "servicecatalog-products", "role": "product", "product-set": "operations", "product": "vpc-service-endpoint-permissions-hub", "version": "v1"}
 
 Parameters:
    pVpcEndpointPermissionsServiceId:
     Type: String
     Description: VPC Endpoint Service ID
+  pRoleName: 
+    Type: String
+    Description: Role name for Lambda Function
+    Default: vpcpermission-serviceendpoint-hub
+  pRolePath:
+    Type: String
+    Description: Path for Lambda Function 
+    Default: /servicecatalog-vpc-endpoint
+  
 
 Resources:
-  # IAM role that permits the ability for the Lambda execution role in the hub account to describe ec2 instances
+  # IAM role that permits the ability for the Lambda execution role in the hub account to add a permission to a VPC Service Endpoint
   rLambdaRole:
     Type: AWS::IAM::Role
     Properties:
-      RoleName: !Sub App_modifyvpcendpointprincipals-${AWS::AccountId}
+      RoleName: !Ref pRoleName
+      Path: !Ref pRolePath
       AssumeRolePolicyDocument:
         Version: 2012-10-17
         Statement:
@@ -45,13 +55,13 @@ Resources:
                   - lambda:InvokeFunction
                 Resource: !Sub arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:App_vpcendpoint_permissions
 
-  
+  # Lambda function that makes the call to add the Permissions to the VPC Service Endpoint resource  
   rLambdaFunction:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: App_vpcendpoint_permissions
+      FunctionName: App_vpcendpoint_permissions_hub
       CodeUri: ./src
-      Handler: handler.lambda_handler
+      Handler: hub.lambda_handler
       MemorySize: 128
       Role: !GetAtt rLambdaRole.Arn
       Runtime: python3.9
