@@ -4,10 +4,10 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Description: |
   Product that sends an SNS notification when a CodeBuild Build job succeeeds or fails.
-  {"framework": "servicecatalog-products", "role": "product", "product-set": "operations", "product": "codecommit-sns-notifier", "version": "v1"}
+  {"framework": "servicecatalog-products", "role": "product", "product-category": "operations", "product-set": "codebuild-sns-notifier", "product": "codebuild-sns-notifier", "version": "v1"}
 
 Parameters:
-  pServiceCatalogCodeCommitSnsNotifyEmail:
+  CodeBuildSnsNotifyEmail:
     Type: String
     Description: Target E-mail address for SNS Notifications to be sent to
 
@@ -24,7 +24,7 @@ Resources:
     Type: AWS::SNS::Subscription
     Properties:
       Endpoint:
-        Ref: pServiceCatalogCodeCommitSnsNotifyEmail
+        Ref: CodeBuildSnsNotifyEmail
       Protocol: email
       TopicArn:
         Ref: rSnsTopic
