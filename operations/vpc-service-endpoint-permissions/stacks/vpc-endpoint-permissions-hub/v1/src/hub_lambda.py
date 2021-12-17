@@ -25,7 +25,19 @@ def handle_response_status_and_msg(response):
     return response
 
 
-def add_permission(service_id, account_id):
+def handle_error(event, error_message, statusCode, response_status):
+    log.error(error_message, exc_info=1)
+    return {
+        'event': event,
+        'statusCode': 400,
+        'responseStatus': 'FAILED',
+        #'body': error_message
+        'body': json.dumps(str(error_message))
+        #'body': json.dumps(traceback.format_exc())
+    }
+
+
+def add_permission(event, service_id, account_id):
     """
     Adds permission to the VPC Endpoint Service
     """
@@ -50,16 +62,11 @@ def add_permission(service_id, account_id):
         log.info(response)
         return response
     except ClientError as e:
-        log.error(f'Error adding permission for account id {account_id} to VPC Service Endpoint {service_id}')
-        log.error(str(e))
-        return {
-            'statusCode': 400,
-            'responseStatus': 'FAILED',
-            'body': json.dumps(str(e))
-        }
+        error_message = f'Error adding permission for account id {account_id} to VPC Service Endpoint {service_id}:\n{str(e)}'
+        return handle_error(event, error_message, 400, 'FAILED')
 
 
-def delete_permission(service_id, account_id):
+def delete_permission(event, service_id, account_id):
     """
     Deletes permission to the VPC Endpoint Service
     """
@@ -81,21 +88,16 @@ def delete_permission(service_id, account_id):
         log.info(response)
         return response
     except ClientError as e:
-        log.error(f'Error deleting permission for account id {account_id} to VPC Service Endpoint {service_id}')
-        log.error(str(e))
-        return {
-            'statusCode': 400,
-            'responseStatus': 'FAILED',
-            'body': json.dumps(str(e))
-        }
+        error_message = f'Error deleting permission for account id {account_id} to VPC Service Endpoint {service_id}:\n{str(e)}'
+        return handle_error(event, error_message, 400, 'FAILED')
 
 
-def update_permission(service_id, old_account_id, new_account_id):
+def update_permission(event, service_id, old_account_id, new_account_id):
     log.info(f'Updating permision in a VPC Endpoint Service')
-    response = delete_permission(service_id, old_account_id)
+    response = delete_permission(event, service_id, old_account_id)
 
-    if response['ResponseMetadata']['HTTPStatusCode'] == 200:
-        response = add_permission(service_id, new_account_id)
+    if response['responseStatus'] == 'SUCCESS':
+        response = add_permission(event, service_id, new_account_id)
         return response
     else:
         # do not run the 2nd API call when the 1st call failed
@@ -109,43 +111,22 @@ def lambda_handler(event, context):
         # get parameters values
         service_id = os.environ['ServiceId']
         account_id = event['ResourceProperties']['AccountId']
-        old_account_id = event['ResourceProperties'].get('OldAccountId', '')
         action = event['RequestType']
         log.info(f'ServiceId is {service_id}\nAccountId is {account_id}\nAction is {action}')
 
         if action == 'Create':
-            response = add_permission(service_id, account_id)
+            response = add_permission(event, service_id, account_id)
         elif action == 'Update':
-            if old_account_id == '':
-                error_message = 'OldAccountId is not set'
-                log.error(error_message)
-                return {
-                    'event': event,
-                    'statusCode': 400,
-                    'responseStatus': 'FAILED',
-                    'body': error_message
-                }
-            response = update_permission(service_id, old_account_id, account_id)
+            old_account_id = event['ResourceProperties']['OldAccountId']
+            response = update_permission(event, service_id, old_account_id, account_id)
         elif action == 'Delete':
-            response = delete_permission(service_id, account_id)
+            response = delete_permission(event, service_id, account_id)
         else:
             error_message = f'Unsupported action: {action}'
-            log.error(error_message, exc_info=1)
-            return {
-                'event': event,
-                'statusCode': 400,
-                'responseStatus': 'FAILED',
-                'body': error_message
-            }
+            return handle_error(event, error_message, 400, 'FAILED')
         return response
 
 
     except Exception as err:
-        log.error('Error encountered')
-        log.error(str(err), exc_info=1)
-        return {
-            'event': event,
-            'statusCode': 400,
-            'responseStatus': 'FAILED',
-            'body': json.dumps(traceback.format_exc())
-        }
+        log.error(traceback.format_exc())
+        return handle_error(event, traceback.format_exc(), 500, 'FAILED')
