@@ -43,9 +43,23 @@ def test_hub_lambda_account_id_not_set():
     event = {}
     context = []
     response = lambda_handler(event, context)
+    assert response['responseStatus'] == 'FAILED'
+    assert response['statusCode'] == 400
+    assert "KeyError: 'ResourceProperties'" in response['body']
+
+
+def test_hub_lambda_create_request_type_not_set():
+    os.environ['VPCE_PERM_ROLE_ARN'] = real_vpc_endpoint_role
+    os.environ['FUNC_NAME'] = real_lambda_name
+    event = {
+        'ResourceProperties': {
+            'AccountId': 'dummyAccountId1'
+        }
+    }
+    context = []
+    response = lambda_handler(event, context)
     assert response['statusCode'] == 400
     assert response['responseStatus'] == 'FAILED'
-    assert "KeyError: 'ResourceProperties'" in response['body']
 
 
 def test_hub_lambda_create():
@@ -53,9 +67,24 @@ def test_hub_lambda_create():
     os.environ['FUNC_NAME'] = real_lambda_name
     event = {
         'ResourceProperties': {
-            'AccountId': 'dummyAccountId1',
-            'Action': 'create',
-        }
+            'AccountId': 'dummyAccountIdSpoke',
+        },
+        'RequestType': 'Create'
+    }
+    context = []
+    response = lambda_handler(event, context)
+    assert response['statusCode'] == 200
+    assert response['responseStatus'] == 'SUCCESS'
+
+
+def test_hub_lambda_delete():
+    os.environ['VPCE_PERM_ROLE_ARN'] = real_vpc_endpoint_role
+    os.environ['FUNC_NAME'] = real_lambda_name
+    event = {
+        'ResourceProperties': {
+            'AccountId': 'dummyAccountIdSpoke',
+        },
+        'RequestType': 'Delete'
     }
     context = []
     response = lambda_handler(event, context)

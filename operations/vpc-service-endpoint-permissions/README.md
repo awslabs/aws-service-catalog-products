@@ -56,10 +56,10 @@ When deploying this Lambda function, please:
 
 Set up local environment:
 ```
-cd vpc-endpoint-permissions/stacks/vpc-endpoint-permissions-spoke/
+cd operations/vpc-service-endpoint-permissions/stacks/vpc-endpoint-permissions-spoke/
 python3 -m venv ./venv
 source venv/bin/activate
-pip install -r v1/src/requirements_dev.txt
+pip install -r v1/requirements_dev.txt
 ```
 
 Run Pytest tests:

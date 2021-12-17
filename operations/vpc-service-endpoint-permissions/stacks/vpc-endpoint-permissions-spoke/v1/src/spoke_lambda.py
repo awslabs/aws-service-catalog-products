@@ -1,7 +1,6 @@
 import sys
 import json
 import logging
-#import threading
 import traceback
 import os
 import boto3
@@ -25,6 +24,16 @@ def handle_response_status_and_msg(response):
         response['responseStatus'] = 'FAILED'
     response['statusCode'] = response['ResponseMetadata']['HTTPStatusCode']
     return response
+
+
+def handle_error(event, error_message, statusCode, response_status):
+    logger.error(error_message, exc_info=1)
+    return {
+        'event': event,
+        'statusCode': 400,
+        'responseStatus': 'FAILED',
+        'body': json.dumps(str(error_message))
+    }
 
 
 def get_lambda_client_in_hub_account(hub_account_role_arn):
@@ -66,25 +75,24 @@ def invoke_lambda_in_the_networking_account(hub_account_role_arn, hub_account_la
             LogType='Tail',
             Payload=json.dumps(event)
         )
-        if "FunctionError" in response.keys():
+        logger.info(f"StatusCode from the hub lambda function invocation: {response['StatusCode']}")
+
+        actual_response_from_hub_lambda = json.loads(response['Payload'].read().decode("utf-8"))
+        actual_status_code = actual_response_from_hub_lambda['statusCode']
+        logger.info(f"StatusCode from the hub lambda function: {actual_status_code}")
+
+        if "FunctionError" in response.keys() or actual_status_code != 200:
             logger.error('Remote invocation error')
+            logger.error('Full response:')
             logger.error(response)
             log_result = decode_log_result(response['LogResult'])
-            logger.error(log_result)
-            return {
-                'event': event,
-                'statusCode': 400,
-                'responseStatus': 'FAILED',
-                'body': log_result
-            }
+            return handle_error(event, log_result, actual_status_code, 'FAILED')
         response = handle_response_status_and_msg(response)
         return response
 
     except ClientError as e:
-        msg = "Unable to invoke VPC Endpoint permission Lambda function in NETWORK account"
-        logger.error(msg)
-        logger.error(str(e))
-        raise Exception(e)
+        error_message = f"Unable to invoke VPC Endpoint permission Lambda function in NETWORK account: {str(e)}"
+        return handle_error(event, error_message, 500, 'FAILED')
 
 
 def lambda_handler(event,context):
@@ -98,7 +106,7 @@ def lambda_handler(event,context):
         return response
 
     except Exception as ex:
-        logger.error(ex)
+        logger.error(ex, exc_info=1)
         traceback.print_tb(ex.__traceback__)
         return {
             'event': event,
