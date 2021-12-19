@@ -13,6 +13,13 @@ Spoke Account Resources:
 * This product is comprised of two sub-products- a Hub product that creates an IAM role and Lambda function
 * The Lambda function in the Networking hub account is triggered as a custom resource from the calling spoke account, allowing the addition of permissions to the VPC Endpoint resource
 
+## Validate AWS CloudFormation templates
+
+You can run the following command to validate the AWS CloudFormation templates:
+```
+aws cloudformation validate-template --template-body file://product.template.yaml
+```
+
 ## Run integrations tests
 
 These tests interact with an AWS Account.

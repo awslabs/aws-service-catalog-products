@@ -1,27 +1,27 @@
-  - Description: vpc-service-endpoint-hub
+  - Description: vpc-service-endpoint-permissions-hub
     Distributor: company
-    Name: vpc-service-endpoint-hub
+    Name: vpc-service-endpoint-permissions-hub
     Owner: itops@company.com
     SupportEmail: itops@company.com
-    SupportDescription: Contact us for support. 
+    SupportDescription: Contact us for support.
     SupportUrl: https://company-support.com/help
     Tags:
       - Key: team
         Value: company-itops
       - Key: name
-        Value: vpc-service-endpoint-hub
+        Value: vpc-service-endpoint-permissions-hub
       - Key: application
         Value: cloud_infrastructure
     Versions:
       - Name: v1
-        Description: This will add a permission to an vpc endpoint 
+        Description: This will add a permission to an vpc endpoint
         Active: True
         Options:
           ShouldCFNNag: True
         Source:
           Provider: CodeCommit
           Configuration:
-            RepositoryName: vpc-service-endpoint-hub
+            RepositoryName: vpc-service-endpoint-permissions-hub
             BranchName: main
         BuildSpec: |
             version: 0.2
@@ -40,30 +40,30 @@
                 - '*'
                 - '**/*'
 
-  - Description: dev-vpc-endpoint-spoke
+  - Description: vpc-service-endpoint-permissions-spoke
     Distributor: company
-    Name: vpc-service-endpoint-spoke
+    Name: vpc-service-endpoint-permissions-spoke
     Owner: itops@company.com
     SupportEmail: itops@company.com
-    SupportDescription: Contact us for support. 
+    SupportDescription: Contact us for support.
     SupportUrl: https://company-support.com/help
     Tags:
       - Key: team
         Value: company-itops
       - Key: name
-        Value: vpc-service-endpoint-spoke
+        Value: vpc-service-endpoint-permissions-spoke
       - Key: application
         Value: cloud_infrastructure
     Versions:
       - Name: v1
-        Description: This will add a permission to an vpc endpoint 
+        Description: This will add a permission to an vpc endpoint
         Active: True
         Options:
           ShouldCFNNag: True
         Source:
           Provider: CodeCommit
           Configuration:
-            RepositoryName: vpc-service-endpoint-spoke
+            RepositoryName: vpc-service-endpoint-permissions-spoke
             BranchName: main
         BuildSpec: |
             version: 0.2
@@ -81,5 +81,3 @@
               files:
                 - '*'
                 - '**/*'
-
-    

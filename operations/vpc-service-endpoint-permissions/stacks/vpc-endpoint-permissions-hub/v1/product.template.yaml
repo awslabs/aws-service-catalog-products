@@ -5,18 +5,19 @@ Description: |
   {"framework": "servicecatalog-products", "role": "product", "product-set": "operations", "product": "vpc-service-endpoint-permissions-hub", "version": "v1"}
 
 Parameters:
-   pVpcEndpointPermissionsServiceId:
+  pVpcEndpointPermissionsServiceId:
     Type: String
     Description: VPC Endpoint Service ID
-  pRoleName: 
+  pRoleName:
     Type: String
     Description: Role name for Lambda Function
     Default: vpcpermission-serviceendpoint-hub
   pRolePath:
     Type: String
-    Description: Path for Lambda Function 
-    Default: /servicecatalog-vpc-endpoint
-  
+    Description: Path for Lambda Function
+    # It must begin and end with / and contain only alphanumeric characters and/or / characters
+    Default: /servicecatalogVpcEndpoint
+
 
 Resources:
   # IAM role that permits the ability for the Lambda execution role in the hub account to add a permission to a VPC Service Endpoint
@@ -29,7 +30,7 @@ Resources:
         Version: 2012-10-17
         Statement:
           - Effect: Allow
-            Principal: 
+            Principal:
               Service: lambda.amazonaws.com
             Action: sts:AssumeRole
           - Effect: Allow
@@ -51,17 +52,17 @@ Resources:
                   - "ec2:ModifyVpcEndpointServicePermissions"
                 Resource: !Sub arn:aws:ec2:${AWS::Region}:${AWS::AccountId}:vpc-endpoint-service/${ pVpcEndpointPermissionsServiceId}
               - Effect: Allow
-                Action: 
+                Action:
                   - lambda:InvokeFunction
                 Resource: !Sub arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:App_vpcendpoint_permissions
 
-  # Lambda function that makes the call to add the Permissions to the VPC Service Endpoint resource  
+  # Lambda function that makes the call to add the Permissions to the VPC Service Endpoint resource
   rLambdaFunction:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: App_vpcendpoint_permissions_hub
       CodeUri: ./src
-      Handler: hub.lambda_handler
+      Handler: hub_lambda.lambda_handler
       MemorySize: 128
       Role: !GetAtt rLambdaRole.Arn
       Runtime: python3.9
@@ -77,5 +78,3 @@ Outputs:
   oLambdaRoleArn:
     Description: Lambda Excecution role Arn
     Value: rLambdaRole.Arn
-  
-                

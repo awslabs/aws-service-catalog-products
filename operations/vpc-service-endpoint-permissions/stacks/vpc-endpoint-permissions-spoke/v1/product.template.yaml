@@ -6,11 +6,11 @@ Description: |
 Parameters:
   pVpcEndpointPermissionsLambdaResource:
     Type: String
-    Description: Lambda resource that is triggered to add permissios to endpoint service role
+    Description: Lambda resource that is triggered to add permissions to endpoint service role
   pVpcEndpointPermissionsRoleToAssume:
     Type: String
     Description: AWS IAM Role to assume in network core account
-  pRoleName: 
+  pRoleName:
     Type: String
     Description: Role name for Lambda Function
     Default: vpcpermission-serviceendpoint-spoke
@@ -31,7 +31,7 @@ Resources:
         Version: 2012-10-17
         Statement:
           - Effect: Allow
-            Principal: 
+            Principal:
               Service: lambda.amazonaws.com
             Action: sts:AssumeRole
       ManagedPolicyArns:
@@ -65,7 +65,7 @@ Resources:
   # Custom resource that triggers the Lambda- that makes the call to the Lambda in the Networking core account
   CustomResource:
       Type: 'Custom::AddVPCServiceEndpointPermissions'
-      Properties: 
+      Properties:
         ServiceToken: !GetAtt rLambdaFunction.Arn
         AccountId: !Ref AWS::AccountId
 
@@ -76,5 +76,3 @@ Outputs:
   oLambdaRoleArn:
     Description: Lambda Excecution role Arn
     Value: rLambdaRole.Arn
-
-
