@@ -33,13 +33,16 @@ Resources:
             Principal:
               Service: lambda.amazonaws.com
             Action: sts:AssumeRole
+          
+          # allow the IAM Role in a Spoke account to
+          # assume this IAM Role in the Hub account
           - Effect: Allow
             Principal:
               AWS: '*'
             Action: sts:AssumeRole
             Condition:
               StringLike:
-                aws:PrincipalArn: arn:aws:iam::*:role/App_modifyvpcendpointprincipal-spoke-*
+                aws:PrincipalArn: arn:aws:iam::*:role/servicecatalog-vpc-endpoint/App_vpcendpoint_permissions_spoke
       ManagedPolicyArns:
         - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
       Policies:
