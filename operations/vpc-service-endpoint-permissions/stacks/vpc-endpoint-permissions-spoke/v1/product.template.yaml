@@ -16,8 +16,8 @@ Parameters:
     Default: vpcpermission-serviceendpoint-spoke
   pRolePath:
     Type: String
-    Description: Path for Lambda Function 
-    Default: /servicecatalog-vpc-endpoint
+    Description: Path for Lambda Function
+    Default: /servicecatalog-vpc-endpoint/
 
 
 Resources:
@@ -68,6 +68,7 @@ Resources:
       Properties:
         ServiceToken: !GetAtt rLambdaFunction.Arn
         AccountId: !Ref AWS::AccountId
+        RequestType: "Create"
 
 Outputs:
   oLambdaArn:
@@ -75,4 +76,4 @@ Outputs:
     Value: !GetAtt rLambdaFunction.Arn
   oLambdaRoleArn:
     Description: Lambda Excecution role Arn
-    Value: rLambdaRole.Arn
+    Value: !GetAtt rLambdaRole.Arn

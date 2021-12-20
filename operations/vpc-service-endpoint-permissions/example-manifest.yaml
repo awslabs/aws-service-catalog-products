@@ -2,10 +2,32 @@
 # SPDX-License-Identifier: Apache-2.0
 
 schema: puppet-2019-04-01
+
+accounts:
+  - account_id: "${AWS::PuppetAccountId}"
+    name: "puppet-account"
+    default_region: "eu-west-1"
+    regions_enabled:
+      - "eu-west-1"
+    tags:
+      - "type:prod"
+      - "partition:eu"
+      - "networking:master"
+  - account_id: "111111111111"
+    name: "spoke-account"
+    default_region: "eu-west-1"
+    regions_enabled:
+      - "eu-west-1"
+    tags:
+      - "networking:spoke"
+
+
 launches:
-  vpc-service-endpoint-hub:
-    portfolio: networking
-    product: vpc-service-endpoint-hub
+  vpc-service-endpoint-permissions-hub:
+    # portfolio name is:
+    # <name of the file that contains the portfolio>.<portfolio name>
+    portfolio: vpc-service-endpoint-permissions-networking-hub
+    product: vpc-service-endpoint-permissions-hub
     version: v1
     parameters:
         pVpcEndpointPermissionsServiceId:
@@ -20,25 +42,26 @@ launches:
           stack_output: oLambaFunctionArn
         - param_name: /scnetworking/vpceperms/lambdarolearn
           stack_output: oLambdaRoleArn
-
-vpc-service-endpoint-spoke:
-  depends_on:
-    - vpc-service-endpoint-hub
-  portfolio: networking
-  product: vpc-service-endpoint-spoke
-  version: v1
-  parameters:
-    pVpcEndpointPermissionsLambdaResource:
+  vpc-service-endpoint-permissions-spoke:
+    depends_on:
+      - vpc-service-endpoint-permissions-hub
+    # portfolio name is:
+    # <name of the file that contains the portfolio>.<portfolio name>
+    portfolio: vpc-service-endpoint-permissions-networking-spoke
+    product: vpc-service-endpoint-permissions-spoke
+    version: v1
+    parameters:
+      pVpcEndpointPermissionsLambdaResource:
+        ssm:
+          name: /scnetworking/vpceperms/lambdaarn
+      pVpcEndpointPermissionsRoleToAssume:
+        ssm:
+          name: /scnetworking/vpceperms/lambdarolearn
+    deploy_to:
+      tags:
+        - regions: default_region
+          tag: networking:spoke
+    outputs:
       ssm:
-        name: /scnetworking/vpceperms/lambdaarn
-    pVpcEndpointPermissionsRoleToAssume:
-      default: /scnetworking/vpceperms/lambdarolearn
-  deploy_to:
-    tags:
-      - regions: default_region
-        tag: networking:spoke
-  outputs:
-    ssm:
-      - param_name: /scnetworking/vpceperms/${AWS::AccountId}/spoke/lambdaarn
-        stack_output: oLambaFunctionArn
-
+        - param_name: /scnetworking/vpceperms/${AWS::AccountId}/spoke/lambdaarn
+          stack_output: oLambaFunctionArn

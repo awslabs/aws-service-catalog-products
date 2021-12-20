@@ -16,7 +16,7 @@ Parameters:
     Type: String
     Description: Path for Lambda Function
     # It must begin and end with / and contain only alphanumeric characters and/or / characters
-    Default: /servicecatalogVpcEndpoint
+    Default: /servicecatalog-vpc-endpoint/
 
 
 Resources:
@@ -77,4 +77,4 @@ Outputs:
     Description: Lambda Function Arn
   oLambdaRoleArn:
     Description: Lambda Excecution role Arn
-    Value: rLambdaRole.Arn
+    Value: !GetAtt rLambdaRole.Arn
