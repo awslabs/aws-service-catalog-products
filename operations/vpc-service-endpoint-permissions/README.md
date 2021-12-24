@@ -1,12 +1,17 @@
-# VPC Endpoint Permissions
+# VPC Endpoint Service Permissions
 
-This solution adds a spoke account id to utilise a VPC Endpoint in an AWS Multi-Account environment. This is typically used when sharing Gateway Loadbalancers from a core networking account to spoke accounts.
+This solution automates **modifying permissions (allowing principals) of an VPC Endpoint Service** in an AWS Multi-Account environment. A spoke Account ID can be set as the allowed principal. This is typically used when sharing Gateway Loadbalancers from a core networking account to spoke accounts.
 
-Hub Account Resources:
-![Template Design](operations/vpc-endpoint-permissions/stacks/vpc-endpoint-permissions-hub/v1/vpc-endpoint-permissions-hub.drawio)
+![](img/aim.png)
 
-Spoke Account Resources:
-![Template Design](operations/vpc-endpoint-permissions/stacks/vpc-endpoint-permissions-spoke/v1/vpc-endpoint-permissions-spoke.drawio)
+There are 3 AWS Accounts involved:
+* Puppet Hub Account
+* Networking Master Account (being also a Puppet Spoke account)
+* Networking Client Account (being also a Puppet Spoke account)
+
+Architecture diagram: TODO
+
+![](img/architecture.png)
 
 ## Description
 
@@ -41,6 +46,7 @@ pip install -r v1/requirements_dev.txt
 Run Pytest tests:
 ```
 export VPC_SERVICE_ENDPOINT_ID=TODO
+export NETWORKING_ACCOUNT_ID=TODO
 pytest --verbose v1/src/test_hub_lambda.py
 ```
 

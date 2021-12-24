@@ -17,9 +17,6 @@ logging.basicConfig(
     level=logging.INFO
 )
 
-@helper.create
-@helper.update
-
 
 def handle_response_status_and_msg(response):
     if response['ResponseMetadata']['HTTPStatusCode'] == 200:
@@ -40,7 +37,9 @@ def handle_error(event, error_message, statusCode, response_status):
     }
 
 
-def add_permission(event, service_id, account_id):
+@helper.create
+@helper.update
+def add_permission(boto3_session, event, service_id, account_id):
     """
     Adds permission to the VPC Endpoint Service
     """
@@ -50,7 +49,7 @@ def add_permission(event, service_id, account_id):
         Principal = 'arn:aws:iam::' + account_id + ':root'
         logger.info(f'Principal is {Principal}')
         logger.info(f'Adding permission for {Principal} to {service_id}')
-        client = boto3.client('ec2')
+        client = boto3_session.client('ec2')
         response = client.modify_vpc_endpoint_service_permissions(
             DryRun=False,
             ServiceId=service_id,
@@ -69,7 +68,8 @@ def add_permission(event, service_id, account_id):
         return handle_error(event, error_message, 400, 'FAILED')
 
 
-def delete_permission(event, service_id, account_id):
+@helper.delete
+def delete_permission(boto3_session, event, service_id, account_id):
     """
     Deletes permission to the VPC Endpoint Service
     """
@@ -79,7 +79,7 @@ def delete_permission(event, service_id, account_id):
         Principal = 'arn:aws:iam::'+ account_id +':root'
         logger.info(f'Principal is {Principal}')
         logger.info(f'Deleting permission for {Principal} in {service_id}')
-        client = boto3.client('ec2')
+        client = boto3_session.client('ec2')
         response = client.modify_vpc_endpoint_service_permissions(
             DryRun=False,
             ServiceId=service_id,
@@ -95,16 +95,55 @@ def delete_permission(event, service_id, account_id):
         return handle_error(event, error_message, 400, 'FAILED')
 
 
-def update_permission(event, service_id, old_account_id, new_account_id):
+@helper.create
+@helper.update
+def update_permission(boto3_session, event, service_id, old_account_id, new_account_id):
     logger.info(f'Updating permision in a VPC Endpoint Service')
-    response = delete_permission(event, service_id, old_account_id)
+    response = delete_permission(boto3_session, event, service_id, old_account_id)
 
     if response['responseStatus'] == 'SUCCESS':
-        response = add_permission(event, service_id, new_account_id)
+        response = add_permission(boto3_session, event, service_id, new_account_id)
         return response
     else:
         # do not run the 2nd API call when the 1st call failed
         return response
+
+
+def get_current_account_id():
+    client = boto3.client('sts')
+    account_id = client.get_caller_identity()["Account"]
+    return account_id
+
+
+def get_boto3_session(role_arn_in_networking_account):
+    current_account_id = get_current_account_id()
+
+    try:
+        networking_account_id = int(role_arn_in_networking_account.split(':')[4])
+    except Exception as e:
+        networking_account_id = current_account_id
+        logger.warning(f'Invalid IAM Role ARN set {role_arn_in_networking_account}, therefore we will not assume this role')
+        logger.error(traceback.format_exc())
+
+    if current_account_id != networking_account_id:
+        logger.info(f'Assuming role {role_arn_in_networking_account} in the networking AWS Account {networking_account_id}')
+        sts = boto3.client('sts')
+        token = sts.assume_role(
+            RoleArn = role_arn_in_networking_account,
+            RoleSessionName ='VPCEndpointPermissions')
+        cred = token['Credentials']
+        temp_access_key = cred['AccessKeyId']
+        temp_secret_key = cred['SecretAccessKey']
+        session_token = cred['SessionToken']
+
+        session = boto3.session.Session(
+            aws_access_key_id=temp_access_key,
+            aws_secret_access_key=temp_secret_key,
+            aws_session_token=session_token
+        )
+        return session
+    return boto3.Session()
+
 
 
 def lambda_handler(event, context):
@@ -113,17 +152,23 @@ def lambda_handler(event, context):
 
         # get parameters values
         service_id = os.environ['ServiceId']
-        account_id = event['ResourceProperties']['AccountId']
+        logger.info(f'ServiceId is {service_id}')
+        account_id = event['parameters']['AccountId']
+        logger.info(f'AccountId for which the permission will be set is {account_id}')
+        role_arn_in_networking_account = event['parameters']['RoleARNInNetworkingAccountId']
+        logger.info(f'RoleARNInNetworkingAccountId is {role_arn_in_networking_account}')
         action = event['RequestType']
-        logger.info(f'ServiceId is {service_id}\nAccountId is {account_id}\nAction is {action}')
+        logger.info(f'RequestType is {action}')
+
+        boto3_session = get_boto3_session(role_arn_in_networking_account)
 
         if action == 'Create':
-            response = add_permission(event, service_id, account_id)
+            response = add_permission(boto3_session, event, service_id, account_id)
         elif action == 'Update':
-            old_account_id = event['ResourceProperties']['OldAccountId']
-            response = update_permission(event, service_id, old_account_id, account_id)
+            old_account_id = event['parameters']['OldAccountId']
+            response = update_permission(boto3_session, event, service_id, old_account_id, account_id)
         elif action == 'Delete':
-            response = delete_permission(event, service_id, account_id)
+            response = delete_permission(boto3_session, event, service_id, account_id)
         else:
             error_message = f'Unsupported action: {action}'
             return handle_error(event, error_message, 400, 'FAILED')

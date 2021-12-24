@@ -17,6 +17,10 @@ Parameters:
     Description: Path for Lambda Function
     # It must begin and end with / and contain only alphanumeric characters and/or / characters
     Default: /servicecatalog-vpc-endpoint/
+  pLambdaFunctionName:
+    Type: String
+    Description: Name for the Hub Lambda Function
+    Default: SetupVPCServiceEndpointPermissions
 
 
 Resources:
@@ -33,16 +37,6 @@ Resources:
             Principal:
               Service: lambda.amazonaws.com
             Action: sts:AssumeRole
-          
-          # allow the IAM Role in a Spoke account to
-          # assume this IAM Role in the Hub account
-          - Effect: Allow
-            Principal:
-              AWS: '*'
-            Action: sts:AssumeRole
-            Condition:
-              StringLike:
-                aws:PrincipalArn: arn:aws:iam::*:role/servicecatalog-vpc-endpoint/App_vpcendpoint_permissions_spoke
       ManagedPolicyArns:
         - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
       Policies:
@@ -53,17 +47,17 @@ Resources:
               - Effect: Allow
                 Action:
                   - "ec2:ModifyVpcEndpointServicePermissions"
-                Resource: !Sub arn:aws:ec2:${AWS::Region}:${AWS::AccountId}:vpc-endpoint-service/${ pVpcEndpointPermissionsServiceId}
+                Resource: !Sub arn:aws:ec2:${AWS::Region}:${AWS::AccountId}:vpc-endpoint-service/${pVpcEndpointPermissionsServiceId}
               - Effect: Allow
                 Action:
                   - lambda:InvokeFunction
-                Resource: !Sub arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:App_vpcendpoint_permissions
+                Resource: !Sub arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:!Ref pLambdaFunctionName
 
   # Lambda function that makes the call to add the Permissions to the VPC Service Endpoint resource
   rLambdaFunction:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: App_vpcendpoint_permissions_hub
+      FunctionName: !Ref pLambdaFunctionName
       CodeUri: ./src
       Handler: hub_lambda.lambda_handler
       MemorySize: 128
@@ -72,7 +66,7 @@ Resources:
       Timeout: 300
       Environment:
         Variables:
-          ServiceId: !Ref  pVpcEndpointPermissionsServiceId
+          ServiceId: !Ref pVpcEndpointPermissionsServiceId
 
 Outputs:
   oLambaFunctionArn:
