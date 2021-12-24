@@ -15,7 +15,8 @@ def test_account_id_not_set():
     event = {
         'parameters': {
             # 'AccountId': 'dummyAccountId',
-            'RoleARNInNetworkingAccountId': 'dummyRoleInNetworkingAccountId'
+            'RoleARNInNetworkingAccountId': 'dummyRoleInNetworkingAccountId',
+            'RequestType': 'dummyAction',
         },
     }
     context = []
@@ -31,9 +32,9 @@ def test_action_not_set():
     event = {
         'parameters': {
             'AccountId': 'dummyAccountId',
-            'RoleARNInNetworkingAccountId': 'dummyRoleInNetworkingAccountId'
+            'RoleARNInNetworkingAccountId': 'dummyRoleInNetworkingAccountId',
+            #'RequestType': 'dummyAction',
         },
-        #'RequestType': 'dummyAction',
     }
     context = []
     os.environ['ServiceId'] = test_vpc_endpoint_service_id
@@ -48,8 +49,8 @@ def test_role_innetworking_account_id_not_set():
         'parameters': {
             'AccountId': 'dummyAccountId',
             # 'RoleARNInNetworkingAccountId': 'dummyRoleInNetworkingAccountId'
-        },
-        'RequestType': 'dummyAction',
+            'RequestType': 'dummyAction',
+        }
     }
     context = []
     os.environ['ServiceId'] = test_vpc_endpoint_service_id
@@ -70,9 +71,9 @@ def test_unsupported_action():
     event = {
         'parameters': {
             'AccountId': 'dummyAccountId',
-            'RoleARNInNetworkingAccountId': 'dummyRoleInNetworkingAccountId'
-        },
-        'RequestType': 'dummyAction',
+            'RoleARNInNetworkingAccountId': 'dummyRoleInNetworkingAccountId',
+            'RequestType': 'dummyAction',
+        }
     }
     context = []
     os.environ['ServiceId'] = test_vpc_endpoint_service_id
@@ -87,9 +88,9 @@ def test_create_invalid_vpc_endpoint_service_id():
     event = {
         'parameters': {
             'AccountId': 'dummyAccountId',
-            'RoleARNInNetworkingAccountId': 'dummyRoleInNetworkingAccountId'
-        },
-        'RequestType': 'Create',
+            'RoleARNInNetworkingAccountId': 'dummyRoleInNetworkingAccountId',
+            'RequestType': 'Create',
+        }
     }
     context = []
     os.environ['ServiceId'] = test_vpc_endpoint_service_id
@@ -105,9 +106,9 @@ def test_create_not_existing_vpc_endpoint_service_id():
     event = {
         'parameters': {
             'AccountId': 'dummyAccountId',
-            'RoleARNInNetworkingAccountId': 'dummyRoleInNetworkingAccountId'
+            'RoleARNInNetworkingAccountId': 'dummyRoleInNetworkingAccountId',
+            'RequestType': 'Create',
         },
-        'RequestType': 'Create',
     }
     context = []
     os.environ['ServiceId'] = 'vpce-svcnotexisting-0515bbd3ac7432640'
@@ -169,9 +170,9 @@ def test_create_one_permission():
     event = {
         'parameters': {
             'AccountId': 'dummyAccountId1',
-            'RoleARNInNetworkingAccountId': role_arn_in_networking_account
-        },
-        'RequestType': 'Create',
+            'RoleARNInNetworkingAccountId': role_arn_in_networking_account,
+            'RequestType': 'Create',
+        }
     }
     context = []
     response = lambda_handler(event, context)
@@ -194,9 +195,9 @@ def test_create_two_permissions():
     event = {
         'parameters': {
             'AccountId': 'dummyAccountId1',
-            'RoleARNInNetworkingAccountId': role_arn_in_networking_account
-        },
-        'RequestType': 'Create',
+            'RoleARNInNetworkingAccountId': role_arn_in_networking_account,
+            'RequestType': 'Create',
+        }
     }
     context = []
     response = lambda_handler(event, context)
@@ -207,9 +208,9 @@ def test_create_two_permissions():
     event = {
         'parameters': {
             'AccountId': 'dummyAccountId2',
-            'RoleARNInNetworkingAccountId': role_arn_in_networking_account
-        },
-        'RequestType': 'Create',
+            'RoleARNInNetworkingAccountId': role_arn_in_networking_account,
+            'RequestType': 'Create',
+        }
     }
     context = []
     response = lambda_handler(event, context)
@@ -233,9 +234,9 @@ def test_delete_one_principal_when_no_permission_created():
     event = {
         'parameters': {
             'AccountId': 'dummyAccountId1',
-            'RoleARNInNetworkingAccountId': role_arn_in_networking_account
-        },
-        'RequestType': 'Delete',
+            'RoleARNInNetworkingAccountId': role_arn_in_networking_account,
+            'RequestType': 'Delete',
+        }
     }
     context = []
     response = lambda_handler(event, context)
@@ -257,9 +258,9 @@ def test_delete_one_permission_after_one_permission_created():
     event = {
         'parameters': {
             'AccountId': 'dummyAccountId1',
-            'RoleARNInNetworkingAccountId': role_arn_in_networking_account
+            'RoleARNInNetworkingAccountId': role_arn_in_networking_account,
+            'RequestType': 'Create',
         },
-        'RequestType': 'Create',
     }
     context = []
     response = lambda_handler(event, context)
@@ -270,9 +271,9 @@ def test_delete_one_permission_after_one_permission_created():
     event = {
         'parameters': {
             'AccountId': 'dummyAccountId1',
-            'RoleARNInNetworkingAccountId': role_arn_in_networking_account
-        },
-        'RequestType': 'Delete',
+            'RoleARNInNetworkingAccountId': role_arn_in_networking_account,
+            'RequestType': 'Delete',
+        }
     }
     context = []
     response = lambda_handler(event, context)
@@ -292,9 +293,9 @@ def test_update_permission_when_permission_exists():
     event = {
         'parameters': {
             'AccountId': 'dummyAccountId1',
-            'RoleARNInNetworkingAccountId': role_arn_in_networking_account
-        },
-        'RequestType': 'Create',
+            'RoleARNInNetworkingAccountId': role_arn_in_networking_account,
+            'RequestType': 'Create',
+        }
     }
     context = []
     response = lambda_handler(event, context)
@@ -305,9 +306,9 @@ def test_update_permission_when_permission_exists():
         'parameters': {
             'OldAccountId': 'dummyAccountId1',
             'AccountId': 'dummyAccountId2',
-            'RoleARNInNetworkingAccountId': role_arn_in_networking_account
-        },
-        'RequestType': 'Update',
+            'RoleARNInNetworkingAccountId': role_arn_in_networking_account,
+            'RequestType': 'Update',
+        }
     }
     context = []
     response = lambda_handler(event, context)
@@ -329,9 +330,9 @@ def test_update_permission_when_no_permission_exists():
         'parameters': {
             'OldAccountId': 'dummyAccountId1',
             'AccountId': 'dummyAccountId2',
-            'RoleARNInNetworkingAccountId': role_arn_in_networking_account
-        },
-        'RequestType': 'Update',
+            'RoleARNInNetworkingAccountId': role_arn_in_networking_account,
+            'RequestType': 'Update',
+        }
     }
     context = []
     response = lambda_handler(event, context)

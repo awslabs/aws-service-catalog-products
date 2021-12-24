@@ -157,7 +157,7 @@ def lambda_handler(event, context):
         logger.info(f'AccountId for which the permission will be set is {account_id}')
         role_arn_in_networking_account = event['parameters']['RoleARNInNetworkingAccountId']
         logger.info(f'RoleARNInNetworkingAccountId is {role_arn_in_networking_account}')
-        action = event['RequestType']
+        action = event['parameters']['RequestType']
         logger.info(f'RequestType is {action}')
 
         boto3_session = get_boto3_session(role_arn_in_networking_account)
