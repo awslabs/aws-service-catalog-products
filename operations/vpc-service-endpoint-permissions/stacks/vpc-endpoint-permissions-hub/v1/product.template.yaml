@@ -52,6 +52,14 @@ Resources:
                 Action:
                   - lambda:InvokeFunction
                 Resource: !Sub arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:!Ref pLambdaFunctionName
+        - PolicyName: AllowToCallAssumeRole
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - "sts:AssumeRole"
+                Resource: "*"
 
   # Lambda function that makes the call to add the Permissions to the VPC Service Endpoint resource
   rLambdaFunction:
