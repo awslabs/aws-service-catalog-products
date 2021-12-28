@@ -9,9 +9,9 @@ There are 3 AWS Accounts involved:
 * Networking Master Account (being also a Puppet Spoke account)
 * Networking Client Account (being also a Puppet Spoke account)
 
-Architecture diagram: TODO
+Architecture diagram:
 
-![](img/architecture.png)
+![](img/vpc-endpoint-permissions.png)
 
 ## Description
 
