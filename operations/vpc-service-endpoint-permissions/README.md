@@ -15,69 +15,33 @@ Architecture diagram: TODO
 
 ## Description
 
-* This product is comprised of two sub-products- a Hub product that creates an IAM role and Lambda function
-* The Lambda function in the Networking hub account is triggered as a custom resource from the calling spoke account, allowing the addition of permissions to the VPC Endpoint resource
+* This solution is comprised of two Service Catalog Tools Products:
+  * `vpc-endpoint-permissions-hub`
+  * `vpc-endpoint-permissions-role`
+* `vpc-endpoint-permissions-hub` should be deployed to the Puppet Hub Account. It creates an IAM role and a Lambda function. The Lambda function (`hub_lambda`) interacts with the Endpoint Service to modify its allowed principals. The Endpoint Service is supposed to be deployed in the Networking Master Account.
+* `vpc-endpoint-permissions-role` should be deployed to the Networking Master Account. It creates an IAM role to be assumed from the Puppet Hub Account.
+* [`lambda-invocations`](https://aws-service-catalog-puppet.readthedocs.io/en/latest/puppet/designing_your_manifest.html?highlight=lambda-invocations#lambda-invocations) is used to invoke the Lambda function.
 
-## Validate AWS CloudFormation templates
+| Account | Puppet Hub | Networking Master | Networking Client |
+| - | - | - | - |
+| AWS Services | Lambda function, IAM Role to run the Lambda function and to assume a role in the Networking Master account | IAM role to modify the Endpoint Service permissions | Its account ID is used when modifying the allowed principal |
+| Puppet function | Hub | Spoke | Spoke |
 
-You can run the following command to validate the AWS CloudFormation templates:
-```
-aws cloudformation validate-template --template-body file://product.template.yaml
-```
+## Deployment
 
-## Run integrations tests
+1. Ensure you have 3 AWS Account created and that one of them is provisioned as Puppet Hub account and 2 of them are provisioned as Puppet Spoke accounts.
+2. Ensure the VPC Endpoints Service is deployed in the Networking Master AWS Account.
+3. Edit the git repository for Service Catalog Factory - add the portfolio file.
+4. Create two git repositories, for the two Service Catalog Products and upload there the files from [vpc-endpoint-permisions-hub/](vpc-endpoint-permisions-hub/) and [vpc-endpoint-permisions-role/](vpc-endpoint-permisions-role/).
 
-These tests interact with an AWS Account.
+![](img/hub-product-repo.png)
 
-### Testing the Hub Lambda
+![](img/role-product-repo.png)
 
-You have to ensure that:
-1. You have programmatic access to the Hub AWS Account
-2. You have a VPC Endpoint Service deployed
+5. Edit the `manifest.yaml` file in the Service Catalog Puppet git repository.
 
-Set up local environment:
-```
-cd operations/vpc-service-endpoint-permissions/stacks/vpc-endpoint-permissions-hub/
-python3 -m venv ./venv
-source venv/bin/activate
-pip install -r v1/requirements_dev.txt
-```
+## Testing
 
-Run Pytest tests:
-```
-export VPC_SERVICE_ENDPOINT_ID=TODO
-export NETWORKING_ACCOUNT_ID=TODO
-pytest --verbose v1/src/test_hub_lambda.py
-```
-
-### Testing the Spoke Lambda
-
-You have to ensure that:
-1. You have programmatic access to the Spoke AWS Account
-2. In the Hub Account, you have created a Role, which can be assumed from the Spoke AWS Account, e.g. `arn:aws:iam::TODO:role/VPCEndpointModifier`
-3. In the Hub Account, the Hub lambda function was deployed. You can zip the Hub lambda by:
-```
-cd operations/vpc-service-endpoint-permissions/stacks/vpc-endpoint-permissions-hub/
-cp v1/src/hub_lambda.py venv/lib/python3.9/site-packages
-cd venv/lib/python3.9/site-packages
-rm -f hub_lambda.zip
-zip -r hub_lambda.zip .
-```
-When deploying this Lambda function, please:
-* set ServiceId environment variable
-* set the lambda handler
-
-Set up local environment:
-```
-cd operations/vpc-service-endpoint-permissions/stacks/vpc-endpoint-permissions-spoke/
-python3 -m venv ./venv
-source venv/bin/activate
-pip install -r v1/requirements_dev.txt
-```
-
-Run Pytest tests:
-```
-export VPC_ENDPOINT_ROLE="arn:aws:iam::TODO:role/VPCEndpointModifier"
-export HUB_LAMBDA_FUNCTION_NAME="vpc_endpoint_modifier"
-pytest --verbose v1/src/test_spoke_lambda.py
-```
+For testing information, please visit the readmes:
+* [vpc-endpoint-permissions-role/README.md](vpc-endpoint-permissions-role/README.md)
+* [vpc-endpoint-permissions-hub/README.md](vpc-endpoint-permissions-hub/README.md)
