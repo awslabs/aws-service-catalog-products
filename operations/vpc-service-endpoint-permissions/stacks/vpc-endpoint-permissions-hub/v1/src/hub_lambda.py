@@ -2,11 +2,8 @@ import boto3
 from botocore.exceptions import ClientError
 import logging
 import traceback
-from crhelper import CfnResource
 import os
 import json
-
-helper = CfnResource()
 
 # define logging
 logger = logging.getLogger()
@@ -37,8 +34,6 @@ def handle_error(event, error_message, statusCode, response_status):
     }
 
 
-@helper.create
-@helper.update
 def add_permission(boto3_session, event, service_id, account_id):
     """
     Adds permission to the VPC Endpoint Service
@@ -68,7 +63,6 @@ def add_permission(boto3_session, event, service_id, account_id):
         return handle_error(event, error_message, 400, 'FAILED')
 
 
-@helper.delete
 def delete_permission(boto3_session, event, service_id, account_id):
     """
     Deletes permission to the VPC Endpoint Service
@@ -95,8 +89,6 @@ def delete_permission(boto3_session, event, service_id, account_id):
         return handle_error(event, error_message, 400, 'FAILED')
 
 
-@helper.create
-@helper.update
 def update_permission(boto3_session, event, service_id, old_account_id, new_account_id):
     logger.info(f'Updating permision in a VPC Endpoint Service')
     response = delete_permission(boto3_session, event, service_id, old_account_id)
