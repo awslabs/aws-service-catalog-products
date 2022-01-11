@@ -1,7 +1,8 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Description: |
   Creates a Cloudwatch events rule that triggers a Codebuild project to export all logs from a failed/cancelled/superseded Service Catalog Puppet pipeline execution. Provides a pre-signed S3 url at the end of execution
-  {"framework": "servicecatalog-products", "role": "product", "product-set": "operations", "product": "service-catalog-puppet-pipeline-logs-exporter", "version": "v1"}
+  {"framework": "servicecatalog-products", "role": "product", "product-category": "operations", "product-set": "service-catalog-puppet-pipeline-logs-exporter", "product": "service-catalog-puppet-pipeline-logs-exporter", "version": "v1"}
+
 Parameters:
   pServiceCatalogPuppetLogsExporterCodeBuildEnvVersion:
     Type: String

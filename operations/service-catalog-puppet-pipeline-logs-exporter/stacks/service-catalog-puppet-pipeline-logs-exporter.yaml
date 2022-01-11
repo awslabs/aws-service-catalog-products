@@ -1,0 +1,18 @@
+# Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+Schema: factory-2019-04-01
+Stacks:
+  - Name: service-catalog-puppet-pipeline-logs-exporter
+    Tags:
+      - Key: category
+        Value: operations
+    Versions:
+      - Name: v1
+        Active: True
+        Source:
+          Provider: CodeCommit
+          Path: stacks/service-catalog-puppet-pipeline-logs-exporter/v1
+          Configuration:
+            RepositoryName: service-catalog-puppet-pipeline-logs-exporter
+            BranchName: main

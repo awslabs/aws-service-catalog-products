@@ -5,7 +5,7 @@ AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: |
   Product that zips up code commit repo when a cloudwatch commit event occurs the zip is added to an s3 bucket.
-  {"framework": "servicecatalog-products", "role": "product", "product-set": "operations", "product": "codecommit-backups", "version": "v1"}
+  {"framework": "servicecatalog-products", "role": "product", "product-category": "operations", "product-set": "codecommit-backups", "product": "codecommit-backups", "version": "v1"}
 
 Parameters:
   pServiceCatalogCodeCommitBackupsScheduleBackups:
