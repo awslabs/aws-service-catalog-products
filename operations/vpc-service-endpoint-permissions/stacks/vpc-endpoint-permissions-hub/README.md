@@ -34,3 +34,22 @@ export VPC_SERVICE_ENDPOINT_ID=TODO
 export NETWORKING_ACCOUNT_ID=TODO
 pytest --verbose v1/src/test_hub_lambda.py
 ```
+
+### Invoke the Lambda function for testing
+
+Once the Service Catalog Puppet deployed both Products, you may want to manually invoke the Hub Lambda Function for testing purposes. Use the following parameters:
+```
+{
+  "parameters": {
+            "AccountId": "dummyAccountId1",
+            "RoleARNInNetworkingAccountId": "arn:aws:iam::<NETWORKING_ACCOUNT_ID:role/vpc-service-endpoint-permissions-networking",
+            "RequestType": "Create"
+        }
+}
+```
+
+Please replace the `NETWORKING_ACCOUNT_ID`.
+
+The Lambda Function is expected to return success and, in the networking account, in the chosen Endpoint Service, you should be able to see the added principal:
+
+![](../../img/aim.png)
