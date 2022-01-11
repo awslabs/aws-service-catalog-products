@@ -1,0 +1,88 @@
+Schema: factory-2019-04-01
+Products:
+  - Description: vpc-service-endpoint-permissions-role
+    Distributor: company
+    Name: vpc-service-endpoint-permissions-role
+    Owner: itops@company.com
+    SupportEmail: itops@company.com
+    SupportDescription: Contact us for support.
+    SupportUrl: https://company-support.com/help
+    Tags:
+      - Key: team
+        Value: company-itops
+      - Key: name
+        Value: vpc-service-endpoint-permissions-role
+      - Key: application
+        Value: cloud_infrastructure
+    Portfolios:
+      - "networking-role"
+    Versions:
+      - Name: v1
+        Description: This will add an IAM Role to allow another AWS Account modify the VPC Endpoint Service permissions
+        Active: True
+        Options:
+          ShouldCFNNag: True
+        Source:
+          Provider: CodeCommit
+          Configuration:
+            RepositoryName: vpc-service-endpoint-permissions-role
+            BranchName: main
+  - Description: vpc-service-endpoint-permissions-hub
+    Distributor: company
+    Name: vpc-service-endpoint-permissions-hub
+    Owner: itops@company.com
+    SupportEmail: itops@company.com
+    SupportDescription: Contact us for support.
+    SupportUrl: https://company-support.com/help
+    Tags:
+      - Key: team
+        Value: company-itops
+      - Key: name
+        Value: vpc-service-endpoint-permissions-hub
+      - Key: application
+        Value: cloud_infrastructure
+    Portfolios:
+      - "networking-hub"
+    Versions:
+      - Name: v1
+        Description: This will add a permission to an vpc endpoint
+        Active: True
+        Options:
+          ShouldCFNNag: True
+        Source:
+          Provider: CodeCommit
+          Configuration:
+            RepositoryName: vpc-service-endpoint-permissions-hub
+            BranchName: main
+        BuildSpec: |
+            version: 0.2
+            phases:
+              install:
+                runtime-versions:
+                  python: 3.x
+              build:
+                commands:
+                  - pip install -r requirements.txt -t src
+                {% for region in ALL_REGIONS %}
+                  - aws cloudformation package --template $(pwd)/product.template.yaml --s3-bucket sc-factory-artifacts-${ACCOUNT_ID}-{{ region }} --s3-prefix ${STACK_NAME} --output-template-file product.template-{{ region }}.yaml
+                {% endfor %}
+            artifacts:
+              files:
+                - '*'
+                - '**/*'
+
+
+
+Portfolios:
+  - DisplayName: networking-role
+    Description: Includes vpc-service-endpoint-permissions-role product
+    ProviderName: central-it-team
+    Tags:
+      - Key: "creator"
+        Value: "The creator"
+  - DisplayName: networking-hub
+    Description: Includes vpc-service-endpoint-permissions-hub product
+    ProviderName: central-it-team
+    Tags:
+      - Key: "creator"
+        Value: "The creator"
