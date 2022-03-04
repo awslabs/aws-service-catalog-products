@@ -1,0 +1,54 @@
+# Copyright 2022 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+AWSTemplateFormatVersion: "2010-09-09"
+Description: |
+  {"framework": "servicecatalog-products", "role": "product", "product-set": "account-vending", "product": "prereqs-controltower-account", "version": "v1"}
+
+
+Parameters:
+  SCTAccountId:
+    Type: String
+
+  AccountVendingControlTowerRoleName:
+    Type: String
+    Default: AccountVendingOrgsRole
+
+  AccountVendingIAMRolesPath:
+    Type: String
+    Default: /foundational/account-vending/
+
+
+Resources:
+  AccountVendingControlTowerRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Ref AccountVendingControlTowerRoleName
+      Path: !Ref AccountVendingIAMRolesPath
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Principal:
+              AWS: !Sub "arn:aws:iam::${SCTAccountId}:root"
+            Action:
+              - "sts:AssumeRole"
+      Policies:
+        - PolicyName: PermissionsNeededForControlTower
+          PolicyDocument:
+            Statement:
+              - Effect: Allow
+                Action:
+                  - servicecatalog:DescribeProvisionedProduct
+                  - servicecatalog:GetProvisionedProductOutputs
+                  - servicecatalog:ProvisionProduct
+                Resource: "*"
+              - Effect: "Allow"
+                  Action: s3:GetObject
+                  Resource:
+                    - !Sub "arn:${AWS::Partition}:s3:::cf-templates-*"
+                    - !Sub "arn:${AWS::Partition}:s3:::cf-templates-*/*"
+
+Outputs:
+  AccountVendingAccountVendingControlTowerRoleArn:
+    Description: Arn of the AccountVendingControlTowerRole
+    Value: !GetAtt AccountVendingControlTowerRole.Arn

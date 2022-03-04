@@ -3,7 +3,7 @@
 Transform: AWS::Serverless-2016-10-31
 AWSTemplateFormatVersion: "2010-09-09"
 Description: |
-  {"framework": "servicecatalog-products", "role": "product", "product-set": "account-vending", "product": "account-vending-supporting", "version": "v1"}
+  {"framework": "servicecatalog-products", "role": "product", "product-set": "account-vending", "product": "prereqs-puppet-account", "version": "v1"}
 
 Metadata:
   AWS::CloudFormation::Interface:
@@ -11,107 +11,107 @@ Metadata:
       - Label:
           default: "Shared Settings"
         Parameters:
-          - StateMachineName
-          - StateMachineRoleName
-          - AccountVendingLambdasPath
-          - InputValidatorFunctionName
-          - InputValidatorRoleName
-          - SubscriptionWaiterFunctionName
-          - SubscriptionWaiterRoleName
-          - AccountCreationSNSTopicArn
-          - AccountCreationCustomResourceBackerFunctionName
+          - AccountVendingStateMachineName
+          - AccountVendingStateMachineRoleName
+          - AccountVendingIAMRolesPath
+          - AccountVendingInputValidatorFunctionName
+          - AccountVendingInputValidatorRoleName
+          - AccountVendingSubscriptionWaiterFunctionName
+          - AccountVendingSubscriptionWaiterRoleName
+          - AccountVendingAccountCreationSNSTopicArn
+          - AccountVendingAccountCreationCustomResourceBackerFunctionName
 
       - Label:
           default: "AWS Organizations Settings"
         Parameters:
-          - OrganizationsRoleArn
-          - OrganizationsAccountCreatorFunctionName
-          - OrganizationsAccountCreatorRoleName
-          - OrganizationsAccountWaiterFunctionName
-          - OrganizationsAccountWaiterRoleName
+          - AccountVendingAccountOrganizationsRoleArn
+          - AccountVendingOrganizationsAccountCreatorFunctionName
+          - AccountVendingOrganizationsAccountCreatorRoleName
+          - AccountVendingOrganizationsAccountWaiterFunctionName
+          - AccountVendingOrganizationsAccountWaiterRoleName
 
       - Label:
           default: "AWS Control Tower Settings"
         Parameters:
-          - ControlTowerRoleArn
-          - ControlTowerAccountCreatorFunctionName
-          - ControlTowerAccountCreatorRoleName
-          - ControlTowerAccountWaiterFunctionName
-          - ControlTowerAccountWaiterRoleName
+          - AccountVendingControlTowerRoleArn
+          - AccountVendingControlTowerAccountCreatorFunctionName
+          - AccountVendingControlTowerAccountCreatorRoleName
+          - AccountVendingControlTowerAccountWaiterFunctionName
+          - AccountVendingControlTowerAccountWaiterRoleName
 
 Parameters:
-  AccountVendingLambdasPath:
+  AccountVendingIAMRolesPath:
     Type: String
     Default: /foundational/account-vending/
-  OrganizationsRoleArn:
+  AccountVendingAccountOrganizationsRoleArn:
     Type: String
     Description: Arn of an IAM Role that can create accounts using the AWS Orgs API
     Default: arn:aws:iam::156551640785:role/servicecatalog-puppet/PuppetRole
-  ControlTowerRoleArn:
+  AccountVendingControlTowerRoleArn:
     Type: String
     Description: Arn of an IAM Role that can create accounts using AWS Control Tower
     Default: arn:aws:iam::182157867954:role/Admin
 
-  AccountCreationCustomResourceBackerFunctionName:
+  AccountVendingAccountCreationCustomResourceBackerFunctionName:
     Type: String
     Default: AccountCreationCustomResourceBacker
   AccountCreationCustomResourceBackerRoleName:
     Type: String
     Default: AccountCreationCustomResourceBackerRole
 
-  AccountCreationSNSTopicArn:
+  AccountVendingAccountCreationSNSTopicArn:
     Type: String
     Description: Arn of the SNS Topic account creations are published to
     Default: arn:aws:sns:eu-west-1:000000000000:dev-null
 
-  StateMachineName:
+  AccountVendingStateMachineName:
     Type: String
     Default: account-vending-state-machine
 
-  StateMachineRoleName:
+  AccountVendingStateMachineRoleName:
     Type: String
     Description: Name of the IAM Role used by the State machine
     Default: StateMachineRole
 
-  InputValidatorFunctionName:
+  AccountVendingInputValidatorFunctionName:
     Type: String
     Default: InputValidator
-  InputValidatorRoleName:
+  AccountVendingInputValidatorRoleName:
     Type: String
     Default: InputValidatorRole
 
-  OrganizationsAccountCreatorFunctionName:
+  AccountVendingOrganizationsAccountCreatorFunctionName:
     Type: String
     Default: OrganizationsAccountCreator
-  OrganizationsAccountCreatorRoleName:
+  AccountVendingOrganizationsAccountCreatorRoleName:
     Type: String
     Default: OrganizationsAccountCreatorRole
-  OrganizationsAccountWaiterFunctionName:
+  AccountVendingOrganizationsAccountWaiterFunctionName:
     Type: String
     Default: OrganizationsAccountWaiter
-  OrganizationsAccountWaiterRoleName:
+  AccountVendingOrganizationsAccountWaiterRoleName:
     Type: String
     Default: OrganizationsAccountWaiterRole
 
 
-  ControlTowerAccountCreatorFunctionName:
+  AccountVendingControlTowerAccountCreatorFunctionName:
     Type: String
     Default: ControlTowerAccountCreator
-  ControlTowerAccountCreatorRoleName:
+  AccountVendingControlTowerAccountCreatorRoleName:
     Type: String
     Default: ControlTowerAccountCreatorRole
-  ControlTowerAccountWaiterFunctionName:
+  AccountVendingControlTowerAccountWaiterFunctionName:
     Type: String
     Default: ControlTowerAccountWaiter
-  ControlTowerAccountWaiterRoleName:
+  AccountVendingControlTowerAccountWaiterRoleName:
     Type: String
     Default: ControlTowerAccountWaiterRole
 
 
-  SubscriptionWaiterFunctionName:
+  AccountVendingSubscriptionWaiterFunctionName:
     Type: String
     Default: SubscriptionWaiter
-  SubscriptionWaiterRoleName:
+  AccountVendingSubscriptionWaiterRoleName:
     Type: String
     Default: SubscriptionWaiterRole
 
@@ -120,7 +120,7 @@ Resources:
   InputValidatorFunction:
     Type: AWS::Lambda::Function
     Properties:
-      FunctionName: !Ref InputValidatorFunctionName
+      FunctionName: !Ref AccountVendingInputValidatorFunctionName
       Code:
         ZipFile: |
           import json
@@ -164,8 +164,8 @@ Resources:
   InputValidatortRole:
     Type: AWS::IAM::Role
     Properties:
-      RoleName: !Ref InputValidatorRoleName
-      Path: !Ref AccountVendingLambdasPath
+      RoleName: !Ref AccountVendingInputValidatorRoleName
+      Path: !Ref AccountVendingIAMRolesPath
       AssumeRolePolicyDocument:
         Version: "2012-10-17"
         Statement:
@@ -179,7 +179,7 @@ Resources:
   AccountCreatorFunction:
     Type: AWS::Lambda::Function
     Properties:
-      FunctionName: !Ref OrganizationsAccountCreatorFunctionName
+      FunctionName: !Ref AccountVendingOrganizationsAccountCreatorFunctionName
       Code:
         ZipFile: |
           from boto3.session import Session
@@ -225,14 +225,14 @@ Resources:
       Timeout: 30
       Environment:
         Variables:
-          ORGANIZATIONS_ROLE_ARN: !Ref OrganizationsRoleArn
+          ORGANIZATIONS_ROLE_ARN: !Ref AccountVendingAccountOrganizationsRoleArn
 
 
   AccountCreatorRole:
     Type: AWS::IAM::Role
     Properties:
-      RoleName: !Ref OrganizationsAccountCreatorRoleName
-      Path: !Ref AccountVendingLambdasPath
+      RoleName: !Ref AccountVendingOrganizationsAccountCreatorRoleName
+      Path: !Ref AccountVendingIAMRolesPath
       AssumeRolePolicyDocument:
         Version: "2012-10-17"
         Statement:
@@ -249,12 +249,12 @@ Resources:
               - Effect: Allow
                 Action:
                   - sts:AssumeRole
-                Resource: !Ref OrganizationsRoleArn
+                Resource: !Ref AccountVendingAccountOrganizationsRoleArn
 
   AccountWaiterFunction:
     Type: AWS::Lambda::Function
     Properties:
-      FunctionName: !Ref OrganizationsAccountWaiterFunctionName
+      FunctionName: !Ref AccountVendingOrganizationsAccountWaiterFunctionName
       Code:
         ZipFile: |
           import json
@@ -329,15 +329,15 @@ Resources:
       Timeout: 30
       Environment:
         Variables:
-          ORGANIZATIONS_ROLE_ARN: !Ref OrganizationsRoleArn
+          ORGANIZATIONS_ROLE_ARN: !Ref AccountVendingAccountOrganizationsRoleArn
           AWS_PARTITION: !Sub "${AWS::Partition}"
 
 
   AccountWaiterRole:
     Type: AWS::IAM::Role
     Properties:
-      RoleName: !Ref OrganizationsAccountWaiterRoleName
-      Path: !Ref AccountVendingLambdasPath
+      RoleName: !Ref AccountVendingOrganizationsAccountWaiterRoleName
+      Path: !Ref AccountVendingIAMRolesPath
       AssumeRolePolicyDocument:
         Version: "2012-10-17"
         Statement:
@@ -354,12 +354,12 @@ Resources:
               - Effect: Allow
                 Action:
                   - sts:AssumeRole
-                Resource: !Ref OrganizationsRoleArn
+                Resource: !Ref AccountVendingAccountOrganizationsRoleArn
 
   ControlTowerAccountCreatorFunction:
     Type: AWS::Lambda::Function
     Properties:
-      FunctionName: !Ref ControlTowerAccountCreatorFunctionName
+      FunctionName: !Ref AccountVendingControlTowerAccountCreatorFunctionName
       Code:
         ZipFile: |
           from boto3.session import Session
@@ -439,14 +439,14 @@ Resources:
       Timeout: 30
       Environment:
         Variables:
-          CONTROL_TOWER_ROLE_ARN: !Ref ControlTowerRoleArn
+          CONTROL_TOWER_ROLE_ARN: !Ref AccountVendingControlTowerRoleArn
 
 
   ControlTowerAccountCreatorRole:
     Type: AWS::IAM::Role
     Properties:
-      RoleName: !Ref ControlTowerAccountCreatorRoleName
-      Path: !Ref AccountVendingLambdasPath
+      RoleName: !Ref AccountVendingControlTowerAccountCreatorRoleName
+      Path: !Ref AccountVendingIAMRolesPath
       AssumeRolePolicyDocument:
         Version: "2012-10-17"
         Statement:
@@ -463,12 +463,12 @@ Resources:
               - Effect: Allow
                 Action:
                   - sts:AssumeRole
-                Resource: !Ref ControlTowerRoleArn
+                Resource: !Ref AccountVendingControlTowerRoleArn
 
   ControlTowerAccountWaiterFunction:
     Type: AWS::Lambda::Function
     Properties:
-      FunctionName: !Ref ControlTowerAccountWaiterFunctionName
+      FunctionName: !Ref AccountVendingControlTowerAccountWaiterFunctionName
       Code:
         ZipFile: |
           import json
@@ -521,15 +521,15 @@ Resources:
       Timeout: 30
       Environment:
         Variables:
-          CONTROL_TOWER_ROLE_ARN: !Ref ControlTowerRoleArn
+          CONTROL_TOWER_ROLE_ARN: !Ref AccountVendingControlTowerRoleArn
           AWS_PARTITION: !Sub "${AWS::Partition}"
 
 
   ControlTowerAccountWaiterRole:
     Type: AWS::IAM::Role
     Properties:
-      RoleName: !Ref ControlTowerAccountWaiterRoleName
-      Path: !Ref AccountVendingLambdasPath
+      RoleName: !Ref AccountVendingControlTowerAccountWaiterRoleName
+      Path: !Ref AccountVendingIAMRolesPath
       AssumeRolePolicyDocument:
         Version: "2012-10-17"
         Statement:
@@ -546,12 +546,12 @@ Resources:
               - Effect: Allow
                 Action:
                   - sts:AssumeRole
-                Resource: !Ref ControlTowerRoleArn
+                Resource: !Ref AccountVendingControlTowerRoleArn
 
   SubscriptionWaiterFunction:
     Type: AWS::Lambda::Function
     Properties:
-      FunctionName: !Ref SubscriptionWaiterFunctionName
+      FunctionName: !Ref AccountVendingSubscriptionWaiterFunctionName
       Code:
         ZipFile: |
           from boto3.session import Session
@@ -606,8 +606,8 @@ Resources:
   SubscriptionWaiterRole:
     Type: AWS::IAM::Role
     Properties:
-      RoleName: !Ref SubscriptionWaiterRoleName
-      Path: !Ref AccountVendingLambdasPath
+      RoleName: !Ref AccountVendingSubscriptionWaiterRoleName
+      Path: !Ref AccountVendingIAMRolesPath
       AssumeRolePolicyDocument:
         Version: "2012-10-17"
         Statement:
@@ -624,19 +624,19 @@ Resources:
               - Effect: Allow
                 Action:
                   - sts:AssumeRole
-                Resource: !Ref OrganizationsRoleArn
+                Resource: !Ref AccountVendingAccountOrganizationsRoleArn
         - PolicyName: ControlTowerRoleAssumption
           PolicyDocument:
             Statement:
               - Effect: Allow
                 Action:
                   - sts:AssumeRole
-                Resource: !Ref ControlTowerRoleArn
+                Resource: !Ref AccountVendingControlTowerRoleArn
 
   StateMachine:
     Type: AWS::StepFunctions::StateMachine
     Properties:
-      StateMachineName: !Ref StateMachineName
+      AccountVendingStateMachineName: !Ref AccountVendingStateMachineName
       RoleArn: !GetAtt StateMachineRole.Arn
       DefinitionSubstitutions:
         AWS_PARTITION: !Sub "${AWS::Partition}"
@@ -646,7 +646,7 @@ Resources:
         CONTROL_TOWER_ACCOUNT_CREATOR_ARN: !GetAtt ControlTowerAccountCreatorFunction.Arn
         CONTROL_TOWER_ACCOUNT_WAITER_ARN: !GetAtt ControlTowerAccountWaiterFunction.Arn
         SUBSCRIPTION_WAITER_ARN: !GetAtt SubscriptionWaiterFunction.Arn
-        ACCOUNT_CREATION_SNS_TOPIC_ARN: !Ref AccountCreationSNSTopicArn
+        ACCOUNT_CREATION_SNS_TOPIC_ARN: !Ref AccountVendingAccountCreationSNSTopicArn
       DefinitionString: |
         {
           "Comment": "Account vending solution supporting both AWS Organizations and AWS Control Tower",
@@ -994,8 +994,8 @@ Resources:
   StateMachineRole:
     Type: AWS::IAM::Role
     Properties:
-      RoleName: !Ref StateMachineRoleName
-      Path: !Ref AccountVendingLambdasPath
+      RoleName: !Ref AccountVendingStateMachineRoleName
+      Path: !Ref AccountVendingIAMRolesPath
       AssumeRolePolicyDocument:
         Version: "2012-10-17"
         Statement:
@@ -1039,7 +1039,7 @@ Resources:
                 Action:
                   - sns:Publish
                 Resource:
-                  - !Ref AccountCreationSNSTopicArn
+                  - !Ref AccountVendingAccountCreationSNSTopicArn
 
         - PolicyName: ParentStepFunctionExecutionPolicy
           PolicyDocument:
@@ -1064,7 +1064,7 @@ Resources:
     Type: AWS::IAM::Role
     Properties:
       RoleName: !Ref AccountCreationCustomResourceBackerRoleName
-      Path: !Ref AccountVendingLambdasPath
+      Path: !Ref AccountVendingIAMRolesPath
       AssumeRolePolicyDocument:
         Version: "2012-10-17"
         Statement:
@@ -1085,7 +1085,7 @@ Resources:
               - Effect: Allow
                 Action:
                   - states:DescribeExecution
-                Resource: !Sub "arn:${AWS::Partition}:states:${AWS::Region}:${AWS::AccountId}:execution:${StateMachineName}:*"
+                Resource: !Sub "arn:${AWS::Partition}:states:${AWS::Region}:${AWS::AccountId}:execution:${AccountVendingStateMachineName}:*"
         - PolicyName: crhelper
           PolicyDocument:
             Statement:
@@ -1094,8 +1094,8 @@ Resources:
                   - lambda:AddPermission
                   - lambda:RemovePermission
                 Resource:
-                  - !Sub "arn:${AWS::Partition}:lambda:${AWS::Region}:${AWS::AccountId}:function:${AccountCreationCustomResourceBackerFunctionName}"
-                  - !Sub "arn:${AWS::Partition}:lambda:${AWS::Region}:${AWS::AccountId}:function:${AccountCreationCustomResourceBackerFunctionName}:*"
+                  - !Sub "arn:${AWS::Partition}:lambda:${AWS::Region}:${AWS::AccountId}:function:${AccountVendingAccountCreationCustomResourceBackerFunctionName}"
+                  - !Sub "arn:${AWS::Partition}:lambda:${AWS::Region}:${AWS::AccountId}:function:${AccountVendingAccountCreationCustomResourceBackerFunctionName}:*"
               - Effect: Allow
                 Action:
                   - events:PutRule
@@ -1107,7 +1107,7 @@ Resources:
   AccountCreationCustomResourceBacker:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: !Ref AccountCreationCustomResourceBackerFunctionName
+      FunctionName: !Ref AccountVendingAccountCreationCustomResourceBackerFunctionName
       CodeUri: src/AccountCreationCustomResourceBacker
       Handler: handler.handle
       Environment:
@@ -1121,5 +1121,5 @@ Resources:
       Timeout: 30
 
 Outputs:
-  AccountCreationCustomResourceBackerArn:
+  AccountVendingAccountCreationCustomResourceBackerArn:
     Value: !GetAtt AccountCreationCustomResourceBacker.Arn

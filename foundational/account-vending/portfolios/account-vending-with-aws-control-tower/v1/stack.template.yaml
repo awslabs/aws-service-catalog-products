@@ -25,7 +25,7 @@ Metadata:
           - ShouldBootstrapAccount
           - ShouldRunSingleAccountPipeline
           - ShouldNotifiyOnCompletion
-          - AccountCreationCustomResourceBackerArn
+          - AccountVendingAccountCreationCustomResourceBackerArn
 
 Parameters:
   AccountName:
@@ -66,7 +66,7 @@ Parameters:
       - 'true'
       - 'false'
 
-  AccountCreationCustomResourceBackerArn:
+  AccountVendingAccountCreationCustomResourceBackerArn:
     Type: String
 
 
@@ -74,7 +74,7 @@ Resources:
   Account:
     Type: Custom::Account
     Properties:
-      ServiceToken: !Ref AccountCreationCustomResourceBackerArn
+      ServiceToken: !Ref AccountVendingAccountCreationCustomResourceBackerArn
 
       AccountName: !Ref AccountName
       AccountEmail: !Ref AccountEmail
