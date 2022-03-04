@@ -1,0 +1,77 @@
+# Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+parameters:
+  SCTAccountId:
+    default: &SCTAccountId "${AWS::PuppetAccountId}"
+
+
+stacks:
+  account-vending-supporting:
+    name: amazon-guardduty-multi-account-prereqs-orgs-account
+    version: v1
+    execution: hub
+    capabilities:
+      - CAPABILITY_NAMED_IAM
+    deploy_to:
+      tags:
+      - tag: 'role:org_management'
+        regions: default_region
+    outputs:
+      ssm:
+        - param_name: "/foundational/GuardDutyMultiAccount/GuardDutyMultiAccountDelegateAdminRoleArn"
+          stack_output: GuardDutyMultiAccountDelegateAdminRoleArn
+
+  amazon-guardduty-multi-account-prereqs-securitytooling-account:
+    name: amazon-guardduty-multi-account-prereqs-securitytooling-account
+    version: v1
+    execution: hub
+    capabilities:
+      - CAPABILITY_NAMED_IAM
+    deploy_to:
+      tags:
+      - tag: 'role:org_management'
+        regions: default_region
+    outputs:
+      ssm:
+        - param_name: "/foundational/GuardDutyMultiAccount/GuardDutyMultiAccountGuardDutyRoleArn"
+          stack_output: GuardDutyMultiAccountGuardDutyRoleArn
+
+  amazon-guardduty-multi-account-enabler-and-creator:
+    name: amazon-guardduty-multi-account-enabler-and-creator
+    version: v1
+    execution: hub
+    capabilities:
+      - CAPABILITY_NAMED_IAM
+    parameters:
+      GuardDutyMultiAccountDelegateAdminRoleArn:
+        ssm:
+          name: "/foundational/GuardDutyMultiAccount/GuardDutyMultiAccountDelegateAdminRoleArn"
+      GuardDutyMultiAccountGuardDutyRoleArn:
+        ssm:
+          name: "/foundational/GuardDutyMultiAccount/GuardDutyMultiAccountGuardDutyRoleArn"
+    depends_on:
+      - name: amazon-guardduty-multi-account-prereqs-orgs-account
+        affinity: stack
+        type: stack
+    deploy_to:
+      tags:
+      - tag: 'role:securitytooling'
+        regions: default_region
+
+lambda-invocations:
+  amazon-guardduty-multi-account:
+    function_name: *GuardDutyMultiAccountFunctionName
+    qualifier: $LATEST
+    invocation_type: Event
+    parameters:
+        accounts_to_ensure:
+            default: ${AWS::ManifestAccountsSpokes}
+    depends_on:
+      - name: amazon-guardduty-multi-account-enabler-and-creator
+        affinity: stack
+        type: stack
+    invoke_for:
+      tags:
+        - regions: "enabled_regions"
+          tag: "type:prod"
