@@ -43,10 +43,10 @@ Resources:
                   - servicecatalog:ProvisionProduct
                 Resource: "*"
               - Effect: "Allow"
-                  Action: s3:GetObject
-                  Resource:
-                    - !Sub "arn:${AWS::Partition}:s3:::cf-templates-*"
-                    - !Sub "arn:${AWS::Partition}:s3:::cf-templates-*/*"
+                Action: s3:GetObject
+                Resource:
+                  - !Sub "arn:${AWS::Partition}:s3:::cf-templates-*"
+                  - !Sub "arn:${AWS::Partition}:s3:::cf-templates-*/*"
 
 Outputs:
   AccountVendingAccountVendingControlTowerRoleArn:

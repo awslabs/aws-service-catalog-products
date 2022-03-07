@@ -1,0 +1,844 @@
+Transform: AWS::Serverless-2016-10-31
+AWSTemplateFormatVersion: '2010-09-09'
+Description: '{"framework": "servicecatalog-products", "role": "product", "product-set":
+  "account-vending", "product": "prereqs-puppet-account", "version": "v1"}
+
+  '
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+    - Label:
+        default: Shared Settings
+      Parameters:
+      - AccountVendingStateMachineName
+      - AccountVendingStateMachineRoleName
+      - AccountVendingIAMRolesPath
+      - AccountVendingInputValidatorFunctionName
+      - AccountVendingInputValidatorRoleName
+      - AccountVendingSubscriptionWaiterFunctionName
+      - AccountVendingSubscriptionWaiterRoleName
+      - AccountVendingAccountCreationSNSTopicArn
+      - AccountVendingAccountCreationCustomResourceBackerFunctionName
+    - Label:
+        default: AWS Organizations Settings
+      Parameters:
+      - AccountVendingAccountOrganizationsRoleArn
+      - AccountVendingOrganizationsAccountCreatorFunctionName
+      - AccountVendingOrganizationsAccountCreatorRoleName
+      - AccountVendingOrganizationsAccountWaiterFunctionName
+      - AccountVendingOrganizationsAccountWaiterRoleName
+    - Label:
+        default: AWS Control Tower Settings
+      Parameters:
+      - AccountVendingControlTowerRoleArn
+      - AccountVendingControlTowerAccountCreatorFunctionName
+      - AccountVendingControlTowerAccountCreatorRoleName
+      - AccountVendingControlTowerAccountWaiterFunctionName
+      - AccountVendingControlTowerAccountWaiterRoleName
+Parameters:
+  AccountVendingIAMRolesPath:
+    Type: String
+    Default: /foundational/account-vending/
+  AccountVendingAccountOrganizationsRoleArn:
+    Type: String
+    Description: Arn of an IAM Role that can create accounts using the AWS Orgs API
+    Default: arn:aws:iam::156551640785:role/servicecatalog-puppet/PuppetRole
+  AccountVendingControlTowerRoleArn:
+    Type: String
+    Description: Arn of an IAM Role that can create accounts using AWS Control Tower
+    Default: arn:aws:iam::182157867954:role/Admin
+  AccountVendingAccountCreationCustomResourceBackerFunctionName:
+    Type: String
+    Default: AccountCreationCustomResourceBacker
+  AccountCreationCustomResourceBackerRoleName:
+    Type: String
+    Default: AccountCreationCustomResourceBackerRole
+  AccountVendingAccountCreationSNSTopicArn:
+    Type: String
+    Description: Arn of the SNS Topic account creations are published to
+    Default: arn:aws:sns:eu-west-1:000000000000:dev-null
+  AccountVendingStateMachineName:
+    Type: String
+    Default: account-vending-state-machine
+  AccountVendingStateMachineRoleName:
+    Type: String
+    Description: Name of the IAM Role used by the State machine
+    Default: StateMachineRole
+  AccountVendingInputValidatorFunctionName:
+    Type: String
+    Default: InputValidator
+  AccountVendingInputValidatorRoleName:
+    Type: String
+    Default: InputValidatorRole
+  AccountVendingOrganizationsAccountCreatorFunctionName:
+    Type: String
+    Default: OrganizationsAccountCreator
+  AccountVendingOrganizationsAccountCreatorRoleName:
+    Type: String
+    Default: OrganizationsAccountCreatorRole
+  AccountVendingOrganizationsAccountWaiterFunctionName:
+    Type: String
+    Default: OrganizationsAccountWaiter
+  AccountVendingOrganizationsAccountWaiterRoleName:
+    Type: String
+    Default: OrganizationsAccountWaiterRole
+  AccountVendingControlTowerAccountCreatorFunctionName:
+    Type: String
+    Default: ControlTowerAccountCreator
+  AccountVendingControlTowerAccountCreatorRoleName:
+    Type: String
+    Default: ControlTowerAccountCreatorRole
+  AccountVendingControlTowerAccountWaiterFunctionName:
+    Type: String
+    Default: ControlTowerAccountWaiter
+  AccountVendingControlTowerAccountWaiterRoleName:
+    Type: String
+    Default: ControlTowerAccountWaiterRole
+  AccountVendingSubscriptionWaiterFunctionName:
+    Type: String
+    Default: SubscriptionWaiter
+  AccountVendingSubscriptionWaiterRoleName:
+    Type: String
+    Default: SubscriptionWaiterRole
+Resources:
+  InputValidatorFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName:
+        Ref: AccountVendingInputValidatorFunctionName
+      Code:
+        ZipFile: "import json\n\ndef handle(event, context):\n    required_values\
+          \ = [\"AccountCreationMethod\", \"ShouldWaitForAccountSubscriptionCreateComplete\"\
+          , \"ShouldBootstrapAccount\", \"ShouldRunSingleAccountPipeline\", \"ShouldNotifiyOnCompletion\"\
+          , ]\n\n    allowed_values = dict(\n        AccountCreationMethod=[\"AWSOrganizations\"\
+          , \"AWSControlTower\"],\n        ShouldWaitForAccountSubscriptionCreateComplete=[True,\
+          \ False],\n        ShouldBootstrapAccount=[True, False],\n        ShouldRunSingleAccountPipeline=[True,\
+          \ False],\n        ShouldNotifiyOnCompletion=[True, False],\n    )\n\n \
+          \   if event.get(\"AccountCreationMethod\") == \"AWSOrganizations\":\n \
+          \       required_values += [\"Email\", \"AccountName\", \"RoleName\", \"\
+          IamUserAccessToBilling\", \"TargetOrganizationalUnitId\", ]\n\n    if event.get(\"\
+          AccountCreationMethod\") == \"AWSControlTower\":\n        required_values\
+          \ += [\"AccountName\", \"AccountEmail\", \"SSOUserFirstName\", \"SSOUserLastName\"\
+          , \"SSOUserEmail\", \"ManagedOrganizationalUnit\", ]\n\n\n    for thing_to_check\
+          \ in required_values:\n        if event.get(thing_to_check) is None:\n \
+          \           raise Exception(f\"{thing_to_check} is a required field\")\n\
+          \n    for thing_to_check in [\"AccountCreationMethod\"]:\n        if event.get(thing_to_check)\
+          \ not in allowed_values.get(thing_to_check):\n            raise Exception(f\"\
+          {thing_to_check} must be in {allowed_values.get(thing_to_check)}\")\n\n\
+          \    return True\n"
+      Handler: index.handle
+      Architectures:
+      - arm64
+      MemorySize: 128
+      Runtime: python3.9
+      Role:
+        Fn::GetAtt:
+        - InputValidatortRole
+        - Arn
+      Timeout: 30
+  InputValidatortRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName:
+        Ref: AccountVendingInputValidatorRoleName
+      Path:
+        Ref: AccountVendingIAMRolesPath
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service: lambda.amazonaws.com
+          Action: sts:AssumeRole
+      ManagedPolicyArns:
+      - Fn::Sub: arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+  AccountCreatorFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName:
+        Ref: AccountVendingOrganizationsAccountCreatorFunctionName
+      Code:
+        ZipFile: "from boto3.session import Session\nimport os\nimport json\n\n\n\
+          def handle(event, context):\n    sts = Session().client('sts')\n    assumable_cross_account_role_arn\
+          \ = os.environ.get(\"ORGANIZATIONS_ROLE_ARN\")\n    assumed_role_object\
+          \ = sts.assume_role(\n            RoleArn=assumable_cross_account_role_arn,\n\
+          \            RoleSessionName=\"sts_session\",\n    )\n\n    credentials\
+          \ = assumed_role_object['Credentials']\n    kwargs = {\n            \"aws_access_key_id\"\
+          : credentials['AccessKeyId'],\n            \"aws_secret_access_key\": credentials['SecretAccessKey'],\n\
+          \            \"aws_session_token\": credentials['SessionToken'],\n    }\n\
+          \    client = Session().client(service_name=\"organizations\", **kwargs)\n\
+          \n\n    create_args = dict(\n        Email=event.get(\"Email\"),\n     \
+          \   AccountName=event.get(\"AccountName\"),\n        RoleName=event.get(\"\
+          RoleName\"),\n        IamUserAccessToBilling=event.get(\"IamUserAccessToBilling\"\
+          ),\n    )\n    create_account_request_id = client.create_account(**create_args)[\"\
+          CreateAccountStatus\"][\"Id\"]\n\n    return {\n        'create_account_request_id':\
+          \ create_account_request_id\n    }\n"
+      Handler: index.handle
+      Architectures:
+      - arm64
+      MemorySize: 128
+      Runtime: python3.9
+      Role:
+        Fn::GetAtt:
+        - AccountCreatorRole
+        - Arn
+      Timeout: 30
+      Environment:
+        Variables:
+          ORGANIZATIONS_ROLE_ARN:
+            Ref: AccountVendingAccountOrganizationsRoleArn
+  AccountCreatorRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName:
+        Ref: AccountVendingOrganizationsAccountCreatorRoleName
+      Path:
+        Ref: AccountVendingIAMRolesPath
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service: lambda.amazonaws.com
+          Action: sts:AssumeRole
+      ManagedPolicyArns:
+      - Fn::Sub: arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Policies:
+      - PolicyName: OrgRoleAssumption
+        PolicyDocument:
+          Statement:
+          - Effect: Allow
+            Action:
+            - sts:AssumeRole
+            Resource:
+              Ref: AccountVendingAccountOrganizationsRoleArn
+  AccountWaiterFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName:
+        Ref: AccountVendingOrganizationsAccountWaiterFunctionName
+      Code:
+        ZipFile: "import json\nimport logging\nimport os\nfrom boto3.session import\
+          \ Session\n\nlogger = logging.getLogger()\nlogger.setLevel(logging.INFO)\n\
+          \ndef handle(event, context):\n    sts = Session().client('sts')\n    assumable_cross_account_role_arn\
+          \ = os.environ.get(\"ORGANIZATIONS_ROLE_ARN\")\n    assumed_role_object\
+          \ = sts.assume_role(\n            RoleArn=assumable_cross_account_role_arn,\n\
+          \            RoleSessionName=\"sts_session\",\n    )\n\n    credentials\
+          \ = assumed_role_object['Credentials']\n    kwargs = {\n            \"aws_access_key_id\"\
+          : credentials['AccessKeyId'],\n            \"aws_secret_access_key\": credentials['SecretAccessKey'],\n\
+          \            \"aws_session_token\": credentials['SessionToken'],\n    }\n\
+          \    client = Session().client(service_name=\"organizations\", **kwargs)\n\
+          \n    create_account_request_id = event.get(\"CreateAccountUsingAWSOrganizationsOutput\"\
+          ).get(\"create_account_request_id\")\n\n    create_account_status = client.describe_create_account_status(CreateAccountRequestId=create_account_request_id).get(\"\
+          CreateAccountStatus\")\n\n    del create_account_status[\"RequestedTimestamp\"\
+          ]\n    del create_account_status[\"CompletedTimestamp\"]\n\n    if create_account_status.get(\"\
+          State\") == \"FAILED\" and create_account_status.get(\"FailureReason\")\
+          \ == \"EMAIL_ALREADY_EXISTS\":\n        if create_account_status.get(\"\
+          AccountName\") == event.get(\"AccountName\"):\n            logger.info(f\"\
+          account {event.get('AccountName')} was already created using the email {event.get('Email')}\"\
+          )\n            create_account_status[\"State\"] = \"SUCCEEDED\"\n      \
+          \      del create_account_status[\"FailureReason\"]\n            if create_account_status.get(\"\
+          AccountId\") is None:\n                logger.info(\"Having to get account\
+          \ id\")\n                paginator = client.get_paginator('list_accounts')\n\
+          \                for page in paginator.paginate():\n                   \
+          \ for account in page.get(\"Accounts\", []):\n                        if\
+          \ account.get(\"Name\") == event.get('AccountName'):\n                 \
+          \           create_account_status[\"AccountId\"] = account.get(\"Id\")\n\
+          \n\n    account_id = create_account_status['AccountId']\n    parents = client.list_parents(\n\
+          \        ChildId=account_id,\n    ).get(\"Parents\", [])\n    if len(parents)\
+          \ != 1:\n        raise Exception(f\"account: {account_id} does not have\
+          \ one parent\")\n\n    if parents[0].get(\"Id\") != event.get(\"TargetOrganizationalUnitId\"\
+          ):\n        client.move_account(\n            AccountId=account_id,\n  \
+          \          SourceParentId=parents[0].get(\"Id\"),\n            DestinationParentId=event.get(\"\
+          TargetOrganizationalUnitId\"),\n        )\n\n    create_account_status[\"\
+          assumable_role_in_spoke\"] = f\"arn:{os.environ.get('AWS_PARTITION')}:iam::{account_id}:role/{event.get('RoleName')}\"\
+          \n    create_account_status[\"assumable_role_in_hub\"] = os.environ.get(\"\
+          ORGANIZATIONS_ROLE_ARN\")\n    return create_account_status\n"
+      Handler: index.handle
+      Architectures:
+      - arm64
+      MemorySize: 128
+      Runtime: python3.9
+      Role:
+        Fn::GetAtt:
+        - AccountWaiterRole
+        - Arn
+      Timeout: 30
+      Environment:
+        Variables:
+          ORGANIZATIONS_ROLE_ARN:
+            Ref: AccountVendingAccountOrganizationsRoleArn
+          AWS_PARTITION:
+            Fn::Sub: ${AWS::Partition}
+  AccountWaiterRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName:
+        Ref: AccountVendingOrganizationsAccountWaiterRoleName
+      Path:
+        Ref: AccountVendingIAMRolesPath
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service: lambda.amazonaws.com
+          Action: sts:AssumeRole
+      ManagedPolicyArns:
+      - Fn::Sub: arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Policies:
+      - PolicyName: OrgRoleAssumption
+        PolicyDocument:
+          Statement:
+          - Effect: Allow
+            Action:
+            - sts:AssumeRole
+            Resource:
+              Ref: AccountVendingAccountOrganizationsRoleArn
+  ControlTowerAccountCreatorFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName:
+        Ref: AccountVendingControlTowerAccountCreatorFunctionName
+      Code:
+        ZipFile: "from boto3.session import Session\nimport os\nimport json\n\ndef\
+          \ handle(event, context):\n    sts = Session().client('sts')\n    assumable_cross_account_role_arn\
+          \ = os.environ.get(\"CONTROL_TOWER_ROLE_ARN\")\n    assumed_role_object\
+          \ = sts.assume_role(\n            RoleArn=assumable_cross_account_role_arn,\n\
+          \            RoleSessionName=\"sts_session\",\n    )\n\n    credentials\
+          \ = assumed_role_object['Credentials']\n    kwargs = {\n            \"aws_access_key_id\"\
+          : credentials['AccessKeyId'],\n            \"aws_secret_access_key\": credentials['SecretAccessKey'],\n\
+          \            \"aws_session_token\": credentials['SessionToken'],\n    }\n\
+          \    client = Session().client(service_name=\"servicecatalog\", region_name=\"\
+          eu-west-1\", **kwargs)\n\n    try:\n        pp_id = client.describe_provisioned_product(Name=event.get(\"\
+          AccountName\")).get(\"ProvisionedProductDetail\", {}).get(\"Id\")\n    \
+          \    if pp_id is not None:\n            return {\n                'create_account_request_id':\
+          \ pp_id\n            }\n    except client.exceptions.ResourceNotFoundException:\n\
+          \      pass\n\n    create_args = dict(\n        PathName=\"AWS Control Tower\
+          \ Account Factory Portfolio\",\n        ProductName=\"AWS Control Tower\
+          \ Account Factory\",\n        ProvisioningArtifactName=\"AWS Control Tower\
+          \ Account Factory\",\n\n        ProvisionedProductName=event.get(\"AccountName\"\
+          ),\n        ProvisioningParameters=[\n            {\n                'Key':\
+          \ 'AccountName',\n                'Value': event.get(\"AccountName\")\n\
+          \            },\n            {\n                'Key': 'AccountEmail',\n\
+          \                'Value': event.get(\"AccountEmail\")\n            },\n\
+          \            {\n                'Key': 'SSOUserFirstName',\n           \
+          \     'Value': event.get(\"SSOUserFirstName\")\n            },\n       \
+          \     {\n                'Key': 'SSOUserLastName',\n                'Value':\
+          \ event.get(\"SSOUserLastName\")\n            },\n            {\n      \
+          \          'Key': 'SSOUserEmail',\n                'Value': event.get(\"\
+          SSOUserEmail\")\n            },\n            {\n                'Key': 'ManagedOrganizationalUnit',\n\
+          \                'Value': event.get(\"ManagedOrganizationalUnit\")\n   \
+          \         },\n        ]\n    )\n    create_account_request_id = client.provision_product(**create_args).get(\"\
+          RecordDetail\").get(\"ProvisionedProductId\")\n\n    return {\n        'create_account_request_id':\
+          \ create_account_request_id\n    }\n"
+      Handler: index.handle
+      Architectures:
+      - arm64
+      MemorySize: 128
+      Runtime: python3.9
+      Role:
+        Fn::GetAtt:
+        - ControlTowerAccountCreatorRole
+        - Arn
+      Timeout: 30
+      Environment:
+        Variables:
+          CONTROL_TOWER_ROLE_ARN:
+            Ref: AccountVendingControlTowerRoleArn
+  ControlTowerAccountCreatorRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName:
+        Ref: AccountVendingControlTowerAccountCreatorRoleName
+      Path:
+        Ref: AccountVendingIAMRolesPath
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service: lambda.amazonaws.com
+          Action: sts:AssumeRole
+      ManagedPolicyArns:
+      - Fn::Sub: arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Policies:
+      - PolicyName: OrgRoleAssumption
+        PolicyDocument:
+          Statement:
+          - Effect: Allow
+            Action:
+            - sts:AssumeRole
+            Resource:
+              Ref: AccountVendingControlTowerRoleArn
+  ControlTowerAccountWaiterFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName:
+        Ref: AccountVendingControlTowerAccountWaiterFunctionName
+      Code:
+        ZipFile: "import json\nimport logging\nimport os\nfrom boto3.session import\
+          \ Session\n\nlogger = logging.getLogger()\nlogger.setLevel(logging.INFO)\n\
+          \ndef handle(event, context):\n    sts = Session().client('sts')\n    assumable_cross_account_role_arn\
+          \ = os.environ.get(\"CONTROL_TOWER_ROLE_ARN\")\n    assumed_role_object\
+          \ = sts.assume_role(\n            RoleArn=assumable_cross_account_role_arn,\n\
+          \            RoleSessionName=\"sts_session\",\n    )\n\n    credentials\
+          \ = assumed_role_object['Credentials']\n    kwargs = {\n            \"aws_access_key_id\"\
+          : credentials['AccessKeyId'],\n            \"aws_secret_access_key\": credentials['SecretAccessKey'],\n\
+          \            \"aws_session_token\": credentials['SessionToken'],\n    }\n\
+          \    client = Session().client(service_name=\"servicecatalog\", **kwargs)\n\
+          \n\n    create_account_request_id = event.get(\"CreateAccountUsingAWSOrganizationsOutput\"\
+          ).get(\"create_account_request_id\")\n\n    provisioned_product_detail =\
+          \ client.describe_provisioned_product(Id=create_account_request_id).get(\"\
+          ProvisionedProductDetail\")\n\n    account_id = \"unknown\"\n    if provisioned_product_detail.get(\"\
+          Status\") == \"AVAILABLE\":\n        account_id = client.get_provisioned_product_outputs(ProvisionedProductId=create_account_request_id,OutputKeys=[\"\
+          AccountId\"]).get(\"Outputs\")[0].get(\"OutputValue\")\n\n    response =\
+          \ dict(\n        account_id=account_id,\n        state=provisioned_product_detail.get(\"\
+          Status\"),\n        assumable_role_in_spoke=f\"arn:{os.environ.get('AWS_PARTITION')}:iam::{account_id}:role/AWSControlTowerExecution\"\
+          ,\n        assumable_role_in_hub=os.environ.get(\"CONTROL_TOWER_ROLE_ARN\"\
+          )\n    )\n    return response\n"
+      Handler: index.handle
+      Architectures:
+      - arm64
+      MemorySize: 128
+      Runtime: python3.9
+      Role:
+        Fn::GetAtt:
+        - ControlTowerAccountWaiterRole
+        - Arn
+      Timeout: 30
+      Environment:
+        Variables:
+          CONTROL_TOWER_ROLE_ARN:
+            Ref: AccountVendingControlTowerRoleArn
+          AWS_PARTITION:
+            Fn::Sub: ${AWS::Partition}
+  ControlTowerAccountWaiterRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName:
+        Ref: AccountVendingControlTowerAccountWaiterRoleName
+      Path:
+        Ref: AccountVendingIAMRolesPath
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service: lambda.amazonaws.com
+          Action: sts:AssumeRole
+      ManagedPolicyArns:
+      - Fn::Sub: arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Policies:
+      - PolicyName: OrgRoleAssumption
+        PolicyDocument:
+          Statement:
+          - Effect: Allow
+            Action:
+            - sts:AssumeRole
+            Resource:
+              Ref: AccountVendingControlTowerRoleArn
+  SubscriptionWaiterFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName:
+        Ref: AccountVendingSubscriptionWaiterFunctionName
+      Code:
+        ZipFile: "from boto3.session import Session\n\ndef handle(event, context):\n\
+          \    sts = Session().client('sts')\n    assumable_cross_account_role_arn\
+          \ = event.get(\"CheckAccountOutput\").get(\"assumable_role_in_hub\")\n \
+          \   assumed_role_object = sts.assume_role(\n            RoleArn=assumable_cross_account_role_arn,\n\
+          \            RoleSessionName=\"sts_session\",\n    )\n    credentials =\
+          \ assumed_role_object['Credentials']\n    kwargs = {\n            \"aws_access_key_id\"\
+          : credentials['AccessKeyId'],\n            \"aws_secret_access_key\": credentials['SecretAccessKey'],\n\
+          \            \"aws_session_token\": credentials['SessionToken'],\n    }\n\
+          \    assumable_cross_account_client = Session().client(service_name=\"sts\"\
+          , **kwargs)\n\n    spoke_role_arn = event.get(\"CheckAccountOutput\").get(\"\
+          assumable_role_in_spoke\")\n    assumed_role_object = assumable_cross_account_client.assume_role(\n\
+          \            RoleArn=spoke_role_arn,\n            RoleSessionName=\"spoke_role_sts\"\
+          ,\n    )\n    credentials = assumed_role_object['Credentials']\n    kwargs\
+          \ = {\n            \"aws_access_key_id\": credentials['AccessKeyId'],\n\
+          \            \"aws_secret_access_key\": credentials['SecretAccessKey'],\n\
+          \            \"aws_session_token\": credentials['SessionToken'],\n    }\n\
+          \n    codebuild = Session().client(service_name=\"codebuild\", **kwargs)\n\
+          \    codebuild.list_projects()\n\n    cloudformation = Session().client(service_name=\"\
+          cloudformation\", **kwargs)\n    cloudformation.list_stacks()\n\n    return\
+          \ {\n        \"state\": \"READY\",\n    }\n"
+      Handler: index.handle
+      Architectures:
+      - arm64
+      MemorySize: 128
+      Runtime: python3.9
+      Role:
+        Fn::GetAtt:
+        - SubscriptionWaiterRole
+        - Arn
+      Timeout: 90
+  SubscriptionWaiterRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName:
+        Ref: AccountVendingSubscriptionWaiterRoleName
+      Path:
+        Ref: AccountVendingIAMRolesPath
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service: lambda.amazonaws.com
+          Action: sts:AssumeRole
+      ManagedPolicyArns:
+      - Fn::Sub: arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Policies:
+      - PolicyName: OrgRoleAssumption
+        PolicyDocument:
+          Statement:
+          - Effect: Allow
+            Action:
+            - sts:AssumeRole
+            Resource:
+              Ref: AccountVendingAccountOrganizationsRoleArn
+      - PolicyName: ControlTowerRoleAssumption
+        PolicyDocument:
+          Statement:
+          - Effect: Allow
+            Action:
+            - sts:AssumeRole
+            Resource:
+              Ref: AccountVendingControlTowerRoleArn
+  StateMachine:
+    Type: AWS::StepFunctions::StateMachine
+    Properties:
+      AccountVendingStateMachineName:
+        Ref: AccountVendingStateMachineName
+      RoleArn:
+        Fn::GetAtt:
+        - StateMachineRole
+        - Arn
+      DefinitionSubstitutions:
+        AWS_PARTITION:
+          Fn::Sub: ${AWS::Partition}
+        INPUT_VALIDATOR_ARN:
+          Fn::GetAtt:
+          - InputValidatorFunction
+          - Arn
+        ACCOUNT_CREATOR_ARN:
+          Fn::GetAtt:
+          - AccountCreatorFunction
+          - Arn
+        ACCOUNT_WAITER_ARN:
+          Fn::GetAtt:
+          - AccountWaiterFunction
+          - Arn
+        CONTROL_TOWER_ACCOUNT_CREATOR_ARN:
+          Fn::GetAtt:
+          - ControlTowerAccountCreatorFunction
+          - Arn
+        CONTROL_TOWER_ACCOUNT_WAITER_ARN:
+          Fn::GetAtt:
+          - ControlTowerAccountWaiterFunction
+          - Arn
+        SUBSCRIPTION_WAITER_ARN:
+          Fn::GetAtt:
+          - SubscriptionWaiterFunction
+          - Arn
+        ACCOUNT_CREATION_SNS_TOPIC_ARN:
+          Ref: AccountVendingAccountCreationSNSTopicArn
+      DefinitionString: "{\n  \"Comment\": \"Account vending solution supporting both\
+        \ AWS Organizations and AWS Control Tower\",\n  \"StartAt\": \"ValidateInput\"\
+        ,\n  \"States\": {\n    \"ValidateInput\": {\n      \"Type\": \"Task\",\n\
+        \      \"Resource\": \"arn:${AWS_PARTITION}:states:::lambda:invoke\",\n  \
+        \    \"Parameters\": {\n        \"Payload.$\": \"$\",\n        \"FunctionName\"\
+        : \"${INPUT_VALIDATOR_ARN}\"\n      },\n      \"Retry\": [\n        {\n  \
+        \        \"ErrorEquals\": [\n              \"Lambda.ServiceException\",\n\
+        \              \"Lambda.AWSLambdaException\",\n              \"Lambda.SdkClientException\"\
+        \n          ],\n          \"IntervalSeconds\": 2,\n          \"MaxAttempts\"\
+        : 6,\n          \"BackoffRate\": 2\n        }\n      ],\n      \"Next\": \"\
+        IsUsingAWSControlTower\",\n      \"ResultPath\": null\n    },\n    \"IsUsingAWSControlTower\"\
+        : {\n      \"Type\": \"Choice\",\n      \"Choices\": [\n        {\n      \
+        \    \"Variable\": \"$.AccountCreationMethod\",\n          \"StringMatches\"\
+        : \"AWSControlTower\",\n          \"Next\": \"CreateAccountUsingAWSControlTower\"\
+        \n        }\n      ],\n      \"Default\": \"CreateAccountUsingAWSOrganizations\"\
+        \n    },\n    \"CreateAccountUsingAWSControlTower\": {\n      \"Type\": \"\
+        Task\",\n      \"Resource\": \"arn:${AWS_PARTITION}:states:::lambda:invoke\"\
+        ,\n      \"Parameters\": {\n        \"Payload.$\": \"$\",\n        \"FunctionName\"\
+        : \"${CONTROL_TOWER_ACCOUNT_CREATOR_ARN}\"\n      },\n      \"Retry\": [\n\
+        \        {\n          \"ErrorEquals\": [\n              \"Lambda.ServiceException\"\
+        ,\n              \"Lambda.AWSLambdaException\",\n              \"Lambda.SdkClientException\"\
+        \n          ],\n          \"IntervalSeconds\": 2,\n          \"MaxAttempts\"\
+        : 6,\n          \"BackoffRate\": 2\n        }\n      ],\n      \"Next\": \"\
+        WaitForAccountCreateCompleteUsingAWSControlTower\",\n      \"ResultSelector\"\
+        : {\n        \"create_account_request_id.$\": \"$.Payload.create_account_request_id\"\
+        \n      },\n      \"ResultPath\": \"$.CreateAccountUsingAWSOrganizationsOutput\"\
+        \n    },\n    \"WaitForAccountCreateCompleteUsingAWSControlTower\": {\n  \
+        \    \"Type\": \"Wait\",\n      \"Seconds\": 5,\n      \"Next\": \"CheckAccountCreateCompleteUsingAWSControlTower\"\
+        \n    },\n    \"CheckAccountCreateCompleteUsingAWSControlTower\": {\n    \
+        \  \"Type\": \"Task\",\n      \"Resource\": \"arn:${AWS_PARTITION}:states:::lambda:invoke\"\
+        ,\n      \"Parameters\": {\n        \"Payload.$\": \"$\",\n        \"FunctionName\"\
+        : \"${CONTROL_TOWER_ACCOUNT_WAITER_ARN}\"\n      },\n      \"Retry\": [\n\
+        \        {\n          \"ErrorEquals\": [\n              \"Lambda.ServiceException\"\
+        ,\n              \"Lambda.AWSLambdaException\",\n              \"Lambda.SdkClientException\"\
+        \n          ],\n          \"IntervalSeconds\": 2,\n          \"MaxAttempts\"\
+        : 6,\n          \"BackoffRate\": 2\n        }\n      ],\n      \"Next\": \"\
+        IsAccountCreateCompleteUsingAWSControlTower\",\n      \"ResultSelector\":\
+        \ {\n        \"account_id.$\": \"$.Payload.account_id\",\n        \"state.$\"\
+        : \"$.Payload.state\",\n        \"assumable_role_in_spoke.$\": \"$.Payload.assumable_role_in_spoke\"\
+        ,\n        \"assumable_role_in_hub.$\": \"$.Payload.assumable_role_in_hub\"\
+        \n      },\n      \"ResultPath\": \"$.CheckAccountOutput\"\n    },\n    \"\
+        IsAccountCreateCompleteUsingAWSControlTower\": {\n      \"Type\": \"Choice\"\
+        ,\n      \"Choices\": [\n        {\n          \"Variable\": \"$.CheckAccountOutput.state\"\
+        ,\n          \"StringEquals\": \"AVAILABLE\",\n          \"Next\": \"ShouldWaitForAccountSubscriptionCreateComplete\"\
+        \n        }\n      ],\n      \"Default\": \"WaitForAccountCreateCompleteUsingAWSControlTower\"\
+        \n    },\n    \"CreateAccountUsingAWSOrganizations\": {\n      \"Type\": \"\
+        Task\",\n      \"Resource\": \"arn:${AWS_PARTITION}:states:::lambda:invoke\"\
+        ,\n      \"Parameters\": {\n        \"Payload.$\": \"$\",\n        \"FunctionName\"\
+        : \"${ACCOUNT_CREATOR_ARN}\"\n      },\n      \"Retry\": [\n        {\n  \
+        \        \"ErrorEquals\": [\n              \"Lambda.ServiceException\",\n\
+        \              \"Lambda.AWSLambdaException\",\n              \"Lambda.SdkClientException\"\
+        \n          ],\n          \"IntervalSeconds\": 2,\n          \"MaxAttempts\"\
+        : 6,\n          \"BackoffRate\": 2\n        }\n      ],\n      \"Next\": \"\
+        WaitForAccountCreateCompleteUsingAWSOrganizations\",\n      \"ResultPath\"\
+        : \"$.CreateAccountUsingAWSOrganizationsOutput\",\n      \"ResultSelector\"\
+        : {\n        \"create_account_request_id.$\": \"$.Payload.create_account_request_id\"\
+        \n      }\n    },\n    \"WaitForAccountCreateCompleteUsingAWSOrganizations\"\
+        : {\n      \"Type\": \"Wait\",\n      \"Seconds\": 5,\n      \"Next\": \"\
+        CheckAccountCreateCompleteUsingAWSOrganizations\"\n    },\n    \"CheckAccountCreateCompleteUsingAWSOrganizations\"\
+        : {\n      \"Type\": \"Task\",\n      \"Resource\": \"arn:${AWS_PARTITION}:states:::lambda:invoke\"\
+        ,\n      \"Parameters\": {\n        \"Payload.$\": \"$\",\n        \"FunctionName\"\
+        : \"${ACCOUNT_WAITER_ARN}\"\n      },\n      \"Retry\": [\n        {\n   \
+        \       \"ErrorEquals\": [\n              \"Lambda.ServiceException\",\n \
+        \             \"Lambda.AWSLambdaException\",\n              \"Lambda.SdkClientException\"\
+        \n          ],\n          \"IntervalSeconds\": 2,\n          \"MaxAttempts\"\
+        : 6,\n          \"BackoffRate\": 2\n        }\n      ],\n      \"Next\": \"\
+        IsAccountCreateCompleteUsingAWSOrganizationsComplete\",\n      \"ResultPath\"\
+        : \"$.CheckAccountOutput\",\n      \"ResultSelector\": {\n        \"account_id.$\"\
+        : \"$.Payload.AccountId\",\n        \"state.$\": \"$.Payload.State\",\n  \
+        \      \"assumable_role_in_spoke.$\": \"$.Payload.assumable_role_in_spoke\"\
+        ,\n        \"assumable_role_in_hub.$\": \"$.Payload.assumable_role_in_hub\"\
+        \n      }\n    },\n    \"IsAccountCreateCompleteUsingAWSOrganizationsComplete\"\
+        : {\n      \"Type\": \"Choice\",\n      \"Choices\": [\n        {\n      \
+        \    \"Variable\": \"$.CheckAccountOutput.state\",\n          \"StringEquals\"\
+        : \"SUCCEEDED\",\n          \"Next\": \"ShouldWaitForAccountSubscriptionCreateComplete\"\
+        \n        }\n      ],\n      \"Default\": \"WaitForAccountCreateCompleteUsingAWSOrganizations\"\
+        \n    },\n    \"ShouldWaitForAccountSubscriptionCreateComplete\": {\n    \
+        \  \"Type\": \"Choice\",\n      \"Choices\": [\n        {\n          \"Variable\"\
+        : \"$.ShouldWaitForAccountSubscriptionCreateComplete\",\n          \"BooleanEquals\"\
+        : true,\n          \"Next\": \"WaitForAccountSubscriptionCreateComplete\"\n\
+        \        }\n      ],\n      \"Default\": \"ShouldBootstrap\"\n    },\n   \
+        \ \"WaitForAccountSubscriptionCreateComplete\": {\n      \"Type\": \"Wait\"\
+        ,\n      \"Seconds\": 5,\n      \"Next\": \"CheckWaitForAccountSubscription\"\
+        \n    },\n    \"CheckWaitForAccountSubscription\": {\n      \"Type\": \"Task\"\
+        ,\n      \"Resource\": \"arn:${AWS_PARTITION}:states:::lambda:invoke\",\n\
+        \      \"Parameters\": {\n        \"Payload.$\": \"$\",\n        \"FunctionName\"\
+        : \"${SUBSCRIPTION_WAITER_ARN}\"\n      },\n      \"Retry\": [\n        {\n\
+        \          \"ErrorEquals\": [\n              \"Lambda.ServiceException\",\n\
+        \              \"Lambda.AWSLambdaException\",\n              \"Lambda.SdkClientException\"\
+        \n          ],\n          \"IntervalSeconds\": 2,\n          \"MaxAttempts\"\
+        : 6,\n          \"BackoffRate\": 2,\n          \"Comment\": \"L\"\n      \
+        \  },\n        {\n          \"ErrorEquals\": [\n              \"States.TaskFailed\"\
+        \n          ],\n          \"BackoffRate\": 2,\n          \"IntervalSeconds\"\
+        : 4,\n          \"MaxAttempts\": 15,\n          \"Comment\": \"InvalidInputException\"\
+        \n        }\n      ],\n      \"Next\": \"IsWaitForAccountSubscriptionComplete\"\
+        ,\n      \"ResultPath\": \"$.CheckWaitForAccountSubscriptionOutput\",\n  \
+        \    \"ResultSelector\": {\n        \"state.$\": \"$.Payload.state\"\n   \
+        \   },\n      \"TimeoutSeconds\": 90\n    },\n    \"IsWaitForAccountSubscriptionComplete\"\
+        : {\n      \"Type\": \"Choice\",\n      \"Choices\": [\n        {\n      \
+        \    \"Variable\": \"$.CheckWaitForAccountSubscriptionOutput.state\",\n  \
+        \        \"StringEquals\": \"READY\",\n          \"Next\": \"ShouldBootstrap\"\
+        \n        }\n      ],\n      \"Default\": \"WaitForAccountSubscriptionCreateComplete\"\
+        \n    },\n    \"ShouldBootstrap\": {\n      \"Type\": \"Choice\",\n      \"\
+        Choices\": [\n        {\n          \"Variable\": \"$.ShouldBootstrapAccount\"\
+        ,\n          \"BooleanEquals\": true,\n          \"Next\": \"BootstrapSpoke\"\
+        \n        }\n      ],\n      \"Default\": \"BootstrapCompleted\"\n    },\n\
+        \    \"BootstrapSpoke\": {\n      \"Type\": \"Task\",\n      \"Resource\"\
+        : \"arn:${AWS_PARTITION}:states:::codebuild:startBuild.sync\",\n      \"Parameters\"\
+        : {\n        \"ProjectName\": \"servicecatalog-puppet-bootstrap-spoke\",\n\
+        \        \"EnvironmentVariablesOverride\": [\n          {\n            \"\
+        Name\": \"ASSUMABLE_ROLE_IN_ROOT_ACCOUNT\",\n            \"Value.$\": \"$.CheckAccountOutput.assumable_role_in_hub\"\
+        \n          },\n          {\n            \"Name\": \"ORGANIZATION_ACCOUNT_ACCESS_ROLE_ARN\"\
+        ,\n            \"Value.$\": \"$.CheckAccountOutput.assumable_role_in_spoke\"\
+        \n          },\n          {\n            \"Name\": \"OPTIONS\",\n        \
+        \    \"Value\": \"\"\n          }\n        ]\n      },\n      \"Next\": \"\
+        BootstrapCompleted\",\n      \"ResultSelector\": {\n        \"status.$\":\
+        \ \"$.Build.BuildStatus\",\n        \"id.$\": \"$.Build.Id\"\n      },\n \
+        \     \"ResultPath\": \"$.BootstrapSpokeOutput\"\n    },\n    \"BootstrapCompleted\"\
+        : {\n      \"Type\": \"Pass\",\n      \"Next\": \"ShouldRunPipeline\"\n  \
+        \  },\n    \"ShouldRunPipeline\": {\n      \"Type\": \"Choice\",\n      \"\
+        Choices\": [\n        {\n          \"Variable\": \"$.ShouldRunSingleAccountPipeline\"\
+        ,\n          \"BooleanEquals\": true,\n          \"Next\": \"SingleAccountRun\"\
+        \n        }\n      ],\n      \"Default\": \"PipelineCompleted\"\n    },\n\
+        \    \"SingleAccountRun\": {\n      \"Type\": \"Task\",\n      \"Resource\"\
+        : \"arn:${AWS_PARTITION}:states:::codebuild:startBuild.sync\",\n      \"Parameters\"\
+        : {\n        \"ProjectName\": \"servicecatalog-puppet-single-account-run\"\
+        ,\n        \"EnvironmentVariablesOverride\": [\n          {\n            \"\
+        Name\": \"SINGLE_ACCOUNT_ID\",\n            \"Value.$\": \"$.CheckAccountOutput.account_id\"\
+        \n          }\n        ]\n      },\n      \"Next\": \"PipelineCompleted\"\
+        ,\n      \"ResultPath\": \"$.SingleAccountRunOutput\",\n      \"ResultSelector\"\
+        : {\n        \"status.$\": \"$.Build.BuildStatus\",\n        \"id.$\": \"\
+        $.Build.Id\"\n      }\n    },\n    \"PipelineCompleted\": {\n      \"Type\"\
+        : \"Pass\",\n      \"Next\": \"ShouldNotifyOnCompletion\"\n    },\n    \"\
+        ShouldNotifyOnCompletion\": {\n      \"Type\": \"Choice\",\n      \"Choices\"\
+        : [\n        {\n          \"Variable\": \"$.ShouldNotifiyOnCompletion\",\n\
+        \          \"BooleanEquals\": true,\n          \"Next\": \"NotifyOnCompletion\"\
+        \n        }\n      ],\n      \"Default\": \"Completion\"\n    },\n    \"NotifyOnCompletion\"\
+        : {\n      \"Type\": \"Task\",\n      \"Resource\": \"arn:${AWS_PARTITION}:states:::sns:publish\"\
+        ,\n      \"Parameters\": {\n        \"Message.$\": \"$\",\n        \"TopicArn\"\
+        : \"${ACCOUNT_CREATION_SNS_TOPIC_ARN}\"\n      },\n      \"Next\": \"Completion\"\
+        ,\n      \"ResultPath\": null\n    },\n    \"Completion\": {\n      \"Type\"\
+        : \"Pass\",\n      \"End\": true,\n      \"ResultPath\": null\n    }\n  }\n\
+        }\n"
+  StateMachineRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName:
+        Ref: AccountVendingStateMachineRoleName
+      Path:
+        Ref: AccountVendingIAMRolesPath
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service:
+            - Fn::Sub: states.${AWS::Region}.amazonaws.com
+          Action: sts:AssumeRole
+      Policies:
+      - PolicyName: StatesExecutionPolicy
+        PolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+          - Effect: Allow
+            Action:
+            - lambda:InvokeFunction
+            Resource:
+            - Fn::GetAtt:
+              - InputValidatorFunction
+              - Arn
+            - Fn::Sub: ${InputValidatorFunction.Arn}:*
+            - Fn::GetAtt:
+              - AccountCreatorFunction
+              - Arn
+            - Fn::Sub: ${AccountCreatorFunction.Arn}:*
+            - Fn::GetAtt:
+              - AccountWaiterFunction
+              - Arn
+            - Fn::Sub: ${AccountWaiterFunction.Arn}:*
+            - Fn::GetAtt:
+              - ControlTowerAccountCreatorFunction
+              - Arn
+            - Fn::Sub: ${ControlTowerAccountCreatorFunction.Arn}:*
+            - Fn::GetAtt:
+              - ControlTowerAccountWaiterFunction
+              - Arn
+            - Fn::Sub: ${ControlTowerAccountWaiterFunction.Arn}:*
+            - Fn::GetAtt:
+              - SubscriptionWaiterFunction
+              - Arn
+            - Fn::Sub: ${SubscriptionWaiterFunction.Arn}:*
+          - Effect: Allow
+            Action:
+            - codebuild:StartBuild
+            - codebuild:StopBuild
+            - codebuild:BatchGetBuilds
+            Resource:
+            - Fn::Sub: arn:${AWS::Partition}:codebuild:${AWS::Region}:${AWS::AccountId}:project/servicecatalog-puppet-bootstrap-spoke
+            - Fn::Sub: arn:${AWS::Partition}:codebuild:${AWS::Region}:${AWS::AccountId}:project/servicecatalog-puppet-single-account-run
+          - Effect: Allow
+            Action:
+            - sns:Publish
+            Resource:
+            - Ref: AccountVendingAccountCreationSNSTopicArn
+      - PolicyName: ParentStepFunctionExecutionPolicy
+        PolicyDocument:
+          Version: 2012-10-17
+          Statement:
+          - Effect: Allow
+            Action:
+            - states:DescribeExecution
+            - states:StopExecution
+            Resource: '*'
+          - Effect: Allow
+            Action:
+            - events:PutTargets
+            - events:PutRule
+            - events:DescribeRule
+            Resource:
+              Fn::Sub: arn:${AWS::Partition}:events:${AWS::Region}:${AWS::AccountId}:rule/StepFunctionsGetEventForCodeBuildStartBuildRule
+  AccountCreationCustomResourceBackerRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName:
+        Ref: AccountCreationCustomResourceBackerRoleName
+      Path:
+        Ref: AccountVendingIAMRolesPath
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service: lambda.amazonaws.com
+          Action: sts:AssumeRole
+      ManagedPolicyArns:
+      - Fn::Sub: arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Policies:
+      - PolicyName: startmachine
+        PolicyDocument:
+          Statement:
+          - Effect: Allow
+            Action:
+            - states:StartExecution
+            Resource:
+              Fn::GetAtt:
+              - StateMachine
+              - Arn
+          - Effect: Allow
+            Action:
+            - states:DescribeExecution
+            Resource:
+              Fn::Sub: arn:${AWS::Partition}:states:${AWS::Region}:${AWS::AccountId}:execution:${AccountVendingStateMachineName}:*
+      - PolicyName: crhelper
+        PolicyDocument:
+          Statement:
+          - Effect: Allow
+            Action:
+            - lambda:AddPermission
+            - lambda:RemovePermission
+            Resource:
+            - Fn::Sub: arn:${AWS::Partition}:lambda:${AWS::Region}:${AWS::AccountId}:function:${AccountVendingAccountCreationCustomResourceBackerFunctionName}
+            - Fn::Sub: arn:${AWS::Partition}:lambda:${AWS::Region}:${AWS::AccountId}:function:${AccountVendingAccountCreationCustomResourceBackerFunctionName}:*
+          - Effect: Allow
+            Action:
+            - events:PutRule
+            - events:DeleteRule
+            - events:PutTargets
+            - events:RemoveTargets
+            Resource: '*'
+  AccountCreationCustomResourceBacker:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName:
+        Ref: AccountVendingAccountCreationCustomResourceBackerFunctionName
+      CodeUri: s3://cf-templates-1utgixp974xmy-eu-west-1/9515ffaf41f3b732d3b6b95f9f7f005b
+      Handler: handler.handle
+      Environment:
+        Variables:
+          STATE_MACHINE_ARN:
+            Fn::GetAtt:
+            - StateMachine
+            - Arn
+      Architectures:
+      - arm64
+      MemorySize: 128
+      Runtime: python3.9
+      Role:
+        Fn::GetAtt:
+        - AccountCreationCustomResourceBackerRole
+        - Arn
+      Timeout: 30
+Outputs:
+  AccountVendingAccountCreationCustomResourceBackerArn:
+    Value:
+      Fn::GetAtt:
+      - AccountCreationCustomResourceBacker
+      - Arn

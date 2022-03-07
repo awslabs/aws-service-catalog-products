@@ -27,7 +27,7 @@ Products:
           Path: portfolios/account-vending-with-aws-control-tower/v1
           Configuration:
             RepositoryName: account-vending
-            BranchName: v1
+            BranchName: main
     Portfolios:
       - account-vending
 
@@ -50,6 +50,6 @@ Products:
           Path: portfolios/account-vending-with-aws-control-tower/v1
           Configuration:
             RepositoryName: account-vending
-            BranchName: v1
+            BranchName: main
     Portfolios:
       - account-vending

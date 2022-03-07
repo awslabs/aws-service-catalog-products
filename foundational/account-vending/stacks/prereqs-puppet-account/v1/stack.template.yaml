@@ -636,7 +636,7 @@ Resources:
   StateMachine:
     Type: AWS::StepFunctions::StateMachine
     Properties:
-      AccountVendingStateMachineName: !Ref AccountVendingStateMachineName
+      StateMachineName: !Ref AccountVendingStateMachineName
       RoleArn: !GetAtt StateMachineRole.Arn
       DefinitionSubstitutions:
         AWS_PARTITION: !Sub "${AWS::Partition}"

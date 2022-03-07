@@ -14,7 +14,7 @@ Stacks:
         Active: True
         Source:
           Provider: CodeCommit
-          Path: stacks/account-vending-prereqs-controltower-account/v1
+          Path: stacks/prereqs-controltower-account/v1
           Configuration:
             RepositoryName: account-vending
             BranchName: main
@@ -30,7 +30,7 @@ Stacks:
         Active: True
         Source:
           Provider: CodeCommit
-          Path: stacks/account-vending-prereqs-orgs-account/v1
+          Path: stacks/prereqs-orgs-account/v1
           Configuration:
             RepositoryName: account-vending
             BranchName: main
@@ -46,7 +46,7 @@ Stacks:
         Active: True
         Source:
           Provider: CodeCommit
-          Path: stacks/account-vending-prereqs-puppet-account/v1
+          Path: stacks/prereqs-puppet-account/v1
           Configuration:
             RepositoryName: account-vending
             BranchName: main
@@ -66,3 +66,19 @@ Stacks:
             files:
               - '*'
               - '**/*'
+
+  - Name: account-vending-prereqs-puppet-account-optional
+    Tags:
+      - Key: category
+        Value: foundational
+      - Key: product-type
+        Value: governance
+    Versions:
+      - Name: v1
+        Active: True
+        Source:
+          Provider: CodeCommit
+          Path: stacks/prereqs-puppet-account-optional/v1
+          Configuration:
+            RepositoryName: account-vending
+            BranchName: main
