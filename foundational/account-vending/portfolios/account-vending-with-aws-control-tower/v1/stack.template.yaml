@@ -1,0 +1,94 @@
+# Copyright 2022 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+Transform: AWS::Serverless-2016-10-31
+AWSTemplateFormatVersion: "2010-09-09"
+Description: |
+  {"framework": "servicecatalog-products", "role": "product", "product-set": "account-vending", "product": "account-vending-with-aws-control-tower", "version": "v1"}
+
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+      - Label:
+          default: "Account Details"
+        Parameters:
+          - AccountName
+          - AccountEmail
+          - SSOUserFirstName
+          - SSOUserLastName
+          - SSOUserEmail
+          - ManagedOrganizationalUnit
+
+      - Label:
+          default: "Settings"
+        Parameters:
+          - ShouldWaitForAccountSubscriptionCreateComplete
+          - ShouldBootstrapAccount
+          - ShouldRunSingleAccountPipeline
+          - ShouldNotifiyOnCompletion
+          - AccountVendingAccountCreationCustomResourceBackerArn
+
+Parameters:
+  AccountName:
+    Type: String
+  AccountEmail:
+    Type: String
+  SSOUserFirstName:
+    Type: String
+  SSOUserLastName:
+    Type: String
+  SSOUserEmail:
+    Type: String
+  ManagedOrganizationalUnit:
+    Type: String
+
+  ShouldWaitForAccountSubscriptionCreateComplete:
+    Type: String
+    Default: 'true'
+    AllowedValues:
+      - 'true'
+      - 'false'
+  ShouldBootstrapAccount:
+    Type: String
+    Default: 'true'
+    AllowedValues:
+      - 'true'
+      - 'false'
+  ShouldRunSingleAccountPipeline:
+    Type: String
+    Default: 'true'
+    AllowedValues:
+      - 'true'
+      - 'false'
+  ShouldNotifiyOnCompletion:
+    Type: String
+    Default: 'true'
+    AllowedValues:
+      - 'true'
+      - 'false'
+
+  AccountVendingAccountCreationCustomResourceBackerArn:
+    Type: String
+
+
+Resources:
+  Account:
+    Type: Custom::Account
+    Properties:
+      ServiceToken: !Ref AccountVendingAccountCreationCustomResourceBackerArn
+
+      AccountName: !Ref AccountName
+      AccountEmail: !Ref AccountEmail
+      SSOUserFirstName: !Ref SSOUserFirstName
+      SSOUserLastName: !Ref SSOUserLastName
+      SSOUserEmail: !Ref SSOUserEmail
+      ManagedOrganizationalUnit: !Ref ManagedOrganizationalUnit
+
+      ShouldWaitForAccountSubscriptionCreateComplete: !Ref ShouldWaitForAccountSubscriptionCreateComplete
+      ShouldBootstrapAccount: !Ref ShouldBootstrapAccount
+      ShouldRunSingleAccountPipeline: !Ref ShouldRunSingleAccountPipeline
+      ShouldNotifiyOnCompletion: !Ref ShouldNotifiyOnCompletion
+      AccountCreationMethod: "AWSControlTower"
+
+Outputs:
+  AccountId:
+    Value: !Ref Account

@@ -1,0 +1,90 @@
+# Copyright 2022 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+AWSTemplateFormatVersion: "2010-09-09"
+Description: |
+  {"framework": "servicecatalog-products", "role": "product", "product-set": "account-vending", "product": "account-vending-with-aws-organizations", "version": "v1"}
+
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+      - Label:
+          default: "Account Details"
+        Parameters:
+          - Email
+          - AccountName
+          - RoleName
+          - IamUserAccessToBilling
+          - TargetOrganizationalUnitId
+
+      - Label:
+          default: "Settings"
+        Parameters:
+          - ShouldWaitForAccountSubscriptionCreateComplete
+          - ShouldBootstrapAccount
+          - ShouldRunSingleAccountPipeline
+          - ShouldNotifiyOnCompletion
+          - AccountCreationCustomResourceBackerArn
+
+Parameters:
+  Email:
+    Type: String
+  AccountName:
+    Type: String
+  RoleName:
+    Type: String
+  IamUserAccessToBilling:
+    Type: String
+    AllowedValues:
+      - 'ALLOW'
+      - 'DENY'
+  TargetOrganizationalUnitId:
+    Type: String
+
+  ShouldWaitForAccountSubscriptionCreateComplete:
+    Type: String
+    Default: 'true'
+    AllowedValues:
+      - 'true'
+      - 'false'
+  ShouldBootstrapAccount:
+    Type: String
+    Default: 'true'
+    AllowedValues:
+      - 'true'
+      - 'false'
+  ShouldRunSingleAccountPipeline:
+    Type: String
+    Default: 'true'
+    AllowedValues:
+      - 'true'
+      - 'false'
+  ShouldNotifiyOnCompletion:
+    Type: String
+    Default: 'true'
+    AllowedValues:
+      - 'true'
+      - 'false'
+
+  AccountCreationCustomResourceBackerArn:
+    Type: String
+
+
+Resources:
+  Account:
+    Type: Custom::Account
+    Properties:
+      ServiceToken: !Ref AccountCreationCustomResourceBackerArn
+      Email: !Ref Email
+      AccountName: !Ref AccountName
+      RoleName: !Ref RoleName
+      IamUserAccessToBilling: !Ref IamUserAccessToBilling
+      TargetOrganizationalUnitId: !Ref TargetOrganizationalUnitId
+      ShouldWaitForAccountSubscriptionCreateComplete: !Ref ShouldWaitForAccountSubscriptionCreateComplete
+      ShouldBootstrapAccount: !Ref ShouldBootstrapAccount
+      ShouldRunSingleAccountPipeline: !Ref ShouldRunSingleAccountPipeline
+      ShouldNotifiyOnCompletion: !Ref ShouldNotifiyOnCompletion
+      AccountCreationMethod: "AWSOrganizations"
+
+Outputs:
+  AccountId:
+    Value: !Ref Account

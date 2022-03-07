@@ -1,0 +1,55 @@
+# Copyright 2022 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+Schema: factory-2019-04-01
+Portfolios:
+- DisplayName: account-vending
+  Description: account creation products
+  ProviderName: central-it-team
+
+Products:
+  - Name: account-vending-account-with-aws-control-tower
+    Owner: central-it@customer.com
+    Description: Create an account using AWS Control Tower
+    Distributor: central-it-team
+    SupportDescription: Contact us on Chime for help
+    SupportEmail: central-it-team@example.com
+    SupportUrl: https://wiki.customer.com/central-it-team/self-service/account-iam
+    Tags:
+      - Key: product-set
+        Value: account-vending
+    Versions:
+      - Name: v1
+        Description: Create an account using AWS Control Tower
+        Active: True
+        Source:
+          Provider: CodeCommit
+          Path: portfolios/account-vending-with-aws-control-tower/v1
+          Configuration:
+            RepositoryName: account-vending
+            BranchName: main
+    Portfolios:
+      - account-vending
+
+  - Name: account-vending-account-with-aws-organizations
+    Owner: central-it@customer.com
+    Description: Create an account using AWS Control Tower
+    Distributor: central-it-team
+    SupportDescription: Contact us on Chime for help
+    SupportEmail: central-it-team@example.com
+    SupportUrl: https://wiki.customer.com/central-it-team/self-service/account-iam
+    Tags:
+      - Key: product-set
+        Value: account-vending
+    Versions:
+      - Name: v1
+        Description: Create an account using AWS Control Tower
+        Active: True
+        Source:
+          Provider: CodeCommit
+          Path: portfolios/account-vending-with-aws-control-tower/v1
+          Configuration:
+            RepositoryName: account-vending
+            BranchName: main
+    Portfolios:
+      - account-vending

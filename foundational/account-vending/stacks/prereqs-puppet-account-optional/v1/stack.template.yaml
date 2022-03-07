@@ -1,0 +1,21 @@
+# Copyright 2022 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+AWSTemplateFormatVersion: "2010-09-09"
+Description: |
+  {"framework": "servicecatalog-products", "role": "product", "product-set": "account-vending", "product": "prereqs-puppet-account-optional", "version": "v1"}
+
+Parameters:
+  AccountVendingAccountNotificationCreatedTopicName:
+    Type: String
+    Default: AccountVendingAccountNotificationCreatedTopic
+
+Resources:
+  AccountNotificationCreatedTopicArn:
+    Type: AWS::SNS::Topic
+    Properties:
+      TopicName: !Ref AccountVendingAccountNotificationCreatedTopicName
+
+Outputs:
+  AccountVendingAccountNotificationCreatedTopicArn:
+    Description: The Arn of the topic created
+    Value: !Ref AccountNotificationCreatedTopicArn

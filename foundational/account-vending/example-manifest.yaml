@@ -1,0 +1,129 @@
+# Copyright 2022 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+parameters:
+  AccountVendingIAMRolesPath:
+      default: /foundational/account-vending/
+stacks:
+  account-vending-prereqs-controltower-account:
+    name: account-vending-prereqs-controltower-account
+    version: v1
+    execution: hub
+    capabilities:
+      - CAPABILITY_NAMED_IAM
+    parameters:
+      AccountVendingControlTowerRoleName:
+        default: AccountVendingOrgsRole
+    deploy_to:
+      tags:
+        - tag: 'role:controltower_management'
+          regions: default_region
+    outputs:
+      ssm:
+        - param_name: "/foundational/account-vending/AccountVendingAccountVendingControlTowerRoleArn"
+          stack_output: AccountVendingAccountVendingControlTowerRoleArn
+
+  account-vending-prereqs-orgs-account:
+    name: account-vending-prereqs-controltower-account
+    version: v1
+    execution: hub
+    capabilities:
+      - CAPABILITY_NAMED_IAM
+    parameters:
+      AccountVendingOrgsRoleName:
+        default: AccountVendingOrgsRoleName
+    deploy_to:
+      tags:
+        - tag: 'role:orgs_management'
+          regions: default_region
+    outputs:
+      ssm:
+        - param_name: "/foundational/account-vending/AccountVendingOrgsRoleArn"
+          stack_output: AccountVendingOrgsRoleArn
+
+  account-vending-prereqs-puppet-account-optional:
+    name: account-vending-prereqs-puppet-account-optional
+    version: v1
+    execution: hub
+    parameters:
+      AccountVendingAccountNotificationCreatedTopicName:
+        default: AccountVendingAccountNotificationCreatedTopic
+    deploy_to:
+      tags:
+        - tag: 'role:sct'
+          regions: default_region
+    outputs:
+      ssm:
+        - param_name: "/foundational/account-vending/AccountVendingAccountNotificationCreatedTopicArn"
+          stack_output: AccountVendingAccountNotificationCreatedTopicArn
+
+  account-vending-prereqs-puppet-account:
+    name: account-vending-prereqs-puppet-account
+    version: v1
+    execution: hub
+    capabilities:
+      - CAPABILITY_NAMED_IAM
+      - CAPABILITY_AUTO_EXPAND
+    depends_on:
+      - name: account-vending-prereqs-controltower-account
+        affinity: stack
+        type: stack
+      - name: account-vending-prereqs-orgs-account
+        affinity: stack
+        type: stack
+      - name: account-vending-prereqs-puppet-account-optional
+        affinity: stack
+        type: stack
+    parameters:
+      AccountVendingIAMRolesPath:
+        default: /foundational/account-vending/
+      AccountVendingAccountOrganizationsRoleArn:
+        ssm:
+          name: "/foundational/account-vending/AccountVendingAccountNotificationCreatedTopicArn"
+      AccountVendingControlTowerRoleArn:
+        ssm:
+          name: "/foundational/account-vending/AccountVendingAccountVendingControlTowerRoleArn"
+      AccountVendingAccountCreationCustomResourceBackerFunctionName:
+        default: AccountCreationCustomResourceBacker
+      AccountCreationCustomResourceBackerRoleName:
+        default: AccountCreationCustomResourceBackerRole
+      AccountVendingAccountCreationSNSTopicArn:
+        ssm:
+          name: "/foundational/account-vending/AccountVendingAccountNotificationCreatedTopicArn"
+      AccountVendingStateMachineName:
+        default: account-vending-state-machine
+      AccountVendingStateMachineRoleName:
+        default: StateMachineRole
+      AccountVendingInputValidatorFunctionName:
+        default: InputValidator
+      AccountVendingInputValidatorRoleName:
+        default: InputValidatorRole
+      AccountVendingOrganizationsAccountCreatorFunctionName:
+        default: OrganizationsAccountCreator
+      AccountVendingOrganizationsAccountCreatorRoleName:
+        default: OrganizationsAccountCreatorRole
+      AccountVendingOrganizationsAccountWaiterFunctionName:
+        default: OrganizationsAccountWaiter
+      AccountVendingOrganizationsAccountWaiterRoleName:
+        default: OrganizationsAccountWaiterRole
+      AccountVendingControlTowerAccountCreatorFunctionName:
+        default: ControlTowerAccountCreator
+      AccountVendingControlTowerAccountCreatorRoleName:
+        default: ControlTowerAccountCreatorRole
+      AccountVendingControlTowerAccountWaiterFunctionName:
+        default: ControlTowerAccountWaiter
+      AccountVendingControlTowerAccountWaiterRoleName:
+        default: ControlTowerAccountWaiterRole
+      AccountVendingSubscriptionWaiterFunctionName:
+        default: SubscriptionWaiter
+      AccountVendingSubscriptionWaiterRoleName:
+        default: SubscriptionWaiterRole
+
+    deploy_to:
+      tags:
+        - tag: 'role:sct'
+          regions: default_region
+    outputs:
+      ssm:
+        - param_name: "/foundational/account-vending/AccountVendingAccountCreationCustomResourceBackerArn"
+          stack_output: AccountVendingAccountCreationCustomResourceBackerArn
+
