@@ -33,21 +33,23 @@ Products:
 
   - Name: account-vending-account-with-aws-organizations
     Owner: central-it@customer.com
-    Description: Create an account using AWS Control Tower
+    Description: Create an account using AWS Organizations
     Distributor: central-it-team
     SupportDescription: Contact us on Chime for help
     SupportEmail: central-it-team@example.com
     SupportUrl: https://wiki.customer.com/central-it-team/self-service/account-iam
+    Options:
+      ShouldCFNNag: True
     Tags:
       - Key: product-set
         Value: account-vending
     Versions:
       - Name: v1
-        Description: Create an account using AWS Control Tower
+        Description: Create an account using AWS Organizations
         Active: True
         Source:
           Provider: CodeCommit
-          Path: portfolios/account-vending-with-aws-control-tower/v1
+          Path: portfolios/account-vending-with-aws-organizations/v1
           Configuration:
             RepositoryName: account-vending
             BranchName: main
