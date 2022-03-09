@@ -17,6 +17,9 @@ Parameters:
     Type: String
     Default: /foundational/account-vending/
 
+  AWSOrganizationsCrossAccountRoleName:
+    Type: String
+
 
 Resources:
   AccountVendingOrgsRole:
@@ -45,6 +48,10 @@ Resources:
                   - organizations:MoveAccount
                   - organizations:ListParents
                 Resource: "*"
+              - Effect: Allow
+                Action:
+                  - sts:AssumeRole
+                Resource: !Sub "arn:aws:iam::*:role/${AWSOrganizationsCrossAccountRoleName}"
 
 Outputs:
   AccountVendingOrgsRoleArn:
