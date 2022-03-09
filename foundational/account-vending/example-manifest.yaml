@@ -78,7 +78,7 @@ stacks:
         default: /foundational/account-vending/
       AccountVendingAccountOrganizationsRoleArn:
         ssm:
-          name: "/foundational/account-vending/AccountVendingAccountNotificationCreatedTopicArn"
+          name: "/foundational/account-vending/AccountVendingOrgsRoleArn"
       AccountVendingControlTowerRoleArn:
         ssm:
           name: "/foundational/account-vending/AccountVendingAccountVendingControlTowerRoleArn"
