@@ -43,6 +43,7 @@ Resources:
                   - organizations:ListAccounts
                   - organizations:ListAccountsForParent
                   - organizations:MoveAccount
+                  - organizations:ListParents
                 Resource: "*"
 
 Outputs:
