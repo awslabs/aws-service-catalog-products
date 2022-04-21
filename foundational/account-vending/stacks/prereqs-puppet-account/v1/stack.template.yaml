@@ -380,7 +380,7 @@ Resources:
                       "aws_secret_access_key": credentials['SecretAccessKey'],
                       "aws_session_token": credentials['SessionToken'],
               }
-              client = Session().client(service_name="servicecatalog", region_name="eu-west-1", **kwargs)
+              client = Session().client(service_name="servicecatalog", **kwargs)
 
               try:
                   pp_id = client.describe_provisioned_product(Name=event.get("AccountName")).get("ProvisionedProductDetail", {}).get("Id")
