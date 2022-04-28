@@ -391,10 +391,29 @@ Resources:
               except client.exceptions.ResourceNotFoundException:
                 pass
 
+
+              product_id = None
+              product_view_summaries = client.search_products(Filters=dict(FullTextSearch=["AWS Control Tower Account Factory"])).get("ProductViewSummaries", [])
+              for product_view_summary in product_view_summaries:
+                  if product_view_summary.get("Name") == "AWS Control Tower Account Factory":
+                      product_id = product_view_summary.get("ProductId")
+                      break
+
+              if product_id is None:
+                  raise Execption("Could not find AWS Control Tower Account Factory product")
+
+              provisioning_artifacts = client.describe_product(Id=product_id).get("ProvisioningArtifacts", [])
+              for provisioning_artifact in provisioning_artifacts:
+                  if provisioning_artifact.get("Name") == "AWS Control Tower Account Factory":
+                      pa_id = provisioning_artifact.get("Id")
+
+              if pa_id is None:
+                  raise Execption("Could not find AWS Control Tower Account Factory provisioning artifact")
+
+              print(f"Using pa_id: {pa_id} of: {product_id} to provision")
               create_args = dict(
-                  PathName="AWS Control Tower Account Factory Portfolio",
-                  ProductName="AWS Control Tower Account Factory",
-                  ProvisioningArtifactName="AWS Control Tower Account Factory",
+                  ProductId=product_id,
+                  ProvisioningArtifactId=pa_id,
 
                   ProvisionedProductName=event.get("AccountName"),
                   ProvisioningParameters=[
@@ -429,6 +448,7 @@ Resources:
               return {
                   'create_account_request_id': create_account_request_id
               }
+
 
       Handler: index.handle
       Architectures:

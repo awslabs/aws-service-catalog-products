@@ -33,6 +33,14 @@ Resources:
             Action:
               - "sts:AssumeRole"
       Policies:
+        - PolicyName: PermissionsNeededForServiceCatalog
+          PolicyDocument:
+            Statement:
+              - Effect: Allow
+                Action:
+                  - servicecatalog:SearchProducts
+                  - servicecatalog:DescribeProduct
+                Resource: "*"
         - PolicyName: PermissionsNeededForControlTower
           PolicyDocument:
             Statement:
