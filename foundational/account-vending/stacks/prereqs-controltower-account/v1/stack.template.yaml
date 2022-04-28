@@ -41,6 +41,13 @@ Resources:
                   - servicecatalog:SearchProducts
                   - servicecatalog:DescribeProduct
                 Resource: "*"
+        - PolicyName: PermissionsNeededForSpokeExecution
+          PolicyDocument:
+            Statement:
+              - Effect: Allow
+                Action:
+                  - sts:AssumeRole
+                Resource: "arn:aws:iam::*:role/AWSControlTowerExecution"
         - PolicyName: PermissionsNeededForControlTower
           PolicyDocument:
             Statement:
