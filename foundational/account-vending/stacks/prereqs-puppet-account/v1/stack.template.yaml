@@ -524,9 +524,12 @@ Resources:
               if provisioned_product_detail.get("Status") == "AVAILABLE":
                   account_id = client.get_provisioned_product_outputs(ProvisionedProductId=create_account_request_id,OutputKeys=["AccountId"]).get("Outputs")[0].get("OutputValue")
 
+              state = provisioned_product_detail.get("Status")
+              if state in ["ERROR", "TAINTED"]:
+                  raise Exception(f"Control Tower account factory product provision status of: {state}")
               response = dict(
                   account_id=account_id,
-                  state=provisioned_product_detail.get("Status"),
+                  state=state,
                   assumable_role_in_spoke=f"arn:{os.environ.get('AWS_PARTITION')}:iam::{account_id}:role/AWSControlTowerExecution",
                   assumable_role_in_hub=os.environ.get("CONTROL_TOWER_ROLE_ARN")
               )
@@ -732,7 +735,7 @@ Resources:
             },
             "WaitForAccountCreateCompleteUsingAWSControlTower": {
               "Type": "Wait",
-              "Seconds": 5,
+              "Seconds": 30,
               "Next": "CheckAccountCreateCompleteUsingAWSControlTower"
             },
             "CheckAccountCreateCompleteUsingAWSControlTower": {
