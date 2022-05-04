@@ -79,4 +79,4 @@ lambda-invocations:
     invoke_for:
       tags:
         - regions: "enabled_regions"
-          tag: "type:prod"
+          tag: "role:securitytooling"
