@@ -35,7 +35,7 @@ stacks:
       - CAPABILITY_NAMED_IAM
     deploy_to:
       tags:
-      - tag: 'role:org_management'
+      - tag: 'role:securitytooling'
         regions: default_region
     outputs:
       ssm:
@@ -61,7 +61,7 @@ stacks:
         type: stack
     deploy_to:
       tags:
-      - tag: 'role:securitytooling'
+      - tag: 'role:sct'
         regions: default_region
 
 lambda-invocations:
