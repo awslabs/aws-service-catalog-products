@@ -166,7 +166,7 @@ Resources:
 
               security_tooling_account_id = parameters.get("SecurityToolingAccountId")
               accounts_to_ensure = parameters.get("SCTManifestSpokes")
-              regions_to_ensure = parameters.get("SCTConfigRegions").split(",")
+              regions_to_ensure = json.loads(parameters.get("SCTConfigRegions"))
 
               for region in regions_to_ensure:
                   org_client = get_org_client(region)
