@@ -36,6 +36,7 @@ Resources:
                   - guardduty:DescribeOrganizationConfiguration
                   - guardduty:UpdateOrganizationConfiguration
                   - guardduty:CreateMembers
+                  - iam:CreateServiceLinkedRole
                 Resource: "*"
 Outputs:
   GuardDutyMultiAccountGuardDutyRoleArn:
