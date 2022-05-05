@@ -68,7 +68,7 @@ lambda-invocations:
   amazon-guardduty-multi-account:
     function_name: *GuardDutyMultiAccountFunctionName
     qualifier: $LATEST
-    invocation_type: Event
+    invocation_type: RequestResponse
     parameters:
         accounts_to_ensure:
             default: ${AWS::ManifestAccountsSpokes}
