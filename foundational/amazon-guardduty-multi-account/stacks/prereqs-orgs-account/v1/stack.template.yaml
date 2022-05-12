@@ -39,6 +39,8 @@ Resources:
                   - "organizations:DescribeOrganization"
                   - "guardduty:ListOrganizationAdminAccounts"
                   - "guardduty:EnableOrganizationAdminAccount"
+                  - "guardduty:ListDetectors"
+                  - "guardduty:DescribeOrganizationConfiguration"
                 Resource: "*"
 
 Outputs:

@@ -113,7 +113,7 @@ Resources:
               logger.info(f"made {account_id} an org admin account")
 
 
-          def get_org_client(region):
+          def get_org_client():
               guard_duty_multi_account_delegate_admin_role_arn = os.environ.get(
                   "GUARD_DUTY_MULTI_ACCOUNT_DELEGATE_ADMIN_ROLE_ARN")
               sts = boto3.client('sts')
@@ -127,7 +127,7 @@ Resources:
                   "aws_secret_access_key": credentials['SecretAccessKey'],
                   "aws_session_token": credentials['SessionToken'],
               }
-              return boto3.client('guardduty', region_name=region, **kwargs)
+              return boto3.client('guardduty', **kwargs)
 
 
           def create_client(region):
@@ -165,23 +165,30 @@ Resources:
               parameters = event.get("parameters")
 
               security_tooling_account_id = parameters.get("SecurityToolingAccountId")
-              accounts_to_ensure = parameters.get("SCTManifestSpokes")
+              accounts_to_ensure = json.loads(parameters.get("SCTManifestSpokes"))
               regions_to_ensure = json.loads(parameters.get("SCTConfigRegions"))
 
-              for region in regions_to_ensure:
-                  org_client = get_org_client(region)
-                  if not is_an_organization_admin_accounts(org_client, security_tooling_account_id):
-                      logger.info(f"{security_tooling_account_id} is not an org admin account")
-                      make_an_organization_admin_accounts(org_client, security_tooling_account_id)
-                  logger.info(f"Finished with org setup/config")
+              org_client = get_org_client()
+              if not is_an_organization_admin_accounts(org_client, security_tooling_account_id):
+                  logger.info(f"{security_tooling_account_id} is not an org admin account")
+                  make_an_organization_admin_accounts(org_client, security_tooling_account_id)
+              logger.info(f"Finished with org setup/config")
+              paginator = org_client.get_paginator('list_detectors')
+              detectors = []
+              for page in paginator.paginate():
+                  detectors += page.get("DetectorIds", [])
+              if len(detectors) != 1:
+                  raise Exception(f"There was not 1 detector in the home region of the gd org account. Detectors: {detectors}")
+              detector_id = detectors[0]
+              update_organization_configuration(org_client, detector_id)
 
+              for region in regions_to_ensure:
                   guardduty = create_client(region)
                   detector_id = get_detector_id(guardduty)
                   if detector_id is None:
                       detector_id = create_detector(guardduty)
 
-                  update_organization_configuration(guardduty, detector_id)
-                  ensure_all_are_members(guardduty, detector_id, json.loads(accounts_to_ensure))
+                  ensure_all_are_members(guardduty, detector_id, accounts_to_ensure)
                   logger.info(f"Finished with region: {region}")
 
               logger.info(f"Finished with regional setup/config")
