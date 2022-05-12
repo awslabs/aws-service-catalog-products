@@ -78,5 +78,5 @@ lambda-invocations:
         type: stack
     invoke_for:
       tags:
-        - regions: "enabled_regions"
+        - regions: "default_region"
           tag: "role:securitytooling"
