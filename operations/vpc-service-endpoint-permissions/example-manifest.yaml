@@ -1,0 +1,96 @@
+accounts:
+  - account_id: "${AWS::PuppetAccountId}"
+    name: "puppet-account"
+    default_region: "eu-west-1"
+    regions_enabled:
+      - "eu-west-1"
+    tags:
+      - "type:prod"
+      - "partition:eu"
+      - "puppet:hub"
+  - account_id: "111111111111"
+    name: "spoke-account"
+    default_region: "eu-west-1"
+    regions_enabled:
+      - "eu-west-1"
+    tags:
+      - "puppet:spoke"
+      - "networking:client"
+  - account_id: "222222222222"
+    name: "spoke-account-networking-master"
+    default_region: "eu-west-1"
+    regions_enabled:
+      - "eu-west-1"
+    tags:
+      - "puppet:spoke"
+      - "networking:master"
+
+launches:
+  vpc-service-endpoint-permissions-role:
+    # portfolio name is:
+    # <name of the file that contains the portfolio>.<portfolio name>
+    portfolio: vpc-service-endpoint-permissions-networking-role
+    product: vpc-service-endpoint-permissions-role
+    version: v1
+    parameters:
+        pVpcEndpointPermissionsServiceId:
+          default: vpce-svc-0241b3763259dcf58
+        pPuppetHubAccountId:
+          default: "${AWS::PuppetAccountId}"
+    deploy_to:
+      tags:
+        - regions: default_region
+          tag: networking:master
+    outputs:
+      ssm:
+        - param_name: /scnetworking/vpceperms/networking-master-role-arn
+          stack_output: oRoleArn
+  vpc-service-endpoint-permissions-hub:
+    # portfolio name is:
+    # <name of the file that contains the portfolio>.<portfolio name>
+    portfolio: vpc-service-endpoint-permissions-networking-hub
+    product: vpc-service-endpoint-permissions-hub
+    version: v1
+    parameters:
+        pVpcEndpointPermissionsServiceId:
+          default: vpce-svc-0241b3763259dcf58
+    deploy_to:
+      tags:
+        - regions: default_region
+          tag: "puppet:hub"
+    outputs:
+      ssm:
+        - param_name: /scnetworking/vpceperms/lambdaarn
+          stack_output: oLambaFunctionArn
+        - param_name: /scnetworking/vpceperms/lambdarolearn
+          stack_output: oLambdaRoleArn
+
+lambda-invocations:
+  setup-vpc-service-endpoint:
+    # This below will be the AWS Lamba Function name;
+    # Must be the same as in the Product CFN template
+    function_name: SetupVPCServiceEndpointPermissions
+    qualifier: $LATEST
+    invocation_type: RequestResponse
+    parameters:
+      AccountId1:
+        default: ${AWS::AccountId}
+      AccountId:
+        default: ${AWS::AccountId}
+      RoleARNInNetworkingAccountId:
+        ssm:
+          name: /scnetworking/vpceperms/networking-master-role-arn
+          region: eu-west-1
+      RequestType:
+        default: "Create"
+    depends_on:
+      - name: "vpc-service-endpoint-permissions-role"
+        type: "launch"
+        affinity: "launch"
+      - name: "vpc-service-endpoint-permissions-hub"
+        type: "launch"
+        affinity: "launch"
+    invoke_for:
+      tags:
+        - regions: "default_region"
+          tag: "networking:client"

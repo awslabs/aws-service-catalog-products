@@ -1,0 +1,85 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: |
+  Template that creates an Iam role and Lambda function in an account to modify VPC Endpoint Service allowed principials
+  {"framework": "servicecatalog-products", "role": "product", "product-set": "operations", "product": "vpc-service-endpoint-permissions-hub", "version": "v1"}
+
+Parameters:
+  pVpcEndpointPermissionsServiceId:
+    Type: String
+    Description: VPC Endpoint Service ID
+  pRoleName:
+    Type: String
+    Description: Role name for Lambda Function
+    Default: vpcpermission-serviceendpoint-hub
+  pRolePath:
+    Type: String
+    Description: Path for Lambda Function
+    # It must begin and end with / and contain only alphanumeric characters and/or / characters
+    Default: /servicecatalog-vpc-endpoint/
+  pLambdaFunctionName:
+    Type: String
+    Description: Name for the Hub Lambda Function
+    Default: SetupVPCServiceEndpointPermissions
+
+
+Resources:
+  # IAM role that permits the ability for the Lambda execution role in the hub account to add a permission to a VPC Service Endpoint
+  rLambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Ref pRoleName
+      Path: !Ref pRolePath
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Policies:
+        - PolicyName: VPC_Modify_Endpoint_Permissions
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - "ec2:ModifyVpcEndpointServicePermissions"
+                Resource: !Sub arn:aws:ec2:${AWS::Region}:${AWS::AccountId}:vpc-endpoint-service/${pVpcEndpointPermissionsServiceId}
+              - Effect: Allow
+                Action:
+                  - lambda:InvokeFunction
+                Resource: !Sub arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:!Ref pLambdaFunctionName
+        - PolicyName: AllowToCallAssumeRole
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - "sts:AssumeRole"
+                Resource: "*"
+
+  # Lambda function that makes the call to add the Permissions to the VPC Service Endpoint resource
+  rLambdaFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Ref pLambdaFunctionName
+      CodeUri: ./src
+      Handler: hub_lambda.lambda_handler
+      MemorySize: 128
+      Role: !GetAtt rLambdaRole.Arn
+      Runtime: python3.9
+      Timeout: 300
+      Environment:
+        Variables:
+          ServiceId: !Ref pVpcEndpointPermissionsServiceId
+
+Outputs:
+  oLambaFunctionArn:
+    Value: !GetAtt rLambdaFunction.Arn
+    Description: Lambda Function Arn
+  oLambdaRoleArn:
+    Description: Lambda Excecution role Arn
+    Value: !GetAtt rLambdaRole.Arn

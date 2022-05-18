@@ -5,3 +5,6 @@ node_modules/
 dist/
 ignored
 .DS_Store
+
+__pycache__/
+venv/

@@ -1,0 +1,60 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: |
+  Creates an IAM role in the same AWS Account that has a VPC Endpoint Service created. The role has to be assumable from the Puppet Hub AWS Account.
+  {"framework": "servicecatalog-products", "role": "product", "product-set": "operations", "product": "vpc-service-endpoint-permissions-role", "version": "v1"}
+
+
+Parameters:
+  pRoleName:
+    Type: String
+    Description: IAM Role name
+    Default: vpc-service-endpoint-permissions-networking
+  pPuppetHubAccountId:
+    Type: String
+    Description: AWS Account ID of the Puppet Hub account
+  pVpcEndpointPermissionsServiceId:
+    Type: String
+    Description: ID of a VPC Endpoint service
+
+
+Resources:
+  rVPCServiceEndpointPermissionsRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Ref pRoleName
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+          - Effect: Allow
+            Principal:
+              AWS: "*"
+            Action: sts:AssumeRole
+            Condition:
+              StringLike:
+                aws:PrincipalArn: !Sub arn:aws:iam::${pPuppetHubAccountId}:role/*
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Policies:
+        - PolicyName: VPC_Modify_Endpoint_Permissions
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - "ec2:ModifyVpcEndpointServicePermissions"
+                Resource: !Sub arn:aws:ec2:${AWS::Region}:${AWS::AccountId}:vpc-endpoint-service/${pVpcEndpointPermissionsServiceId}
+              - Effect: Allow
+                Action:
+                  - "ec2:DescribeVpcEndpointServicePermissions"
+                # This Action does not work with Resource specified as above, with full ARN
+                Resource: "*"
+
+Outputs:
+  oRoleArn:
+    Description: The ARN of the IAM Role
+    Value: !GetAtt rVPCServiceEndpointPermissionsRole.Arn
