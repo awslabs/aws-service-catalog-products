@@ -3,7 +3,10 @@ import logging
 from crhelper import CfnResource
 
 logger = logging.getLogger(__name__)
-helper = CfnResource(polling_interval=1)
+# Polling interval must be plural (>= 2) as the schedule expression within crhelper renders with "minutes"
+# https://github.com/aws-cloudformation/custom-resource-helper/blob/a67e7482469a2c5b10b87fd91576bbb2f69d1a78/crhelper/resource_helper.py#L271
+# https://docs.aws.amazon.com/lambda/latest/dg/services-cloudwatchevents-expressions.html
+helper = CfnResource(polling_interval=2)
 
 try:
     pass
