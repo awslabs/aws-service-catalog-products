@@ -1,0 +1,41 @@
+# Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+schema: puppet-2019-04-01
+
+parameters:
+  FactoryAccountId:
+    default: "111111111111"
+  OrgID:
+    default: "o-1111111111" # Your AWS Organization ID
+
+stacks:
+  
+  orca-security-backend-registration-lambda:
+    name: orca-security-backend-registration-lambda
+    version: v1
+    capabilities:
+      - "CAPABILITY_AUTO_EXPAND"
+      - "CAPABILITY_NAMED_IAM"
+    outputs:
+      ssm:
+        - param_name: /sct/orca-security-backend-registration-lambda/SNSTopic
+          stack_output: SNSTopic
+
+  orca-security-scanner-role:
+    name: orca-security-scanner-role
+    version: v1
+    execution: async
+    capabilities:
+      - "CAPABILITY_NAMED_IAM"
+    parameters:
+      OrcaCustomResourceSNSTopicArn:
+        ssm:
+          name: /sct/orca-security-backend-registration-lambda/SNSTopic
+          account_id: "${AWS::PuppetAccountId}"
+      ExternalId:
+        default: "TrustPolicyExternalIdSetUpRandom"
+    depends_on:
+      - name: orca-security-backend-registration-lambda
+        type: stack
+        affinity: stack

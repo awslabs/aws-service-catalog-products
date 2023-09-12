@@ -1,0 +1,11 @@
+FROM public.ecr.aws/lambda/python:{{ PYTHON_VERSION }}
+
+COPY ./lambda_function ./
+
+RUN python{{ PYTHON_VERSION }} -m pip install -r requirements.txt -t .
+
+RUN echo "What is inside ./ ?" \
+    && echo "######################" \
+    && ls -la ./
+
+CMD ["main.lambda_handler"]
