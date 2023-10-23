@@ -1,0 +1,27 @@
+# Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: 'Attaches SCP Policy using supporting lambda functions'
+
+Parameters:
+  PolicyId:
+    Description: The unique identifier (ID) of the policy that you want to attach to the target
+    Type: String
+  
+  TargetId:
+    Description: The unique identifier (ID) of the root, OU, or account that you want to attach the policy to. 
+    Type: String
+
+  AttachPolicyLambdaArn:
+    Description: ARN of the lambda created in scp-attacher
+    Type: String
+
+Resources:
+  AttachPolicy:
+    Type: Custom::AttachPolicy
+    Properties:
+      ServiceToken: !Ref 'AttachPolicyLambdaArn'
+      PolicyId: !Ref 'PolicyId'
+      TargetId: !Ref 'TargetId'

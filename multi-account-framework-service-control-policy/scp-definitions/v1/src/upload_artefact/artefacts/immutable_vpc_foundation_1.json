@@ -1,0 +1,65 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Deny",
+      "Action": [
+        "ec2:CreateVpc",
+        "ec2:CreateDefaultVpc",
+        "ec2:DeleteVpc",
+        "ec2:AssociateVpcCidrBlock",
+        "ec2:DisassociateVpcCidrBlock",
+        "ec2:ModifyVpcAttribute",
+        "ec2:MoveAddressToVpc",
+        "ec2:ModifyVpcTenancy",
+        "ec2:RestoreAddressToClassic",
+        "ec2:AttachClassicLinkVpc",
+        "ec2:EnableVpcClassicLink",
+        "ec2:EnableVpcClassicLinkDnsSupport",
+        "ec2:CreateFlowLogs",
+        "ec2:DeleteFlowLogs",
+        "ec2:AssociateDhcpOptions",
+        "ec2:CreateDhcpOptions",
+        "ec2:DeleteDhcpOptions"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Effect": "Deny",
+      "Action": [
+        "ec2:AssociateSubnetCidrBlock",
+        "ec2:DisassociateSubnetCidrBlock",
+        "ec2:CreateDefaultSubnet",
+        "ec2:CreateSubnet",
+        "ec2:DeleteSubnet",
+        "ec2:ModifySubnetAttribute",
+        "ec2:CreateDefaultSubnet"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Effect": "Deny",
+      "Action": [
+        "ec2:CreateNetworkAcl",
+        "ec2:DeleteNetworkAcl",
+        "ec2:CreateNetworkAclEntry",
+        "ec2:DeleteNetworkAclEntry"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Effect": "Deny",
+      "Action": [
+        "ec2:CreateRoute",
+        "ec2:DeleteRoute",
+        "ec2:ReplaceRoute",
+        "ec2:AssociateRouteTable",
+        "ec2:CreateRouteTable",
+        "ec2:DeleteRouteTable",
+        "ec2:DisassociateRouteTable",
+        "ec2:ReplaceRouteTableAssociation"
+      ],
+      "Resource": "*"
+    }
+  ]
+}

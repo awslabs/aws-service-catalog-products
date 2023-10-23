@@ -1,0 +1,130 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Provides a set of SCPs for governing over your mulit account framework set of accounts
+
+
+Parameters:
+  Version:
+    Type: String
+    Default: v1
+
+Resources:
+  PolicyBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+
+  BucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref PolicyBucket
+      PolicyDocument:
+        Statement:
+          -
+            Action:
+              - "s3:GetObject"
+            Effect: "Allow"
+            Resource:
+              Fn::Join:
+                - ""
+                -
+                  - "arn:aws:s3:::"
+                  - !Ref PolicyBucket
+                  - "/*"
+            Principal:
+              AWS: !Sub 'arn:aws:iam::${AWS::AccountId}:root'
+
+  UploadArtefactLambdaRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: 'lambda.amazonaws.com'
+            Action:
+              - 'sts:AssumeRole'
+      Path: '/'
+      ManagedPolicyArns:
+        - 'arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
+      Policies:
+        - PolicyName: S3Access
+          PolicyDocument:
+            Statement:
+              - Effect: Allow
+                Action:
+                  - s3:Get*
+                  - s3:Put*
+                Resource:
+                  - !GetAtt PolicyBucket.Arn
+                  - !Sub ${PolicyBucket.Arn}/*
+
+  UploadArtefactLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./src/upload_artefact
+      Handler: lambda_function.lambda_handler
+      MemorySize: 128
+      Role: !GetAtt UploadArtefactLambdaRole.Arn
+      Runtime: python3.7
+      Timeout: 60
+      Environment:
+        Variables:
+          VERSION: !Ref Version
+
+  UploadArtefact:
+    Type: Custom::UploadArtefactLambda
+    Properties:
+      ServiceToken: !GetAtt 'UploadArtefactLambda.Arn'
+      S3Bucket: !Ref 'PolicyBucket'
+
+Outputs:
+  BucketName:
+    Description: 'Policy Bucket Name'
+    Value: !Ref 'PolicyBucket'
+
+  Baseline1:
+    Value: !Sub '${Version}/baseline_1.json'
+
+  ImmutableRegionSet1:
+    Value: !Sub '${Version}/immutable_region_set_1.json'
+
+  NetworkingOnly1:
+    Value: !Sub '${Version}/networking_only_1.json'
+
+  DisableAllScp1:
+    Value: !Sub '${Version}/disable_all_scp_1.json'
+
+  ImmutableIam1:
+    Value: !Sub '${Version}/immutable_iam_1.json'
+
+  ImmutableVpcFoundation1:
+    Value: !Sub '${Version}/immutable_vpc_foundation_1.json'
+
+  ImmutableVpcBoundaries1:
+    Value: !Sub '${Version}/immutable_vpc_boundaries_1.json'
+
+  OrgMaster1:
+    Value: !Sub '${Version}/org_master_1.json'
+
+  RequireImds1:
+    Value: !Sub '${Version}/require_imds_1.json'
+
+  AllowOnlyHipaaServices1:
+    Value: !Sub '${Version}/allow_only_hipaa_services_1.json'
+
+  ImmutableS3BucketPolicies1:
+    Value: !Sub '${Version}/immutable_s3_bucket_policies_1.json'
+
+  DenyAllExceptBaselineIamAndS31:
+    Value: !Sub '${Version}/deny_all_except_baseline_iam_and_s3_1.json'
+
+  ImmutableCodepipelines1:
+    Value: !Sub '${Version}/immutable_codepipelines_1.json'
+
+  DisableRoot1:
+    Value: !Sub '${Version}/disable_root_1.json'
